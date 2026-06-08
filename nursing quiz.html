@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nursing Test 1 — Practice Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rose: #c0404a;
+    --rose2: #e05060;
+    --rose-light: #f5d0d3;
+    --rose-pale: #fdf0f1;
+    --ink: #1a1a2e;
+    --cream: #fffaf9;
+    --muted: #7a7a90;
+    --border: #f0dede;
+    --green: #2d9e6b;
+    --green-light: #d4f5e9;
+    --red-light: #fde8ea;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--ink);
+    padding: 1.5rem 1.2rem 1.2rem;
+    text-align: center;
+  }
+  header h1 { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: #fff; }
+  header h1 span { color: #f5d0d3; }
+  header p { color: rgba(255,255,255,0.5); font-size: 0.8rem; margin-top: 0.3rem; }
+
+  .container { max-width: 620px; margin: 0 auto; padding: 1.2rem 1rem 4rem; }
+
+  /* ── START SCREEN ── */
+  #startScreen {
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    margin-top: 1rem;
+  }
+  #startScreen .emoji { font-size: 3rem; margin-bottom: 0.8rem; }
+  #startScreen h2 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--ink); margin-bottom: 0.5rem; }
+  #startScreen p { color: var(--muted); font-size: 0.85rem; line-height: 1.6; margin-bottom: 1.5rem; }
+  .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1.5rem; }
+  .mode-card {
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    padding: 1rem 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .mode-card:hover, .mode-card.selected { border-color: var(--rose); background: var(--rose-pale); }
+  .mode-card .icon { font-size: 1.5rem; margin-bottom: 0.3rem; }
+  .mode-card h3 { font-size: 0.85rem; font-weight: 600; color: var(--ink); }
+  .mode-card p { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+  .start-btn {
+    background: var(--rose);
+    color: #fff;
+    border: none;
+    padding: 0.85rem 2.5rem;
+    border-radius: 25px;
+    font-size: 0.95rem;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+  }
+  .start-btn:hover { background: var(--rose2); transform: translateY(-1px); }
+
+  /* ── PROGRESS BAR ── */
+  .quiz-meta {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 0.8rem;
+    font-size: 0.78rem; color: var(--muted);
+  }
+  .quiz-meta .q-count { font-weight: 600; color: var(--ink); }
+  .quiz-meta .score-live { color: var(--rose); font-weight: 600; }
+  .progress-wrap { background: var(--border); border-radius: 10px; height: 6px; margin-bottom: 1.2rem; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--rose), var(--rose2)); border-radius: 10px; transition: width 0.4s ease; }
+
+  /* ── QUESTION CARD ── */
+  .q-card {
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 1.5rem 1.2rem;
+    margin-bottom: 1rem;
+    display: none;
+    animation: slideIn 0.3s ease;
+  }
+  .q-card.active { display: block; }
+  @keyframes slideIn { from { opacity:0; transform: translateX(20px); } to { opacity:1; transform: translateX(0); } }
+
+  .q-tag {
+    display: inline-block;
+    background: var(--rose-pale);
+    color: var(--rose);
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.2rem 0.6rem;
+    border-radius: 10px;
+    margin-bottom: 0.8rem;
+  }
+  .q-text {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.5;
+    margin-bottom: 1.2rem;
+  }
+
+  .options { display: flex; flex-direction: column; gap: 0.6rem; }
+  .option {
+    background: var(--cream);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 0.8rem 1rem;
+    font-size: 0.88rem;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.4;
+    display: flex; align-items: flex-start; gap: 0.7rem;
+  }
+  .option:hover:not(:disabled) { border-color: var(--rose); background: var(--rose-pale); }
+  .option .opt-letter {
+    min-width: 24px; height: 24px;
+    background: var(--border);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.72rem; font-weight: 700; color: var(--muted);
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+  }
+  .option.correct { border-color: var(--green); background: var(--green-light); }
+  .option.correct .opt-letter { background: var(--green); color: #fff; }
+  .option.wrong { border-color: var(--rose); background: var(--red-light); }
+  .option.wrong .opt-letter { background: var(--rose); color: #fff; }
+  .option.show-correct { border-color: var(--green); background: var(--green-light); opacity: 0.7; }
+  .option:disabled { cursor: default; }
+
+  .explanation {
+    background: #f8f9ff;
+    border-left: 3px solid var(--ink);
+    border-radius: 0 10px 10px 0;
+    padding: 0.8rem 1rem;
+    margin-top: 1rem;
+    font-size: 0.82rem;
+    color: var(--ink);
+    line-height: 1.6;
+    display: none;
+  }
+  .explanation.show { display: block; }
+  .explanation strong { color: var(--rose); }
+
+  .next-btn {
+    background: var(--ink);
+    color: #fff;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 25px;
+    font-size: 0.88rem;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 1rem;
+    width: 100%;
+    display: none;
+    transition: all 0.2s;
+  }
+  .next-btn.show { display: block; }
+  .next-btn:hover { background: var(--rose); }
+
+  /* ── RESULTS ── */
+  #results {
+    display: none;
+    animation: slideIn 0.4s ease;
+  }
+  .score-card {
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  .score-circle {
+    width: 110px; height: 110px;
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+  }
+  .score-circle .pct { font-size: 2rem; font-weight: 700; }
+  .score-circle .label { font-size: 0.7rem; color: rgba(255,255,255,0.8); }
+  .score-circle.pass { background: var(--green); color: #fff; }
+  .score-circle.fail { background: var(--rose); color: #fff; }
+  .score-circle.ok { background: #e0a020; color: #fff; }
+  .score-card h2 { font-family: 'Playfair Display', serif; font-size: 1.3rem; margin-bottom: 0.3rem; }
+  .score-card p { color: var(--muted); font-size: 0.85rem; margin-bottom: 1.2rem; }
+  .stat-row { display: flex; gap: 0.8rem; justify-content: center; margin-bottom: 1.5rem; }
+  .stat { background: var(--cream); border: 1px solid var(--border); border-radius: 12px; padding: 0.7rem 1rem; text-align: center; flex: 1; }
+  .stat .num { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; }
+  .stat .num.green { color: var(--green); }
+  .stat .num.red { color: var(--rose); }
+  .stat .lbl { font-size: 0.7rem; color: var(--muted); margin-top: 0.1rem; }
+  .result-btns { display: flex; gap: 0.7rem; flex-wrap: wrap; }
+  .result-btn {
+    flex: 1; padding: 0.75rem; border-radius: 25px;
+    font-size: 0.85rem; font-family: 'DM Sans', sans-serif;
+    font-weight: 500; cursor: pointer; border: none; transition: all 0.2s;
+  }
+  .result-btn.primary { background: var(--rose); color: #fff; }
+  .result-btn.secondary { background: var(--cream); border: 1.5px solid var(--border); color: var(--ink); }
+  .result-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+
+  /* Review */
+  .review-section { margin-top: 0.5rem; }
+  .review-section h3 { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--ink); margin-bottom: 0.8rem; }
+  .review-item {
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 1rem;
+    margin-bottom: 0.7rem;
+  }
+  .review-item.correct-item { border-color: var(--green); }
+  .review-item.wrong-item { border-color: var(--rose); }
+  .review-q { font-size: 0.85rem; font-weight: 500; color: var(--ink); margin-bottom: 0.5rem; line-height: 1.4; }
+  .review-answers { font-size: 0.8rem; line-height: 1.7; }
+  .review-answers .your { color: var(--rose); }
+  .review-answers .correct { color: var(--green); font-weight: 500; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Nursing Test 1 <span>Practice Quiz</span></h1>
+  <p>All topics from your study guide</p>
+</header>
+
+<div class="container">
+
+  <!-- START SCREEN -->
+  <div id="startScreen">
+    <div class="emoji">🩺</div>
+    <h2>Ready to test yourself?</h2>
+    <p>40 questions covering everything from your notes — NPA, QSEN, Ethics, Legal Terms, TeamSTEPPS, Leadership, and more.</p>
+    <div class="mode-grid">
+      <div class="mode-card selected" onclick="selectMode('all', this)">
+        <div class="icon">📚</div>
+        <h3>All Questions</h3>
+        <p>Full 40-question test</p>
+      </div>
+      <div class="mode-card" onclick="selectMode('quick', this)">
+        <div class="icon">⚡</div>
+        <h3>Quick Quiz</h3>
+        <p>Random 15 questions</p>
+      </div>
+      <div class="mode-card" onclick="selectMode('weak', this)">
+        <div class="icon">🎯</div>
+        <h3>Missed Only</h3>
+        <p>Questions you got wrong</p>
+      </div>
+      <div class="mode-card" onclick="selectMode('timed', this)">
+        <div class="icon">⏱️</div>
+        <h3>Timed Mode</h3>
+        <p>30 sec per question</p>
+      </div>
+    </div>
+    <button class="start-btn" onclick="startQuiz()">Start Quiz →</button>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quizScreen" style="display:none;">
+    <div class="quiz-meta">
+      <span class="q-count" id="qCount">Question 1 of 40</span>
+      <span class="score-live" id="scoreLive">Score: 0</span>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    </div>
+    <div id="timerBar" style="display:none;text-align:center;font-size:0.8rem;color:var(--rose);font-weight:600;margin-bottom:0.8rem;" id="timerDisplay">⏱ 30s</div>
+    <div id="questionContainer"></div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results">
+    <div class="score-card">
+      <div class="score-circle" id="scoreCircle">
+        <div class="pct" id="scorePct">0%</div>
+        <div class="label">Score</div>
+      </div>
+      <h2 id="scoreTitle">Quiz Complete!</h2>
+      <p id="scoreMsg">Here's how you did:</p>
+      <div class="stat-row">
+        <div class="stat"><div class="num green" id="correctCount">0</div><div class="lbl">Correct</div></div>
+        <div class="stat"><div class="num red" id="wrongCount">0</div><div class="lbl">Wrong</div></div>
+        <div class="stat"><div class="num" id="totalCount">0</div><div class="lbl">Total</div></div>
+      </div>
+      <div class="result-btns">
+        <button class="result-btn primary" onclick="restartQuiz()">🔄 Retake</button>
+        <button class="result-btn secondary" onclick="showMissed()">🎯 Study Missed</button>
+      </div>
+    </div>
+    <div class="review-section">
+      <h3>📋 Answer Review</h3>
+      <div id="reviewList"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const allQuestions = [
+  {
+    topic: "Nurse Practice Act",
+    q: "What is the primary purpose of the Nurse Practice Act (NPA)?",
+    options: ["To set hospital policies", "To regulate nursing within each state and territory", "To train nursing students", "To manage hospital budgets"],
+    answer: 1,
+    explanation: "The NPA regulates nursing within each state and territory of the U.S., determining scope and standards of practice."
+  },
+  {
+    topic: "Nurse Practice Act",
+    q: "Which body enforces the Nurse Practice Act?",
+    options: ["The American Nurses Association", "The State Board of Nursing", "The Joint Commission", "The Department of Health"],
+    answer: 1,
+    explanation: "The State Board of Nursing enforces nursing laws and regulations set by the NPA."
+  },
+  {
+    topic: "Nurse Practice Act",
+    q: "The NPA determines which of the following?",
+    options: ["Hospital staffing ratios", "Scope and standards of practice in a state", "Nurse salaries", "Patient rights"],
+    answer: 1,
+    explanation: "The NPA determines the scope and standards of practice in a state and establishes licensure requirements."
+  },
+  {
+    topic: "QSEN",
+    q: "What does QSEN stand for?",
+    options: ["Quality Standards for Every Nurse", "Quality and Safety Education for Nurses", "Qualified Systematic Education in Nursing", "Quality Systems and Evidence in Nursing"],
+    answer: 1,
+    explanation: "QSEN stands for Quality and Safety Education for Nurses — it prepares nurses to improve healthcare quality and client outcomes."
+  },
+  {
+    topic: "QSEN",
+    q: "Which of the following is NOT one of the 6 QSEN competencies?",
+    options: ["Patient-Centered Care", "Informatics", "Financial Management", "Safety"],
+    answer: 2,
+    explanation: "The 6 QSEN competencies are: Patient-Centered Care, Teamwork & Collaboration, Evidence-Based Practice, Quality Improvement, Safety, and Informatics. Financial Management is not one of them."
+  },
+  {
+    topic: "QSEN",
+    q: "Which QSEN competency involves using technology to communicate and manage information safely?",
+    options: ["Safety", "Evidence-Based Practice", "Informatics", "Quality Improvement"],
+    answer: 2,
+    explanation: "Informatics involves using technology to communicate and manage information safely."
+  },
+  {
+    topic: "QSEN",
+    q: "Which QSEN competency focuses on respecting client preferences, values, and needs?",
+    options: ["Teamwork and Collaboration", "Patient-Centered Care", "Safety", "Quality Improvement"],
+    answer: 1,
+    explanation: "Patient-Centered Care is about respecting client preferences, values, and needs."
+  },
+  {
+    topic: "QSEN",
+    q: "Evidence-Based Practice in QSEN means:",
+    options: ["Using only traditional nursing methods", "Using current research and best evidence in care", "Following only physician orders", "Applying personal experience to all decisions"],
+    answer: 1,
+    explanation: "EBP means using current research and best evidence in care decisions."
+  },
+  {
+    topic: "State Board of Nursing",
+    q: "Which of the following is a responsibility of the State Board of Nursing?",
+    options: ["Setting nurse salaries", "Issuing and renewing nursing licenses", "Training nursing faculty", "Publishing nursing research"],
+    answer: 1,
+    explanation: "The State Board of Nursing issues and renews licenses, enforces NPA rules, and oversees violations and disciplinary actions."
+  },
+  {
+    topic: "NLN",
+    q: "What are the 4 core competencies emphasized by the National League of Nursing (NLN)?",
+    options: ["Safety, Quality, Ethics, Law", "Caring, Integrity, Diversity, Excellence", "Leadership, Communication, Assessment, Planning", "Education, Practice, Research, Management"],
+    answer: 1,
+    explanation: "The NLN emphasizes Caring, Integrity, Diversity, and Excellence — remember CIDE."
+  },
+  {
+    topic: "LVN Scope of Practice",
+    q: "Which of the following is within the LVN scope of practice?",
+    options: ["Independently diagnosing medical conditions", "Prescribing medications", "Gathering data and assessment contributions", "Performing surgery"],
+    answer: 2,
+    explanation: "LVNs gather data and assessment contributions. They work under RN/physician supervision and do not independently diagnose or prescribe."
+  },
+  {
+    topic: "LVN Scope of Practice",
+    q: "An LVN's scope of practice is determined by:",
+    options: ["The hospital policy manual", "The Nurse Practice Act", "The attending physician", "The Joint Commission"],
+    answer: 1,
+    explanation: "The LVN scope of practice is determined by the Nurse Practice Act (NPA)."
+  },
+  {
+    topic: "LVN Scope of Practice",
+    q: "Under whose supervision does an LVN work?",
+    options: ["Only a physician", "Only an RN", "An RN, physician, or authorized provider", "Independently without supervision"],
+    answer: 2,
+    explanation: "LVNs work under the supervision of an RN, physician, or authorized provider."
+  },
+  {
+    topic: "Standards of Practice",
+    q: "Which of the following is an example from the Standards of Practice for nursing?",
+    options: ["Setting hospital budgets", "Nursing Diagnosis", "Managing staff schedules", "Ordering lab tests independently"],
+    answer: 1,
+    explanation: "Nursing Diagnosis is one of the Standards of Practice examples, along with Data Collection, Planning, Implementation, Evaluation, and more."
+  },
+  {
+    topic: "Standards of Practice",
+    q: "Standards of practice are designed to:",
+    options: ["Only apply to specialized nurses", "Describe competent care all nurses must achieve regardless of specialty", "Replace the NPA", "Set minimum wage for nurses"],
+    answer: 1,
+    explanation: "Standards of practice describe the competent level of care and professionalism that all nurses need to achieve regardless of specialty or population."
+  },
+  {
+    topic: "Licensure",
+    q: "What exam must be passed for initial nursing licensure as an LVN?",
+    options: ["USMLE", "NCLEX-RN", "NCLEX-PN", "HESI"],
+    answer: 2,
+    explanation: "LVNs must pass the NCLEX-PN for initial licensure."
+  },
+  {
+    topic: "Licensure",
+    q: "Which of the following is required for nursing license RENEWAL?",
+    options: ["Retaking the NCLEX-PN", "Continuing education requirements", "A new criminal background check every year", "A new nursing program graduation"],
+    answer: 1,
+    explanation: "License renewal requires: renewal application, continuing education, payment of fees, and compliance with Board requirements."
+  },
+  {
+    topic: "Code of Ethics",
+    q: "What is the purpose of the Code of Ethics in nursing?",
+    options: ["To replace the Nurse Practice Act", "To guide professional nursing behavior and protect client rights", "To set nursing pay scales", "To determine hospital staffing"],
+    answer: 1,
+    explanation: "The Code of Ethics guides professional nursing behavior, protects client rights, promotes accountability, and ensures safe ethical care."
+  },
+  {
+    topic: "Ethical Principles",
+    q: "Which ethical principle involves keeping promises and commitments to the client?",
+    options: ["Veracity", "Justice", "Fidelity", "Autonomy"],
+    answer: 2,
+    explanation: "Fidelity means keeping promises and commitments to the client."
+  },
+  {
+    topic: "Ethical Principles",
+    q: "Nonmaleficence means:",
+    options: ["Doing good for the client", "Telling the truth", "Doing no harm and protecting client safety", "Respecting client decisions"],
+    answer: 2,
+    explanation: "Nonmaleficence means doing no harm and protecting client safety."
+  },
+  {
+    topic: "Ethical Principles",
+    q: "A nurse respects a patient's right to refuse treatment. This is an example of:",
+    options: ["Justice", "Autonomy", "Beneficence", "Fidelity"],
+    answer: 1,
+    explanation: "Autonomy means respecting the client's right to make their own healthcare decisions, including the right to refuse treatment."
+  },
+  {
+    topic: "Ethical Principles",
+    q: "Treating all clients fairly with no bias is the principle of:",
+    options: ["Veracity", "Integrity", "Fidelity", "Justice"],
+    answer: 3,
+    explanation: "Justice means treating all clients fairly with no bias."
+  },
+  {
+    topic: "Ethical Principles",
+    q: "Which ethical principle means telling the truth and providing honest information?",
+    options: ["Beneficence", "Veracity", "Nonmaleficence", "Integrity"],
+    answer: 1,
+    explanation: "Veracity means telling the truth and providing honest information to the client."
+  },
+  {
+    topic: "Ethical Principles",
+    q: "Doing good and acting in the client's best interest is called:",
+    options: ["Autonomy", "Fidelity", "Beneficence", "Justice"],
+    answer: 2,
+    explanation: "Beneficence means doing good and acting in the client's best interest."
+  },
+  {
+    topic: "Legal Terms",
+    q: "What is malpractice?",
+    options: ["A criminal act against a nurse", "Failure of a nurse to follow accepted standard of care", "Written false statements about a patient", "A civil wrong against property"],
+    answer: 1,
+    explanation: "Malpractice is the failure of a nurse to follow the accepted standard of care."
+  },
+  {
+    topic: "Legal Terms",
+    q: "Libel is best defined as:",
+    options: ["Spoken false statements damaging reputation", "Written false statements damaging reputation", "A civil wrong against a person", "Failure to follow standard of care"],
+    answer: 1,
+    explanation: "Libel refers to written false statements that damage a person's reputation."
+  },
+  {
+    topic: "Legal Terms",
+    q: "The Good Samaritan Law protects:",
+    options: ["Nurses who make medication errors", "Healthcare providers who voluntarily give emergency care outside the workplace", "Hospitals from patient lawsuits", "Nurses practicing outside their scope"],
+    answer: 1,
+    explanation: "The Good Samaritan Law protects healthcare providers who voluntarily provide emergency care outside the workplace from liability when acting reasonably."
+  },
+  {
+    topic: "Legal Terms",
+    q: "A tort is:",
+    options: ["A written false statement", "A criminal offense", "A civil wrong committed against a person or property", "A breach of confidentiality"],
+    answer: 2,
+    explanation: "A tort is a civil wrong committed against a person or property."
+  },
+  {
+    topic: "TeamSTEPPS",
+    q: "What does TeamSTEPPS promote?",
+    options: ["Individual nurse performance", "Teamwork and communication", "Administrative efficiency", "Patient billing accuracy"],
+    answer: 1,
+    explanation: "TeamSTEPPS promotes teamwork and communication among healthcare team members."
+  },
+  {
+    topic: "TeamSTEPPS",
+    q: "Which TeamSTEPPS component involves maintaining awareness of the environment and client status?",
+    options: ["Leadership", "Mutual Support", "Situation Monitoring", "Communication"],
+    answer: 2,
+    explanation: "Situation Monitoring maintains awareness of the environment and client status."
+  },
+  {
+    topic: "TeamSTEPPS",
+    q: "In TeamSTEPPS, 'Mutual Support' means:",
+    options: ["Everyone has the same role", "Providing assistance and feedback to team members", "The team leader makes all decisions", "Using structured communication only"],
+    answer: 1,
+    explanation: "Mutual Support means providing assistance and feedback to team members."
+  },
+  {
+    topic: "Professional Behavior",
+    q: "Which of the following is an example of UNPROFESSIONAL nursing behavior?",
+    options: ["Maintaining confidentiality", "Joining professional organizations", "Falsification of records", "Continuing education"],
+    answer: 2,
+    explanation: "Falsification of records is unprofessional. Professional behaviors include maintaining confidentiality, continuing education, and accountability."
+  },
+  {
+    topic: "Professional Behavior",
+    q: "Leaving a computer unattended while logged into a patient's records is:",
+    options: ["Acceptable if you're nearby", "A minor violation only", "Unprofessional and a breach of confidentiality risk", "Required by hospital policy"],
+    answer: 2,
+    explanation: "Leaving a computer unattended while logged in is unprofessional and creates a risk of breach of confidentiality."
+  },
+  {
+    topic: "Confidentiality",
+    q: "A breach of confidentiality is:",
+    options: ["Sharing patient info with the care team", "Unauthorized disclosure of private client information", "Documenting patient findings", "Reporting to the charge nurse"],
+    answer: 1,
+    explanation: "A breach of confidentiality is the unauthorized disclosure of private client information."
+  },
+  {
+    topic: "I-SBAR-R",
+    q: "What does the 'R' at the end of I-SBAR-R stand for?",
+    options: ["Report", "Refer", "Read Back", "Reassess"],
+    answer: 2,
+    explanation: "The final R in I-SBAR-R stands for Read Back — the receiver repeats information to verify accuracy."
+  },
+  {
+    topic: "I-SBAR-R",
+    q: "I-SBAR-R is primarily used for:",
+    options: ["Medication administration", "Handoff and critical communication", "Patient teaching", "Documenting vital signs"],
+    answer: 1,
+    explanation: "I-SBAR-R is a communication tool used during handoff and critical communication situations."
+  },
+  {
+    topic: "Occurrence Report",
+    q: "An occurrence/incident report is:",
+    options: ["Part of the permanent medical record", "Used to document errors, falls, injuries and unexpected events — NOT part of medical record", "Only filed when a patient dies", "A legal document filed with the court"],
+    answer: 1,
+    explanation: "An occurrence report documents medication errors, falls, injuries, equipment malfunctions, and unexpected events. Importantly, it is NOT part of the medical record."
+  },
+  {
+    topic: "Leadership",
+    q: "Which leadership style inspires and motivates staff and establishes a shared vision?",
+    options: ["Bureaucratic", "Laissez-Faire", "Transactional", "Transformational"],
+    answer: 3,
+    explanation: "Transformational leadership inspires and motivates staff, establishes a shared vision, and encourages growth and empowerment."
+  },
+  {
+    topic: "Leadership",
+    q: "Bureaucratic leadership is characterized by:",
+    options: ["High employee autonomy", "Inspiring and motivating staff", "Rule-based leadership with strictly enforced policies", "Using rewards and consequences"],
+    answer: 2,
+    explanation: "Bureaucratic leadership is rule-based and strictly enforces policies and procedures, with limited flexibility and creativity."
+  },
+  {
+    topic: "Leadership",
+    q: "A Laissez-Faire leader:",
+    options: ["Uses rewards and consequences to motivate", "Provides minimal direction with high employee autonomy", "Strictly enforces all rules", "Adapts style to the situation"],
+    answer: 1,
+    explanation: "Laissez-Faire leadership provides minimal direction, employees work independently, and there is high autonomy."
+  }
+];
+
+let currentQuestions = [];
+let currentIndex = 0;
+let score = 0;
+let userAnswers = [];
+let selectedMode = 'all';
+let missedQuestions = [];
+let timerInterval = null;
+let timeLeft = 30;
+
+const letters = ['A','B','C','D'];
+
+function selectMode(mode, el) {
+  selectedMode = mode;
+  document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function startQuiz() {
+  let pool = [...allQuestions];
+
+  if (selectedMode === 'quick') {
+    pool = shuffle(pool).slice(0, 15);
+  } else if (selectedMode === 'weak') {
+    if (missedQuestions.length === 0) {
+      pool = shuffle(allQuestions).slice(0, 15);
+    } else {
+      pool = [...missedQuestions];
+    }
+  } else {
+    pool = shuffle(pool);
+  }
+
+  currentQuestions = pool;
+  currentIndex = 0;
+  score = 0;
+  userAnswers = [];
+
+  document.getElementById('startScreen').style.display = 'none';
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('quizScreen').style.display = 'block';
+
+  if (selectedMode === 'timed') {
+    document.getElementById('timerBar').style.display = 'block';
+  }
+
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = currentQuestions[currentIndex];
+  const total = currentQuestions.length;
+  const pct = (currentIndex / total) * 100;
+
+  document.getElementById('qCount').textContent = `Question ${currentIndex + 1} of ${total}`;
+  document.getElementById('scoreLive').textContent = `Score: ${score}`;
+  document.getElementById('progressFill').style.width = pct + '%';
+
+  const container = document.getElementById('questionContainer');
+  container.innerHTML = '';
+
+  const card = document.createElement('div');
+  card.className = 'q-card active';
+  card.innerHTML = `
+    <div class="q-tag">${q.topic}</div>
+    <div class="q-text">${q.q}</div>
+    <div class="options" id="options">
+      ${q.options.map((opt, i) => `
+        <button class="option" onclick="selectAnswer(${i})" id="opt-${i}">
+          <span class="opt-letter">${letters[i]}</span>
+          <span>${opt}</span>
+        </button>
+      `).join('')}
+    </div>
+    <div class="explanation" id="explanation"></div>
+    <button class="next-btn" id="nextBtn" onclick="nextQuestion()">
+      ${currentIndex === currentQuestions.length - 1 ? 'See Results →' : 'Next Question →'}
+    </button>
+  `;
+  container.appendChild(card);
+
+  if (selectedMode === 'timed') startTimer();
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  timeLeft = 30;
+  document.getElementById('timerBar').textContent = `⏱ ${timeLeft}s`;
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    document.getElementById('timerBar').textContent = `⏱ ${timeLeft}s`;
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      selectAnswer(-1); // auto-wrong
+    }
+  }, 1000);
+}
+
+function selectAnswer(chosen) {
+  clearInterval(timerInterval);
+  const q = currentQuestions[currentIndex];
+  const correct = q.answer;
+  const isCorrect = chosen === correct;
+
+  if (isCorrect) score++;
+  userAnswers.push({ q: q.q, chosen, correct, topic: q.topic, options: q.options });
+
+  // disable all buttons
+  document.querySelectorAll('.option').forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === correct) btn.classList.add(chosen === -1 ? 'show-correct' : 'correct');
+    if (i === chosen && !isCorrect) btn.classList.add('wrong');
+  });
+
+  // show explanation
+  const exp = document.getElementById('explanation');
+  exp.innerHTML = `<strong>${isCorrect ? '✅ Correct!' : '❌ Incorrect.'}</strong> ${q.explanation}`;
+  exp.classList.add('show');
+
+  document.getElementById('nextBtn').classList.add('show');
+  document.getElementById('scoreLive').textContent = `Score: ${score}`;
+}
+
+function nextQuestion() {
+  currentIndex++;
+  if (currentIndex >= currentQuestions.length) {
+    showResults();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showResults() {
+  clearInterval(timerInterval);
+  document.getElementById('quizScreen').style.display = 'none';
+  const results = document.getElementById('results');
+  results.style.display = 'block';
+
+  const total = currentQuestions.length;
+  const pct = Math.round((score / total) * 100);
+  const wrong = total - score;
+
+  // collect missed
+  missedQuestions = [];
+  userAnswers.forEach(a => {
+    if (a.chosen !== a.correct) {
+      const orig = allQuestions.find(q => q.q === a.q);
+      if (orig) missedQuestions.push(orig);
+    }
+  });
+
+  document.getElementById('scorePct').textContent = pct + '%';
+  document.getElementById('correctCount').textContent = score;
+  document.getElementById('wrongCount').textContent = wrong;
+  document.getElementById('totalCount').textContent = total;
+
+  const circle = document.getElementById('scoreCircle');
+  circle.className = 'score-circle';
+  if (pct >= 80) {
+    circle.classList.add('pass');
+    document.getElementById('scoreTitle').textContent = '🎉 Great job!';
+    document.getElementById('scoreMsg').textContent = 'You\'re ready for that test!';
+  } else if (pct >= 60) {
+    circle.classList.add('ok');
+    document.getElementById('scoreTitle').textContent = '📖 Almost there!';
+    document.getElementById('scoreMsg').textContent = 'Review the missed questions and try again.';
+  } else {
+    circle.classList.add('fail');
+    document.getElementById('scoreTitle').textContent = '💪 Keep studying!';
+    document.getElementById('scoreMsg').textContent = 'Go back to the study guide and retry.';
+  }
+
+  // build review
+  const reviewList = document.getElementById('reviewList');
+  reviewList.innerHTML = '';
+  userAnswers.forEach((a, i) => {
+    const correct = a.chosen === a.correct;
+    reviewList.innerHTML += `
+      <div class="review-item ${correct ? 'correct-item' : 'wrong-item'}">
+        <div class="review-q">${i+1}. ${a.q}</div>
+        <div class="review-answers">
+          ${!correct ? `<div class="your">✗ Your answer: ${a.chosen === -1 ? 'Time ran out' : a.options[a.chosen]}</div>` : ''}
+          <div class="correct">${correct ? '✓' : '✓ Correct:'} ${a.options[a.correct]}</div>
+        </div>
+      </div>`;
+  });
+
+  results.scrollIntoView({ behavior: 'smooth' });
+}
+
+function restartQuiz() {
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('startScreen').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showMissed() {
+  if (missedQuestions.length === 0) { restartQuiz(); return; }
+  selectedMode = 'weak';
+  document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
+  startQuiz();
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+</script>
+</body>
+</html>
