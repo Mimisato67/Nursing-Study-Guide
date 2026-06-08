@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 1 — Anatomy Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --purple: #7c4dab; --purple2: #9b6dc9; --purple-light: #e8d5f5;
+    --purple-pale: #f7f0fc; --ink: #1a1a2e; --cream: #fdfbff;
+    --muted: #7a7a90; --border: #e2d0f0; --green: #2d9e6b;
+    --card-bg: #ffffff;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); min-height: 100vh; }
+
+  header { background: var(--ink); padding: 2rem 1.5rem 1.5rem; text-align: center; position: relative; overflow: hidden; }
+  header::before { content:''; position:absolute; top:-40px; left:-40px; width:200px; height:200px; border-radius:50%; background:radial-gradient(circle, rgba(124,77,171,0.3), transparent 70%); }
+  header h1 { font-family: 'Playfair Display', serif; color: #fff; font-size: 1.8rem; }
+  header p { color: var(--purple-light); font-size: 0.85rem; margin-top: 0.3rem; }
+
+  .tab-nav { display:flex; background:var(--ink); padding:0 1rem 1rem; gap:0.5rem; justify-content:center; }
+  .tab-btn { background:transparent; border:1.5px solid rgba(255,255,255,0.2); color:rgba(255,255,255,0.7); padding:0.45rem 1rem; border-radius:20px; font-size:0.78rem; font-family:'DM Sans',sans-serif; cursor:pointer; transition:all 0.2s; }
+  .tab-btn.active, .tab-btn:hover { background:var(--purple); border-color:var(--purple); color:#fff; }
+
+  .section { display:none; padding:1.2rem 1rem 3rem; max-width:700px; margin:0 auto; }
+  .section.active { display:block; }
+  .section-title { font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--purple); margin-bottom:1rem; padding-bottom:0.4rem; border-bottom:2px solid var(--purple-light); }
+
+  /* SIMPLIFIED */
+  .simple-card { background:var(--card-bg); border:1.5px solid var(--border); border-radius:14px; padding:1rem 1.1rem; margin-bottom:0.8rem; box-shadow:0 2px 8px rgba(124,77,171,0.06); }
+  .simple-card h3 { font-size:0.85rem; font-weight:500; color:var(--purple); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.5rem; }
+  .simple-card p, .simple-card li { font-size:0.88rem; color:var(--ink); line-height:1.6; }
+  .simple-card ul { padding-left:1.1rem; }
+  .simple-card li { margin-bottom:0.2rem; }
+  .tag { display:inline-block; background:var(--purple-light); color:var(--purple); font-size:0.7rem; font-weight:500; padding:0.15rem 0.5rem; border-radius:10px; margin-right:0.3rem; margin-bottom:0.4rem; }
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:0.4rem; }
+  .two-col .item { font-size:0.82rem; }
+  .two-col .item strong { color:var(--purple); }
+
+  /* FLASHCARDS */
+  .flashcard-grid { display:grid; gap:1rem; }
+  .flashcard { perspective:1000px; height:160px; cursor:pointer; }
+  .flashcard-inner { position:relative; width:100%; height:100%; transition:transform 0.55s cubic-bezier(0.4,0,0.2,1); transform-style:preserve-3d; }
+  .flashcard.flipped .flashcard-inner { transform:rotateY(180deg); }
+  .flashcard-front, .flashcard-back { position:absolute; width:100%; height:100%; border-radius:14px; backface-visibility:hidden; display:flex; align-items:center; justify-content:center; padding:1rem; text-align:center; }
+  .flashcard-front { background:var(--ink); border:2px solid var(--purple); }
+  .flashcard-front p { color:#fff; font-family:'Playfair Display',serif; font-size:1rem; line-height:1.4; }
+  .flashcard-back { background:var(--purple-pale); border:2px solid var(--purple-light); transform:rotateY(180deg); }
+  .flashcard-back p { font-size:0.82rem; color:var(--ink); line-height:1.6; }
+  .tap-hint { text-align:center; font-size:0.75rem; color:var(--muted); margin-bottom:0.8rem; }
+
+  /* MNEMONICS */
+  .mnemonic-card { background:var(--card-bg); border:1.5px solid var(--border); border-left:4px solid var(--purple); border-radius:14px; padding:1.1rem; margin-bottom:1rem; box-shadow:0 2px 8px rgba(124,77,171,0.06); }
+  .mnemonic-card h3 { font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:0.4rem; }
+  .mnemonic-word { font-family:'Playfair Display',serif; font-size:1.5rem; color:var(--purple); margin-bottom:0.6rem; }
+  .mnemonic-breakdown { margin-bottom:0.7rem; }
+  .letter-row { display:flex; align-items:flex-start; gap:0.7rem; margin-bottom:0.3rem; }
+  .letter { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:var(--purple); min-width:22px; }
+  .meaning { font-size:0.84rem; color:var(--ink); line-height:1.5; }
+  .mnemonic-tip { background:var(--purple-pale); border-radius:8px; padding:0.5rem 0.7rem; font-size:0.78rem; color:var(--muted); font-style:italic; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Chapter 1 Study Guide</h1>
+  <p>Anatomy · Physiology · Directional Terms · Body Systems · Homeostasis</p>
+</header>
+
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="showTab('simplified',this)">📋 Simplified</button>
+  <button class="tab-btn" onclick="showTab('flashcards',this)">🃏 Flashcards</button>
+  <button class="tab-btn" onclick="showTab('mnemonics',this)">🧠 Mnemonics</button>
+</div>
+
+<!-- ═══ SIMPLIFIED ═══ -->
+<div id="simplified" class="section active">
+  <p class="section-title">Quick Reference — Simplified</p>
+
+  <div class="simple-card">
+    <h3>3 Core Definitions</h3>
+    <ul>
+      <li><strong>Anatomy</strong> — study of structure/morphology of body parts and how they're organized</li>
+      <li><strong>Physiology</strong> — study of functions of body parts, what they do and how they do it</li>
+      <li><strong>Pathology</strong> — study of diseases of the body</li>
+    </ul>
+  </div>
+
+  <div class="simple-card">
+    <h3>Directional Terms</h3>
+    <div class="two-col">
+      <div class="item"><strong>Superior</strong> — uppermost/above</div>
+      <div class="item"><strong>Inferior</strong> — lowermost/below</div>
+      <div class="item"><strong>Anterior</strong> — towards the front</div>
+      <div class="item"><strong>Posterior</strong> — towards the back</div>
+      <div class="item"><strong>Cranial</strong> — towards the head</div>
+      <div class="item"><strong>Medial</strong> — towards midline</div>
+      <div class="item"><strong>Lateral</strong> — away from midline</div>
+      <div class="item"><strong>Proximal</strong> — nearer point of attachment</div>
+      <div class="item"><strong>Distal</strong> — further from point of attachment</div>
+      <div class="item"><strong>Midsagittal</strong> — divides into 2 equal halves</div>
+      <div class="item"><strong>Horizontal/Transverse</strong> — divides superior/inferior</div>
+      <div class="item"><strong>Frontal/Coronal</strong> — divides anterior/posterior</div>
+      <div class="item"><strong>Planes</strong> — imaginary flat geometric surfaces</div>
+    </div>
+  </div>
+
+  <div class="simple-card">
+    <h3>Body Cavities</h3>
+    <ul>
+      <li>Diaphragm separates <strong>thoracic</strong> and <strong>abdominopelvic</strong> cavity</li>
+      <li>Heart → <strong>thoracic cavity</strong> (pericardial cavity)</li>
+      <li>Brain → <strong>cranial cavity</strong></li>
+      <li>Abdominopelvic: kidneys, stomach, liver, gallbladder, small & large intestines, spleen, pancreas, ovaries/uterus</li>
+    </ul>
+  </div>
+
+  <div class="simple-card">
+    <h3>Organization of Life (smallest → largest)</h3>
+    <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;font-size:0.85rem;">
+      <span class="tag">Atoms</span>→<span class="tag">Molecules</span>→<span class="tag">Organelles</span>→<span class="tag">Cells</span>→<span class="tag">Tissues</span>→<span class="tag">Organs</span>→<span class="tag">Systems</span>
+    </div>
+    <ul style="margin-top:0.6rem;">
+      <li><strong>Cells</strong> — smallest living units of biologic organization</li>
+      <li><strong>Molecules</strong> — atoms combined through chemical bonds (water, sugar, amino acids)</li>
+      <li><strong>Organelles</strong> — tiny structures performing specific cell functions</li>
+      <li><strong>Tissues</strong> — cells performing similar functions</li>
+      <li><strong>Organs</strong> — tissues serving a common function</li>
+    </ul>
+  </div>
+
+  <div class="simple-card">
+    <h3>4 Tissue Types</h3>
+    <ul>
+      <li><strong>Epithelial</strong> — covers & protects inner/outer surfaces of organs</li>
+      <li><strong>Connective</strong> — binds together & supports other tissues/organs</li>
+      <li><strong>Muscle</strong> — elongated cells that generate movement by shortening/contracting</li>
+      <li><strong>Nerve</strong> — transmits signals (implied from nervous system)</li>
+    </ul>
+  </div>
+
+  <div class="simple-card">
+    <h3>10 Body Systems</h3>
+    <ul>
+      <li><strong>Integumentary</strong> — insulation, protection, regulation</li>
+      <li><strong>Skeletal</strong> — protects vital parts, supports tissues, body movement</li>
+      <li><strong>Muscular</strong> — movement, pushes food, blood flow, heart contraction</li>
+      <li><strong>Nervous</strong> — controls/regulates body systems, interprets stimulus, controls senses</li>
+      <li><strong>Endocrine</strong> — produces hormones that chemically regulate body functions</li>
+      <li><strong>Cardiovascular</strong> — pumps and distributes blood</li>
+      <li><strong>Lymphatic</strong> — drains excess fluid, absorbs fats, develops immunities</li>
+      <li><strong>Respiratory</strong> — brings oxygen, eliminates carbon dioxide</li>
+      <li><strong>Urinary</strong> — blood regulation, urine formation/elimination, homeostasis</li>
+      <li><strong>Digestive</strong> — converts food to nutrients, eliminates waste</li>
+    </ul>
+  </div>
+
+  <div class="simple-card">
+    <h3>Homeostasis & Feedback</h3>
+    <ul>
+      <li><strong>Homeostasis</strong> — maintenance of internal environment of the body</li>
+      <li><strong>Positive feedback</strong> — responds by INCREASING and amplifying the change<br><em>Ex: labor contractions continue intensifying until baby is born</em></li>
+      <li><strong>Negative feedback</strong> — responds by REVISING disturbances to return to normal<br><em>Ex: thermostat turns furnace off when temp exceeds 72°F</em></li>
+    </ul>
+  </div>
+
+  <div class="simple-card">
+    <h3>Medical Terminology</h3>
+    <ul>
+      <li><strong>-itis</strong> — inflammation</li>
+      <li><strong>-algia / DYNA</strong> — pain</li>
+      <li><strong>-ectomy</strong> — surgical removal of</li>
+      <li><strong>post-</strong> — after</li>
+      <li><strong>micro-</strong> — small</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══ FLASHCARDS ═══ -->
+<div id="flashcards" class="section">
+  <p class="section-title">Flashcards</p>
+  <p class="tap-hint">Tap a card to flip it</p>
+  <div class="flashcard-grid" id="cardGrid"></div>
+</div>
+
+<!-- ═══ MNEMONICS ═══ -->
+<div id="mnemonics" class="section">
+  <p class="section-title">Mnemonics</p>
+
+  <div class="mnemonic-card">
+    <h3>Directional Terms — Superior/Inferior</h3>
+    <div class="mnemonic-word">Super Heroes Fly</div>
+    <div class="mnemonic-breakdown">
+      <div class="letter-row"><span class="letter">S</span><span class="meaning">Superior = above (superheroes fly UP)</span></div>
+      <div class="letter-row"><span class="letter">I</span><span class="meaning">Inferior = below (inferiors stay down)</span></div>
+    </div>
+    <div class="mnemonic-tip">💡 Think of a superhero flying UP = Superior. What's below them = Inferior.</div>
+  </div>
+
+  <div class="mnemonic-card">
+    <h3>Anterior vs Posterior</h3>
+    <div class="mnemonic-word">Anterior = A = Ahead (Front)</div>
+    <div class="mnemonic-breakdown">
+      <div class="letter-row"><span class="letter">A</span><span class="meaning">Anterior = Ahead = Front of body</span></div>
+      <div class="letter-row"><span class="letter">P</span><span class="meaning">Posterior = Posterior = Back (like your backPOSTerior 😂)</span></div>
+    </div>
+    <div class="mnemonic-tip">💡 Your "posterior" in everyday slang IS your backside — posterior = back!</div>
+  </div>
+
+  <div class="mnemonic-card">
+    <h3>Proximal vs Distal</h3>
+    <div class="mnemonic-word">ProXimal = X marks the origin</div>
+    <div class="mnemonic-breakdown">
+      <div class="letter-row"><span class="letter">P</span><span class="meaning">Proximal = closer to where it attaches (shoulder is proximal to elbow)</span></div>
+      <div class="letter-row"><span class="letter">D</span><span class="meaning">Distal = Distant = further away (fingers are distal to elbow)</span></div>
+    </div>
+    <div class="mnemonic-tip">💡 Distal = Distant. The further it is, the more distant!</div>
+  </div>
+
+  <div class="mnemonic-card">
+    <h3>10 Body Systems</h3>
+    <div class="mnemonic-word">I Smell My Neighbor's Enormous Cat Running Under Doors Loudly</div>
+    <div class="mnemonic-breakdown">
+      <div class="letter-row"><span class="letter">I</span><span class="meaning">Integumentary</span></div>
+      <div class="letter-row"><span class="letter">S</span><span class="meaning">Skeletal</span></div>
+      <div class="letter-row"><span class="letter">M</span><span class="meaning">Muscular</span></div>
+      <div class="letter-row"><span class="letter">N</span><span class="meaning">Nervous</span></div>
+      <div class="letter-row"><span class="letter">E</span><span class="meaning">Endocrine</span></div>
+      <div class="letter-row"><span class="letter">C</span><span class="meaning">Cardiovascular</span></div>
+      <div class="letter-row"><span class="letter">R</span><span class="meaning">Respiratory</span></div>
+      <div class="letter-row"><span class="letter">U</span><span class="meaning">Urinary</span></div>
+      <div class="letter-row"><span class="letter">D</span><span class="meaning">Digestive</span></div>
+      <div class="letter-row"><span class="letter">L</span><span class="meaning">Lymphatic</span></div>
+    </div>
+    <div class="mnemonic-tip">💡 "I Smell My Neighbor's Enormous Cat Running Under Doors Loudly"</div>
+  </div>
+
+  <div class="mnemonic-card">
+    <h3>Positive vs Negative Feedback</h3>
+    <div class="mnemonic-word">+ = Push More, - = Pull Back</div>
+    <div class="mnemonic-breakdown">
+      <div class="letter-row"><span class="letter">+</span><span class="meaning">Positive feedback = AMPLIFIES the change (labor contractions keep going)</span></div>
+      <div class="letter-row"><span class="letter">-</span><span class="meaning">Negative feedback = CORRECTS the change (thermostat turns OFF)</span></div>
+    </div>
+    <div class="mnemonic-tip">💡 Positive = keeps PUSHING in same direction. Negative = PULLS back to normal.</div>
+  </div>
+
+  <div class="mnemonic-card">
+    <h3>Medical Suffixes</h3>
+    <div class="mnemonic-word">ITIS = Inflamed, ALGIA = Aching</div>
+    <div class="mnemonic-breakdown">
+      <div class="letter-row"><span class="letter">-itis</span><span class="meaning">Inflammation — "It's inflamed!" appendicitis, arthritis</span></div>
+      <div class="letter-row"><span class="letter">-algia</span><span class="meaning">Pain — "Algae hurts to step on" — neuralgia, myalgia</span></div>
+      <div class="letter-row"><span class="letter">-ectomy</span><span class="meaning">Surgical removal — "Ectomy = Exit the organ" — appendectomy</span></div>
+      <div class="letter-row"><span class="letter">micro-</span><span class="meaning">Small — microscope, microorganism</span></div>
+      <div class="letter-row"><span class="letter">post-</span><span class="meaning">After — postoperative, postpartum</span></div>
+    </div>
+    <div class="mnemonic-tip">💡 "-itis lights a fire (inflammation), -algia makes you say ouch (pain), -ectomy exits the organ (removal)"</div>
+  </div>
+
+  <div class="mnemonic-card">
+    <h3>3 Body Cavities — What's Inside</h3>
+    <div class="mnemonic-word">Think Top → Middle → Bottom</div>
+    <div class="mnemonic-breakdown">
+      <div class="letter-row"><span class="letter">☝️</span><span class="meaning">Cranial cavity = Brain (top of body)</span></div>
+      <div class="letter-row"><span class="letter">🫀</span><span class="meaning">Thoracic cavity = Heart & Lungs (chest, above diaphragm)</span></div>
+      <div class="letter-row"><span class="letter">🫃</span><span class="meaning">Abdominopelvic = Everything else below diaphragm</span></div>
+    </div>
+    <div class="mnemonic-tip">💡 The diaphragm is the wall between chest (thoracic) and belly (abdominopelvic).</div>
+  </div>
+</div>
+
+<script>
+const cards = [
+  { q:"Define Anatomy", a:"Study of the structure or morphology of the body — how body parts are organized." },
+  { q:"Define Physiology", a:"Study of the functions of body parts — what they do and how they do it." },
+  { q:"Define Pathology", a:"Study of the diseases of the body." },
+  { q:"What does Superior mean?", a:"Uppermost or above." },
+  { q:"What does Inferior mean?", a:"Lowermost or below." },
+  { q:"What does Anterior mean?", a:"Towards the front." },
+  { q:"What does Posterior mean?", a:"Towards the back." },
+  { q:"What does Cranial mean?", a:"Towards the head." },
+  { q:"What does Medial mean?", a:"Towards the body's midline." },
+  { q:"What does Lateral mean?", a:"Towards the side, away from midline." },
+  { q:"What does Proximal mean?", a:"Nearer the point of attachment or origin." },
+  { q:"What does Distal mean?", a:"Further away from the point of attachment or origin." },
+  { q:"What is the Midsagittal plane?", a:"Plane dividing the body through the midline into two equal parts." },
+  { q:"What is the Horizontal/Transverse plane?", a:"Plane dividing the body into superior and inferior portions." },
+  { q:"What is the Frontal/Coronal plane?", a:"Divides the body into anterior and posterior portions at right angles to the sagittal plane." },
+  { q:"The diaphragm separates which two cavities?", a:"The thoracic cavity and the abdominopelvic cavity." },
+  { q:"What cavity is the heart located in?", a:"The thoracic cavity — specifically within the pericardial cavity." },
+  { q:"What cavity is the brain located in?", a:"The cranial cavity." },
+  { q:"Name 5 organs in the abdominopelvic cavity", a:"Kidneys, stomach, liver, gallbladder, small intestines, large intestines, spleen, pancreas, ovaries/uterus." },
+  { q:"What are the smallest living units of biologic organization?", a:"Cells." },
+  { q:"Define Tissues", a:"Made up of cells that perform similar functions (e.g., muscle tissue causes movement and contraction)." },
+  { q:"Define Organs", a:"Made up of tissues serving a common function." },
+  { q:"Define Molecules", a:"Formed when atoms combine through chemical bonds to form units like water, sugar, and amino acids." },
+  { q:"Define Organelles", a:"Tiny structures that perform specific functions for the cell." },
+  { q:"What does Epithelial tissue do?", a:"Covers and protects surfaces on both inner and outer surfaces of organs." },
+  { q:"What does Connective tissue do?", a:"Binds together and supports other tissues and organs." },
+  { q:"Describe Muscle tissue", a:"Characterized by elongated cells that generate movement by shortening or contracting forcibly." },
+  { q:"What is the Integumentary system responsible for?", a:"Insulation, protection, and regulation of the body." },
+  { q:"What does the Skeletal system do?", a:"Protects vital body parts, supports body tissues, and enables body movement." },
+  { q:"What does the Muscular system do?", a:"Allows movement, pushes food through digestive tract, blood flow, and heart contraction." },
+  { q:"What does the Nervous system do?", a:"Controls, correlates, and regulates other body systems; interprets stimulus and controls senses." },
+  { q:"What does the Endocrine system do?", a:"Produces hormones that chemically regulate body functions." },
+  { q:"What does the Cardiovascular system do?", a:"Pumps and distributes blood." },
+  { q:"What does the Lymphatic system do?", a:"Drains tissue spaces of excess fluid, absorbs fats, carries to blood, and protects body from disease by developing immunities." },
+  { q:"What does the Respiratory system do?", a:"Brings oxygen and eliminates carbon dioxide." },
+  { q:"What does the Urinary system do?", a:"Chemical regulation of blood, formation and elimination of urine, and homeostasis maintenance." },
+  { q:"What does the Digestive system do?", a:"Converts food to small substances with nutrients absorbed by cells, and eliminates waste." },
+  { q:"Define Homeostasis", a:"Maintenance of the internal environment of the body." },
+  { q:"What is Positive Feedback?", a:"Responds to a stimulus by increasing and amplifying the change. Ex: labor contractions intensify until baby is born." },
+  { q:"What is Negative Feedback?", a:"Responds by revising disturbances to return the body to normal. Ex: thermostat turns off furnace when temp reaches set point." },
+  { q:"What suffix indicates inflammation?", a:"-ITIS (e.g., appendicitis = inflammation of the appendix)." },
+  { q:"What suffix indicates pain?", a:"DYNA / -algia (e.g., neuralgia = nerve pain)." },
+  { q:"What does the prefix 'post-' mean?", a:"After (e.g., postoperative = after surgery)." },
+  { q:"What does the prefix 'micro-' mean?", a:"Small (e.g., microscope)." },
+  { q:"What does the suffix '-ectomy' mean?", a:"Surgical removal of (e.g., appendectomy = surgical removal of the appendix)." },
+];
+
+const grid = document.getElementById('cardGrid');
+cards.forEach(c => {
+  grid.innerHTML += `<div class="flashcard" onclick="this.classList.toggle('flipped')"><div class="flashcard-inner"><div class="flashcard-front"><p>${c.q}</p></div><div class="flashcard-back"><p>${c.a}</p></div></div></div>`;
+});
+
+function showTab(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
