@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 1 — Anatomy & Medical Terminology Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --purple: #7c4dab; --purple2: #9b6dc9; --purple-light: #e8d5f5;
+    --purple-pale: #f7f0fc; --ink: #1a1a2e; --cream: #fdfbff;
+    --muted: #7a7a90; --border: #e2d0f0; --green: #2d9e6b;
+    --green-light: #d4f5e9; --red-light: #fde8ea; --rose: #c0404a;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 1.5rem 1.2rem 1.2rem; text-align: center; }
+  header h1 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #fff; }
+  header h1 span { color: var(--purple-light); }
+  header p { color: rgba(255,255,255,0.5); font-size: 0.8rem; margin-top: 0.3rem; }
+  .container { max-width: 620px; margin: 0 auto; padding: 1.2rem 1rem 4rem; }
+
+  #startScreen { background: #fff; border: 1.5px solid var(--border); border-radius: 20px; padding: 2rem 1.5rem; text-align: center; margin-top: 1rem; }
+  #startScreen .emoji { font-size: 3rem; margin-bottom: 0.8rem; }
+  #startScreen h2 { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin-bottom: 0.5rem; }
+  #startScreen p { color: var(--muted); font-size: 0.85rem; line-height: 1.6; margin-bottom: 1.5rem; }
+  .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1.5rem; }
+  .mode-card { border: 2px solid var(--border); border-radius: 14px; padding: 1rem 0.8rem; cursor: pointer; transition: all 0.2s; text-align: center; }
+  .mode-card:hover, .mode-card.selected { border-color: var(--purple); background: var(--purple-pale); }
+  .mode-card .icon { font-size: 1.5rem; margin-bottom: 0.3rem; }
+  .mode-card h3 { font-size: 0.85rem; font-weight: 600; }
+  .mode-card p { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+  .start-btn { background: var(--purple); color: #fff; border: none; padding: 0.85rem 2.5rem; border-radius: 25px; font-size: 0.95rem; font-family: 'DM Sans', sans-serif; font-weight: 600; cursor: pointer; width: 100%; transition: all 0.2s; }
+  .start-btn:hover { background: var(--purple2); }
+
+  .quiz-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; font-size: 0.78rem; color: var(--muted); }
+  .quiz-meta .q-count { font-weight: 600; color: var(--ink); }
+  .quiz-meta .score-live { color: var(--purple); font-weight: 600; }
+  .progress-wrap { background: var(--border); border-radius: 10px; height: 6px; margin-bottom: 1.2rem; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--purple), var(--purple2)); border-radius: 10px; transition: width 0.4s ease; }
+
+  .q-card { background: #fff; border: 1.5px solid var(--border); border-radius: 20px; padding: 1.5rem 1.2rem; margin-bottom: 1rem; display: none; animation: slideIn 0.3s ease; }
+  .q-card.active { display: block; }
+  @keyframes slideIn { from { opacity:0; transform: translateX(20px); } to { opacity:1; transform: translateX(0); } }
+  .q-tag { display: inline-block; background: var(--purple-pale); color: var(--purple); font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.2rem 0.6rem; border-radius: 10px; margin-bottom: 0.8rem; }
+  .q-text { font-size: 0.95rem; font-weight: 500; line-height: 1.5; margin-bottom: 1.2rem; }
+  .options { display: flex; flex-direction: column; gap: 0.6rem; }
+  .option { background: var(--cream); border: 2px solid var(--border); border-radius: 12px; padding: 0.8rem 1rem; font-size: 0.88rem; cursor: pointer; transition: all 0.2s; text-align: left; font-family: 'DM Sans', sans-serif; line-height: 1.4; display: flex; align-items: flex-start; gap: 0.7rem; }
+  .option:hover:not(:disabled) { border-color: var(--purple); background: var(--purple-pale); }
+  .option .opt-letter { min-width: 24px; height: 24px; background: var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; color: var(--muted); flex-shrink: 0; }
+  .option.correct { border-color: var(--green); background: var(--green-light); }
+  .option.correct .opt-letter { background: var(--green); color: #fff; }
+  .option.wrong { border-color: var(--rose); background: var(--red-light); }
+  .option.wrong .opt-letter { background: var(--rose); color: #fff; }
+  .option.show-correct { border-color: var(--green); background: var(--green-light); opacity: 0.7; }
+  .option:disabled { cursor: default; }
+  .explanation { background: #f8f9ff; border-left: 3px solid var(--purple); border-radius: 0 10px 10px 0; padding: 0.8rem 1rem; margin-top: 1rem; font-size: 0.82rem; line-height: 1.6; display: none; }
+  .explanation.show { display: block; }
+  .explanation strong { color: var(--purple); }
+  .next-btn { background: var(--ink); color: #fff; border: none; padding: 0.75rem 2rem; border-radius: 25px; font-size: 0.88rem; font-family: 'DM Sans', sans-serif; font-weight: 500; cursor: pointer; margin-top: 1rem; width: 100%; display: none; transition: all 0.2s; }
+  .next-btn.show { display: block; }
+  .next-btn:hover { background: var(--purple); }
+
+  #results { display: none; animation: slideIn 0.4s ease; }
+  .score-card { background: #fff; border: 1.5px solid var(--border); border-radius: 20px; padding: 2rem 1.5rem; text-align: center; margin-bottom: 1rem; }
+  .score-circle { width: 110px; height: 110px; border-radius: 50%; margin: 0 auto 1rem; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; }
+  .score-circle .pct { font-size: 2rem; font-weight: 700; }
+  .score-circle .label { font-size: 0.7rem; color: rgba(255,255,255,0.8); }
+  .score-circle.pass { background: var(--green); color: #fff; }
+  .score-circle.fail { background: var(--rose); color: #fff; }
+  .score-circle.ok { background: #e0a020; color: #fff; }
+  .score-card h2 { font-family: 'Playfair Display', serif; font-size: 1.3rem; margin-bottom: 0.3rem; }
+  .score-card p { color: var(--muted); font-size: 0.85rem; margin-bottom: 1.2rem; }
+  .stat-row { display: flex; gap: 0.8rem; justify-content: center; margin-bottom: 1.5rem; }
+  .stat { background: var(--cream); border: 1px solid var(--border); border-radius: 12px; padding: 0.7rem 1rem; text-align: center; flex: 1; }
+  .stat .num { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; }
+  .stat .num.green { color: var(--green); }
+  .stat .num.red { color: var(--rose); }
+  .stat .lbl { font-size: 0.7rem; color: var(--muted); margin-top: 0.1rem; }
+  .result-btns { display: flex; gap: 0.7rem; flex-wrap: wrap; }
+  .result-btn { flex: 1; padding: 0.75rem; border-radius: 25px; font-size: 0.85rem; font-family: 'DM Sans', sans-serif; font-weight: 500; cursor: pointer; border: none; transition: all 0.2s; }
+  .result-btn.primary { background: var(--purple); color: #fff; }
+  .result-btn.secondary { background: var(--cream); border: 1.5px solid var(--border); color: var(--ink); }
+  .result-btn:hover { opacity: 0.85; }
+  .review-section { margin-top: 0.5rem; }
+  .review-section h3 { font-family: 'Playfair Display', serif; font-size: 1rem; margin-bottom: 0.8rem; }
+  .review-item { background: #fff; border: 1.5px solid var(--border); border-radius: 14px; padding: 1rem; margin-bottom: 0.7rem; }
+  .review-item.correct-item { border-color: var(--green); }
+  .review-item.wrong-item { border-color: var(--rose); }
+  .review-q { font-size: 0.85rem; font-weight: 500; margin-bottom: 0.5rem; line-height: 1.4; }
+  .review-answers { font-size: 0.8rem; line-height: 1.7; }
+  .review-answers .your { color: var(--rose); }
+  .review-answers .correct { color: var(--green); font-weight: 500; }
+  #timerDisplay { text-align:center; font-size:0.8rem; color:var(--purple); font-weight:600; margin-bottom:0.8rem; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Chapter 1 <span>Anatomy & Med Terminology</span></h1>
+  <p>Definitions · Directional Terms · Body Systems · Homeostasis</p>
+</header>
+<div class="container">
+
+  <div id="startScreen">
+    <div class="emoji">🧬</div>
+    <h2>Chapter 1 Practice Test</h2>
+    <p>55 challenging questions covering every topic from your study guide — anatomy definitions, directional terms, body cavities, tissue types, body systems, homeostasis, feedback mechanisms, and medical terminology.</p>
+    <div class="mode-grid">
+      <div class="mode-card selected" onclick="selectMode('all',this)">
+        <div class="icon">📚</div><h3>All Questions</h3><p>Full 55-question test</p>
+      </div>
+      <div class="mode-card" onclick="selectMode('quick',this)">
+        <div class="icon">⚡</div><h3>Quick Quiz</h3><p>Random 20 questions</p>
+      </div>
+      <div class="mode-card" onclick="selectMode('weak',this)">
+        <div class="icon">🎯</div><h3>Missed Only</h3><p>Questions you got wrong</p>
+      </div>
+      <div class="mode-card" onclick="selectMode('timed',this)">
+        <div class="icon">⏱️</div><h3>Timed Mode</h3><p>30 sec per question</p>
+      </div>
+    </div>
+    <button class="start-btn" onclick="startQuiz()">Start Quiz →</button>
+  </div>
+
+  <div id="quizScreen" style="display:none;">
+    <div class="quiz-meta">
+      <span class="q-count" id="qCount">Question 1</span>
+      <span class="score-live" id="scoreLive">Score: 0</span>
+    </div>
+    <div class="progress-wrap"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <div id="timerDisplay" style="display:none;"></div>
+    <div id="questionContainer"></div>
+  </div>
+
+  <div id="results">
+    <div class="score-card">
+      <div class="score-circle" id="scoreCircle">
+        <div class="pct" id="scorePct">0%</div>
+        <div class="label">Score</div>
+      </div>
+      <h2 id="scoreTitle">Quiz Complete!</h2>
+      <p id="scoreMsg"></p>
+      <div class="stat-row">
+        <div class="stat"><div class="num green" id="correctCount">0</div><div class="lbl">Correct</div></div>
+        <div class="stat"><div class="num red" id="wrongCount">0</div><div class="lbl">Wrong</div></div>
+        <div class="stat"><div class="num" id="totalCount">0</div><div class="lbl">Total</div></div>
+      </div>
+      <div class="result-btns">
+        <button class="result-btn primary" onclick="restartQuiz()">🔄 Retake</button>
+        <button class="result-btn secondary" onclick="showMissed()">🎯 Study Missed</button>
+      </div>
+    </div>
+    <div class="review-section">
+      <h3>📋 Answer Review</h3>
+      <div id="reviewList"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const allQuestions = [
+  // ── DEFINITIONS ──
+  { topic:"Definitions", q:"Anatomy is best defined as:", options:["Study of the functions of body parts","Study of diseases of the body","Study of the structure or morphology of body parts","Study of chemical reactions in the body"], answer:2, explanation:"Anatomy = study of structure or morphology of the body and how parts are organized." },
+  { topic:"Definitions", q:"Physiology is best defined as:", options:["Study of body structure","Study of the functions of body parts, what they do and how they do it","Study of diseases","Study of medications"], answer:1, explanation:"Physiology = study of the functions of the body parts, what they do and how they do it." },
+  { topic:"Definitions", q:"Pathology is best defined as:", options:["Study of body structure","Study of body functions","Study of diseases of the body","Study of medications and their effects"], answer:2, explanation:"Pathology = study of the diseases of the body." },
+  { topic:"Definitions", q:"Which field studies what body parts DO and HOW they do it?", options:["Anatomy","Pathology","Physiology","Microbiology"], answer:2, explanation:"Physiology focuses on functions — what body parts do and how they do it." },
+  { topic:"Definitions", q:"A doctor studying the structure and organization of body parts is practicing:", options:["Physiology","Pathology","Anatomy","Pharmacology"], answer:2, explanation:"Anatomy = study of structure and morphology of body parts." },
+
+  // ── DIRECTIONAL TERMS ──
+  { topic:"Directional Terms", q:"Which directional term means 'uppermost or above'?", options:["Inferior","Posterior","Superior","Cranial"], answer:2, explanation:"Superior = uppermost or above." },
+  { topic:"Directional Terms", q:"Which directional term means 'lowermost or below'?", options:["Superior","Inferior","Anterior","Distal"], answer:1, explanation:"Inferior = lowermost or below." },
+  { topic:"Directional Terms", q:"Anterior means:", options:["Towards the back","Towards the side","Towards the front","Towards the head"], answer:2, explanation:"Anterior = towards the front." },
+  { topic:"Directional Terms", q:"Posterior means:", options:["Towards the front","Towards the back","Towards the head","Uppermost"], answer:1, explanation:"Posterior = towards the back." },
+  { topic:"Directional Terms", q:"Cranial means:", options:["Towards the feet","Towards the back","Towards the head","Towards the side"], answer:2, explanation:"Cranial = towards the head." },
+  { topic:"Directional Terms", q:"Medial means:", options:["Towards the side away from midline","Towards the body's midline","Towards the front","Nearer the point of attachment"], answer:1, explanation:"Medial = towards the body's midline." },
+  { topic:"Directional Terms", q:"Lateral means:", options:["Towards the midline","Towards the back","Towards the side, away from midline","Towards the head"], answer:2, explanation:"Lateral = towards the side, away from midline." },
+  { topic:"Directional Terms", q:"Proximal means:", options:["Further away from point of attachment","Towards the back","Nearer the point of attachment or origin","Towards the midline"], answer:2, explanation:"Proximal = nearer the point of attachment or origin." },
+  { topic:"Directional Terms", q:"Distal means:", options:["Nearer the point of attachment","Further away from the point of attachment or origin","Towards the front","Towards the head"], answer:1, explanation:"Distal = further away from the point of attachment or origin." },
+  { topic:"Directional Terms", q:"The midsagittal plane:", options:["Divides the body into superior and inferior portions","Divides the body into anterior and posterior portions","Divides the body through the midline into two equal parts","Divides the body into left and right unequal parts"], answer:2, explanation:"Midsagittal = plane dividing the body through the midline into two equal parts." },
+  { topic:"Directional Terms", q:"The horizontal/transverse plane divides the body into:", options:["Left and right equal parts","Anterior and posterior portions","Superior and inferior portions","Medial and lateral portions"], answer:2, explanation:"Horizontal/transverse plane = divides body into superior and inferior portions." },
+  { topic:"Directional Terms", q:"The frontal/coronal plane:", options:["Divides body into superior and inferior","Divides body into anterior and posterior portions at right angles to sagittal plane","Divides body into two equal halves","Passes through the midline"], answer:1, explanation:"Frontal/coronal plane divides body into anterior and posterior portions at right angles to the sagittal plane." },
+  { topic:"Directional Terms", q:"Planes are used to describe the body as having:", options:["Actual cuts through the body","Imaginary flat geometric surfaces passing through it","Real divisions between organs","Physical boundaries of body cavities"], answer:1, explanation:"Planes = imaginary flat geometric surfaces passing through the body, used to describe it." },
+  { topic:"Directional Terms", q:"The elbow is _____ to the wrist.", options:["Distal","Proximal","Inferior","Lateral"], answer:1, explanation:"The elbow is proximal (nearer the point of attachment) to the wrist." },
+  { topic:"Directional Terms", q:"The nose is _____ to the ears.", options:["Lateral","Posterior","Medial","Superior"], answer:2, explanation:"The nose is medial (towards the midline) relative to the ears." },
+
+  // ── BODY CAVITIES ──
+  { topic:"Body Cavities", q:"The diaphragm separates which two cavities?", options:["Cranial and spinal","Thoracic and abdominopelvic","Pericardial and pleural","Abdominal and pelvic"], answer:1, explanation:"The diaphragm separates the thoracic cavity and the abdominopelvic cavity." },
+  { topic:"Body Cavities", q:"The heart is located in which cavity?", options:["Cranial cavity","Abdominopelvic cavity","Thoracic cavity (specifically the pericardial cavity)","Spinal cavity"], answer:2, explanation:"The heart is in the thoracic cavity, specifically within the pericardial cavity." },
+  { topic:"Body Cavities", q:"The brain is located in which cavity?", options:["Thoracic cavity","Abdominopelvic cavity","Pericardial cavity","Cranial cavity"], answer:3, explanation:"The brain is located in the cranial cavity." },
+  { topic:"Body Cavities", q:"Which of the following organs is found in the abdominopelvic cavity?", options:["Brain","Heart","Lungs","Liver and gallbladder"], answer:3, explanation:"The abdominopelvic cavity contains: kidneys, stomach, liver, gallbladder, small and large intestines, spleen, pancreas, and ovaries/uterus in females." },
+  { topic:"Body Cavities", q:"Which is NOT found in the abdominopelvic cavity?", options:["Kidneys","Spleen","Heart","Pancreas"], answer:2, explanation:"The heart is in the thoracic/pericardial cavity, not the abdominopelvic cavity." },
+  { topic:"Body Cavities", q:"The pericardial cavity is located within which larger cavity?", options:["Cranial cavity","Abdominopelvic cavity","Thoracic cavity","Spinal cavity"], answer:2, explanation:"The pericardial cavity is a subdivision within the thoracic cavity." },
+
+  // ── CELLS, TISSUES, ORGANS ──
+  { topic:"Cells & Tissues", q:"What are the smallest living units of biologic organization?", options:["Tissues","Molecules","Cells","Organelles"], answer:2, explanation:"Cells are the smallest living units of biologic organization." },
+  { topic:"Cells & Tissues", q:"Tissues are:", options:["Individual cells performing unique functions","Made up of cells that perform similar functions","Made up of organs serving a common function","Tiny structures that perform specific functions"], answer:1, explanation:"Tissues = made up of cells that perform similar functions, such as muscle tissue that causes movement and contraction." },
+  { topic:"Cells & Tissues", q:"Organs are:", options:["Groups of cells performing similar functions","Tiny structures that perform specific cell functions","Made up of tissues serving a common function","Chemical bonds between atoms"], answer:2, explanation:"Organs = made up of tissues serving a common function." },
+  { topic:"Cells & Tissues", q:"Molecules are:", options:["Tiny structures inside cells","Smallest living units","Formed when atoms combine through chemical bonds to form units like water, sugar, and amino acids","Groups of cells performing similar functions"], answer:2, explanation:"Molecules = formed when atoms combine through chemical bonds to form units like water, sugar, and amino acids." },
+  { topic:"Cells & Tissues", q:"Organelles are:", options:["Groups of organs","The smallest living units","Formed by chemical bonds between atoms","Tiny structures that perform specific functions for the cell"], answer:3, explanation:"Organelles = tiny structures that perform specific functions for the cell." },
+  { topic:"Cells & Tissues", q:"What does epithelial tissue do?", options:["Binds and supports other tissues","Generates movement by shortening","Covers and protects surfaces on both inner and outer surfaces of organs","Transmits nerve signals"], answer:2, explanation:"Epithelial tissue covers and protects surfaces on both inner and outer surfaces of organs." },
+  { topic:"Cells & Tissues", q:"What does connective tissue do?", options:["Covers organ surfaces","Generates movement","Binds together and supports other tissues and organs","Controls body systems"], answer:2, explanation:"Connective tissue binds together and supports other tissues and organs." },
+  { topic:"Cells & Tissues", q:"Muscle tissue is characterized by:", options:["Covering surfaces of organs","Binding tissues together","Transmitting electrical impulses","Elongated cells that generate movement by shortening or contracting forcibly"], answer:3, explanation:"Muscle tissue = characterized by elongated cells that generate movement by shortening or contracting forcibly." },
+  { topic:"Cells & Tissues", q:"Which tissue type would you find lining the inside of your stomach?", options:["Muscle tissue","Connective tissue","Epithelial tissue","Nerve tissue"], answer:2, explanation:"Epithelial tissue lines and covers inner surfaces of organs like the stomach." },
+
+  // ── BODY SYSTEMS ──
+  { topic:"Body Systems", q:"The integumentary system is responsible for:", options:["Pumping and distributing blood","Insulation, protection, and regulation of the body","Bringing oxygen and eliminating carbon dioxide","Chemical regulation of blood"], answer:1, explanation:"Integumentary system = insulation, protection, and regulation of the body (skin, hair, nails)." },
+  { topic:"Body Systems", q:"The skeletal system:", options:["Allows movement and pushes food through digestive tract","Produces hormones that chemically regulate body functions","Protects vital body parts, supports body tissues, and body movement","Controls and regulates other body systems"], answer:2, explanation:"Skeletal system = protects vital body parts, supports body tissues, and enables body movement." },
+  { topic:"Body Systems", q:"The muscular system:", options:["Drains tissue spaces of excess fluid","Allows movement, pushes food through digestive tract, blood flow, and heart contraction","Produces hormones","Controls and interprets stimulus"], answer:1, explanation:"Muscular system = allows movement, pushes food through digestive tract, blood flow, and heart contraction." },
+  { topic:"Body Systems", q:"The nervous system:", options:["Pumps and distributes blood","Produces hormones","Controls, correlates, and regulates other body systems; interprets stimulus and controls senses","Brings oxygen and eliminates carbon dioxide"], answer:2, explanation:"Nervous system = controls, correlates, and regulates other body systems; interprets stimulus and controls senses." },
+  { topic:"Body Systems", q:"The endocrine system:", options:["Converts food to small substances","Protects body from disease by developing immunities","Produces hormones that chemically regulate body functions","Controls senses and interprets stimulus"], answer:2, explanation:"Endocrine system = produces hormones that chemically regulate body functions." },
+  { topic:"Body Systems", q:"The cardiovascular system:", options:["Brings oxygen to the body","Pumps and distributes blood","Drains excess fluid from tissues","Converts food to nutrients"], answer:1, explanation:"Cardiovascular system = pumps and distributes blood." },
+  { topic:"Body Systems", q:"The lymphatic system:", options:["Pumps blood","Brings oxygen and eliminates CO2","Drains tissue spaces of excess fluid, absorbs fats, carries to blood, and protects body from disease by developing immunities","Converts food to nutrients"], answer:2, explanation:"Lymphatic system = drains tissue spaces of excess fluid, absorbs fats, carries to blood, and protects body from disease by developing immunities." },
+  { topic:"Body Systems", q:"The respiratory system:", options:["Pumps blood through the body","Brings oxygen and eliminates carbon dioxide","Converts food to nutrients","Regulates blood chemistry"], answer:1, explanation:"Respiratory system = brings oxygen and eliminates carbon dioxide." },
+  { topic:"Body Systems", q:"The urinary system is responsible for:", options:["Pumping blood","Bringing oxygen","Converting food to nutrients","Chemical regulation of blood, formation and elimination of urine, and homeostasis maintenance"], answer:3, explanation:"Urinary system = chemical regulation of blood, formation and elimination of urine, and homeostasis maintenance." },
+  { topic:"Body Systems", q:"The digestive system:", options:["Pumps blood","Drains excess fluid","Converts food to small substances with nutrients absorbed by cells and eliminates waste","Produces hormones"], answer:2, explanation:"Digestive system = converts food to small substances with nutrients absorbed by cells, and eliminates waste." },
+  { topic:"Body Systems", q:"Which body system develops immunities to protect the body from disease?", options:["Cardiovascular","Respiratory","Lymphatic","Endocrine"], answer:2, explanation:"The lymphatic system protects the body from disease by developing immunities." },
+  { topic:"Body Systems", q:"Which system is responsible for homeostasis maintenance?", options:["Digestive","Urinary","Respiratory","Muscular"], answer:1, explanation:"The urinary system contributes to homeostasis maintenance along with chemical regulation of blood." },
+
+  // ── HOMEOSTASIS & FEEDBACK ──
+  { topic:"Homeostasis", q:"Homeostasis is defined as:", options:["Study of body functions","Maintenance of the internal environment of the body","The process of cell division","Elimination of waste products"], answer:1, explanation:"Homeostasis = maintenance of the internal environment of the body." },
+  { topic:"Homeostasis", q:"Positive feedback:", options:["Responds by revising disturbances to return to normal","Responds to a stimulus by increasing and amplifying the change","Maintains a constant internal environment","Reduces the original stimulus"], answer:1, explanation:"Positive feedback = responds to a stimulus by increasing and amplifying the change." },
+  { topic:"Homeostasis", q:"An example of positive feedback is:", options:["A thermostat turning off a furnace when temperature reaches set point","Body sweating to cool down","During labor, uterine contractions continue and intensify until the baby is born","Blood sugar returning to normal after eating"], answer:2, explanation:"Labor contractions are positive feedback — the uterus continues intense contractions, amplifying the change until delivery." },
+  { topic:"Homeostasis", q:"Negative feedback:", options:["Increases and amplifies the original change","Responds by revising disturbances to return the body to normal","Always causes more change in the same direction","Is only seen during childbirth"], answer:1, explanation:"Negative feedback = responds by revising disturbances to return the body to normal." },
+  { topic:"Homeostasis", q:"A thermostat set to 72°F turning off the furnace when temperature exceeds 72°F is an example of:", options:["Positive feedback","Negative feedback","Homeostatic failure","Endocrine regulation"], answer:1, explanation:"The thermostat example is negative feedback — it corrects the disturbance and returns to the set point." },
+  { topic:"Homeostasis", q:"Which feedback mechanism works to MAINTAIN stability and return to normal?", options:["Positive feedback","Negative feedback","Amplification feedback","Cascade feedback"], answer:1, explanation:"Negative feedback maintains stability by correcting disturbances and returning the body to normal." },
+
+  // ── MEDICAL TERMINOLOGY ──
+  { topic:"Medical Terminology", q:"What suffix indicates inflammation?", options:["-ectomy","-algia","-itis","-ology"], answer:2, explanation:"-ITIS is the suffix used to indicate inflammation (e.g., appendicitis = inflammation of the appendix)." },
+  { topic:"Medical Terminology", q:"What suffix indicates pain?", options:["-itis","-ectomy","DYNA / -algia","-ology"], answer:2, explanation:"DYNA or -algia indicates pain (e.g., neuralgia = nerve pain)." },
+  { topic:"Medical Terminology", q:"The prefix 'post-' describes:", options:["Before","After","Small","Surgical removal"], answer:1, explanation:"Post = after (e.g., postoperative = after surgery)." },
+  { topic:"Medical Terminology", q:"The prefix 'micro-' means:", options:["Large","After","Before","Small"], answer:3, explanation:"Micro = small (e.g., microscope = instrument to see small things)." },
+  { topic:"Medical Terminology", q:"The suffix '-ectomy' refers to:", options:["Inflammation","Pain","Surgical removal of","Study of"], answer:2, explanation:"-ectomy = surgical removal of (e.g., appendectomy = surgical removal of the appendix)." },
+  { topic:"Medical Terminology", q:"Appendicitis would indicate:", options:["Surgical removal of the appendix","Pain in the appendix","Inflammation of the appendix","Study of the appendix"], answer:2, explanation:"-itis = inflammation, so appendicitis = inflammation of the appendix." },
+  { topic:"Medical Terminology", q:"Which directional term means 'towards the back'?", options:["Anterior","Superior","Posterior","Lateral"], answer:2, explanation:"Posterior = towards the back." },
+  { topic:"Medical Terminology", q:"Which directional term means 'towards the front'?", options:["Posterior","Anterior","Inferior","Medial"], answer:1, explanation:"Anterior = towards the front." }
+];
+
+let currentQuestions=[], currentIndex=0, score=0, userAnswers=[], selectedMode='all', missedQuestions=[], timerInterval=null, timeLeft=30;
+const letters=['A','B','C','D'];
+
+function selectMode(mode,el){ selectedMode=mode; document.querySelectorAll('.mode-card').forEach(c=>c.classList.remove('selected')); el.classList.add('selected'); }
+
+function startQuiz(){
+  let pool=[...allQuestions];
+  if(selectedMode==='quick') pool=shuffle(pool).slice(0,20);
+  else if(selectedMode==='weak') pool=missedQuestions.length?[...missedQuestions]:shuffle(allQuestions).slice(0,20);
+  else pool=shuffle(pool);
+  currentQuestions=pool; currentIndex=0; score=0; userAnswers=[];
+  document.getElementById('startScreen').style.display='none';
+  document.getElementById('results').style.display='none';
+  document.getElementById('quizScreen').style.display='block';
+  document.getElementById('timerDisplay').style.display=selectedMode==='timed'?'block':'none';
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const q=currentQuestions[currentIndex], total=currentQuestions.length;
+  document.getElementById('qCount').textContent=`Question ${currentIndex+1} of ${total}`;
+  document.getElementById('scoreLive').textContent=`Score: ${score}`;
+  document.getElementById('progressFill').style.width=((currentIndex/total)*100)+'%';
+  const container=document.getElementById('questionContainer');
+  container.innerHTML='';
+  const card=document.createElement('div');
+  card.className='q-card active';
+  card.innerHTML=`<div class="q-tag">${q.topic}</div><div class="q-text">${q.q}</div><div class="options">${q.options.map((opt,i)=>`<button class="option" onclick="selectAnswer(${i})" id="opt-${i}"><span class="opt-letter">${letters[i]}</span><span>${opt}</span></button>`).join('')}</div><div class="explanation" id="explanation"></div><button class="next-btn" id="nextBtn" onclick="nextQuestion()">${currentIndex===currentQuestions.length-1?'See Results →':'Next Question →'}</button>`;
+  container.appendChild(card);
+  if(selectedMode==='timed') startTimer();
+}
+
+function startTimer(){ clearInterval(timerInterval); timeLeft=30; document.getElementById('timerDisplay').textContent=`⏱ ${timeLeft}s`; timerInterval=setInterval(()=>{ timeLeft--; document.getElementById('timerDisplay').textContent=`⏱ ${timeLeft}s`; if(timeLeft<=0){ clearInterval(timerInterval); selectAnswer(-1); } },1000); }
+
+function selectAnswer(chosen){
+  clearInterval(timerInterval);
+  const q=currentQuestions[currentIndex], correct=q.answer, isCorrect=chosen===correct;
+  if(isCorrect) score++;
+  userAnswers.push({q:q.q,chosen,correct,topic:q.topic,options:q.options});
+  document.querySelectorAll('.option').forEach((btn,i)=>{ btn.disabled=true; if(i===correct) btn.classList.add(chosen===-1?'show-correct':'correct'); if(i===chosen&&!isCorrect) btn.classList.add('wrong'); });
+  const exp=document.getElementById('explanation');
+  exp.innerHTML=`<strong>${isCorrect?'✅ Correct!':'❌ Incorrect.'}</strong> ${q.explanation}`;
+  exp.classList.add('show');
+  document.getElementById('nextBtn').classList.add('show');
+  document.getElementById('scoreLive').textContent=`Score: ${score}`;
+}
+
+function nextQuestion(){ currentIndex++; currentIndex>=currentQuestions.length?showResults():renderQuestion(); }
+
+function showResults(){
+  clearInterval(timerInterval);
+  document.getElementById('quizScreen').style.display='none';
+  const results=document.getElementById('results'); results.style.display='block';
+  const total=currentQuestions.length, pct=Math.round((score/total)*100), wrong=total-score;
+  missedQuestions=[];
+  userAnswers.forEach(a=>{ if(a.chosen!==a.correct){ const orig=allQuestions.find(q=>q.q===a.q); if(orig) missedQuestions.push(orig); } });
+  document.getElementById('scorePct').textContent=pct+'%';
+  document.getElementById('correctCount').textContent=score;
+  document.getElementById('wrongCount').textContent=wrong;
+  document.getElementById('totalCount').textContent=total;
+  const circle=document.getElementById('scoreCircle'); circle.className='score-circle';
+  if(pct>=80){ circle.classList.add('pass'); document.getElementById('scoreTitle').textContent='🎉 Great job!'; document.getElementById('scoreMsg').textContent="You're crushing it!"; }
+  else if(pct>=60){ circle.classList.add('ok'); document.getElementById('scoreTitle').textContent='📖 Almost there!'; document.getElementById('scoreMsg').textContent='Review the missed questions and try again.'; }
+  else{ circle.classList.add('fail'); document.getElementById('scoreTitle').textContent='💪 Keep studying!'; document.getElementById('scoreMsg').textContent='Go back to the study guide and retry.'; }
+  const reviewList=document.getElementById('reviewList'); reviewList.innerHTML='';
+  userAnswers.forEach((a,i)=>{ const correct=a.chosen===a.correct; reviewList.innerHTML+=`<div class="review-item ${correct?'correct-item':'wrong-item'}"><div class="review-q">${i+1}. ${a.q}</div><div class="review-answers">${!correct?`<div class="your">✗ Your answer: ${a.chosen===-1?'Time ran out':a.options[a.chosen]}</div>`:''}<div class="correct">${correct?'✓':'✓ Correct:'} ${a.options[a.correct]}</div></div></div>`; });
+  results.scrollIntoView({behavior:'smooth'});
+}
+
+function restartQuiz(){ document.getElementById('results').style.display='none'; document.getElementById('startScreen').style.display='block'; window.scrollTo({top:0,behavior:'smooth'}); }
+function showMissed(){ if(!missedQuestions.length){ restartQuiz(); return; } selectedMode='weak'; document.querySelectorAll('.mode-card').forEach(c=>c.classList.remove('selected')); startQuiz(); }
+function shuffle(arr){ const a=[...arr]; for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]; } return a; }
+</script>
+</body>
+</html>
