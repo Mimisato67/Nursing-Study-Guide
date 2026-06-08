@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nursing Test 1 — Audio Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rose: #c0404a;
+    --rose2: #e05060;
+    --rose-light: #f5d0d3;
+    --rose-pale: #fdf0f1;
+    --ink: #1a1a2e;
+    --ink2: #2d2d45;
+    --cream: #fffaf9;
+    --muted: #7a7a90;
+    --border: #f0dede;
+    --green: #3a9e72;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--ink);
+    color: #fff;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Background pulse */
+  .bg-pulse {
+    position: fixed; inset: 0; z-index: 0;
+    background: radial-gradient(ellipse at 50% 50%, rgba(192,64,74,0.12) 0%, transparent 70%);
+    animation: pulse 3s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+  }
+
+  .container { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
+
+  /* Header */
+  .header { text-align: center; padding: 1.5rem 0 1rem; }
+  .header h1 { font-family: 'Playfair Display', serif; font-size: 2rem; color: #fff; line-height: 1.1; }
+  .header h1 span { color: var(--rose2); }
+  .header p { color: rgba(255,255,255,0.5); font-size: 0.82rem; margin-top: 0.4rem; }
+
+  /* Tab nav */
+  .tabs { display: flex; gap: 0.5rem; justify-content: center; margin: 1rem 0 1.5rem; }
+  .tab { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.6); padding: 0.45rem 1.1rem; border-radius: 20px; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
+  .tab.active, .tab:hover { background: var(--rose); border-color: var(--rose); color: #fff; }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ── SONG PANEL ── */
+  .song-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 1.5rem 1.2rem;
+    margin-bottom: 1rem;
+  }
+  .song-card h2 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--rose2); margin-bottom: 0.3rem; }
+  .song-card .genre { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; }
+
+  .lyrics-block { margin-bottom: 1rem; }
+  .lyrics-block .label {
+    font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--rose); font-weight: 600; margin-bottom: 0.4rem;
+  }
+  .lyrics-block p {
+    font-size: 0.88rem; line-height: 1.9; color: rgba(255,255,255,0.85);
+    font-style: italic;
+  }
+  .lyrics-block p strong { color: #fff; font-style: normal; font-weight: 600; }
+
+  /* Player */
+  .player {
+    background: rgba(192,64,74,0.15);
+    border: 1px solid rgba(192,64,74,0.3);
+    border-radius: 16px;
+    padding: 1.2rem;
+    margin-top: 1.2rem;
+  }
+  .player-title { font-size: 0.8rem; color: rgba(255,255,255,0.6); margin-bottom: 0.8rem; text-align: center; }
+  .player-title span { color: var(--rose2); font-weight: 600; }
+
+  .progress-bar-wrap { background: rgba(255,255,255,0.1); border-radius: 10px; height: 6px; margin-bottom: 1rem; cursor: pointer; position: relative; }
+  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--rose), var(--rose2)); border-radius: 10px; width: 0%; transition: width 0.3s; }
+
+  .time-row { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--muted); margin-bottom: 1rem; }
+
+  .controls { display: flex; gap: 0.8rem; justify-content: center; align-items: center; }
+  .ctrl-btn {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #fff;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .ctrl-btn:hover { background: rgba(255,255,255,0.15); }
+  .ctrl-btn.play-btn {
+    background: var(--rose);
+    border-color: var(--rose);
+    width: 54px; height: 54px;
+    font-size: 1.4rem;
+  }
+  .ctrl-btn.play-btn:hover { background: var(--rose2); }
+  .ctrl-btn.active { background: var(--rose); border-color: var(--rose); }
+
+  .speed-row { display: flex; gap: 0.5rem; justify-content: center; margin-top: 0.8rem; flex-wrap: wrap; }
+  .speed-btn {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.6);
+    padding: 0.25rem 0.6rem;
+    border-radius: 10px;
+    font-size: 0.72rem;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+  .speed-btn.active, .speed-btn:hover { background: var(--rose); border-color: var(--rose); color: #fff; }
+
+  .voice-row { display: flex; gap: 0.5rem; justify-content: center; margin-top: 0.6rem; flex-wrap: wrap; }
+  .voice-btn {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.6);
+    padding: 0.25rem 0.7rem;
+    border-radius: 10px;
+    font-size: 0.72rem;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+  .voice-btn.active { background: rgba(58,158,114,0.4); border-color: var(--green); color: #fff; }
+
+  .now-speaking {
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--rose2);
+    min-height: 1.2rem;
+    margin-top: 0.6rem;
+    font-style: italic;
+    transition: opacity 0.3s;
+  }
+
+  /* ── AUDIO GUIDE PANEL ── */
+  .guide-intro {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1rem;
+    font-size: 0.84rem;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.6;
+  }
+  .guide-intro strong { color: #fff; }
+
+  .topic-list { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.2rem; }
+  .topic-item {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    display: flex; align-items: center; gap: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .topic-item:hover { background: rgba(255,255,255,0.08); border-color: rgba(192,64,74,0.4); }
+  .topic-item.speaking { background: rgba(192,64,74,0.15); border-color: var(--rose); }
+  .topic-item.done { border-color: rgba(58,158,114,0.4); }
+  .topic-num {
+    background: rgba(192,64,74,0.3);
+    color: var(--rose2);
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.72rem; font-weight: 600;
+    flex-shrink: 0;
+  }
+  .topic-item.done .topic-num { background: rgba(58,158,114,0.3); color: var(--green); }
+  .topic-item.speaking .topic-num { background: var(--rose); color: #fff; }
+  .topic-text { flex: 1; }
+  .topic-text strong { display: block; font-size: 0.85rem; color: #fff; }
+  .topic-text span { font-size: 0.75rem; color: var(--muted); }
+  .topic-icon { font-size: 1rem; }
+
+  .guide-controls {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 1.2rem;
+  }
+  .guide-progress-wrap { background: rgba(255,255,255,0.08); border-radius: 10px; height: 5px; margin-bottom: 0.8rem; }
+  .guide-progress-fill { height: 100%; background: linear-gradient(90deg, var(--rose), #e0885a); border-radius: 10px; width: 0%; transition: width 0.5s; }
+  .guide-status { text-align: center; font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-bottom: 0.9rem; min-height: 1.2rem; }
+  .guide-status span { color: var(--rose2); font-weight: 500; }
+
+  .guide-btns { display: flex; gap: 0.7rem; justify-content: center; flex-wrap: wrap; }
+  .guide-btn {
+    background: var(--rose);
+    border: none;
+    color: #fff;
+    padding: 0.65rem 1.4rem;
+    border-radius: 25px;
+    font-size: 0.82rem;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .guide-btn:hover { background: var(--rose2); transform: translateY(-1px); }
+  .guide-btn.secondary { background: rgba(255,255,255,0.08); }
+  .guide-btn.secondary:hover { background: rgba(255,255,255,0.15); }
+
+  .note { text-align: center; font-size: 0.72rem; color: var(--muted); margin-top: 1rem; line-height: 1.5; }
+
+  /* Visualizer */
+  .visualizer { display: flex; align-items: flex-end; justify-content: center; gap: 3px; height: 30px; margin: 0.6rem 0; }
+  .bar { width: 4px; background: var(--rose); border-radius: 2px; height: 4px; transition: height 0.1s; }
+  .playing .bar:nth-child(1) { animation: bounce 0.6s ease infinite 0.0s; }
+  .playing .bar:nth-child(2) { animation: bounce 0.6s ease infinite 0.1s; }
+  .playing .bar:nth-child(3) { animation: bounce 0.6s ease infinite 0.2s; }
+  .playing .bar:nth-child(4) { animation: bounce 0.6s ease infinite 0.3s; }
+  .playing .bar:nth-child(5) { animation: bounce 0.6s ease infinite 0.15s; }
+  .playing .bar:nth-child(6) { animation: bounce 0.6s ease infinite 0.05s; }
+  .playing .bar:nth-child(7) { animation: bounce 0.6s ease infinite 0.25s; }
+  .playing .bar:nth-child(8) { animation: bounce 0.6s ease infinite 0.35s; }
+  @keyframes bounce {
+    0%,100% { height: 4px; }
+    50% { height: 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="bg-pulse"></div>
+<div class="container">
+
+  <div class="header">
+    <h1>Nursing Test 1<br><span>Audio Study</span></h1>
+    <p>Song + Spoken Audio Guide · Web Speech</p>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="showPanel('song',this)">🎵 Study Song</div>
+    <div class="tab" onclick="showPanel('guide',this)">🎧 Audio Guide</div>
+  </div>
+
+  <!-- ══════════ SONG PANEL ══════════ -->
+  <div id="song" class="panel active">
+
+    <div class="song-card">
+      <h2>The Nursing Law Song</h2>
+      <div class="genre">Pop / Upbeat Study Song · Sing-Along Style</div>
+
+      <div class="lyrics-block">
+        <div class="label">Verse 1 — NPA & Boards</div>
+        <p>
+          The <strong>Nurse Practice Act</strong> runs every state,<br>
+          It sets the scope and keeps us great,<br>
+          Establishes your license too,<br>
+          The <strong>Board of Nursing</strong> sees it through.<br><br>
+          They regulate and issue rights,<br>
+          Oversee violations, disciplinary fights,<br>
+          <strong>QSEN</strong> builds the skills we need,<br>
+          Quality and safety — guaranteed!
+        </p>
+      </div>
+
+      <div class="lyrics-block">
+        <div class="label">Chorus</div>
+        <p>
+          <strong>Patient-centered, teamwork strong,</strong><br>
+          <strong>Evidence-based, can't go wrong,</strong><br>
+          <strong>Quality improvement, safety's key,</strong><br>
+          <strong>Informatics sets us free!</strong><br>
+          <strong>P-T-E, Q-S-I — those six competencies we apply!</strong>
+        </p>
+      </div>
+
+      <div class="lyrics-block">
+        <div class="label">Verse 2 — Ethics</div>
+        <p>
+          <strong>Fidelity</strong> — keep every promise made,<br>
+          <strong>Beneficence</strong> — good work, don't be afraid,<br>
+          <strong>Nonmaleficence</strong> — do no harm,<br>
+          <strong>Autonomy</strong> — respect their right to choose.<br><br>
+          <strong>Justice</strong> — treat them all the same,<br>
+          <strong>Veracity</strong> — truth is in your name,<br>
+          <strong>Integrity</strong> — honesty shines through,<br>
+          FBI AVJ N — that's ethics for you!
+        </p>
+      </div>
+
+      <div class="lyrics-block">
+        <div class="label">Chorus</div>
+        <p>
+          <strong>Patient-centered, teamwork strong,</strong><br>
+          <strong>Evidence-based, can't go wrong,</strong><br>
+          <strong>Quality improvement, safety's key,</strong><br>
+          <strong>Informatics sets us free!</strong><br>
+          <strong>P-T-E, Q-S-I — those six competencies we apply!</strong>
+        </p>
+      </div>
+
+      <div class="lyrics-block">
+        <div class="label">Bridge — Legal & Communication</div>
+        <p>
+          <strong>Libel's written</strong>, defamation's said,<br>
+          A tort's civil wrong, malpractice leaves you red,<br>
+          <strong>Good Samaritan Law</strong> protects the good,<br>
+          Acting reasonably — just as you should!<br><br>
+          I-S-B-A-R-R — the handoff way,<br>
+          <strong>Introduction, Situation</strong> — what do I say?<br>
+          <strong>Background, Assessment, Recommendation</strong> — then<br>
+          <strong>Read it back</strong> to verify again!
+        </p>
+      </div>
+
+      <div class="lyrics-block">
+        <div class="label">Verse 3 — TeamSTEPPS & Leadership</div>
+        <p>
+          <strong>Team structure</strong> knows who plays what role,<br>
+          <strong>Leadership</strong> coordinates the whole,<br>
+          <strong>Situation monitoring</strong> keeps us aware,<br>
+          <strong>Mutual support</strong> shows how much we care.<br><br>
+          <strong>Situational</strong> leaders adapt the style,<br>
+          <strong>Transformational</strong> goes the extra mile,<br>
+          <strong>Laissez-Faire</strong> gives high autonomy,<br>
+          <strong>Transactional</strong> rewards — that's the key!
+        </p>
+      </div>
+
+      <div class="lyrics-block">
+        <div class="label">Final Chorus + Outro</div>
+        <p>
+          <strong>Patient-centered, teamwork strong,</strong><br>
+          <strong>Evidence-based, can't go wrong,</strong><br>
+          <strong>Quality improvement, safety's key,</strong><br>
+          <strong>Informatics sets us free!</strong><br>
+          <strong>P-T-E, Q-S-I — those six competencies we apply!</strong><br><br>
+          NPA, QSEN, NLN too — 🎵<br>
+          <em>Code of Ethics guides everything you do!</em><br>
+          Pass that test — you already know,<br>
+          <em>Now let's go, nurse, let's go! 🩺✨</em>
+        </p>
+      </div>
+    </div>
+
+    <!-- Song Player -->
+    <div class="player">
+      <div class="player-title">🎵 <span>Sing the lyrics aloud</span> — or hit play to hear them spoken rhythmically</div>
+
+      <div class="visualizer" id="songViz">
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+      </div>
+
+      <div class="progress-bar-wrap" onclick="seekSong(event)">
+        <div class="progress-bar-fill" id="songProgress"></div>
+      </div>
+      <div class="time-row">
+        <span id="songTime">0:00</span>
+        <span id="songDuration">—</span>
+      </div>
+
+      <div class="controls">
+        <button class="ctrl-btn" onclick="restartSong()" title="Restart">⏮</button>
+        <button class="ctrl-btn play-btn" id="songPlayBtn" onclick="toggleSong()">▶</button>
+        <button class="ctrl-btn" onclick="stopSong()" title="Stop">⏹</button>
+      </div>
+
+      <div class="speed-row">
+        <span style="font-size:0.72rem;color:var(--muted);align-self:center;">Speed:</span>
+        <button class="speed-btn" onclick="setSongSpeed(0.8,this)">0.8×</button>
+        <button class="speed-btn active" onclick="setSongSpeed(1,this)">1×</button>
+        <button class="speed-btn" onclick="setSongSpeed(1.2,this)">1.2×</button>
+        <button class="speed-btn" onclick="setSongSpeed(1.5,this)">1.5×</button>
+      </div>
+
+      <div class="voice-row" id="songVoices"></div>
+      <div class="now-speaking" id="songNow"></div>
+    </div>
+  </div>
+
+  <!-- ══════════ AUDIO GUIDE PANEL ══════════ -->
+  <div id="guide" class="panel">
+
+    <div class="guide-intro">
+      <strong>📚 Full Spoken Study Guide</strong><br>
+      Listen to all 17 topics narrated clearly. Tap a topic to hear just that section, or press Play All to run through everything start to finish.
+    </div>
+
+    <div class="topic-list" id="topicList"></div>
+
+    <div class="guide-controls">
+      <div class="guide-progress-wrap">
+        <div class="guide-progress-fill" id="guideProgress"></div>
+      </div>
+      <div class="guide-status" id="guideStatus">Ready to play</div>
+
+      <div class="visualizer" id="guideViz">
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+      </div>
+
+      <div class="speed-row" style="margin-bottom:0.8rem;">
+        <span style="font-size:0.72rem;color:var(--muted);align-self:center;">Speed:</span>
+        <button class="speed-btn" onclick="setGuideSpeed(0.8,this)">0.8×</button>
+        <button class="speed-btn active" onclick="setGuideSpeed(1,this)">1×</button>
+        <button class="speed-btn" onclick="setGuideSpeed(1.2,this)">1.2×</button>
+        <button class="speed-btn" onclick="setGuideSpeed(1.5,this)">1.5×</button>
+      </div>
+
+      <div class="voice-row" id="guideVoices" style="margin-bottom:0.8rem;"></div>
+
+      <div class="guide-btns">
+        <button class="guide-btn" id="guidePlayBtn" onclick="toggleGuide()">▶ Play All</button>
+        <button class="guide-btn secondary" onclick="stopGuide()">⏹ Stop</button>
+        <button class="guide-btn secondary" onclick="resetGuide()">↺ Reset</button>
+      </div>
+    </div>
+
+    <p class="note">Uses your browser's built-in text-to-speech.<br>Works best in Chrome or Safari. No internet required to speak.</p>
+  </div>
+
+</div>
+
+<script>
+// ══════════════════════════════════
+// DATA
+// ══════════════════════════════════
+const songLyrics = `Welcome to the Nursing Test One Study Song — sing along or just listen!
+
+Verse One — NPA and Boards.
+The Nurse Practice Act runs every state,
+It sets the scope and keeps us great,
+Establishes your license too,
+The Board of Nursing sees it through.
+They regulate and issue rights,
+Oversee violations, disciplinary fights,
+Q S E N builds the skills we need,
+Quality and safety — guaranteed!
+
+Chorus!
+Patient centered, teamwork strong,
+Evidence based, can't go wrong,
+Quality improvement, safety's key,
+Informatics sets us free!
+P T E, Q S I — those six competencies we apply!
+
+Verse Two — Ethics!
+Fidelity — keep every promise made,
+Beneficence — do good, don't be afraid,
+Nonmaleficence — do no harm,
+Autonomy — respect their right to choose.
+Justice — treat them all the same,
+Veracity — truth is in your name,
+Integrity — honesty shines through,
+F B I, A V J N — that's ethics for you!
+
+Chorus again!
+Patient centered, teamwork strong,
+Evidence based, can't go wrong,
+Quality improvement, safety's key,
+Informatics sets us free!
+
+Bridge — Legal and Communication!
+Libel's written, defamation's said,
+A tort's a civil wrong, malpractice leaves you red,
+Good Samaritan Law protects the good,
+Acting reasonably — just as you should!
+I S B A R R — the handoff way,
+Introduction, Situation — what do I say?
+Background, Assessment, Recommendation — then
+Read it back to verify again!
+
+Verse Three — TeamSTEPPS and Leadership!
+Team structure knows who plays what role,
+Leadership coordinates the whole,
+Situation monitoring keeps us aware,
+Mutual support shows how much we care.
+Situational leaders adapt the style,
+Transformational goes the extra mile,
+Laissez Faire gives high autonomy,
+Transactional rewards — that's the key!
+
+Final Chorus!
+Patient centered, teamwork strong,
+Evidence based, can't go wrong,
+Quality improvement, safety's key,
+Informatics sets us free!
+P T E, Q S I — those six competencies we apply!
+
+Outro!
+N P A, Q S E N, N L N too —
+Code of Ethics guides everything you do!
+Pass that test — you already know,
+Now let's go, nurse, let's go!`;
+
+const topics = [
+  {
+    title: "Nurse Practice Act (NPA)",
+    preview: "Regulates nursing in every state",
+    text: `Topic one: The Nurse Practice Act. The Nurse Practice Act regulates nursing within each state and territory of the United States. It determines the scope and standards of practice in a state, establishes licensure requirements, and identifies nursing titles. The regulatory body is the Board of Nursing, which enforces nursing laws and regulations.`
+  },
+  {
+    title: "QSEN — Overview",
+    preview: "Quality & Safety Education for Nurses",
+    text: `Topic two: Quality and Safety Education for Nurses — Q S E N. QSEN was created for nursing competencies one must meet to provide safe and quality care. The six competencies are: Patient-Centered Care, Teamwork and Collaboration, Evidence-Based Practice, Quality Improvement, Safety, and Informatics. Remember the mnemonic: P T E Q S I. QSEN allows and prepares nurses to improve healthcare quality and client outcomes.`
+  },
+  {
+    title: "State Board of Nursing",
+    preview: "Enforces NPA, issues licenses",
+    text: `Topic three: The State Board of Nursing. The State Board of Nursing enforces regulations and rules set by the Nurse Practice Act. It regulates and monitors nursing practice, issues and renews licenses, and oversees violations and disciplinary actions.`
+  },
+  {
+    title: "NLN — 4 Competencies",
+    preview: "Caring, Integrity, Diversity, Excellence",
+    text: `Topic four: The National League of Nursing Integrating Competencies. The NLN fosters excellence in nursing education. There are four competencies emphasized: Caring, Integrity, Diversity, and Excellence. Remember the acronym C I D E. The NLN supports nursing education, faculty development, and professional growth.`
+  },
+  {
+    title: "LVN Scope of Practice",
+    preview: "Works under RN/physician supervision",
+    text: `Topic five: Scope of Practice for Vocational Nurses. LVNs perform medical administration based on state regulations, provide basic nursing care, complete documentation, reinforce teaching, and work under the supervision of an RN, physician, or authorized provider. They also gather data and make assessment contributions. The scope of practice is determined by the Nurse Practice Act.`
+  },
+  {
+    title: "Standards of Practice",
+    preview: "Competent care all nurses must achieve",
+    text: `Topic six: Standards of Practice for Nursing. Standards of practice describe the competent level of care and professionalism that all nurses need to achieve. They outline responsibilities expected of every nurse regardless of specialty or population, and guide safe, effective, and professional nursing care. Examples include: Data Collection, Nursing Diagnosis, Planning, Outcome Identification, Implementation, Evaluation, Health Teaching and Promotion, and Coordination of Care. Remember A D P I E plus H C.`
+  },
+  {
+    title: "QSEN — 6 Competencies Detail",
+    preview: "Detailed breakdown of each competency",
+    text: `Topic seven: QSEN Competencies in Detail. One — Patient-Centered Care: respecting client preferences, values, and needs. Two — Teamwork and Collaboration: working effectively with an interdisciplinary team. Three — Evidence-Based Practice: using current research and best evidence in care. Four — Quality Improvement: improving healthcare outcomes and systems. Five — Safety: reducing risk of harm to both client and staff. Six — Informatics: using technology to communicate and manage information safely.`
+  },
+  {
+    title: "Nursing Licensure Requirements",
+    preview: "Initial & renewal requirements",
+    text: `Topic eight: Requirements for Nursing Licensure. For initial licensure you need: graduation from an approved nursing program and verification of graduation, passing the NCLEX dash PN exam, disclosing substance misuse history when required, and completing state application requirements. For license renewal you need: a renewal application, continuing education requirements, payment of renewal fees, and compliance with Board of Nursing requirements.`
+  },
+  {
+    title: "Code of Ethics",
+    preview: "Guides professional nursing behavior",
+    text: `Topic nine: The Code of Ethics. The Code of Ethics guides professional nursing behavior, protects client rights, promotes professionalism and accountability, provides ethical standards for decision-making, and ensures nurses provide safe and ethical care.`
+  },
+  {
+    title: "7 Ethical Principles",
+    preview: "Fidelity, Beneficence, Nonmaleficence...",
+    text: `Topic ten: The Seven Ethical Principles. Remember the mnemonic F B I A V J N. Fidelity — keeping promises and commitments to the client. Beneficence — doing good and acting in the client's best interest. Integrity — demonstrating honesty and strong moral principles. Autonomy — respecting the client's right to make healthcare decisions. Veracity — telling the truth and providing honest information. Justice — treating all clients fairly with no bias. Nonmaleficence — doing no harm and protecting client safety.`
+  },
+  {
+    title: "Legal Terms",
+    preview: "Libel, Defamation, Tort, Malpractice...",
+    text: `Topic eleven: Legal Terms. Libel — written false statements damaging a person's reputation. Defamation — communication of false statements damaging one's reputation. Tort — a civil wrong committed against a person or property. Malpractice — failure of a nurse to follow the accepted standard of care. Good Samaritan Law — protects healthcare providers who voluntarily provide emergency care outside the workplace from liability when acting reasonably.`
+  },
+  {
+    title: "TeamSTEPPS Components",
+    preview: "Promotes teamwork & communication",
+    text: `Topic twelve: Components of TeamSTEPPS. TeamSTEPPS promotes teamwork and communication. The five components are: Team Structure — identify team members and their roles. Leadership — coordinates team activities and resources. Situation Monitoring — maintains awareness of the environment and client status. Mutual Support — provides assistance and feedback to team members. Communication — uses structured communication to improve safety.`
+  },
+  {
+    title: "Interprofessional Team Roles",
+    preview: "Nurse, Physician, PT, OT, Social Worker...",
+    text: `Topic thirteen: Roles within an Interprofessional Team. Nurse — coordinates care and advocates for patients. Physician or Provider — diagnoses and manages medical treatment. Pharmacist — manages medications. Respiratory Therapist — provides respiratory care. Physical Therapist — improves mobility and function. Occupational Therapist — improves daily living skills. Social Worker — addresses psychosocial and financial needs. Dietician — provides nutritional management.`
+  },
+  {
+    title: "Professional vs Unprofessional",
+    preview: "Professional behaviors & what to avoid",
+    text: `Topic fourteen: Professional versus Unprofessional Behavior as a Nurse. Professional behaviors include: integrity, responsibility, maintaining confidentiality, following scope of practice, accountability, continuing education, and joining professional organizations. Unprofessional behaviors include: breach of confidentiality, falsification of records, practicing outside scope of practice, leaving a computer unattended while logged in, and failure to follow standards of care.`
+  },
+  {
+    title: "I-SBAR-R & Confidentiality",
+    preview: "Communication tool & breach definition",
+    text: `Topic fifteen: I dash S B A R dash R and Confidentiality. A breach of confidentiality is the unauthorized disclosure of private client information. Examples include leaving charts visible and discussing client information in public. I S B A R R is a communication tool used during handoff and critical communication. I — Introduction: introduce self and role. S — Situation: current problem. B — Background: relevant history. A — Assessment: current findings. R — Recommendation: what needs to happen next. R — Read Back: receiver repeats information to verify accuracy.`
+  },
+  {
+    title: "Handoff Report & Occurrence Report",
+    preview: "What each report includes",
+    text: `Topic sixteen: Handoff and Occurrence Reports. A handoff report should include: client identification, current condition, diagnosis, pertinent history, pending tests, assessment findings, treatments and medications, safety concerns, and recommendations for ongoing care. It is often communicated using I S B A R R. An occurrence report — also known as an incident report — is used to document medication errors, falls, injuries, equipment malfunctions, and unexpected events. Its purpose is to improve safety, identify risks, and support quality improvement. Important: it is NOT part of the medical record.`
+  },
+  {
+    title: "Leadership Models",
+    preview: "Situational, Transformational, Transactional...",
+    text: `Topic seventeen: Types of Leadership Models. Remember S L T T B. Situational Leadership — adapts style to the situation, is flexible, focuses on short-term goals, and adjusts quickly to changing circumstances. Laissez-Faire Leadership — provides minimal direction, employees work independently, and there is high autonomy. Transformational Leadership — inspires and motivates staff, establishes a shared vision, and encourages growth and empowerment. Transactional Leadership — uses rewards and consequences, focuses on achieving specific goals, and emphasizes performance and compliance. Bureaucratic Leadership — rule-based leadership, strictly enforces policies and procedures, and has limited flexibility and creativity.`
+  }
+];
+
+// ══════════════════════════════════
+// SPEECH ENGINE
+// ══════════════════════════════════
+let voices = [];
+let selectedVoice = null;
+let songSpeed = 1, guideSpeed = 1;
+let songUtterance = null, songPlaying = false, songPaused = false;
+let guideIndex = 0, guidePlaying = false, guidePaused = false;
+let guideUtterance = null;
+
+function loadVoices() {
+  voices = window.speechSynthesis.getVoices().filter(v => v.lang.startsWith('en'));
+  if (!voices.length) return;
+  selectedVoice = voices.find(v => v.name.toLowerCase().includes('samantha') || v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('zira') || v.name.toLowerCase().includes('victoria')) || voices[0];
+  renderVoicePickers();
+}
+if (speechSynthesis.onvoiceschanged !== undefined) speechSynthesis.onvoiceschanged = loadVoices;
+loadVoices();
+
+function renderVoicePickers() {
+  ['songVoices','guideVoices'].forEach(id => {
+    const el = document.getElementById(id);
+    el.innerHTML = '<span style="font-size:0.72rem;color:var(--muted);align-self:center">Voice:</span>';
+    voices.slice(0,5).forEach((v,i) => {
+      const btn = document.createElement('button');
+      btn.className = 'voice-btn' + (v === selectedVoice ? ' active' : '');
+      btn.textContent = v.name.split(' ')[0];
+      btn.title = v.name;
+      btn.onclick = () => {
+        selectedVoice = v;
+        document.querySelectorAll('.voice-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.voice-btn').forEach(b => { if(b.textContent === btn.textContent) b.classList.add('active'); });
+      };
+      el.appendChild(btn);
+    });
+  });
+}
+
+// ══════════════════════════════════
+// SONG PLAYER
+// ══════════════════════════════════
+let songInterval = null;
+let songStart = 0, songElapsed = 0;
+const songEstDuration = 190; // estimated seconds
+
+function toggleSong() {
+  if (!songPlaying || songPaused) { playSong(); }
+  else { pauseSong(); }
+}
+
+function playSong() {
+  if (songPaused) {
+    speechSynthesis.resume();
+    songPlaying = true; songPaused = false;
+    document.getElementById('songPlayBtn').textContent = '⏸';
+    document.getElementById('songViz').classList.add('playing');
+    startSongTimer();
+    return;
+  }
+  speechSynthesis.cancel();
+  songUtterance = new SpeechSynthesisUtterance(songLyrics);
+  songUtterance.rate = songSpeed;
+  songUtterance.pitch = 1.05;
+  if (selectedVoice) songUtterance.voice = selectedVoice;
+  songUtterance.onstart = () => {
+    songPlaying = true; songPaused = false;
+    document.getElementById('songPlayBtn').textContent = '⏸';
+    document.getElementById('songViz').classList.add('playing');
+    document.getElementById('songNow').textContent = '🎵 Now playing: The Nursing Law Song';
+    document.getElementById('songDuration').textContent = formatTime(songEstDuration / songSpeed);
+    songStart = Date.now() - songElapsed * 1000;
+    startSongTimer();
+  };
+  songUtterance.onend = () => {
+    songPlaying = false; songPaused = false; songElapsed = 0;
+    document.getElementById('songPlayBtn').textContent = '▶';
+    document.getElementById('songViz').classList.remove('playing');
+    document.getElementById('songProgress').style.width = '100%';
+    document.getElementById('songNow').textContent = '✅ Song complete!';
+    clearInterval(songInterval);
+  };
+  songUtterance.onerror = () => { clearInterval(songInterval); };
+  speechSynthesis.speak(songUtterance);
+}
+
+function pauseSong() {
+  speechSynthesis.pause();
+  songPaused = true; songPlaying = false;
+  songElapsed = (Date.now() - songStart) / 1000;
+  document.getElementById('songPlayBtn').textContent = '▶';
+  document.getElementById('songViz').classList.remove('playing');
+  clearInterval(songInterval);
+}
+
+function stopSong() {
+  speechSynthesis.cancel();
+  songPlaying = false; songPaused = false; songElapsed = 0;
+  document.getElementById('songPlayBtn').textContent = '▶';
+  document.getElementById('songViz').classList.remove('playing');
+  document.getElementById('songProgress').style.width = '0%';
+  document.getElementById('songTime').textContent = '0:00';
+  document.getElementById('songNow').textContent = '';
+  clearInterval(songInterval);
+}
+
+function restartSong() { stopSong(); setTimeout(playSong, 100); }
+
+function startSongTimer() {
+  clearInterval(songInterval);
+  songInterval = setInterval(() => {
+    const elapsed = (Date.now() - songStart) / 1000;
+    const dur = songEstDuration / songSpeed;
+    const pct = Math.min((elapsed / dur) * 100, 100);
+    document.getElementById('songProgress').style.width = pct + '%';
+    document.getElementById('songTime').textContent = formatTime(elapsed);
+  }, 500);
+}
+
+function setSongSpeed(s, btn) {
+  songSpeed = s;
+  document.querySelectorAll('#song .speed-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (songPlaying) { restartSong(); }
+}
+
+function seekSong(e) {
+  const rect = e.currentTarget.getBoundingClientRect();
+  const pct = (e.clientX - rect.left) / rect.width;
+  document.getElementById('songProgress').style.width = (pct*100) + '%';
+}
+
+// ══════════════════════════════════
+// GUIDE PLAYER
+// ══════════════════════════════════
+const topicList = document.getElementById('topicList');
+topics.forEach((t,i) => {
+  topicList.innerHTML += `
+    <div class="topic-item" id="topic-${i}" onclick="playTopicOnly(${i})">
+      <div class="topic-num" id="topicNum-${i}">${i+1}</div>
+      <div class="topic-text">
+        <strong>${t.title}</strong>
+        <span>${t.preview}</span>
+      </div>
+      <div class="topic-icon" id="topicIcon-${i}">▶</div>
+    </div>`;
+});
+
+function toggleGuide() {
+  if (!guidePlaying || guidePaused) { playGuideFrom(guideIndex); }
+  else { pauseGuide(); }
+}
+
+function playGuideFrom(idx) {
+  if (guidePaused) {
+    speechSynthesis.resume();
+    guidePlaying = true; guidePaused = false;
+    document.getElementById('guidePlayBtn').textContent = '⏸ Pause';
+    document.getElementById('guideViz').classList.add('playing');
+    return;
+  }
+  guideIndex = idx;
+  speechSynthesis.cancel();
+  speakTopic(idx);
+}
+
+function speakTopic(idx) {
+  if (idx >= topics.length) {
+    guidePlaying = false;
+    document.getElementById('guidePlayBtn').textContent = '▶ Play All';
+    document.getElementById('guideViz').classList.remove('playing');
+    document.getElementById('guideStatus').innerHTML = '✅ All topics complete!';
+    document.getElementById('guideProgress').style.width = '100%';
+    return;
+  }
+  const t = topics[idx];
+  guideUtterance = new SpeechSynthesisUtterance(t.text);
+  guideUtterance.rate = guideSpeed;
+  if (selectedVoice) guideUtterance.voice = selectedVoice;
+
+  guideUtterance.onstart = () => {
+    guidePlaying = true; guidePaused = false;
+    document.getElementById('guidePlayBtn').textContent = '⏸ Pause';
+    document.getElementById('guideViz').classList.add('playing');
+    document.getElementById('guideStatus').innerHTML = `Speaking: <span>${t.title}</span>`;
+    document.getElementById('guideProgress').style.width = ((idx / topics.length) * 100) + '%';
+    // highlight current
+    document.querySelectorAll('.topic-item').forEach((el,i) => {
+      el.classList.remove('speaking');
+      document.getElementById('topicIcon-'+i).textContent = el.classList.contains('done') ? '✓' : '▶';
+      document.getElementById('topicNum-'+i).style.background = '';
+    });
+    document.getElementById('topic-'+idx).classList.add('speaking');
+    document.getElementById('topicIcon-'+idx).textContent = '🔊';
+  };
+
+  guideUtterance.onend = () => {
+    document.getElementById('topic-'+idx).classList.remove('speaking');
+    document.getElementById('topic-'+idx).classList.add('done');
+    document.getElementById('topicIcon-'+idx).textContent = '✓';
+    guideIndex = idx + 1;
+    speakTopic(guideIndex);
+  };
+
+  guideUtterance.onerror = () => {
+    guidePlaying = false;
+    document.getElementById('guidePlayBtn').textContent = '▶ Play All';
+    document.getElementById('guideViz').classList.remove('playing');
+  };
+
+  speechSynthesis.speak(guideUtterance);
+}
+
+function playTopicOnly(idx) {
+  speechSynthesis.cancel();
+  guidePlaying = false; guidePaused = false;
+  guideIndex = idx;
+  speakTopic(idx);
+}
+
+function pauseGuide() {
+  speechSynthesis.pause();
+  guidePaused = true; guidePlaying = false;
+  document.getElementById('guidePlayBtn').textContent = '▶ Resume';
+  document.getElementById('guideViz').classList.remove('playing');
+}
+
+function stopGuide() {
+  speechSynthesis.cancel();
+  guidePlaying = false; guidePaused = false;
+  document.getElementById('guidePlayBtn').textContent = '▶ Play All';
+  document.getElementById('guideViz').classList.remove('playing');
+  document.getElementById('guideStatus').textContent = 'Stopped';
+}
+
+function resetGuide() {
+  stopGuide();
+  guideIndex = 0;
+  document.querySelectorAll('.topic-item').forEach((el,i) => {
+    el.classList.remove('speaking','done');
+    document.getElementById('topicIcon-'+i).textContent = '▶';
+  });
+  document.getElementById('guideProgress').style.width = '0%';
+  document.getElementById('guideStatus').textContent = 'Ready to play';
+}
+
+function setGuideSpeed(s, btn) {
+  guideSpeed = s;
+  document.querySelectorAll('#guide .speed-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ══════════════════════════════════
+// UTILS
+// ══════════════════════════════════
+function formatTime(s) {
+  const m = Math.floor(s/60), sec = Math.floor(s%60);
+  return m + ':' + (sec<10?'0':'') + sec;
+}
+
+function showPanel(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// Safety: cancel speech when page unloads
+window.addEventListener('beforeunload', () => speechSynthesis.cancel());
+</script>
+</body>
+</html>

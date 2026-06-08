@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nursing Test 1 Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rose: #c0404a;
+    --rose-light: #f5d0d3;
+    --rose-pale: #fdf0f1;
+    --ink: #1a1a2e;
+    --cream: #fffaf9;
+    --muted: #6b6b80;
+    --card-bg: #ffffff;
+    --border: #f0dede;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--ink);
+    padding: 2rem 1.5rem 1.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -40px; left: -40px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(192,64,74,0.3), transparent 70%);
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    color: #fff;
+    font-size: 1.8rem;
+    letter-spacing: 0.02em;
+  }
+  header p { color: var(--rose-light); font-size: 0.85rem; margin-top: 0.3rem; }
+
+  /* Tab Nav */
+  .tab-nav {
+    display: flex;
+    background: var(--ink);
+    padding: 0 1rem 1rem;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+  .tab-btn {
+    background: transparent;
+    border: 1.5px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.7);
+    padding: 0.45rem 1rem;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.03em;
+  }
+  .tab-btn.active, .tab-btn:hover {
+    background: var(--rose);
+    border-color: var(--rose);
+    color: #fff;
+  }
+
+  /* Sections */
+  .section { display: none; padding: 1.2rem 1rem 3rem; max-width: 700px; margin: 0 auto; }
+  .section.active { display: block; }
+
+  /* Section headers */
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--rose);
+    margin-bottom: 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--rose-light);
+  }
+
+  /* ── SIMPLIFIED SECTION ── */
+  .simple-card {
+    background: var(--card-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 1rem 1.1rem;
+    margin-bottom: 0.8rem;
+    box-shadow: 0 2px 8px rgba(192,64,74,0.06);
+  }
+  .simple-card h3 {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--rose);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+  }
+  .simple-card p, .simple-card li {
+    font-size: 0.88rem;
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  .simple-card ul { padding-left: 1.1rem; }
+  .simple-card li { margin-bottom: 0.2rem; }
+  .tag {
+    display: inline-block;
+    background: var(--rose-light);
+    color: var(--rose);
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.15rem 0.5rem;
+    border-radius: 10px;
+    margin-right: 0.3rem;
+    margin-bottom: 0.4rem;
+  }
+
+  /* ── FLASHCARD SECTION ── */
+  .flashcard-grid { display: grid; gap: 1rem; }
+  .flashcard {
+    perspective: 1000px;
+    height: 160px;
+    cursor: pointer;
+  }
+  .flashcard-inner {
+    position: relative;
+    width: 100%; height: 100%;
+    transition: transform 0.55s cubic-bezier(0.4,0,0.2,1);
+    transform-style: preserve-3d;
+  }
+  .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+  .flashcard-front, .flashcard-back {
+    position: absolute;
+    width: 100%; height: 100%;
+    border-radius: 14px;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    text-align: center;
+  }
+  .flashcard-front {
+    background: var(--ink);
+    border: 2px solid var(--rose);
+  }
+  .flashcard-front p {
+    color: #fff;
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+  .flashcard-back {
+    background: var(--rose-pale);
+    border: 2px solid var(--rose-light);
+    transform: rotateY(180deg);
+  }
+  .flashcard-back p {
+    font-size: 0.82rem;
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  .tap-hint {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 0.8rem;
+  }
+
+  /* ── MNEMONICS SECTION ── */
+  .mnemonic-card {
+    background: var(--card-bg);
+    border: 1.5px solid var(--border);
+    border-left: 4px solid var(--rose);
+    border-radius: 14px;
+    padding: 1.1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(192,64,74,0.06);
+  }
+  .mnemonic-card h3 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
+  .mnemonic-word {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--rose);
+    margin-bottom: 0.6rem;
+  }
+  .mnemonic-breakdown { margin-bottom: 0.7rem; }
+  .mnemonic-breakdown .letter-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    margin-bottom: 0.3rem;
+  }
+  .letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--rose);
+    min-width: 22px;
+  }
+  .meaning { font-size: 0.84rem; color: var(--ink); line-height: 1.5; }
+  .mnemonic-tip {
+    background: var(--rose-pale);
+    border-radius: 8px;
+    padding: 0.5rem 0.7rem;
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Test 1 Study Guide</h1>
+  <p>Nursing Fundamentals · Flashcards · Mnemonics · Simplified</p>
+</header>
+
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="showTab('simplified')">📋 Simplified</button>
+  <button class="tab-btn" onclick="showTab('flashcards')">🃏 Flashcards</button>
+  <button class="tab-btn" onclick="showTab('mnemonics')">🧠 Mnemonics</button>
+</div>
+
+<!-- ═══════════════ SIMPLIFIED ═══════════════ -->
+<div id="simplified" class="section active">
+  <p class="section-title">Quick Reference — Simplified</p>
+
+  <div class="simple-card">
+    <h3>Nurse Practice Act (NPA)</h3>
+    <ul>
+      <li>Regulates nursing in each state/territory</li>
+      <li>Sets scope & standards of practice</li>
+      <li>Establishes licensure requirements</li>
+      <li>Identifies nursing titles; Board of Nursing enforces it</li>
+    </ul>
+  </div>
+
+  <div class="simple-card">
+    <h3>QSEN — 6 Competencies</h3>
+    <div>
+      <span class="tag">Patient-Centered Care</span>
+      <span class="tag">Teamwork</span>
+      <span class="tag">EBP</span>
+      <span class="tag">Quality Improvement</span>
+      <span class="tag">Safety</span>
+      <span class="tag">Informatics</span>
+    </div>
+    <p>Prepares nurses to improve healthcare quality & client outcomes.</p>
+  </div>
+
+  <div class="simple-card">
+    <h3>State Board of Nursing</h3>
+    <ul>
+      <li>Enforces NPA rules</li>
+      <li>Regulates/monitors nursing practice</li>
+      <li>Issues & renews licenses</li>
+      <li>Oversees violations & disciplinary actions</li>
+    </ul>
+  </div>
+
+  <div class="simple-card">
+    <h3>NLN — 4 Core Competencies</h3>
+    <div>
+      <span class="tag">Caring</span>
+      <span class="tag">Integrity</span>
+      <span class="tag">Diversity</span>
+      <span class="tag">Excellence</span>
+    </div>
+    <p>Supports nursing education, faculty development & professional growth.</p>
+  </div>
+
+  <div class="simple-card">
+    <h3>LVN Scope of Practice</h3>
+    <ul>
+      <li>Medication administration (per state regs)</li>
+      <li>Basic nursing care, documentation</li>
+      <li>Reinforce teaching</li>
+      <li>Works under RN/physician supervision</li>
+      <li>Data gathering & assessment contributions</li>
+    </ul>
+    <p style="font-size:0.78rem;color:var(--muted);margin-top:0.4rem;">Scope determined by the NPA</p>
+  </div>
+
+  <div class="simple-card">
+    <h3>Standards of Practice — Examples</h3>
+    <div>
+      <span class="tag">Data Collection</span>
+      <span class="tag">Nursing Diagnosis</span>
+      <span class="tag">Planning</span>
+      <span class="tag">Outcome ID</span>
+      <span class="tag">Implementation</span>
+      <span class="tag">Evaluation</span>
+      <span class="tag">Health Teaching</span>
+      <span class="tag">Coordination of Care</span>
+    </div>
+  </div>
+
+  <div class="simple-card">
+    <h3>QSEN Competency Breakdown</h3>
+    <ul>
+      <li><strong>Patient-Centered Care</strong> — respect client preferences & needs</li>
+      <li><strong>Teamwork & Collaboration</strong> — work with interdisciplinary team</li>
+      <li><strong>EBP</strong> — use current research in care decisions</li>
+      <li><strong>Quality Improvement</strong> — improve outcomes & systems</li>
+      <li><strong>Safety</strong> — reduce risk of harm to client & staff</li>
+      <li><strong>Informatics</strong> — use tech to communicate & manage info safely</li>
+    </ul>
+  </div>
+
+  <div class="simple-card">
+    <h3>Licensure Requirements</h3>
+    <p><strong>Initial:</strong> Graduate approved program → Pass NCLEX-PN → Disclose substance history → Complete state application</p>
+    <p style="margin-top:0.4rem"><strong>Renewal:</strong> Renewal application → Continuing education → Pay fees → Comply with Board requirements</p>
+  </div>
+
+  <div class="simple-card">
+    <h3>Code of Ethics — Purpose</h3>
+    <ul>
+      <li>Guides professional nursing behavior</li>
+      <li>Protects client rights</li>
+      <li>Promotes professionalism & accountability</li>
+      <li>Provides ethical standards for decision-making</li>
+      <li>Ensures safe & ethical care</li>
+    </ul>
+  </div>
+
+  <div class="simple-card">
+    <h3>7 Ethical Principles</h3>
+    <ul>
+      <li><strong>Fidelity</strong> — keep promises to client</li>
+      <li><strong>Beneficence</strong> — do good, act in client's best interest</li>
+      <li><strong>Nonmaleficence</strong> — do no harm</li>
+      <li><strong>Autonomy</strong> — respect client's right to decide</li>
+      <li><strong>Justice</strong> — treat all fairly, no bias</li>
+      <li><strong>Veracity</strong> — tell the truth</li>
+      <li><strong>Integrity</strong> — honesty & strong moral principles</li>
+    </ul>
+  </div>
+
+  <div class="simple-card">
+    <h3>Legal Terms</h3>
+    <ul>
+      <li><strong>Libel</strong> — written false statements damaging reputation</li>
+      <li><strong>Defamation</strong> — communication of false statements damaging reputation</li>
+      <li><strong>Tort</strong> — civil wrong against person/property</li>
+      <li><strong>Malpractice</strong> — failure to follow accepted standard of care</li>
+      <li><strong>Good Samaritan Law</strong> — protects providers giving emergency care outside workplace</li>
+    </ul>
+  </div>
+
+  <div class="simple-card">
+    <h3>TeamSTEPPS Components</h3>
+    <ul>
+      <li><strong>Team Structure</strong> — identify members & roles</li>
+      <li><strong>Leadership</strong> — coordinate activities & resources</li>
+      <li><strong>Situation Monitoring</strong> — maintain awareness of environment & client status</li>
+      <li><strong>Mutual Support</strong> — provide assistance & feedback</li>
+      <li><strong>Communication</strong> — structured communication to improve safety</li>
+    </ul>
+  </div>
+
+  <div class="simple-card">
+    <h3>Interprofessional Team Roles</h3>
+    <ul>
+      <li><strong>Nurse</strong> — coordinates care & advocates for patients</li>
+      <li><strong>Physician/Provider</strong> — diagnoses & manages treatment</li>
+      <li><strong>Pharmacist</strong> — manages medications</li>
+      <li><strong>Respiratory Therapist</strong> — respiratory care</li>
+      <li><strong>PT</strong> — mobility & function</li>
+      <li><strong>OT</strong> — daily living skills</li>
+      <li><strong>Social Worker</strong> — psychosocial & financial needs</li>
+      <li><strong>Dietician</strong> — nutritional management</li>
+    </ul>
+  </div>
+
+  <div class="simple-card">
+    <h3>Professional vs Unprofessional</h3>
+    <p><strong>Professional:</strong> Integrity, responsibility, confidentiality, scope of practice, accountability, continuing ed, join professional orgs</p>
+    <p style="margin-top:0.4rem"><strong>Unprofessional:</strong> Breach of confidentiality, falsifying records, practicing outside scope, leaving computer unattended while logged in, failing standards of care</p>
+  </div>
+
+  <div class="simple-card">
+    <h3>Key Communication Tools</h3>
+    <p><strong>I-SBAR-R:</strong> Introduction → Situation → Background → Assessment → Recommendation → Read Back</p>
+    <p style="margin-top:0.4rem"><strong>Breach of Confidentiality:</strong> Unauthorized disclosure of private client info (e.g., visible charts, discussing in public)</p>
+    <p style="margin-top:0.4rem"><strong>Occurrence Report:</strong> Documents errors/falls/injuries — NOT part of medical record. Purpose: improve safety, identify risks, support QI.</p>
+  </div>
+
+  <div class="simple-card">
+    <h3>Handoff Report Includes</h3>
+    <div>
+      <span class="tag">Client ID</span>
+      <span class="tag">Current Condition</span>
+      <span class="tag">Diagnosis</span>
+      <span class="tag">Pertinent History</span>
+      <span class="tag">Pending Tests</span>
+      <span class="tag">Assessment Findings</span>
+      <span class="tag">Treatments & Meds</span>
+      <span class="tag">Safety Concerns</span>
+      <span class="tag">Ongoing Care Recs</span>
+    </div>
+  </div>
+
+  <div class="simple-card">
+    <h3>Leadership Models</h3>
+    <ul>
+      <li><strong>Situational</strong> — adapts style to situation, flexible</li>
+      <li><strong>Laissez-Faire</strong> — minimal direction, high autonomy</li>
+      <li><strong>Transformational</strong> — inspires staff, shared vision, growth</li>
+      <li><strong>Transactional</strong> — rewards/consequences, performance-focused</li>
+      <li><strong>Bureaucratic</strong> — rule-based, strictly enforces policies</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════════ FLASHCARDS ═══════════════ -->
+<div id="flashcards" class="section">
+  <p class="section-title">Flashcards</p>
+  <p class="tap-hint">Tap a card to reveal the answer</p>
+  <div class="flashcard-grid" id="cardGrid"></div>
+</div>
+
+<!-- ═══════════════ MNEMONICS ═══════════════ -->
+<div id="mnemonics" class="section">
+  <p class="section-title">Mnemonics</p>
+
+  <div class="mnemonic-card">
+    <h3>QSEN — 6 Competencies</h3>
+    <div class="mnemonic-word">PTE QSI</div>
+    <div class="mnemonic-breakdown">
+      <div class="letter-row"><span class="letter">P</span><span class="meaning">Patient-Centered Care</span></div>
+      <div class="letter-row"><span class="letter">T</span><span class="meaning">Teamwork & Collaboration</span></div>
+      <div class="letter-row"><span class="letter">E</span><span class="meaning">Evidence-Based Practice</span></div>
+      <div class="letter-row"><span class="letter">Q</span><span class="meaning">Quality Improvement</span></div>
+      <div class="letter-row"><span class="letter">S</span><span class="meaning">Safety</span></div>
+      <div class="letter-row"><span class="letter">I</span><span class="meaning">Informatics</span></div>
+    </div>
+    <div class="mnemonic-tip">💡 "Patients Trust Every Qualified Safe Informant"</div>
+  </div>
+
+  <div class="mnemonic-card">
+    <h3>7 Ethical Principles</h3>
+    <div class="mnemonic-word">FBI AVJ</div>
+    <div class="mnemonic-breakdown">
+      <div class="letter-row"><span class="letter">F</span><span class="meaning">Fidelity — keep promises</span></div>
+      <div class="letter-row"><span class="letter">B</span><span class="meaning">Beneficence — do good</span></div>
+      <div class="letter-row"><span class="letter">I</span><span class="meaning">Integrity — honesty & morals</span></div>
+      <div class="letter-row"><span class="letter">A</span><span class="meaning">Autonomy — client's right to decide</span></div>
+      <div class="letter-row"><span class="letter">V</span><span class="meaning">Veracity — tell the truth</span></div>
+      <div class="letter-row"><span class="letter">J</span><span class="meaning">Justice — treat all fairly</span></div>
+      <div class="letter-row"><span class="letter">N</span><span class="meaning">Nonmaleficence — do no harm</span></div>
+    </div>
+    <div class="mnemonic-tip">💡 "FBI Agents Verify Justice, Never harm"</div>
+  </div>
+
+  <div class="mnemonic-card">
+    <h3>I-SBAR-R Communication Tool</h3>
+    <div class="mnemonic-word">I-SBAR-R</div>
+    <div class="mnemonic-breakdown">
+      <div class="letter-row"><span class="letter">I</span><span class="meaning">Introduction — introduce self & role</span></div>
+      <div class="letter-row"><span class="letter">S</span><span class="meaning">Situation — current problem</span></div>
+      <div class="letter-row"><span class="letter">B</span><span class="meaning">Background — relevant history</span></div>
+      <div class="letter-row"><span class="letter">A</span><span class="meaning">Assessment — current findings</span></div>
+      <div class="letter-row"><span class="letter">R</span><span class="meaning">Recommendation — what needs to happen next</span></div>
+      <div class="letter-row"><span class="letter">R</span><span class="meaning">Read Back — receiver repeats to verify accuracy</span></div>
+    </div>
+    <div class="mnemonic-tip">💡 "I Said Bad Advice Requires Repetition" — helps you remember the Read Back!</div>
+  </div>
+
+  <div class="mnemonic-card">
+    <h3>TeamSTEPPS — 5 Components</h3>
+    <div class="mnemonic-word">TL SMS C</div>
+    <div class="mnemonic-breakdown">
+      <div class="letter-row"><span class="letter">T</span><span class="meaning">Team Structure — identify members & roles</span></div>
+      <div class="letter-row"><span class="letter">L</span><span class="meaning">Leadership — coordinates activities</span></div>
+      <div class="letter-row"><span class="letter">S</span><span class="meaning">Situation Monitoring — awareness of environment</span></div>
+      <div class="letter-row"><span class="letter">M</span><span class="meaning">Mutual Support — assist & give feedback</span></div>
+      <div class="letter-row"><span class="letter">C</span><span class="meaning">Communication — structured, improves safety</span></div>
+    </div>
+    <div class="mnemonic-tip">💡 "The Leader Sees More Clearly" — T L S M C</div>
+  </div>
+
+  <div class="mnemonic-card">
+    <h3>NLN — 4 Competencies</h3>
+    <div class="mnemonic-word">CIDE</div>
+    <div class="mnemonic-breakdown">
+      <div class="letter-row"><span class="letter">C</span><span class="meaning">Caring</span></div>
+      <div class="letter-row"><span class="letter">I</span><span class="meaning">Integrity</span></div>
+      <div class="letter-row"><span class="letter">D</span><span class="meaning">Diversity</span></div>
+      <div class="letter-row"><span class="letter">E</span><span class="meaning">Excellence</span></div>
+    </div>
+    <div class="mnemonic-tip">💡 "Caring Is Deeply Essential" — nurses CIDE with compassion</div>
+  </div>
+
+  <div class="mnemonic-card">
+    <h3>Standards of Practice — Nursing Process</h3>
+    <div class="mnemonic-word">ADPIE + HEC</div>
+    <div class="mnemonic-breakdown">
+      <div class="letter-row"><span class="letter">A</span><span class="meaning">Assessment / Data Collection</span></div>
+      <div class="letter-row"><span class="letter">D</span><span class="meaning">Diagnosis (Nursing)</span></div>
+      <div class="letter-row"><span class="letter">P</span><span class="meaning">Planning + Outcome Identification</span></div>
+      <div class="letter-row"><span class="letter">I</span><span class="meaning">Implementation</span></div>
+      <div class="letter-row"><span class="letter">E</span><span class="meaning">Evaluation</span></div>
+      <div class="letter-row"><span class="letter">H</span><span class="meaning">Health Teaching & Promotion</span></div>
+      <div class="letter-row"><span class="letter">C</span><span class="meaning">Coordination of Care</span></div>
+    </div>
+    <div class="mnemonic-tip">💡 Classic ADPIE — "A Dog Plays In Every Home & Community"</div>
+  </div>
+
+  <div class="mnemonic-card">
+    <h3>5 Leadership Models</h3>
+    <div class="mnemonic-word">SLT TB</div>
+    <div class="mnemonic-breakdown">
+      <div class="letter-row"><span class="letter">S</span><span class="meaning">Situational — adapts to the situation</span></div>
+      <div class="letter-row"><span class="letter">L</span><span class="meaning">Laissez-Faire — hands off, high autonomy</span></div>
+      <div class="letter-row"><span class="letter">T</span><span class="meaning">Transformational — inspires & motivates</span></div>
+      <div class="letter-row"><span class="letter">T</span><span class="meaning">Transactional — rewards & consequences</span></div>
+      <div class="letter-row"><span class="letter">B</span><span class="meaning">Bureaucratic — rule-based, strict policies</span></div>
+    </div>
+    <div class="mnemonic-tip">💡 "Some Leaders Transform Through Bureaucracy"</div>
+  </div>
+
+  <div class="mnemonic-card">
+    <h3>Legal Terms Quick Memory</h3>
+    <div class="mnemonic-word">LDTMG</div>
+    <div class="mnemonic-breakdown">
+      <div class="letter-row"><span class="letter">L</span><span class="meaning">Libel — written false statements</span></div>
+      <div class="letter-row"><span class="letter">D</span><span class="meaning">Defamation — false communication damaging rep</span></div>
+      <div class="letter-row"><span class="letter">T</span><span class="meaning">Tort — civil wrong against person/property</span></div>
+      <div class="letter-row"><span class="letter">M</span><span class="meaning">Malpractice — failing standard of care</span></div>
+      <div class="letter-row"><span class="letter">G</span><span class="meaning">Good Samaritan — protects emergency helpers</span></div>
+    </div>
+    <div class="mnemonic-tip">💡 "Lawyers Don't Trust Many Goodwill acts" — LDTMG</div>
+  </div>
+</div>
+
+<script>
+const cards = [
+  { q: "What does the Nurse Practice Act (NPA) do?", a: "Regulates nursing in each state/territory. Determines scope & standards of practice, establishes licensure requirements, and identifies nursing titles. The Board of Nursing enforces it." },
+  { q: "What is QSEN and what are its 6 competencies?", a: "Quality & Safety Education for Nurses. Competencies: Patient-Centered Care, Teamwork & Collaboration, Evidence-Based Practice (EBP), Quality Improvement, Safety, Informatics." },
+  { q: "What does the State Board of Nursing do?", a: "Enforces NPA regulations. Regulates & monitors nursing practice. Issues & renews licenses. Oversees violations & disciplinary actions." },
+  { q: "What are the NLN's 4 core competencies?", a: "Caring, Integrity, Diversity, Excellence. Supports nursing education, faculty development, and professional growth." },
+  { q: "What is the scope of practice for Vocational (LVN) Nurses?", a: "Medication administration, basic nursing care, documentation, reinforce teaching, work under RN/physician supervision, gather data & assessment contributions. Scope determined by NPA." },
+  { q: "What are standards of practice for nursing?", a: "Describe competent level of care all nurses must achieve. Examples: Data Collection, Nursing Diagnosis, Planning, Outcome Identification, Implementation, Evaluation, Health Teaching, Coordination of Care." },
+  { q: "What is Patient-Centered Care (QSEN)?", a: "Respecting client preferences, values, and needs." },
+  { q: "What is Evidence-Based Practice (QSEN)?", a: "Using current research and best evidence in care decisions." },
+  { q: "What is Informatics (QSEN)?", a: "Using technology to communicate and manage information safely." },
+  { q: "What are requirements for Initial Nursing Licensure?", a: "Graduate from approved nursing program, pass NCLEX-PN, disclose substance misuse history when required, complete state application requirements." },
+  { q: "What are requirements for License Renewal?", a: "Renewal application, continuing education requirements, pay renewal fees, compliance with Board of Nursing requirements." },
+  { q: "What is the purpose of the Code of Ethics?", a: "Guides professional nursing behavior, protects client rights, promotes professionalism & accountability, provides ethical standards for decision-making, ensures safe & ethical care." },
+  { q: "Define: Fidelity", a: "Keeping promises and commitments to the client." },
+  { q: "Define: Beneficence", a: "Doing good and acting in the client's best interest." },
+  { q: "Define: Nonmaleficence", a: "Doing no harm and protecting client safety." },
+  { q: "Define: Autonomy", a: "Respecting the client's right to make their own healthcare decisions." },
+  { q: "Define: Justice", a: "Treating all clients fairly with no bias." },
+  { q: "Define: Veracity", a: "Telling the truth and providing honest information." },
+  { q: "Define: Tort", a: "A civil wrong committed against a person or property." },
+  { q: "Define: Malpractice", a: "Failure of a nurse to follow the accepted standard of care." },
+  { q: "Define: Good Samaritan Law", a: "Protects healthcare providers who voluntarily provide emergency care outside the workplace from liability when acting reasonably." },
+  { q: "What are the 5 components of TeamSTEPPS?", a: "Team Structure (identify members & roles), Leadership (coordinates activities), Situation Monitoring (awareness of environment & client), Mutual Support (assistance & feedback), Communication (structured, improves safety)." },
+  { q: "What is conflict resolution?", a: "The process of addressing disagreements constructively to achieve a mutually acceptable solution." },
+  { q: "What is a breach of confidentiality?", a: "Unauthorized disclosure of private client information. Examples: leaving charts visible, discussing client info in public." },
+  { q: "What does I-SBAR-R stand for?", a: "Introduction (self & role), Situation (current problem), Background (relevant history), Assessment (current findings), Recommendation (what needs to happen next), Read Back (receiver repeats info to verify accuracy)." },
+  { q: "What is an Occurrence/Incident Report used for?", a: "Documents: medication errors, falls, injuries, equipment malfunctions, unexpected events. Purpose: improve safety, identify risks, support QI. NOT part of the medical record." },
+  { q: "What does a Handoff Report include?", a: "Client ID, current condition, diagnosis, pertinent history, pending tests, assessment findings, treatments & medications, safety concerns, recommendations for ongoing care. Often communicated using I-SBAR-R." },
+  { q: "Describe Transformational Leadership", a: "Inspires and motivates staff, establishes a shared vision, encourages growth and empowerment." },
+  { q: "Describe Transactional Leadership", a: "Uses rewards and consequences, focuses on achieving specific goals, emphasizes performance and compliance." },
+  { q: "Describe Bureaucratic Leadership", a: "Rule-based leadership, strictly enforces policies and procedures, limited flexibility and creativity." },
+  { q: "What are examples of professional nursing behavior?", a: "Integrity, responsibility, maintaining confidentiality, following scope of practice, accountability, continuing education, joining professional organizations." },
+  { q: "What are examples of unprofessional nursing behavior?", a: "Breach of confidentiality, falsification of records, practicing outside scope of practice, leaving a computer unattended while logged in, failure to follow standards of care." }
+];
+
+const grid = document.getElementById('cardGrid');
+cards.forEach((c, i) => {
+  grid.innerHTML += `
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front"><p>${c.q}</p></div>
+        <div class="flashcard-back"><p>${c.a}</p></div>
+      </div>
+    </div>`;
+});
+
+function showTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
