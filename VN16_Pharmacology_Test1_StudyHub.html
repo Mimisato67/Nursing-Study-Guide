@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VN16 Pharmacology — Test 1 Study Hub</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --navy: #0f2a4a;
+    --blue: #1a5fa8;
+    --sky: #3b9ede;
+    --teal: #0e8a7e;
+    --amber: #d97706;
+    --red: #c0392b;
+    --green: #1a7a3c;
+    --bg: #f0f4f8;
+    --surface: #ffffff;
+    --surface2: #f7f9fc;
+    --border: #dce3ec;
+    --text: #1a2535;
+    --muted: #5a6a7e;
+    --pill-bg: #e8f0fb;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, var(--navy) 0%, #1a3d6b 60%, #1a5fa8 100%);
+    color: white;
+    padding: 36px 40px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '⚕';
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 120px;
+    opacity: 0.07;
+    pointer-events: none;
+  }
+  .header-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #7eb8e8;
+    margin-bottom: 8px;
+  }
+  header h1 {
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  header p {
+    font-size: 14px;
+    color: #a8c4e0;
+    margin-bottom: 0;
+  }
+  .header-badges {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  /* ── NAV TABS ── */
+  .tab-bar {
+    background: var(--surface);
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    padding: 0 40px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .tab-btn {
+    padding: 16px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--muted);
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { color: var(--blue); }
+  .tab-btn.active {
+    color: var(--blue);
+    border-bottom-color: var(--blue);
+  }
+  .tab-btn .tab-icon { margin-right: 7px; }
+
+  /* ── MAIN LAYOUT ── */
+  .main { max-width: 960px; margin: 0 auto; padding: 36px 24px 80px; }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ── STUDY GUIDE ── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 36px 0 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+  }
+  .section-header:first-child { margin-top: 0; }
+  .section-num {
+    background: var(--blue);
+    color: white;
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--navy);
+  }
+
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .q-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+  .q-card-header {
+    background: var(--surface2);
+    padding: 14px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .q-num {
+    background: var(--pill-bg);
+    color: var(--blue);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 20px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .q-card-header h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1.5;
+    flex: 1;
+  }
+  .q-toggle {
+    color: var(--muted);
+    font-size: 18px;
+    flex-shrink: 0;
+    transition: transform 0.25s;
+    margin-top: 1px;
+  }
+  .q-card.open .q-toggle { transform: rotate(180deg); }
+  .q-card-body {
+    padding: 20px;
+    display: none;
+  }
+  .q-card.open .q-card-body { display: block; }
+
+  /* Answer content styles */
+  .answer-block p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .answer-block ul {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0;
+  }
+  .answer-block ul li {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--text);
+    padding: 5px 0 5px 22px;
+    position: relative;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .answer-block ul li:last-child { border-bottom: none; }
+  .answer-block ul li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--sky);
+    font-weight: 700;
+  }
+  .answer-block strong { color: var(--navy); font-weight: 600; }
+  .answer-block .highlight {
+    background: #fffbeb;
+    border-left: 3px solid var(--amber);
+    padding: 10px 14px;
+    border-radius: 0 8px 8px 0;
+    margin: 12px 0;
+    font-size: 13.5px;
+  }
+  .answer-block .highlight strong { color: var(--amber); }
+  .answer-block .danger {
+    background: #fff5f5;
+    border-left: 3px solid var(--red);
+    padding: 10px 14px;
+    border-radius: 0 8px 8px 0;
+    margin: 12px 0;
+    font-size: 13.5px;
+  }
+  .answer-block .danger strong { color: var(--red); }
+
+  /* Data tables */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 13px;
+  }
+  .data-table th {
+    background: var(--navy);
+    color: white;
+    padding: 9px 12px;
+    text-align: left;
+    font-weight: 600;
+  }
+  .data-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.5;
+  }
+  .data-table tr:nth-child(even) td { background: var(--surface2); }
+  .data-table tr:hover td { background: #edf4ff; }
+
+  /* ── ATI TEST ── */
+  .test-controls {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .test-meta {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+  .meta-pill {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+  }
+  .meta-pill span { color: var(--blue); font-weight: 700; }
+  .btn {
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+  }
+  .btn-primary {
+    background: var(--blue);
+    color: white;
+  }
+  .btn-primary:hover { background: #1550a0; }
+  .btn-outline {
+    background: white;
+    color: var(--blue);
+    border: 2px solid var(--blue);
+  }
+  .btn-outline:hover { background: var(--pill-bg); }
+  .btn-danger {
+    background: var(--red);
+    color: white;
+  }
+  .btn-danger:hover { background: #a93226; }
+
+  /* Progress bar */
+  .progress-wrap {
+    margin-bottom: 28px;
+  }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .progress-bar {
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--sky), var(--blue));
+    border-radius: 3px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  /* Question card - test mode */
+  .ati-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 28px;
+    margin-bottom: 24px;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+  .ati-card.answered { border-color: #b0cce8; }
+
+  .q-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--sky);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sata-tag {
+    background: #fff3cd;
+    color: #856404;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .q-stem {
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: var(--navy);
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+  .q-sata-note {
+    font-size: 12.5px;
+    color: #856404;
+    font-style: italic;
+    background: #fffbeb;
+    padding: 7px 12px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    border: 1px solid #ffe58f;
+  }
+
+  .options-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .option-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    border: 2px solid var(--border);
+    border-radius: 9px;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: white;
+    user-select: none;
+  }
+  .option-item:hover { border-color: var(--sky); background: #f0f8ff; }
+  .option-item.selected { border-color: var(--blue); background: #eef4ff; }
+  .option-item.correct { border-color: var(--green); background: #edfbf1; }
+  .option-item.incorrect { border-color: var(--red); background: #fff5f5; }
+  .option-item.missed { border-color: var(--green); background: #edfbf1; border-style: dashed; }
+
+  .opt-letter {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    flex-shrink: 0;
+    transition: all 0.15s;
+  }
+  .option-item.selected .opt-letter { background: var(--blue); border-color: var(--blue); color: white; }
+  .option-item.correct .opt-letter { background: var(--green); border-color: var(--green); color: white; }
+  .option-item.incorrect .opt-letter { background: var(--red); border-color: var(--red); color: white; }
+  .option-item.missed .opt-letter { background: var(--green); border-color: var(--green); color: white; }
+
+  .opt-text {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--text);
+    flex: 1;
+    padding-top: 4px;
+  }
+  .opt-icon { flex-shrink: 0; margin-top: 4px; font-size: 16px; }
+
+  /* Rationale box */
+  .rationale-box {
+    margin-top: 18px;
+    padding: 16px 18px;
+    border-radius: 10px;
+    background: #f0f9f4;
+    border-left: 4px solid var(--green);
+    display: none;
+  }
+  .rationale-box.show { display: block; }
+  .rationale-box.incorrect-rat {
+    background: #fff9f0;
+    border-left-color: var(--amber);
+  }
+  .rationale-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+  .rationale-box.incorrect-rat .rationale-title { color: var(--amber); }
+  .rationale-text {
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: var(--text);
+  }
+
+  /* Results panel */
+  .results-panel {
+    display: none;
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 36px;
+    text-align: center;
+    border: 2px solid var(--border);
+    margin-bottom: 32px;
+  }
+  .results-panel.show { display: block; }
+  .score-circle {
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    border: 6px solid;
+  }
+  .score-circle .score-num { font-size: 36px; line-height: 1; }
+  .score-circle .score-label { font-size: 11px; font-weight: 600; opacity: 0.7; }
+  .score-pass { border-color: var(--green); color: var(--green); background: #edfbf1; }
+  .score-ok { border-color: var(--amber); color: var(--amber); background: #fffbeb; }
+  .score-fail { border-color: var(--red); color: var(--red); background: #fff5f5; }
+  .results-title { font-size: 22px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+  .results-sub { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
+  .results-stats {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-bottom: 28px;
+  }
+  .stat-box { text-align: center; }
+  .stat-num { font-size: 28px; font-weight: 800; }
+  .stat-lbl { font-size: 12px; color: var(--muted); font-weight: 500; }
+  .stat-correct .stat-num { color: var(--green); }
+  .stat-wrong .stat-num { color: var(--red); }
+  .stat-pct .stat-num { color: var(--blue); }
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    header { padding: 24px 20px 20px; }
+    header h1 { font-size: 22px; }
+    .tab-bar { padding: 0 16px; overflow-x: auto; }
+    .main { padding: 20px 16px 60px; }
+    .test-controls { flex-direction: column; align-items: stretch; }
+    .test-meta { justify-content: center; }
+    .results-stats { gap: 16px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-eyebrow">Carrington College · VN16</div>
+  <h1>Pharmacology of Nurses — Test 1</h1>
+  <p>Study Guide + ATI-Style Practice Exam &nbsp;·&nbsp; Based on Ford: Introductory Clinical Pharmacology, 12th Ed.</p>
+  <div class="header-badges">
+    <span class="badge">📖 Full Study Guide</span>
+    <span class="badge">🧪 25 ATI Questions</span>
+    <span class="badge">✅ Instant Rationales</span>
+    <span class="badge">📱 Mobile Friendly</span>
+  </div>
+</header>
+
+<nav class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('study')" id="tab-study">
+    <span class="tab-icon">📚</span>Study Guide
+  </button>
+  <button class="tab-btn" onclick="showTab('test')" id="tab-test">
+    <span class="tab-icon">🧪</span>ATI Practice Test
+  </button>
+</nav>
+
+<div class="main">
+
+<!-- ════════════════════════════════════════
+     STUDY GUIDE TAB
+════════════════════════════════════════ -->
+<div id="panel-study" class="tab-panel active">
+
+  <!-- Section 1: General Principles -->
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <h2>General Principles of Pharmacology</h2>
+  </div>
+
+  <div class="q-card open">
+    <div class="q-card-header" onclick="toggleCard(this)">
+      <span class="q-num">Q1</span>
+      <h3>Medications are derived from which sources?</h3>
+      <span class="q-toggle">▾</span>
+    </div>
+    <div class="q-card-body">
+      <div class="answer-block">
+        <table class="data-table">
+          <tr><th>Source</th><th>Examples</th></tr>
+          <tr><td><strong>Plant</strong></td><td>Digitalis, morphine, atropine, aspirin</td></tr>
+          <tr><td><strong>Animal</strong></td><td>Insulin (porcine/bovine), heparin</td></tr>
+          <tr><td><strong>Laboratory/Synthetic</strong></td><td>Sulfonamides, most modern drugs</td></tr>
+          <tr><td><strong>Mineral</strong></td><td>Iron, calcium, potassium, lithium</td></tr>
+          <tr><td><strong>Microbiological</strong></td><td>Penicillin, streptomycin</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-card-header" onclick="toggleCard(this)">
+      <span class="q-num">Q2</span>
+      <h3>Generic vs. Trade drug names — what's the difference?</h3>
+      <span class="q-toggle">▾</span>
+    </div>
+    <div class="q-card-body">
+      <div class="answer-block">
+        <ul>
+          <li><strong>Generic name:</strong> Official, nonproprietary name — lowercase, assigned before FDA approval (e.g., ibuprofen)</li>
+          <li><strong>Trade name:</strong> Brand name given by the manufacturer — capitalized, may have multiple trade names per generic (e.g., Advil, Motrin)</li>
+          <li><strong>Key point:</strong> Generics are bioequivalent to brand-name drugs but significantly cheaper</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-card-header" onclick="toggleCard(this)">
+      <span class="q-num">Q3</span>
+      <h3>Controlled Substances — Schedules I–V</h3>
+      <span class="q-toggle">▾</span>
+    </div>
+    <div class="q-card-body">
+      <div class="answer-block">
+        <p>Regulated by the <strong>DEA (Drug Enforcement Administration)</strong> under the Controlled Substances Act.</p>
+        <table class="data-table">
+          <tr><th>Schedule</th><th>Abuse Potential</th><th>Medical Use</th><th>Example</th></tr>
+          <tr><td><strong>I</strong></td><td>Highest — no medical use</td><td>None</td><td>Heroin, LSD</td></tr>
+          <tr><td><strong>II</strong></td><td>High</td><td>Accepted w/ restrictions</td><td>Morphine, Oxycodone</td></tr>
+          <tr><td><strong>III</strong></td><td>Moderate</td><td>Accepted</td><td>Codeine combinations</td></tr>
+          <tr><td><strong>IV</strong></td><td>Low-moderate</td><td>Accepted</td><td>Benzodiazepines, Tramadol</td></tr>
+          <tr><td><strong>V</strong></td><td>Low</td><td>Accepted</td><td>Cough syrup w/ codeine</td></tr>
+        </table>
+        <ul>
+          <li><strong>Physical dependence:</strong> Physiological adaptation — abrupt stop causes withdrawal (tremors, seizures, nausea)</li>
+          <li><strong>Psychological dependence:</strong> Emotional/mental craving for drug effects — compulsive use even without physical need</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2: Pharmacokinetics -->
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <h2>Pharmacokinetics — ADME</h2>
+  </div>
+
+  <div class="q-card">
+    <div class="q-card-header" onclick="toggleCard(this)">
+      <span class="q-num">Q4</span>
+      <h3>Explain the four phases of pharmacokinetics (ADME)</h3>
+      <span class="q-toggle">▾</span>
+    </div>
+    <div class="q-card-body">
+      <div class="answer-block">
+        <table class="data-table">
+          <tr><th>Phase</th><th>Definition</th><th>Key Factors</th></tr>
+          <tr><td><strong>A — Absorption</strong></td><td>Drug moves from administration site → bloodstream</td><td>Route, blood flow, drug solubility, GI motility</td></tr>
+          <tr><td><strong>D — Distribution</strong></td><td>Drug moves from blood → body tissues/fluids</td><td>Protein binding, blood-brain barrier, lipid solubility</td></tr>
+          <tr><td><strong>M — Metabolism</strong></td><td>Drug chemically changed (primarily in the liver)</td><td>Liver function, first-pass effect, enzyme activity</td></tr>
+          <tr><td><strong>E — Excretion</strong></td><td>Drug eliminated from body — mainly via kidneys</td><td>Renal function, urine pH, biliary excretion</td></tr>
+        </table>
+        <div class="highlight">
+          <strong>⚠️ Nursing Alert:</strong> Clients with kidney or liver disease require careful monitoring — impaired metabolism/excretion leads to drug accumulation and toxicity.
+        </div>
+        <ul>
+          <li><strong>Onset:</strong> Time until drug reaches minimum effective concentration</li>
+          <li><strong>Peak:</strong> Time of highest drug concentration in blood</li>
+          <li><strong>Duration of action:</strong> Length of time therapeutic effect is maintained</li>
+          <li><strong>First-pass metabolism:</strong> Large portion of oral dose metabolized by liver BEFORE reaching systemic circulation — reduces bioavailability</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-card-header" onclick="toggleCard(this)">
+      <span class="q-num">Q5</span>
+      <h3>Define: Agonist, Antagonist, Teratogen</h3>
+      <span class="q-toggle">▾</span>
+    </div>
+    <div class="q-card-body">
+      <div class="answer-block">
+        <ul>
+          <li><strong>Agonist:</strong> Binds to a receptor and ACTIVATES it → produces a response (e.g., morphine on opioid receptors)</li>
+          <li><strong>Antagonist:</strong> Binds to a receptor but BLOCKS the response without activating it (e.g., naloxone blocks opioid receptors)</li>
+          <li><strong>Teratogen:</strong> Substance causing birth defects by interfering with fetal development (e.g., thalidomide, isotretinoin, alcohol)</li>
+        </ul>
+        <div class="danger"><strong>🚫 Pregnancy:</strong> ALL drugs potentially harmful to fetus — especially during first trimester (organogenesis). Many cross placenta. Always consult provider before any medication, including OTC/herbal.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: Adverse & Allergic Reactions -->
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <h2>Adverse Reactions, Allergies & Anaphylaxis</h2>
+  </div>
+
+  <div class="q-card">
+    <div class="q-card-header" onclick="toggleCard(this)">
+      <span class="q-num">Q6</span>
+      <h3>Signs & Symptoms of Allergic Reactions by Body System</h3>
+      <span class="q-toggle">▾</span>
+    </div>
+    <div class="q-card-body">
+      <div class="answer-block">
+        <table class="data-table">
+          <tr><th>Body System</th><th>Signs & Symptoms</th></tr>
+          <tr><td><strong>Respiratory</strong></td><td>Wheezing, bronchospasm, dyspnea, laryngeal edema, stridor</td></tr>
+          <tr><td><strong>Cardiovascular</strong></td><td>Hypotension, tachycardia, cardiovascular collapse, weak pulse</td></tr>
+          <tr><td><strong>Skin</strong></td><td>Urticaria (hives), pruritus, rash, angioedema, flushing</td></tr>
+          <tr><td><strong>GI</strong></td><td>Nausea, vomiting, abdominal cramping, diarrhea</td></tr>
+        </table>
+        <div class="danger">
+          <strong>🚨 Anaphylaxis Treatment (in order):</strong><br>
+          1. Epinephrine IM — FIRST LINE always<br>
+          2. Maintain airway / O₂<br>
+          3. IV fluid bolus<br>
+          4. Diphenhydramine (Benadryl) IV/IM<br>
+          5. Corticosteroids — prevent recurrence
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-card-header" onclick="toggleCard(this)">
+      <span class="q-num">Q7</span>
+      <h3>Drug Tolerance, Cumulative Effect, Idiosyncrasy & Toxic Reactions</h3>
+      <span class="q-toggle">▾</span>
+    </div>
+    <div class="q-card-body">
+      <div class="answer-block">
+        <ul>
+          <li><strong>Drug Tolerance:</strong> Decreased response after repeated use → higher doses needed for same effect (opioids, benzodiazepines)</li>
+          <li><strong>Cumulative Drug Effect:</strong> Drug accumulates faster than it can be metabolized/excreted → toxicity. Common in renal/hepatic impairment</li>
+          <li><strong>Idiosyncrasy:</strong> Abnormal UNEXPECTED reaction unique to individual (e.g., excitation from a barbiturate instead of sedation)</li>
+          <li><strong>Toxic Reaction:</strong> Harmful effects from excessively high drug concentration — overdose, accumulation, or impaired elimination</li>
+        </ul>
+        <div class="highlight"><strong>LVN Role — Maintaining Therapeutic Range:</strong> Monitor drug blood levels, observe for toxicity signs, check renal/hepatic labs, give drugs on schedule, report abnormal values immediately.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4: Drug Interactions -->
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <h2>Drug Interactions & Factors Influencing Response</h2>
+  </div>
+
+  <div class="q-card">
+    <div class="q-card-header" onclick="toggleCard(this)">
+      <span class="q-num">Q8</span>
+      <h3>Types of Drug Interactions</h3>
+      <span class="q-toggle">▾</span>
+    </div>
+    <div class="q-card-body">
+      <div class="answer-block">
+        <table class="data-table">
+          <tr><th>Type</th><th>Effect</th><th>Example</th></tr>
+          <tr><td><strong>Additive</strong></td><td>1 + 1 = 2 (sum of effects)</td><td>Two CNS depressants</td></tr>
+          <tr><td><strong>Synergistic</strong></td><td>1 + 1 = 3 (greater than sum)</td><td>Alcohol + benzodiazepines</td></tr>
+          <tr><td><strong>Antagonistic</strong></td><td>1 + 1 = 0 (one blocks other)</td><td>Naloxone blocking morphine</td></tr>
+          <tr><td><strong>Drug to Food</strong></td><td>Food alters absorption/metabolism</td><td>Grapefruit juice + statins</td></tr>
+        </table>
+        <p><strong>D.R.W.A.G — Factors Influencing Drug Response:</strong></p>
+        <ul>
+          <li><strong>D — Disease:</strong> Liver/kidney disease impairs metabolism and excretion</li>
+          <li><strong>R — Route:</strong> Fastest = IV; Slowest = Oral</li>
+          <li><strong>W — Weight:</strong> Higher weight may require higher doses</li>
+          <li><strong>A — Age:</strong> Elderly = START LOW, GO SLOW; Pediatric = weight-based dosing</li>
+          <li><strong>G — Genetics:</strong> Rapid vs. slow metabolizers (pharmacogenomics)</li>
+        </ul>
+        <div class="highlight"><strong>Herbal supplements:</strong> NOT regulated by the FDA. Always ask about herbal use in drug history — significant interactions exist (St. John's Wort reduces warfarin and OCP effectiveness; Garlic increases bleeding risk).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 5: Medication Administration -->
+  <div class="section-header">
+    <div class="section-num">5</div>
+    <h2>Medication Administration — Rights, Routes & Safety</h2>
+  </div>
+
+  <div class="q-card">
+    <div class="q-card-header" onclick="toggleCard(this)">
+      <span class="q-num">Q9</span>
+      <h3>The 6 + 1 Rights of Drug Administration</h3>
+      <span class="q-toggle">▾</span>
+    </div>
+    <div class="q-card-body">
+      <div class="answer-block">
+        <table class="data-table">
+          <tr><th>Right</th><th>Description</th></tr>
+          <tr><td><strong>1. Right Patient</strong></td><td>Verify with TWO identifiers — name + date of birth or MRN</td></tr>
+          <tr><td><strong>2. Right Drug</strong></td><td>Compare label to MAR — check THREE times</td></tr>
+          <tr><td><strong>3. Right Dose</strong></td><td>Calculate carefully; double-check high-alert drugs</td></tr>
+          <tr><td><strong>4. Right Route</strong></td><td>Confirm correct administration route</td></tr>
+          <tr><td><strong>5. Right Time</strong></td><td>Administer at scheduled time; follow frequency rules</td></tr>
+          <tr><td><strong>6. Right Documentation</strong></td><td>Document AFTER giving — never before</td></tr>
+          <tr><td><strong>+1 Right Reason</strong></td><td>Confirm the drug is appropriate for the diagnosis</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-card-header" onclick="toggleCard(this)">
+      <span class="q-num">Q10</span>
+      <h3>Injection Routes — Angles, Needles & Key Points</h3>
+      <span class="q-toggle">▾</span>
+    </div>
+    <div class="q-card-body">
+      <div class="answer-block">
+        <table class="data-table">
+          <tr><th>Route</th><th>Angle</th><th>Key Points</th></tr>
+          <tr><td><strong>Intradermal (ID)</strong></td><td>10–15°, bevel UP</td><td>Small bleb forms; TB test/allergy testing; very slow absorption</td></tr>
+          <tr><td><strong>Subcutaneous (SC)</strong></td><td>45–90°, pinch skin</td><td>Rotate sites; insulin and heparin</td></tr>
+          <tr><td><strong>Intramuscular (IM)</strong></td><td>90°</td><td>Ventrogluteal = preferred site in adults; aspirate per policy</td></tr>
+          <tr><td><strong>Z-Track</strong></td><td>90°</td><td>Pull skin laterally BEFORE injecting; release AFTER withdrawing — prevents drug tracking</td></tr>
+          <tr><td><strong>IV</strong></td><td>—</td><td>FASTEST route; direct to bloodstream; highest risk for adverse reactions</td></tr>
+          <tr><td><strong>Transdermal</strong></td><td>—</td><td>Hairless, clean skin; rotate sites; remove old patch before new</td></tr>
+        </table>
+        <div class="highlight"><strong>Needle Gauge:</strong> Higher gauge = smaller needle. 16g = large bore (blood/rapid IV). 24–25g = small bore (fragile veins, elderly, pediatric).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-card-header" onclick="toggleCard(this)">
+      <span class="q-num">Q11</span>
+      <h3>Medication Safety Systems — BCMA, Unit Dose & Do Not Use List</h3>
+      <span class="q-toggle">▾</span>
+    </div>
+    <div class="q-card-body">
+      <div class="answer-block">
+        <ul>
+          <li><strong>HIGH-ALERT drugs most associated with fatal errors:</strong> Insulin & Heparin</li>
+          <li><strong>Unit Dose:</strong> Each dose individually packaged and labeled — reduces errors and waste</li>
+          <li><strong>BCMA (Bar Code Medication Administration):</strong> Scan patient wristband + medication barcode + nurse ID badge before every administration</li>
+        </ul>
+        <div class="danger">
+          <strong>🚫 Do Not Use Abbreviations (Joint Commission):</strong><br>
+          • "U" for units → can be misread as "0" (10-fold overdose)<br>
+          • "IU" → can be mistaken for IV<br>
+          • Trailing zero (1.0 mg) → write as 1 mg<br>
+          • Naked decimal (.5 mg) → write as 0.5 mg<br>
+          • "QD" and "QOD" → write out "daily" and "every other day"
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 6: Glucocorticoids -->
+  <div class="section-header">
+    <div class="section-num">6</div>
+    <h2>Glucocorticoids (Adrenocortical Hormones)</h2>
+  </div>
+
+  <div class="q-card">
+    <div class="q-card-header" onclick="toggleCard(this)">
+      <span class="q-num">Q12</span>
+      <h3>Glucocorticoids — Actions, Uses, Adverse Reactions & Interactions</h3>
+      <span class="q-toggle">▾</span>
+    </div>
+    <div class="q-card-body">
+      <div class="answer-block">
+        <table class="data-table">
+          <tr><th>Category</th><th>Details</th></tr>
+          <tr><td><strong>Actions</strong></td><td>Anti-inflammatory, immunosuppressive, increase blood glucose, promote Na/water retention, suppress HPA axis (long-term)</td></tr>
+          <tr><td><strong>Uses</strong></td><td>Autoimmune disorders, asthma/COPD, severe allergic reactions, transplant rejection prevention, Addison's disease, cancer adjunct</td></tr>
+          <tr><td><strong>Adverse Reactions</strong></td><td>Hyperglycemia, Cushing's syndrome (moon face, buffalo hump), osteoporosis, immunosuppression, hypertension, peptic ulcers, mood changes, adrenal suppression</td></tr>
+          <tr><td><strong>Contraindications</strong></td><td>Active fungal infections, live vaccines, hypersensitivity. Caution: diabetes, peptic ulcers, hypertension, osteoporosis</td></tr>
+          <tr><td><strong>Key Drug Interactions</strong></td><td>NSAIDs → increased GI bleeding; Diuretics → worsened hypokalemia; Insulin/oral agents → hyperglycemia; Live vaccines → severe infection risk</td></tr>
+        </table>
+        <div class="danger">
+          <strong>🚨 NURSING ALERT — Never abruptly stop glucocorticoids!</strong><br>
+          Abrupt discontinuation causes ADRENAL CRISIS — a life-threatening emergency. Always taper dose gradually. Monitor glucose, BP, weight, and infection signs. Give WITH FOOD to reduce GI upset.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 7: Gerontology & Diabetes -->
+  <div class="section-header">
+    <div class="section-num">7</div>
+    <h2>Gerontology, Diabetes & Nursing Process</h2>
+  </div>
+
+  <div class="q-card">
+    <div class="q-card-header" onclick="toggleCard(this)">
+      <span class="q-num">Q13</span>
+      <h3>Gerontologic Considerations in Pharmacology</h3>
+      <span class="q-toggle">▾</span>
+    </div>
+    <div class="q-card-body">
+      <div class="answer-block">
+        <ul>
+          <li>Decreased renal and hepatic function → slower metabolism and excretion → drug accumulation</li>
+          <li>Higher risk for toxicity — <strong>START LOW, GO SLOW</strong> with dosing</li>
+          <li>Polypharmacy common — increases drug interaction risk significantly</li>
+          <li>Reduced albumin → more free (unbound) drug circulating → stronger effects</li>
+          <li>May have impaired vision, dexterity, or cognition affecting self-administration</li>
+          <li>Increased body fat → prolonged effect of fat-soluble drugs</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-card-header" onclick="toggleCard(this)">
+      <span class="q-num">Q14</span>
+      <h3>Health Literacy Assessment — Teach-Back Method</h3>
+      <span class="q-toggle">▾</span>
+    </div>
+    <div class="q-card-body">
+      <div class="answer-block">
+        <ul>
+          <li><strong>Teach-Back Method:</strong> Ask patient to explain instructions back in their OWN words — gold standard for assessing comprehension</li>
+          <li><strong>NVS (Newest Vital Sign):</strong> Patient reads a nutrition label and answers 6 questions — screens literacy in ~3 minutes</li>
+          <li><strong>Signs of low health literacy:</strong> Difficulty completing forms, avoids written materials, inconsistent medication use, misses appointments</li>
+          <li><strong>Strategies:</strong> Plain language, 5th–6th grade reading level, visual aids, professional translators, short focused sessions</li>
+        </ul>
+        <div class="highlight"><strong>Key:</strong> Recommended reading level for patient materials is 5th–6th grade. Always ask open-ended questions: "Tell me how you take your blood pressure medication" not "Do you understand?"</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-card-header" onclick="toggleCard(this)">
+      <span class="q-num">Q15</span>
+      <h3>The Five Steps of the Nursing Process</h3>
+      <span class="q-toggle">▾</span>
+    </div>
+    <div class="q-card-body">
+      <div class="answer-block">
+        <table class="data-table">
+          <tr><th>Step</th><th>Definition</th><th>Pharmacology Example</th></tr>
+          <tr><td><strong>1. Assessment</strong></td><td>Collect subjective & objective data</td><td>Check vitals, allergies, current meds, lab values</td></tr>
+          <tr><td><strong>2. Nursing Diagnosis</strong></td><td>Identify actual/potential health problems</td><td>"Risk for infection R/T immunosuppression"</td></tr>
+          <tr><td><strong>3. Planning</strong></td><td>Set measurable goals/outcomes</td><td>"Client will remain afebrile through hospitalization"</td></tr>
+          <tr><td><strong>4. Implementation</strong></td><td>Carry out planned interventions</td><td>Administer medications, teach side effects</td></tr>
+          <tr><td><strong>5. Evaluation</strong></td><td>Determine if goals were met; revise plan</td><td>Reassess lab values, ask for teach-back</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end study panel -->
+
+
+<!-- ════════════════════════════════════════
+     ATI TEST TAB
+════════════════════════════════════════ -->
+<div id="panel-test" class="tab-panel">
+
+  <div class="results-panel" id="results-panel">
+    <div class="score-circle" id="score-circle">
+      <span class="score-num" id="score-pct">—</span>
+      <span class="score-label">SCORE</span>
+    </div>
+    <div class="results-title" id="results-title">—</div>
+    <div class="results-sub" id="results-sub">—</div>
+    <div class="results-stats">
+      <div class="stat-box stat-correct">
+        <div class="stat-num" id="stat-correct">—</div>
+        <div class="stat-lbl">Correct</div>
+      </div>
+      <div class="stat-box stat-wrong">
+        <div class="stat-num" id="stat-wrong">—</div>
+        <div class="stat-lbl">Incorrect</div>
+      </div>
+      <div class="stat-box stat-pct">
+        <div class="stat-num" id="stat-score">—</div>
+        <div class="stat-lbl">Points</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <button class="btn btn-primary" onclick="resetTest()">🔄 Retake Test</button>
+      <button class="btn btn-outline" onclick="document.getElementById('results-panel').scrollIntoView({behavior:'smooth'})">📊 Review Answers Below</button>
+    </div>
+  </div>
+
+  <div class="test-controls">
+    <div class="test-meta">
+      <span class="meta-pill">Questions: <span id="q-count">25</span></span>
+      <span class="meta-pill">Answered: <span id="q-answered">0</span></span>
+      <span class="meta-pill">Remaining: <span id="q-remaining">25</span></span>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <button class="btn btn-primary" onclick="submitTest()" id="submit-btn">Submit Test</button>
+      <button class="btn btn-outline" onclick="resetTest()">Reset</button>
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span>Progress</span>
+      <span id="progress-text">0 / 25</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+  </div>
+
+  <div id="questions-container"></div>
+
+</div><!-- end test panel -->
+</div><!-- end main -->
+
+<script>
+// ════════════════════════════════
+// STUDY GUIDE LOGIC
+// ════════════════════════════════
+function toggleCard(header) {
+  const card = header.parentElement;
+  card.classList.toggle('open');
+}
+
+// ════════════════════════════════
+// TAB LOGIC
+// ════════════════════════════════
+function showTab(tab) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + tab).classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+}
+
+// ════════════════════════════════
+// TEST DATA
+// ════════════════════════════════
+const questions = [
+  {
+    id: 1,
+    stem: "A nurse is preparing to administer a medication and notices the order is written as 'U 10' for insulin units. Which action should the nurse take?",
+    type: "mc",
+    options: [
+      "Administer 10 units of insulin as ordered",
+      "Clarify the order with the prescriber before administration",
+      "Administer 100 units since 'U' is a common abbreviation",
+      "Contact the pharmacy to verify the dose"
+    ],
+    correct: [1],
+    rationale: "'U' is on the Joint Commission Do Not Use List because it can be mistaken for '0', resulting in a 10-fold overdose. The nurse must clarify all orders using unapproved abbreviations before administration. The correct documentation should read '10 units'."
+  },
+  {
+    id: 2,
+    stem: "A client is prescribed atorvastatin (Lipitor) for hyperlipidemia. The nurse should instruct the client to report which finding to the provider immediately?",
+    type: "mc",
+    options: [
+      "Mild headache",
+      "Occasional constipation",
+      "Severe unexplained muscle pain and dark-colored urine",
+      "Slight increase in appetite"
+    ],
+    correct: [2],
+    rationale: "These are hallmark signs of rhabdomyolysis — a potentially fatal breakdown of skeletal muscle releasing myoglobin, which can cause acute kidney injury. Dark (cola-colored) urine indicates myoglobinuria. The statin must be stopped immediately and the provider notified. Headache and constipation are minor side effects that do not require immediate reporting."
+  },
+  {
+    id: 3,
+    stem: "A nurse is teaching a client about the six + one (6+1) rights of medication administration. Which right was added most recently to supplement the original six?",
+    type: "mc",
+    options: [
+      "Right patient",
+      "Right documentation",
+      "Right reason",
+      "Right time"
+    ],
+    correct: [2],
+    rationale: "The original six rights are: patient, drug, dose, route, time, and documentation. The '+1' right added is the Right Reason — confirming the drug is appropriate and indicated for the client's current diagnosis before administration."
+  },
+  {
+    id: 4,
+    stem: "A nurse is assessing a client who has just received penicillin IV. The client develops urticaria, wheezing, and hypotension. Which medication should the nurse prepare to administer first?",
+    type: "mc",
+    options: [
+      "Diphenhydramine (Benadryl) IV",
+      "Methylprednisolone (Solu-Medrol) IV",
+      "Epinephrine IM",
+      "Normal saline bolus"
+    ],
+    correct: [2],
+    rationale: "The client is experiencing anaphylaxis — a life-threatening allergic reaction. Epinephrine IM is ALWAYS the first-line treatment. It reverses bronchospasm, vasodilation, and hypotension rapidly. Diphenhydramine and corticosteroids are secondary treatments. IV fluids support blood pressure but do not treat the primary pathophysiology."
+  },
+  {
+    id: 5,
+    stem: "A nurse is administering a subcutaneous (SC) injection of heparin to a client. Which action by the nurse is correct?",
+    type: "mc",
+    options: [
+      "Massage the injection site vigorously after administration",
+      "Aspirate before injecting to check for blood return",
+      "Administer at a 90-degree angle into pinched skin",
+      "Use a 1-inch needle for the injection"
+    ],
+    correct: [2],
+    rationale: "For SC injections, the nurse pinches the skin to elevate subcutaneous tissue and injects at a 45–90 degree angle depending on patient body habitus. The nurse should NOT massage heparin sites (increases bruising/hematoma), should NOT aspirate for SC heparin (current evidence-based practice), and should use a short needle (5/8 inch or less) for SC injections."
+  },
+  {
+    id: 6,
+    stem: "A client is taking cholestyramine (Questran) and warfarin. Which instruction is most important for the nurse to include in client teaching?",
+    type: "mc",
+    options: [
+      "Take both medications together with a full glass of water",
+      "Take warfarin 1 hour before or 4–6 hours after cholestyramine",
+      "Increase dietary vitamin K while taking both medications",
+      "Avoid all leafy green vegetables while on cholestyramine"
+    ],
+    correct: [1],
+    rationale: "Bile acid sequestrants like cholestyramine bind to other medications in the GI tract, significantly reducing their absorption. Warfarin taken with cholestyramine will have reduced bioavailability, causing decreased anticoagulant effect and increased clotting risk. Separating administration times by at least 1 hour before or 4–6 hours after prevents this pharmacokinetic interaction."
+  },
+  {
+    id: 7,
+    stem: "A nurse is reviewing a client's medication list and notes they are taking simvastatin, gemfibrozil, and niacin together for hyperlipidemia. Which concern should the nurse prioritize reporting to the provider?",
+    type: "mc",
+    options: [
+      "The combination may cause constipation",
+      "The client is at high risk for rhabdomyolysis",
+      "Niacin will reduce the effectiveness of simvastatin",
+      "The client may experience vitamin D deficiency"
+    ],
+    correct: [1],
+    rationale: "Combining a statin (simvastatin) with gemfibrozil (a fibrate) significantly increases the risk of myopathy and rhabdomyolysis. Adding niacin further elevates this risk. This dangerous combination requires immediate provider evaluation before the nurse administers any of these medications."
+  },
+  {
+    id: 8,
+    stem: "A client asks the nurse why their physician prescribed an 'HMG-CoA reductase inhibitor.' The nurse's best explanation is:",
+    type: "mc",
+    options: [
+      "HMG-CoA inhibitors only reduce triglycerides, not cholesterol",
+      "Statins block the enzyme responsible for cholesterol production in the liver, reducing LDL levels",
+      "These medications absorb cholesterol from food in the intestine",
+      "HMG-CoA inhibitors are only used after a heart attack"
+    ],
+    correct: [1],
+    rationale: "HMG-CoA reductase inhibitors (statins) work by inhibiting the rate-limiting enzyme in hepatic cholesterol synthesis. This reduces LDL production and upregulates LDL receptor expression, resulting in lower serum LDL cholesterol. They are used for both primary and secondary prevention of cardiovascular events."
+  },
+  {
+    id: 9,
+    stem: "A nurse is preparing to give a Z-track injection. Place the steps in correct order:\n1. Release the skin\n2. Withdraw the needle\n3. Displace the skin 1–1.5 inches laterally\n4. Insert needle at 90 degrees and inject medication",
+    type: "mc",
+    options: [
+      "3 → 4 → 1 → 2",
+      "3 → 4 → 2 → 1",
+      "4 → 3 → 2 → 1",
+      "1 → 3 → 4 → 2"
+    ],
+    correct: [1],
+    rationale: "Correct Z-track technique: (3) Displace skin laterally → (4) Insert needle and inject → (2) Withdraw the needle → (1) Release the skin. Releasing the skin AFTER withdrawing the needle seals the drug in the muscle, creating a 'Z' track that prevents medication from leaking back into subcutaneous tissue and causing irritation."
+  },
+  {
+    id: 10,
+    stem: "A nurse administers a client's morning medications and forgets to document the administration. The client goes to surgery 30 minutes later. What is the nurse's primary concern?",
+    type: "mc",
+    options: [
+      "The client may not receive appropriate post-op pain management",
+      "Duplicate medication administration may occur, causing toxicity or adverse effects",
+      "The client's surgical team will not know their diagnosis",
+      "The nurse will receive a negative performance review"
+    ],
+    correct: [1],
+    rationale: "Failure to document medication administration is a critical patient safety issue. Without documentation, another nurse may administer the same medication again — causing a double dose. This is especially dangerous with high-alert drugs like anticoagulants, sedatives, or insulin. The cardinal rule: Document AFTER giving, NEVER before — but always immediately after."
+  },
+  {
+    id: 11,
+    stem: "A nurse is caring for a client who takes prednisone 40mg daily for rheumatoid arthritis. Which laboratory finding should the nurse report to the provider?",
+    type: "mc",
+    options: [
+      "Serum potassium 3.9 mEq/L",
+      "Fasting blood glucose 245 mg/dL",
+      "Blood pressure 118/72 mmHg",
+      "Serum sodium 139 mEq/L"
+    ],
+    correct: [1],
+    rationale: "Glucocorticoids like prednisone cause hyperglycemia by increasing hepatic glucose production and decreasing peripheral glucose uptake. A fasting glucose of 245 mg/dL indicates significant hyperglycemia that requires immediate provider notification. This is especially critical in clients with pre-existing diabetes. The other values are all within normal limits."
+  },
+  {
+    id: 12,
+    stem: "A client is being discharged on a glucocorticoid taper after an acute asthma exacerbation. Which instruction is MOST critical for the nurse to include?",
+    type: "mc",
+    options: [
+      "Take the medication on an empty stomach for best absorption",
+      "Stop taking the medication immediately if you feel better",
+      "Never stop this medication abruptly — always follow the taper schedule",
+      "Take extra doses if asthma symptoms return"
+    ],
+    correct: [2],
+    rationale: "Abrupt discontinuation of glucocorticoids can precipitate adrenal crisis (acute adrenal insufficiency) — a life-threatening emergency. Long-term glucocorticoid use suppresses the HPA axis. The body requires a gradual dose reduction (taper) to allow the adrenal glands to resume normal cortisol production. This is the most critical discharge teaching point for glucocorticoid therapy."
+  },
+  {
+    id: 13,
+    stem: "A nurse is taking a medication history from a new client who takes several herbal supplements daily. Which response by the nurse is most appropriate?",
+    type: "mc",
+    options: [
+      "Herbal supplements are natural and therefore safe — no need to document them",
+      "Document all herbal supplements as they can interact with prescribed medications",
+      "Advise the client to stop all herbal supplements immediately",
+      "Herbal supplements are regulated by the FDA, so interactions are unlikely"
+    ],
+    correct: [1],
+    rationale: "Herbal supplements are NOT regulated by the FDA for safety, efficacy, or purity. Many have clinically significant drug interactions (St. John's Wort reduces warfarin and oral contraceptive effectiveness; garlic increases bleeding risk with anticoagulants). All herbal and supplement use must be documented and reported to the provider as part of a complete medication history."
+  },
+  {
+    id: 14,
+    stem: "The nurse is assessing a client with chronic kidney disease (CKD) who is prescribed multiple medications. Which pharmacokinetic process is the nurse MOST concerned about?",
+    type: "mc",
+    options: [
+      "Absorption — medications will not be absorbed from the GI tract",
+      "Distribution — medications will not reach target tissues",
+      "Metabolism — the liver cannot process medications",
+      "Excretion — medications and metabolites will accumulate, causing toxicity"
+    ],
+    correct: [3],
+    rationale: "The kidneys are the primary organ for drug excretion. Chronic kidney disease impairs renal elimination, causing drug and metabolite accumulation, which leads to prolonged drug effects and toxicity. Dose adjustments (often reduction) and increased monitoring intervals are required for renally-cleared drugs in CKD patients."
+  },
+  {
+    id: 15,
+    stem: "A nurse is educating a client about niacin therapy for dyslipidemia. The client asks why they should take aspirin 30 minutes before the niacin. The nurse's best response is:",
+    type: "mc",
+    options: [
+      "Aspirin enhances the cholesterol-lowering effect of niacin",
+      "Aspirin prevents the hepatotoxicity associated with niacin therapy",
+      "Aspirin reduces the cutaneous flushing reaction caused by niacin",
+      "Aspirin prevents GI bleeding caused by niacin"
+    ],
+    correct: [2],
+    rationale: "Cutaneous flushing (redness, warmth, itching of face and upper body) is the most common and bothersome adverse effect of niacin. It is caused by prostaglandin-mediated vasodilation. Taking low-dose aspirin (325mg) 30 minutes before niacin inhibits prostaglandin synthesis, significantly reducing the flushing response and improving medication adherence."
+  },
+  {
+    id: 16,
+    stem: "A client reports that their antihypertensive medication no longer seems to work as well after 2 weeks. The nurse suspects drug tolerance. Which statement best describes this phenomenon?",
+    type: "mc",
+    options: [
+      "The client is experiencing a placebo effect",
+      "Decreased drug response after repeated use, requiring higher doses for the same effect",
+      "An allergic reaction developing after repeated drug exposure",
+      "Toxic accumulation of the drug in the body"
+    ],
+    correct: [1],
+    rationale: "Drug tolerance is a pharmacodynamic phenomenon where repeated drug exposure causes a decreased response, requiring increased doses to achieve the same therapeutic effect. The body adapts — receptors may downregulate or the rate of drug metabolism may increase. Drug tolerance is different from addiction (psychological), physical dependence (withdrawal on stopping), or toxicity (too high dose)."
+  },
+  {
+    id: 17,
+    stem: "A nurse is about to administer a medication when the client says, 'I've never taken that pill before — it looks different from my usual one.' What is the nurse's priority action?",
+    type: "mc",
+    options: [
+      "Reassure the client that pills often change appearance between manufacturers",
+      "Administer the medication and document the client's concern",
+      "Stop and recheck the medication, order, and patient identity before proceeding",
+      "Ask the family member if the medication looks correct"
+    ],
+    correct: [2],
+    rationale: "A client's concern about an unfamiliar medication is a critical safety alert that must NEVER be dismissed. The nurse must STOP administration and verify: the medication against the MAR and original prescriber order, the patient's identity using two identifiers, and that the correct drug and dose were dispensed. Client concern about medications is one of the most important safety checks in preventing medication errors."
+  },
+  {
+    id: 18,
+    stem: "A nurse is preparing to administer insulin using a bar-code medication administration (BCMA) system. Which three items must be scanned before administering the medication? (Select all that apply)",
+    type: "sata",
+    options: [
+      "Patient's wristband",
+      "Medication vial barcode",
+      "Nurse's ID badge",
+      "Patient's allergy bracelet",
+      "Bedside MAR printed copy"
+    ],
+    correct: [0, 1, 2],
+    rationale: "The BCMA system requires scanning three items: (1) patient's wristband — verifies patient identity using two identifiers; (2) medication barcode — verifies correct drug, dose, and route; (3) nurse's ID badge — verifies the authorized administering nurse. This three-point electronic verification prevents medication errors by confirming the rights of administration. Allergy bracelets and printed MARs are not scanned in BCMA."
+  },
+  {
+    id: 19,
+    stem: "A nurse is caring for an elderly client (age 78) on multiple medications. Which age-related pharmacokinetic changes should the nurse consider? (Select all that apply)",
+    type: "sata",
+    options: [
+      "Decreased renal clearance leading to drug accumulation",
+      "Decreased hepatic metabolism increasing drug blood levels",
+      "Increased gastric acid production enhancing drug absorption",
+      "Decreased serum albumin affecting protein binding",
+      "Increased body fat affecting distribution of fat-soluble drugs"
+    ],
+    correct: [0, 1, 3, 4],
+    rationale: "In elderly clients: (A) decreased renal function reduces drug excretion → accumulation; (B) decreased hepatic function slows metabolism → higher drug levels; (D) lower albumin means more free (unbound) drug → stronger effects and increased toxicity risk; (E) increased body fat prolongs effects of fat-soluble drugs. Gastric acid production DECREASES with age (not increases), which may actually impair absorption of some drugs that require an acidic environment."
+  },
+  {
+    id: 20,
+    stem: "A nurse is teaching a client with diabetes who is starting prednisone for an autoimmune flare. Which instruction is the highest priority?",
+    type: "mc",
+    options: [
+      "Monitor blood glucose more frequently and report elevated readings to your provider",
+      "Increase your daily fluid intake to at least 3 liters",
+      "Expect hair loss as a common side effect of prednisone",
+      "Take prednisone at bedtime to reduce side effects"
+    ],
+    correct: [0],
+    rationale: "Glucocorticoids like prednisone cause hyperglycemia by increasing hepatic glucose production and decreasing insulin sensitivity. In a client with pre-existing diabetes, this can cause dangerous blood glucose elevations requiring insulin dose adjustments or additional medications. Monitoring glucose more frequently is the highest-priority teaching for a diabetic client starting corticosteroids."
+  },
+  {
+    id: 21,
+    stem: "A nurse explains drug interactions to a student nurse. Which scenario is the best example of a SYNERGISTIC drug interaction?",
+    type: "mc",
+    options: [
+      "A client takes antacids which reduce tetracycline absorption",
+      "A client takes two antibiotics that together kill bacteria more effectively than either alone",
+      "A client takes naloxone which reverses the effects of morphine",
+      "Two pain medications together provide exactly double the pain relief"
+    ],
+    correct: [1],
+    rationale: "A synergistic interaction produces an effect GREATER than the sum of individual drugs (1+1=3 or more). Two antibiotics with different mechanisms working together can eliminate bacteria more effectively than either alone — this is synergism. Option A is antagonistic absorption interaction, option C is pharmacological antagonism (receptor level), and option D describes an additive effect (1+1=2, not synergistic)."
+  },
+  {
+    id: 22,
+    stem: "A nurse understands that a drug with extensive first-pass metabolism will most likely require:",
+    type: "mc",
+    options: [
+      "A smaller oral dose to prevent toxicity",
+      "A higher oral dose or alternative route to achieve therapeutic levels",
+      "Administration with food to slow absorption",
+      "Dose reduction in clients with kidney disease"
+    ],
+    correct: [1],
+    rationale: "First-pass (hepatic) metabolism occurs after oral absorption — drugs pass through the portal circulation and are partially metabolized by the liver BEFORE reaching systemic circulation. This significantly reduces bioavailability. Drugs with high first-pass metabolism often require higher oral doses compared to IV, or may need alternative routes (sublingual, transdermal, IV) to bypass the liver and achieve therapeutic blood levels."
+  },
+  {
+    id: 23,
+    stem: "A nurse is conducting health literacy screening on a newly admitted client. Which technique is MOST effective for assessing a client's understanding of discharge medication instructions?",
+    type: "mc",
+    options: [
+      "Provide a written handout and ask if the client has any questions",
+      "Use the teach-back method — ask the client to explain the instructions in their own words",
+      "Ask the client to read the medication label aloud",
+      "Assess the client's formal education level"
+    ],
+    correct: [1],
+    rationale: "The teach-back method is the gold standard for assessing health literacy and patient understanding. By asking the client to explain back the information in their own words (not 'yes/no' questions), the nurse identifies knowledge gaps and corrects misunderstandings before discharge. Written handouts alone and education level assessment do not verify actual comprehension of the specific medication instructions."
+  },
+  {
+    id: 24,
+    stem: "A nurse is preparing to give an IM injection to an adult client. Which site is considered the SAFEST and most preferred for IM injections in adults?",
+    type: "mc",
+    options: [
+      "Dorsogluteal (upper outer quadrant of buttock)",
+      "Deltoid (upper arm)",
+      "Ventrogluteal (hip)",
+      "Vastus lateralis (outer thigh)"
+    ],
+    correct: [2],
+    rationale: "The ventrogluteal site is the PREFERRED site for IM injections in adults. It has the largest muscle mass at the site, fewest major blood vessels and nerves nearby, and the lowest risk of accidental sciatic nerve injury compared to the dorsogluteal site. The dorsogluteal site is no longer recommended due to proximity to the sciatic nerve and superior gluteal artery. The deltoid is limited to small volumes (0.5–1mL)."
+  },
+  {
+    id: 25,
+    stem: "A nurse must monitor which of the following in a client newly started on a glucocorticoid? (Select all that apply)",
+    type: "sata",
+    options: [
+      "Blood glucose levels",
+      "Signs and symptoms of infection",
+      "Blood pressure and fluid status",
+      "Serum calcium and bone density (long-term use)",
+      "Urine specific gravity for diabetes insipidus"
+    ],
+    correct: [0, 1, 2, 3],
+    rationale: "Glucocorticoids require monitoring: (A) blood glucose — steroids cause hyperglycemia; (B) infection signs — immunosuppression masks fever and other signs; (C) BP and fluid — sodium/water retention increases BP; (D) calcium and bone density with long-term use — steroids deplete calcium, causing osteoporosis. Urine specific gravity for diabetes insipidus (E) is not specifically associated with glucocorticoid therapy — steroids actually cause water retention, not diabetes insipidus."
+  }
+];
+
+// ════════════════════════════════
+// TEST STATE
+// ════════════════════════════════
+let userAnswers = {};
+let submitted = false;
+
+function renderQuestions() {
+  const container = document.getElementById('questions-container');
+  container.innerHTML = '';
+
+  questions.forEach((q, qi) => {
+    const letters = ['A', 'B', 'C', 'D', 'E'];
+    const isSATA = q.type === 'sata';
+
+    let optionsHTML = q.options.map((opt, oi) => `
+      <li class="option-item" id="opt-${q.id}-${oi}" onclick="selectOption(${q.id}, ${oi}, ${isSATA})">
+        <div class="opt-letter" id="ol-${q.id}-${oi}">${letters[oi]}</div>
+        <div class="opt-text">${opt}</div>
+        <div class="opt-icon" id="oi-${q.id}-${oi}"></div>
+      </li>
+    `).join('');
+
+    container.innerHTML += `
+      <div class="ati-card" id="card-${q.id}">
+        <div class="q-label">
+          Question ${q.id} of ${questions.length}
+          ${isSATA ? '<span class="sata-tag">SELECT ALL THAT APPLY</span>' : ''}
+        </div>
+        <div class="q-stem">${q.stem.replace(/\n/g, '<br>')}</div>
+        ${isSATA ? '<div class="q-sata-note">⚠️ Select ALL options that apply. Partial credit is not given on the NCLEX — you must select all correct answers and no incorrect ones.</div>' : ''}
+        <ul class="options-list">${optionsHTML}</ul>
+        <div class="rationale-box" id="rat-${q.id}">
+          <div class="rationale-title" id="rat-title-${q.id}">📋 Rationale</div>
+          <div class="rationale-text">${q.rationale}</div>
+        </div>
+      </div>
+    `;
+  });
+  updateProgress();
+}
+
+function selectOption(qId, optIdx, isSATA) {
+  if (submitted) return;
+
+  if (isSATA) {
+    if (!userAnswers[qId]) userAnswers[qId] = [];
+    const arr = userAnswers[qId];
+    const pos = arr.indexOf(optIdx);
+    if (pos === -1) arr.push(optIdx);
+    else arr.splice(pos, 1);
+    // Update visual
+    const q = questions.find(x => x.id === qId);
+    q.options.forEach((_, oi) => {
+      const el = document.getElementById(`opt-${qId}-${oi}`);
+      const ol = document.getElementById(`ol-${qId}-${oi}`);
+      if (arr.includes(oi)) {
+        el.classList.add('selected');
+      } else {
+        el.classList.remove('selected');
+      }
+    });
+  } else {
+    // Single select
+    const prev = userAnswers[qId];
+    if (prev !== undefined) {
+      document.getElementById(`opt-${qId}-${prev}`)?.classList.remove('selected');
+    }
+    userAnswers[qId] = optIdx;
+    document.getElementById(`opt-${qId}-${optIdx}`).classList.add('selected');
+  }
+  updateProgress();
+}
+
+function updateProgress() {
+  const answered = Object.keys(userAnswers).filter(k => {
+    const v = userAnswers[k];
+    return Array.isArray(v) ? v.length > 0 : v !== undefined;
+  }).length;
+  const total = questions.length;
+  const remaining = total - answered;
+  document.getElementById('q-answered').textContent = answered;
+  document.getElementById('q-remaining').textContent = remaining;
+  document.getElementById('progress-text').textContent = `${answered} / ${total}`;
+  document.getElementById('progress-fill').style.width = `${(answered/total)*100}%`;
+}
+
+function submitTest() {
+  if (submitted) return;
+
+  // Check if all answered
+  const answeredCount = Object.keys(userAnswers).filter(k => {
+    const v = userAnswers[k];
+    return Array.isArray(v) ? v.length > 0 : v !== undefined;
+  }).length;
+
+  if (answeredCount < questions.length) {
+    if (!confirm(`You have ${questions.length - answeredCount} unanswered questions. Submit anyway?`)) return;
+  }
+
+  submitted = true;
+  let correct = 0;
+
+  questions.forEach(q => {
+    const userAns = userAnswers[q.id];
+    const isSATA = q.type === 'sata';
+    let isCorrect = false;
+
+    if (isSATA) {
+      const ua = (userAns || []).slice().sort().join(',');
+      const ca = q.correct.slice().sort().join(',');
+      isCorrect = ua === ca;
+    } else {
+      isCorrect = userAns === q.correct[0];
+    }
+
+    if (isCorrect) correct++;
+
+    // Style options
+    q.options.forEach((_, oi) => {
+      const el = document.getElementById(`opt-${q.id}-${oi}`);
+      const icon = document.getElementById(`oi-${q.id}-${oi}`);
+      const isCorrectOpt = q.correct.includes(oi);
+      const wasSelected = isSATA ? (userAns || []).includes(oi) : userAns === oi;
+
+      el.classList.remove('selected');
+      if (wasSelected && isCorrectOpt) { el.classList.add('correct'); icon.textContent = '✓'; }
+      else if (wasSelected && !isCorrectOpt) { el.classList.add('incorrect'); icon.textContent = '✗'; }
+      else if (!wasSelected && isCorrectOpt) { el.classList.add('missed'); icon.textContent = '✓'; }
+    });
+
+    // Show rationale
+    const ratBox = document.getElementById(`rat-${q.id}`);
+    const ratTitle = document.getElementById(`rat-title-${q.id}`);
+    ratBox.classList.add('show');
+    if (!isCorrect) {
+      ratBox.classList.add('incorrect-rat');
+      ratTitle.textContent = '📋 Rationale — Review This';
+      ratTitle.style.color = '#d97706';
+    }
+
+    document.getElementById(`card-${q.id}`).classList.add('answered');
+  });
+
+  // Show results
+  const pct = Math.round((correct / questions.length) * 100);
+  const circle = document.getElementById('score-circle');
+  circle.className = 'score-circle ' + (pct >= 80 ? 'score-pass' : pct >= 65 ? 'score-ok' : 'score-fail');
+  document.getElementById('score-pct').textContent = pct + '%';
+  document.getElementById('results-title').textContent =
+    pct >= 80 ? '🎉 Great Work! You Passed!' :
+    pct >= 65 ? '📚 Getting There — Keep Reviewing!' :
+    '🔄 Keep Studying — You\'ve Got This!';
+  document.getElementById('results-sub').textContent =
+    `You answered ${correct} out of ${questions.length} questions correctly.`;
+  document.getElementById('stat-correct').textContent = correct;
+  document.getElementById('stat-wrong').textContent = questions.length - correct;
+  document.getElementById('stat-score').textContent = `${correct}/${questions.length}`;
+
+  const panel = document.getElementById('results-panel');
+  panel.classList.add('show');
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('submit-btn').textContent = 'Submitted ✓';
+}
+
+function resetTest() {
+  userAnswers = {};
+  submitted = false;
+  document.getElementById('results-panel').classList.remove('show');
+  document.getElementById('submit-btn').disabled = false;
+  document.getElementById('submit-btn').textContent = 'Submit Test';
+  renderQuestions();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Init
+renderQuestions();
+</script>
+</body>
+</html>
