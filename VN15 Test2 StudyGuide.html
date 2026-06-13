@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VN15 Test 2 Study Guide — Vital Signs & Assessment</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap');
+
+  :root {
+    --navy: #0f2744;
+    --teal: #1a7a8a;
+    --teal-light: #e8f4f6;
+    --gold: #c9973a;
+    --gold-light: #fdf6e8;
+    --red: #c0392b;
+    --green: #1e7e4a;
+    --white: #ffffff;
+    --gray-100: #f5f7fa;
+    --gray-200: #e8ecf0;
+    --gray-600: #6b7280;
+    --gray-800: #1f2937;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--gray-100);
+    color: var(--gray-800);
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--navy);
+    color: white;
+    padding: 2.5rem 2rem;
+    text-align: center;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: white;
+    margin-bottom: 0.3rem;
+  }
+  header p { color: #a0b4c8; font-size: 0.95rem; }
+
+  /* NAV TABS */
+  .tab-bar {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    background: var(--navy);
+    padding: 0 2rem 1rem;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    background: rgba(255,255,255,0.1);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.4rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover { background: var(--teal); }
+  .tab-btn.active { background: var(--gold); color: var(--navy); font-weight: 600; }
+
+  /* SECTIONS */
+  .section { display: none; padding: 2rem; max-width: 900px; margin: 0 auto; }
+  .section.active { display: block; }
+
+  /* STUDY GUIDE */
+  .topic-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid var(--teal);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .topic-card h2 {
+    color: var(--navy);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--gray-200);
+  }
+  .topic-card h3 {
+    color: var(--teal);
+    font-size: 0.95rem;
+    margin: 0.8rem 0 0.4rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    margin: 0.8rem 0;
+  }
+  th {
+    background: var(--navy);
+    color: white;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+    font-weight: 500;
+  }
+  td {
+    padding: 0.6rem 0.8rem;
+    border-bottom: 1px solid var(--gray-200);
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: var(--gray-100); }
+
+  .alert-box {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    margin: 0.8rem 0;
+    font-size: 0.88rem;
+  }
+  .alert-box strong { color: #856404; }
+
+  .normal-box {
+    background: #d4edda;
+    border: 1px solid #28a745;
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    margin: 0.8rem 0;
+    font-size: 0.88rem;
+  }
+  .normal-box strong { color: var(--green); }
+
+  ul { padding-left: 1.2rem; }
+  ul li { margin-bottom: 0.3rem; font-size: 0.9rem; }
+
+  /* FLASHCARDS */
+  .flashcard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .flashcard {
+    height: 180px;
+    perspective: 1000px;
+    cursor: pointer;
+  }
+  .flashcard-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+  }
+  .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+  .flashcard-front, .flashcard-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1.2rem;
+  }
+  .flashcard-front {
+    background: var(--navy);
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+  .flashcard-back {
+    background: var(--teal);
+    color: white;
+    transform: rotateY(180deg);
+    font-size: 0.88rem;
+  }
+  .flip-hint {
+    text-align: center;
+    color: var(--gray-600);
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+  .fc-category {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+
+  /* PRACTICE TEST */
+  .question-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .question-num {
+    font-size: 0.8rem;
+    color: var(--teal);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+  }
+  .question-text {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+  .options label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    padding: 0.6rem 0.8rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+    border: 1px solid var(--gray-200);
+    transition: background 0.15s;
+  }
+  .options label:hover { background: var(--teal-light); }
+  .options input[type="radio"] { margin-top: 2px; accent-color: var(--teal); }
+  .options input[type="checkbox"] { margin-top: 2px; accent-color: var(--teal); }
+
+  .answer-reveal {
+    display: none;
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 0.88rem;
+  }
+  .answer-reveal.correct { background: #d4edda; border: 1px solid #28a745; }
+  .answer-reveal.incorrect { background: #f8d7da; border: 1px solid #dc3545; }
+  .answer-reveal.show { display: block; }
+
+  .test-controls {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 0.7rem 1.5rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .btn-primary { background: var(--teal); color: white; }
+  .btn-primary:hover { background: var(--navy); }
+  .btn-secondary { background: var(--gray-200); color: var(--gray-800); }
+  .btn-secondary:hover { background: var(--gray-600); color: white; }
+  .btn-gold { background: var(--gold); color: white; }
+  .btn-gold:hover { background: #a37d2e; }
+
+  .score-display {
+    background: var(--navy);
+    color: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    display: none;
+  }
+  .score-display.show { display: block; }
+  .score-number { font-size: 3rem; font-weight: 700; color: var(--gold); }
+
+  /* PROGRESS */
+  .progress-bar {
+    height: 6px;
+    background: var(--gray-200);
+    border-radius: 3px;
+    margin-bottom: 1.5rem;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--teal);
+    border-radius: 3px;
+    transition: width 0.3s;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--navy);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--gold);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>VN15 Fundamentals of Nursing Theory</h1>
+  <p>Test 2 Study Guide — Vital Signs, Assessment & Physical Care</p>
+</header>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showSection('guide')">📖 Study Guide</button>
+  <button class="tab-btn" onclick="showSection('flashcards')">🃏 Flashcards</button>
+  <button class="tab-btn" onclick="showSection('test1')">📝 Practice Test 1</button>
+  <button class="tab-btn" onclick="showSection('test2')">📝 Practice Test 2</button>
+</div>
+
+<!-- ==================== STUDY GUIDE ==================== -->
+<div id="guide" class="section active">
+  <h2 class="section-title">Complete Study Guide</h2>
+
+  <!-- DATA TYPES -->
+  <div class="topic-card">
+    <h2>1. Types of Assessment Data</h2>
+    <table>
+      <tr><th>Type</th><th>Definition</th><th>Examples</th></tr>
+      <tr><td><strong>Subjective</strong></td><td>What the client tells the nurse — verbal reports, feelings, symptoms</td><td>"I feel nauseous," "My chest hurts," "I have pain"</td></tr>
+      <tr><td><strong>Objective</strong></td><td>Collected through diagnostic tests and physical assessments — measurable, observable</td><td>BP 120/80, O2 sat 99%, HR 88, temperature 98.6°F</td></tr>
+      <tr><td><strong>Primary Source</strong></td><td>Information from the client themselves</td><td>Client's verbal reports, client history</td></tr>
+      <tr><td><strong>Secondary Source</strong></td><td>Information from other sources</td><td>Family, medical records, other nurses</td></tr>
+    </table>
+  </div>
+
+  <!-- PULSE -->
+  <div class="topic-card">
+    <h2>2. Pulse</h2>
+    <div class="normal-box"><strong>Normal Adult Range:</strong> 60–100 beats/min at rest</div>
+    <h3>What to Document:</h3>
+    <ul>
+      <li>Rate (beats per minute)</li>
+      <li>Rhythm (regular or irregular)</li>
+      <li>Strength/amplitude (bounding, strong, weak, thready)</li>
+      <li>Equality (compare bilateral pulses)</li>
+    </ul>
+    <h3>Causes of Higher Pulse (Tachycardia >100):</h3>
+    <ul>
+      <li>Fever, medications, acute pain</li>
+      <li>Hyperthyroidism, anemia, hypoxemia</li>
+      <li>Stress/anxiety/fear</li>
+      <li>Hypovolemia, shock, heart failure, hemorrhage</li>
+      <li>Changing positions</li>
+    </ul>
+    <h3>Causes of Lower Pulse (Bradycardia &lt;60):</h3>
+    <ul>
+      <li>Long-term physical fitness/athletes</li>
+      <li>Hypothermia, medications</li>
+      <li>Chronic severe pain, relaxation</li>
+    </ul>
+    <h3>Pulse Deficit:</h3>
+    <p style="font-size:0.9rem; margin-top:0.5rem;">Beat at apical site with NO pulsation at radial pulse. Apical pulse > peripheral pulse. Indicates cardiac inefficiency.</p>
+    <h3>Apical Pulse Location:</h3>
+    <p style="font-size:0.9rem; margin-top:0.5rem;">Left midclavicular line at the 5th intercostal space (ICS)</p>
+    <h3>Irregular Heartbeat Findings:</h3>
+    <ul>
+      <li>Palpitations (>100 beats/min) or slow HR (&lt;60 beats/min)</li>
+      <li>Premature, late, or missed heartbeats</li>
+      <li>Irregular intervals between impulses</li>
+    </ul>
+  </div>
+
+  <!-- BLOOD PRESSURE -->
+  <div class="topic-card">
+    <h2>3. Blood Pressure</h2>
+    <p style="font-size:0.9rem; margin-bottom:0.8rem;">Reflects force the blood exerts against the walls of arteries during cardiac muscle contraction (systole) and relaxation (diastole).</p>
+    <div class="normal-box"><strong>Normal:</strong> &lt;120/80 mmHg</div>
+    <table>
+      <tr><th>Condition</th><th>Reading</th><th>Action</th></tr>
+      <tr><td><strong>Hypertension</strong></td><td>Consistently >120/80 mmHg (commonly above 140/90)</td><td>Seek help or treat if associated with other issues</td></tr>
+      <tr><td><strong>Hypotension</strong></td><td>Below 90/60 mmHg</td><td>Assess for cause, notify provider</td></tr>
+    </table>
+    <h3>How to Take Blood Pressure:</h3>
+    <ul>
+      <li>Patient has back support, uncrossed feet</li>
+      <li>Check for the right cuff size</li>
+      <li>Apply cuff 2 inches above elbow</li>
+      <li>Make sure arm is elevated and rested at heart level</li>
+    </ul>
+    <h3>Causes of Higher BP:</h3>
+    <ul>
+      <li>Older adults, stress, ethnicity, menopause</li>
+      <li>Adolescence in males, medications, obesity</li>
+      <li>Family history, high sodium intake</li>
+    </ul>
+    <h3>Causes of Lower BP:</h3>
+    <ul>
+      <li>Exercise, circadian rhythm</li>
+      <li>Infants have lower BP</li>
+    </ul>
+    <div class="alert-box"><strong>Postural/Orthostatic Hypotension:</strong> BP drops suddenly when changing positions. Both terms mean the same thing — just different names.</div>
+  </div>
+
+  <!-- TEMPERATURE -->
+  <div class="topic-card">
+    <h2>4. Temperature</h2>
+    <p style="font-size:0.9rem; margin-bottom:0.8rem;">Reflects body's internal and external temperature; the unit/location being measured matters.</p>
+    <div class="normal-box"><strong>Normal Adult:</strong> 97.6–99.6°F (36.4–37.6°C) oral</div>
+    <div class="alert-box"><strong>Fever in Adult:</strong> 100.4°F (38°C) or higher — keep patient hydrated, encourage rest, make sure patient is warm/comfortable</div>
+    <h3>Methods of Taking Temperature:</h3>
+    <table>
+      <tr><th>Route</th><th>Notes</th></tr>
+      <tr><td>Forehead (temporal artery)</td><td>Non-invasive, quick</td></tr>
+      <tr><td>Oral</td><td>Most common; wait 30 min after eating/drinking</td></tr>
+      <tr><td>Rectal</td><td>Most accurate; 1° higher than oral</td></tr>
+      <tr><td>Armpit (axillary)</td><td>Least accurate; 1° lower than oral</td></tr>
+      <tr><td>Ear (tympanic)</td><td>Quick, good for children</td></tr>
+    </table>
+    <p style="font-size:0.85rem; margin-top:0.5rem; color: var(--gray-600);">Alternative methods used when body parts are not accessible or depending on age, health status, and current status.</p>
+    <h3>Causes of Higher Temperature:</h3>
+    <ul>
+      <li>Dehydration, heat exhaustion, fever</li>
+      <li>Vital organ damage, heat stroke</li>
+    </ul>
+    <h3>Causes of Lower Temperature:</h3>
+    <ul>
+      <li>Nervous system depression, metabolism issues</li>
+      <li>Environment, cardiovascular and respiratory distress</li>
+    </ul>
+  </div>
+
+  <!-- CARDIOVASCULAR ASSESSMENT -->
+  <div class="topic-card">
+    <h2>5. Cardiovascular Assessment</h2>
+    <p style="font-size:0.9rem; margin-bottom:0.8rem;">Mix of both objective and subjective data — patient history, physical measurements, and diagnostic results.</p>
+    <h3>Data Collected:</h3>
+    <ul>
+      <li>Heart rate and rhythm</li>
+      <li>Blood pressure</li>
+      <li>Peripheral pulses</li>
+      <li>Skin color, temperature, capillary refill</li>
+      <li>Edema assessment</li>
+      <li>Heart sounds (S1, S2)</li>
+      <li>Patient history and symptoms</li>
+    </ul>
+  </div>
+
+  <!-- OXYGEN SATURATION -->
+  <div class="topic-card">
+    <h2>6. Oxygen Saturation (SpO2)</h2>
+    <div class="normal-box"><strong>Normal Range:</strong> 95–100%</div>
+    <div class="alert-box"><strong>Low O2 Sat:</strong> Below 92% — requires immediate intervention</div>
+    <h3>How to Obtain:</h3>
+    <p style="font-size:0.9rem; margin-top:0.5rem;">Place oximeter probe on vascular area — commonly fingers, toes, or earlobe — for 10–30 seconds.</p>
+    <h3>Causes of Low O2 Sat:</h3>
+    <ul>
+      <li>Reading drops below 92%</li>
+      <li>Lung conditions (pneumonia, COPD)</li>
+      <li>Heart issues</li>
+      <li>Environmental factors</li>
+      <li>Physical signs: shortness of breath, chest pain</li>
+    </ul>
+    <h3>Nursing Actions for Low O2 Sat:</h3>
+    <ul>
+      <li>Verify the reading first</li>
+      <li>Monitor/assess symptoms: SOB, cyanosis, confusion</li>
+      <li>Restore oxygenation — sit patient up</li>
+      <li>Provide supplemental oxygen (follow protocol)</li>
+      <li>Notify provider</li>
+    </ul>
+  </div>
+
+  <!-- TEETH AND ORAL CARE -->
+  <div class="topic-card">
+    <h2>7. Teeth and Oral Care</h2>
+    <ul>
+      <li>Important for digestion and peristalsis</li>
+      <li>Poor oral hygiene can increase risk of aspiration pneumonia</li>
+      <li>Can worsen systematic conditions like diabetes</li>
+      <li>Allows patient to feel clean and comfortable</li>
+      <li>Assess oral cavity regularly</li>
+      <li>Provide oral care at least twice daily</li>
+    </ul>
+  </div>
+
+  <!-- NORMAL VALUES QUICK REFERENCE -->
+  <div class="topic-card" style="border-left-color: var(--gold);">
+    <h2>⚡ Quick Reference — Normal Vital Signs</h2>
+    <table>
+      <tr><th>Vital Sign</th><th>Normal Adult Range</th><th>Critical Values</th></tr>
+      <tr><td>Heart Rate</td><td>60–100 bpm</td><td>&lt;60 (brady) or >100 (tachy)</td></tr>
+      <tr><td>Blood Pressure</td><td>&lt;120/80 mmHg</td><td>&lt;90/60 or >140/90</td></tr>
+      <tr><td>Temperature (oral)</td><td>97.6–99.6°F</td><td>>100.4°F = fever</td></tr>
+      <tr><td>Respiratory Rate</td><td>12–20 breaths/min</td><td>&lt;12 or >20</td></tr>
+      <tr><td>O2 Saturation</td><td>95–100%</td><td>&lt;92% = intervene</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ==================== FLASHCARDS ==================== -->
+<div id="flashcards" class="section">
+  <h2 class="section-title">Flashcards</h2>
+  <p class="flip-hint">👆 Click any card to reveal the answer</p>
+  <div class="flashcard-grid" id="flashcardContainer"></div>
+</div>
+
+<!-- ==================== PRACTICE TEST 1 ==================== -->
+<div id="test1" class="section">
+  <h2 class="section-title">ATI-Style Practice Test 1</h2>
+  <div class="test-controls">
+    <button class="btn btn-primary" onclick="checkAnswers('test1')">Submit Test</button>
+    <button class="btn btn-secondary" onclick="resetTest('test1')">Reset</button>
+  </div>
+  <div class="score-display" id="score1"></div>
+  <div id="test1-questions"></div>
+</div>
+
+<!-- ==================== PRACTICE TEST 2 ==================== -->
+<div id="test2" class="section">
+  <h2 class="section-title">ATI-Style Practice Test 2</h2>
+  <div class="test-controls">
+    <button class="btn btn-primary" onclick="checkAnswers('test2')">Submit Test</button>
+    <button class="btn btn-secondary" onclick="resetTest('test2')">Reset</button>
+  </div>
+  <div class="score-display" id="score2"></div>
+  <div id="test2-questions"></div>
+</div>
+
+<script>
+// ==================== TAB NAVIGATION ====================
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ==================== FLASHCARD DATA ====================
+const flashcards = [
+  { cat: 'Assessment', q: 'What is subjective data?', a: 'What the CLIENT tells the nurse — verbal reports, feelings, symptoms. Example: "I feel nauseous"' },
+  { cat: 'Assessment', q: 'What is objective data?', a: 'Collected through physical assessment and diagnostics — measurable. Example: BP 120/80, O2 sat 99%' },
+  { cat: 'Assessment', q: 'What is the PRIMARY source of assessment data?', a: 'The CLIENT themselves — their verbal reports and direct observations' },
+  { cat: 'Pulse', q: 'Normal adult pulse range', a: '60–100 beats per minute at rest' },
+  { cat: 'Pulse', q: 'What is tachycardia?', a: 'Heart rate GREATER THAN 100 bpm' },
+  { cat: 'Pulse', q: 'What is bradycardia?', a: 'Heart rate LESS THAN 60 bpm' },
+  { cat: 'Pulse', q: 'Where is the apical pulse located?', a: 'Left midclavicular line at the 5th intercostal space (ICS)' },
+  { cat: 'Pulse', q: 'What is a pulse deficit?', a: 'A beat at the apical site with NO pulsation at the radial pulse. Apical > peripheral pulse.' },
+  { cat: 'Blood Pressure', q: 'Normal blood pressure range', a: 'Less than 120/80 mmHg' },
+  { cat: 'Blood Pressure', q: 'What is hypertension?', a: 'Consistently elevated BP — commonly above 120/80 (significant at 140/90 mmHg)' },
+  { cat: 'Blood Pressure', q: 'What is hypotension?', a: 'BP reading lower than 90/60 mmHg' },
+  { cat: 'Blood Pressure', q: 'What is orthostatic/postural hypotension?', a: 'BP drops suddenly when CHANGING POSITIONS. Both terms mean the same thing.' },
+  { cat: 'Blood Pressure', q: 'How do you properly position a patient for BP?', a: 'Back support, uncrossed feet, arm elevated at heart level, cuff 2 inches above elbow' },
+  { cat: 'Temperature', q: 'Normal oral temperature in adults', a: '97.6–99.6°F (36.4–37.6°C)' },
+  { cat: 'Temperature', q: 'At what temperature is an adult considered febrile?', a: '100.4°F (38°C) or higher' },
+  { cat: 'Temperature', q: 'Which temperature route is MOST accurate?', a: 'Rectal — 1 degree HIGHER than oral' },
+  { cat: 'Temperature', q: 'Which temperature route is LEAST accurate?', a: 'Axillary (armpit) — 1 degree LOWER than oral' },
+  { cat: 'Temperature', q: 'List the 5 temperature routes', a: 'Forehead (temporal), Oral, Rectal, Axillary (armpit), Ear (tympanic)' },
+  { cat: 'O2 Sat', q: 'Normal oxygen saturation range', a: '95–100%' },
+  { cat: 'O2 Sat', q: 'At what O2 sat level do you intervene?', a: 'Below 92% — requires immediate intervention' },
+  { cat: 'O2 Sat', q: 'How do you obtain O2 saturation?', a: 'Place pulse oximeter on vascular area (finger, toe, earlobe) for 10–30 seconds' },
+  { cat: 'O2 Sat', q: 'First nursing action for low O2 sat?', a: 'VERIFY the reading first, then assess symptoms and restore oxygenation' },
+  { cat: 'Cardiac', q: 'What does systole refer to in BP?', a: 'Cardiac muscle CONTRACTION — the top number in BP reading' },
+  { cat: 'Cardiac', q: 'What does diastole refer to in BP?', a: 'Cardiac muscle RELAXATION — the bottom number in BP reading' },
+  { cat: 'Oral Care', q: 'Why is oral care important?', a: 'Supports digestion/peristalsis; prevents aspiration pneumonia; improves systemic conditions like diabetes; promotes comfort' },
+];
+
+// ==================== RENDER FLASHCARDS ====================
+function renderFlashcards() {
+  const container = document.getElementById('flashcardContainer');
+  container.innerHTML = flashcards.map((fc, i) => `
+    <div class="flashcard" onclick="this.classList.toggle('flipped')" id="fc${i}">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <div>
+            <div class="fc-category">${fc.cat}</div>
+            <div>${fc.q}</div>
+          </div>
+        </div>
+        <div class="flashcard-back">
+          <div>${fc.a}</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ==================== TEST DATA ====================
+const test1Questions = [
+  {
+    num: 1,
+    text: 'A nurse is assessing a client and the client states, "I have been having chest pain for the past two hours." The nurse should identify this as which type of data?',
+    type: 'single',
+    options: ['A. Objective data', 'B. Subjective data', 'C. Primary data', 'D. Secondary data'],
+    correct: 1,
+    rationale: 'Subjective data is what the CLIENT tells the nurse — verbal reports of feelings and symptoms. "I have chest pain" is exactly what the client is reporting, making it subjective data.'
+  },
+  {
+    num: 2,
+    text: 'A nurse obtains a client\'s blood pressure as 88/52 mmHg. Which of the following conditions does this finding indicate?',
+    type: 'single',
+    options: ['A. Hypertension', 'B. Normal blood pressure', 'C. Hypotension', 'D. Orthostatic hypotension'],
+    correct: 2,
+    rationale: 'Hypotension is a BP reading lower than 90/60 mmHg. The reading of 88/52 mmHg falls below this threshold, indicating hypotension.'
+  },
+  {
+    num: 3,
+    text: 'A nurse is measuring a client\'s temperature using the axillary route and obtains a reading of 98.0°F. How should the nurse interpret this finding?',
+    type: 'single',
+    options: ['A. The client has a fever', 'B. This is a normal oral temperature equivalent', 'C. The axillary temperature is 1° lower than oral, so this is equivalent to 99.0°F orally', 'D. This indicates hypothermia'],
+    correct: 2,
+    rationale: 'Axillary temperature is 1 degree LOWER than oral. So 98.0°F axillary = 99.0°F oral, which is still within the normal adult range (97.6–99.6°F).'
+  },
+  {
+    num: 4,
+    text: 'A nurse is preparing to take a client\'s blood pressure. Which of the following actions should the nurse take?',
+    type: 'single',
+    options: ['A. Apply the cuff directly over the antecubital fossa', 'B. Have the client cross their legs for comfort', 'C. Apply the cuff 2 inches above the elbow with arm at heart level', 'D. Use the smallest cuff available for accuracy'],
+    correct: 2,
+    rationale: 'For accurate BP measurement: ensure back support, uncrossed feet, apply cuff 2 inches above elbow, arm elevated at heart level. Using the wrong cuff size gives inaccurate readings.'
+  },
+  {
+    num: 5,
+    text: 'A nurse is assessing a client\'s pulse and notes that the apical rate is 96 bpm but the radial pulse is 78 bpm. The nurse should identify this finding as:',
+    type: 'single',
+    options: ['A. Normal variation', 'B. Tachycardia', 'C. A pulse deficit', 'D. Bradycardia'],
+    correct: 2,
+    rationale: 'A pulse deficit occurs when the apical pulse is greater than the peripheral pulse. This indicates that some cardiac contractions are not producing enough force to be felt at the peripheral site.'
+  },
+  {
+    num: 6,
+    text: 'A nurse is caring for a client whose oxygen saturation drops to 88%. Which of the following actions should the nurse take FIRST?',
+    type: 'single',
+    options: ['A. Immediately apply supplemental oxygen at 10 L/min', 'B. Verify the reading and assess the client for symptoms', 'C. Call the provider immediately', 'D. Document the finding and continue monitoring'],
+    correct: 1,
+    rationale: 'The FIRST action is to VERIFY the reading, then assess symptoms (SOB, cyanosis, confusion). After verification and assessment, restore oxygenation and notify the provider if indicated.'
+  },
+  {
+    num: 7,
+    text: 'A nurse is teaching a student nurse about oral temperature measurement. Which of the following statements about temperature routes is CORRECT?',
+    type: 'single',
+    options: ['A. Rectal temperature is 1° lower than oral', 'B. Axillary temperature is the most accurate route', 'C. Tympanic temperature is used only for adults', 'D. Rectal temperature is 1° higher than oral and is the most accurate'],
+    correct: 3,
+    rationale: 'Rectal temperature is 1° HIGHER than oral and is considered the most accurate route. Axillary is 1° lower than oral and is the least accurate.'
+  },
+  {
+    num: 8,
+    text: 'A nurse notes a client\'s heart rate is 118 bpm. Which of the following conditions could cause this finding? (Select all that apply)',
+    type: 'multi',
+    options: ['A. Fever', 'B. Long-term physical fitness', 'C. Acute pain', 'D. Hypothermia', 'E. Hypoxemia'],
+    correct: [0, 2, 4],
+    rationale: 'Tachycardia (>100 bpm) is caused by: fever, acute pain, hypoxemia, medications, hyperthyroidism, anemia, stress, hypovolemia, shock. Long-term fitness and hypothermia cause BRADYCARDIA.'
+  },
+  {
+    num: 9,
+    text: 'A client tells the nurse, "When I stand up quickly, I feel dizzy and my vision goes dark." The nurse recognizes this as which condition?',
+    type: 'single',
+    options: ['A. Hypertension', 'B. Tachycardia', 'C. Orthostatic hypotension', 'D. Pulse deficit'],
+    correct: 2,
+    rationale: 'Postural/orthostatic hypotension occurs when BP drops suddenly upon changing positions. Both terms describe the exact same condition — just different names.'
+  },
+  {
+    num: 10,
+    text: 'A nurse is performing a cardiovascular assessment. Which of the following types of data would be OBJECTIVE findings? (Select all that apply)',
+    type: 'multi',
+    options: ['A. Client reports chest tightness', 'B. Heart rate of 92 bpm', 'C. Blood pressure 138/88 mmHg', 'D. Client states "I feel short of breath"', 'E. O2 saturation 94%'],
+    correct: [1, 2, 4],
+    rationale: 'Objective data is measurable and observable: HR 92, BP 138/88, O2 sat 94% are all objective. "Chest tightness" and "I feel short of breath" are subjective — reported by the client.'
+  },
+  {
+    num: 11,
+    text: 'A nurse is caring for a client with an oral temperature of 101.2°F. Which of the following interventions is appropriate?',
+    type: 'single',
+    options: ['A. Apply ice packs to the client\'s chest', 'B. Keep the client hydrated, encourage rest, and ensure comfort', 'C. Restrict fluid intake', 'D. No action needed — this is a normal temperature'],
+    correct: 1,
+    rationale: 'A temperature of 101.2°F is above the fever threshold (100.4°F / 38°C). Keep the patient hydrated, encourage rest, and ensure warmth/comfort.'
+  },
+  {
+    num: 12,
+    text: 'Which of the following BEST describes why poor oral hygiene is clinically significant for a hospitalized client?',
+    type: 'single',
+    options: ['A. It only affects the client\'s appearance', 'B. It can increase risk of aspiration pneumonia and worsen systemic conditions', 'C. It only matters for clients on ventilators', 'D. It has no impact on medical outcomes'],
+    correct: 1,
+    rationale: 'Poor oral hygiene can increase risk of aspiration pneumonia and worsen systemic conditions such as diabetes. It also affects digestion/peristalsis and the client\'s comfort and dignity.'
+  },
+  {
+    num: 13,
+    text: 'A nurse is assessing a client\'s blood pressure and obtains 142/92 mmHg on two separate readings. The nurse should document this as:',
+    type: 'single',
+    options: ['A. Normal blood pressure', 'B. Hypotension', 'C. Hypertension', 'D. Prehypertension only'],
+    correct: 2,
+    rationale: 'Hypertension is consistently elevated BP, commonly above 120/80 and significant at 140/90 mmHg. Two readings of 142/92 confirm hypertension requiring further assessment and follow-up.'
+  },
+  {
+    num: 14,
+    text: 'A nurse is assessing a client\'s pulse characteristics. Which of the following should be included in pulse documentation? (Select all that apply)',
+    type: 'multi',
+    options: ['A. Rate (beats per minute)', 'B. Rhythm (regular or irregular)', 'C. Client\'s pain level', 'D. Strength/amplitude', 'E. Equality of bilateral pulses'],
+    correct: [0, 1, 3, 4],
+    rationale: 'Pulse documentation includes: rate, rhythm, strength/amplitude (bounding, strong, weak, thready), and equality of bilateral pulses. Pain level is documented separately as a subjective finding.'
+  },
+  {
+    num: 15,
+    text: 'A nurse needs to measure a client\'s temperature but the client just finished drinking hot coffee. Which route should the nurse choose?',
+    type: 'single',
+    options: ['A. Oral — wait 5 minutes after drinking', 'B. Oral — coffee does not affect oral temperature', 'C. Tympanic or axillary — oral requires waiting 30 minutes after eating/drinking', 'D. Rectal — it is the only accurate method'],
+    correct: 2,
+    rationale: 'Oral temperature requires waiting 30 minutes after eating or drinking hot/cold substances. When oral is not appropriate, alternative routes such as tympanic or axillary should be used.'
+  },
+  {
+    num: 16,
+    text: 'A nurse auscultates a client\'s apical pulse. Where should the nurse place the stethoscope?',
+    type: 'single',
+    options: ['A. Right midclavicular line, 4th ICS', 'B. Left midclavicular line, 5th ICS', 'C. Left sternal border, 2nd ICS', 'D. Right axillary line, 6th ICS'],
+    correct: 1,
+    rationale: 'The apical pulse (PMI — point of maximal impulse) is located at the left midclavicular line at the 5th intercostal space (ICS).'
+  },
+  {
+    num: 17,
+    text: 'A nurse is evaluating causes of a client\'s low blood pressure. Which of the following would cause LOWER BP? (Select all that apply)',
+    type: 'multi',
+    options: ['A. Regular exercise', 'B. Obesity', 'C. Circadian rhythm fluctuations', 'D. High sodium intake', 'E. Infancy'],
+    correct: [0, 2, 4],
+    rationale: 'Exercise, normal circadian rhythm fluctuations, and infancy are associated with lower BP. Obesity and high sodium intake cause HIGHER BP.'
+  },
+  {
+    num: 18,
+    text: 'A client\'s respiratory rate is 24 breaths/min. The nurse should recognize this as:',
+    type: 'single',
+    options: ['A. Normal adult respiratory rate', 'B. Bradypnea', 'C. Tachypnea', 'D. Apnea'],
+    correct: 2,
+    rationale: 'Normal adult respiratory rate is 12–20 breaths/min. A rate of 24 is above normal, which is called tachypnea. Bradypnea is below 12. Apnea is absence of breathing.'
+  },
+  {
+    num: 19,
+    text: 'A nurse is teaching a new graduate about cardiovascular assessment data. Which statement is correct?',
+    type: 'single',
+    options: ['A. Cardiovascular assessment only uses objective data', 'B. Cardiovascular assessment uses only subjective data', 'C. Cardiovascular assessment uses a mix of both objective and subjective data', 'D. Diagnostic results are not part of cardiovascular assessment'],
+    correct: 2,
+    rationale: 'Cardiovascular assessment uses a mix of both objective (BP, HR, O2 sat) and subjective data (patient history, reported symptoms). Both types together give the most complete picture.'
+  },
+  {
+    num: 20,
+    text: 'A nurse is caring for a client with a rectal temperature of 100.0°F. What is the equivalent oral temperature?',
+    type: 'single',
+    options: ['A. 101.0°F', 'B. 99.0°F', 'C. 100.0°F — no adjustment needed', 'D. 98.0°F'],
+    correct: 1,
+    rationale: 'Rectal temperature is 1° HIGHER than oral. So if rectal = 100.0°F, the oral equivalent = 99.0°F, which is within the normal adult range (97.6–99.6°F).'
+  },
+  {
+    num: 21,
+    text: 'Which of the following are causes of LOWER body temperature? (Select all that apply)',
+    type: 'multi',
+    options: ['A. Dehydration', 'B. Nervous system depression', 'C. Heat stroke', 'D. Cardiovascular distress', 'E. Environmental exposure to cold'],
+    correct: [1, 3, 4],
+    rationale: 'Lower temperatures are caused by: nervous system depression, cardiovascular/respiratory distress, environmental cold, and slowed metabolism. Dehydration and heat stroke RAISE temperature.'
+  },
+  {
+    num: 22,
+    text: 'A nurse is caring for a client who reports "my heart is pounding and racing." The nurse measures the pulse at 108 bpm. Which term correctly describes this finding?',
+    type: 'single',
+    options: ['A. Bradycardia', 'B. Pulse deficit', 'C. Tachycardia', 'D. Normal sinus rhythm'],
+    correct: 2,
+    rationale: 'Tachycardia is a heart rate greater than 100 bpm. The client\'s rate of 108 bpm exceeds the normal range (60–100 bpm), confirming tachycardia.'
+  },
+  {
+    num: 23,
+    text: 'A nurse is explaining the difference between systolic and diastolic BP. Which of the following is correct?',
+    type: 'single',
+    options: ['A. Systolic = relaxation; diastolic = contraction', 'B. Systolic = contraction (top number); diastolic = relaxation (bottom number)', 'C. Both systolic and diastolic occur during heart relaxation', 'D. Diastolic is always the higher number'],
+    correct: 1,
+    rationale: 'Systolic BP = pressure during cardiac muscle CONTRACTION (top number). Diastolic BP = pressure during cardiac muscle RELAXATION (bottom number). Normal is <120 systolic / <80 diastolic.'
+  },
+  {
+    num: 24,
+    text: 'A nurse obtains a pulse oximetry reading of 93% on a client who appears comfortable and is breathing normally. What should the nurse do FIRST?',
+    type: 'single',
+    options: ['A. Immediately call a code', 'B. Administer 100% O2 via non-rebreather mask', 'C. Verify the reading by repositioning the probe and reassessing', 'D. Document as normal and continue care'],
+    correct: 2,
+    rationale: 'When an unexpected low O2 sat is obtained, the FIRST step is to VERIFY the reading by repositioning the probe and reassessing. False readings can occur due to nail polish, poor circulation, or probe placement.'
+  },
+  {
+    num: 25,
+    text: 'Which of the following clients would be at HIGHEST risk for hypertension? (Select all that apply)',
+    type: 'multi',
+    options: ['A. 65-year-old with obesity and high sodium diet', 'B. 25-year-old marathon runner', 'C. 55-year-old postmenopausal woman with family history of HTN', 'D. Newborn infant', 'E. Client with chronic stress and sedentary lifestyle'],
+    correct: [0, 2, 4],
+    rationale: 'Risk factors for hypertension include: older age, obesity, high sodium intake, menopause, family history, stress, and sedentary lifestyle. Young athletes and infants typically have lower BP.'
+  },
+  {
+    num: 26,
+    text: 'A nurse is documenting a client\'s vital signs. The client\'s temperature is 102.1°F oral, HR 110, BP 98/62, RR 22, O2 sat 93%. Which finding requires the MOST immediate action?',
+    type: 'single',
+    options: ['A. Temperature 102.1°F', 'B. Heart rate 110 bpm', 'C. Blood pressure 98/62 mmHg', 'D. O2 saturation 93%'],
+    correct: 3,
+    rationale: 'While all values are abnormal, O2 sat 93% (below 95%) requires the most immediate action because hypoxemia threatens tissue oxygenation. Airway and breathing are always the top priority per ABCs.'
+  },
+  {
+    num: 27,
+    text: 'A nurse is preparing to measure a client\'s blood pressure. The client has been walking and just sat down. What should the nurse do?',
+    type: 'single',
+    options: ['A. Take the reading immediately for accuracy', 'B. Allow the client to rest for 5 minutes before taking BP', 'C. Take the BP while the client is standing', 'D. Ask the client to take a deep breath during the measurement'],
+    correct: 1,
+    rationale: 'The client should rest for at least 5 minutes before BP measurement. Activity increases BP and would give a falsely elevated reading. Proper technique requires the client to be at rest.'
+  },
+  {
+    num: 28,
+    text: 'A nurse identifies that a client has bradycardia. Which of the following could be causing this? (Select all that apply)',
+    type: 'multi',
+    options: ['A. Hypothermia', 'B. Fever', 'C. Long-term physical fitness', 'D. Acute pain', 'E. Certain medications (beta-blockers)'],
+    correct: [0, 2, 4],
+    rationale: 'Bradycardia (<60 bpm) causes include: hypothermia, long-term physical fitness (athletes), and certain medications like beta-blockers. Fever and acute pain cause TACHYCARDIA.'
+  },
+  {
+    num: 29,
+    text: 'A nurse is caring for a client and obtains these vital signs: BP 118/76, HR 88, RR 16, Temp 98.8°F oral, O2 sat 98%. How should the nurse interpret these findings?',
+    type: 'single',
+    options: ['A. All values are abnormal — notify the provider', 'B. Only the heart rate is elevated', 'C. All values are within normal limits', 'D. Temperature indicates a fever'],
+    correct: 2,
+    rationale: 'All values are within normal ranges: BP <120/80 ✓, HR 60–100 ✓, RR 12–20 ✓, Temp 97.6–99.6°F ✓, O2 sat 95–100% ✓. No immediate action required.'
+  },
+  {
+    num: 30,
+    text: 'A nurse is performing oral care on an unconscious client. Which of the following actions is MOST important?',
+    type: 'single',
+    options: ['A. Use a regular toothbrush with toothpaste', 'B. Position the client supine (flat on back) for ease of access', 'C. Position the client on their side to prevent aspiration', 'D. Perform oral care once per week'],
+    correct: 2,
+    rationale: 'For unconscious clients, the most important action during oral care is positioning the client on their SIDE to prevent aspiration. Unconscious clients cannot protect their own airway. Oral care should be performed frequently (every 2–4 hours).'
+  },
+];
+
+const test2Questions = [
+  {
+    num: 1,
+    text: 'A nurse is taking a client\'s blood pressure and obtains a reading of 158/94 mmHg on two separate occasions. The nurse should document this as:',
+    type: 'single',
+    options: ['A. Normal blood pressure', 'B. Hypotension', 'C. Hypertension', 'D. Orthostatic hypotension'],
+    correct: 2,
+    rationale: 'Hypertension is a consistently elevated BP — commonly above 120/80 and significant at 140/90 mmHg. A reading of 158/94 on two occasions confirms hypertension.'
+  },
+  {
+    num: 2,
+    text: 'A nurse measures an adult client\'s resting heart rate and obtains 54 bpm. Which of the following is the MOST likely explanation for this finding?',
+    type: 'single',
+    options: ['A. Acute pain', 'B. Fever', 'C. Long-term physical fitness', 'D. Hypoxemia'],
+    correct: 2,
+    rationale: 'Bradycardia (<60 bpm) in an otherwise healthy adult is most commonly caused by long-term physical fitness (athletes). Fever, acute pain, and hypoxemia all cause TACHYCARDIA.'
+  },
+  {
+    num: 3,
+    text: 'A nurse is assessing a client\'s temperature and the client has recently eaten and had hot coffee. Which temperature route should the nurse use?',
+    type: 'single',
+    options: ['A. Oral — wait 5 minutes', 'B. Axillary', 'C. Tympanic', 'D. Oral — food does not affect oral temperature'],
+    correct: 2,
+    rationale: 'Oral temperature requires waiting 30 minutes after eating or drinking hot/cold substances. When oral is not appropriate, alternative routes such as tympanic or axillary should be used.'
+  },
+  {
+    num: 4,
+    text: 'A nurse is reviewing a client\'s chart and notes: "Client reports pain 8/10." This is an example of which type of data?',
+    type: 'single',
+    options: ['A. Objective data', 'B. Secondary data', 'C. Subjective data', 'D. Diagnostic data'],
+    correct: 2,
+    rationale: 'A client\'s self-report of pain is subjective data — it is what the client tells the nurse. Objective data would be a measurable finding like blood pressure or temperature.'
+  },
+  {
+    num: 5,
+    text: 'A nurse is caring for a client whose O2 saturation is 90%. After verifying the reading, which of the following actions should the nurse take NEXT?',
+    type: 'single',
+    options: ['A. Document the finding and re-check in 4 hours', 'B. Sit the client up and provide supplemental oxygen per protocol', 'C. Administer IV fluids immediately', 'D. Restrict the client\'s activity'],
+    correct: 1,
+    rationale: 'After verifying a low O2 sat (90% < 92% threshold), the nurse should restore oxygenation — sit the patient up and provide supplemental oxygen per protocol. Notify the provider.'
+  },
+  {
+    num: 6,
+    text: 'Which of the following findings indicate an IRREGULAR heartbeat? (Select all that apply)',
+    type: 'multi',
+    options: ['A. Heart rate of 78 bpm', 'B. Heart rate greater than 100 bpm', 'C. Missed or premature heartbeats', 'D. Irregular intervals between impulses', 'E. Heart rate less than 60 bpm'],
+    correct: [1, 2, 3, 4],
+    rationale: 'Irregular heartbeat signs include: HR >100 (tachycardia), HR <60 (bradycardia), premature/missed/late heartbeats, and irregular intervals between impulses. A rate of 78 bpm is normal.'
+  },
+  {
+    num: 7,
+    text: 'A nurse is documenting vital signs. Which of the following is objective data? (Select all that apply)',
+    type: 'multi',
+    options: ['A. Temperature 99.1°F oral', 'B. Client states "I feel cold"', 'C. Blood pressure 122/78 mmHg', 'D. Respiratory rate 18 breaths/min', 'E. Client reports headache'],
+    correct: [0, 2, 3],
+    rationale: 'Temperature, blood pressure, and respiratory rate are all MEASURABLE findings = objective data. "I feel cold" and "I have a headache" are what the client reports = subjective data.'
+  },
+  {
+    num: 8,
+    text: 'A client tells the nurse they feel dizzy every time they stand up from bed. Which of the following BEST describes this condition?',
+    type: 'single',
+    options: ['A. Chronically high blood pressure', 'B. Blood pressure that drops suddenly when changing positions', 'C. Blood pressure consistently below 90/60 mmHg', 'D. An irregular heart rate upon standing'],
+    correct: 1,
+    rationale: 'Orthostatic/postural hypotension is a BP drop that occurs suddenly when changing positions. Both "postural" and "orthostatic" are different names for the exact same condition.'
+  },
+  {
+    num: 9,
+    text: 'A nurse is assessing where to find the apical pulse. Which location is correct?',
+    type: 'single',
+    options: ['A. Right midclavicular line, 4th ICS', 'B. Left midclavicular line, 5th ICS', 'C. Right sternal border, 2nd ICS', 'D. Left axillary line, 6th ICS'],
+    correct: 1,
+    rationale: 'The apical pulse is found at the left midclavicular line at the 5th intercostal space (ICS) — the PMI (point of maximal impulse).'
+  },
+  {
+    num: 10,
+    text: 'A nurse is caring for a postoperative client with: BP 90/58, HR 118, RR 24, O2 sat 91%. Which vital sign is NOT within normal limits?',
+    type: 'single',
+    options: ['A. Blood pressure only', 'B. Heart rate only', 'C. All values are abnormal', 'D. Blood pressure and O2 saturation only'],
+    correct: 2,
+    rationale: 'All values are abnormal: BP 90/58 = hypotension, HR 118 = tachycardia, RR 24 = tachypnea (>20), O2 sat 91% = below 95% normal. This client needs immediate assessment.'
+  },
+  {
+    num: 11,
+    text: 'Which of the following factors would cause a client\'s blood pressure to be HIGHER? (Select all that apply)',
+    type: 'multi',
+    options: ['A. Exercise', 'B. Obesity', 'C. High sodium intake', 'D. Stress', 'E. Infancy'],
+    correct: [1, 2, 3],
+    rationale: 'Obesity, high sodium intake, and stress raise BP. Exercise and infancy are associated with LOWER BP. Other factors raising BP: older age, medications, menopause, ethnicity, family history.'
+  },
+  {
+    num: 12,
+    text: 'A nurse is explaining to a student why oral care is a nursing priority. Which is the MOST clinically significant reason?',
+    type: 'single',
+    options: ['A. It makes the client smell better', 'B. It prevents cavities only', 'C. It reduces risk of aspiration pneumonia and worsens systemic conditions if neglected', 'D. It is required by hospital policy only'],
+    correct: 2,
+    rationale: 'The most clinically significant reason for oral care is prevention of aspiration pneumonia and management of systemic conditions such as diabetes. Poor oral hygiene has serious health consequences.'
+  },
+  {
+    num: 13,
+    text: 'A nurse is caring for a client with a rectal temperature of 101.4°F. What is the equivalent ORAL temperature?',
+    type: 'single',
+    options: ['A. 102.4°F', 'B. 100.4°F', 'C. 101.4°F — no adjustment needed', 'D. 99.4°F'],
+    correct: 1,
+    rationale: 'Rectal temperature is 1° HIGHER than oral. So rectal 101.4°F = oral 100.4°F. An oral temperature of 100.4°F is the exact fever threshold — this client has a fever.'
+  },
+  {
+    num: 14,
+    text: 'A nurse is teaching a client about blood pressure monitoring at home. Which of the following instructions is correct?',
+    type: 'single',
+    options: ['A. Take BP immediately after waking up and exercising', 'B. Cross your legs and sit on the edge of the bed', 'C. Rest for 5 minutes, sit with back support and feet flat on the floor', 'D. Use the dominant arm only for all measurements'],
+    correct: 2,
+    rationale: 'For accurate home BP: rest 5 minutes, sit with back support, feet flat, arm at heart level, no crossed legs. Activity before measurement gives falsely elevated readings.'
+  },
+  {
+    num: 15,
+    text: 'A nurse observes that a client\'s skin is pale, cool, and clammy, BP is 86/54, and HR is 122. The nurse should recognize these findings as consistent with:',
+    type: 'single',
+    options: ['A. Hypertensive crisis', 'B. Normal postoperative response', 'C. Hypotension and tachycardia — possible shock', 'D. Bradycardia and fever'],
+    correct: 2,
+    rationale: 'BP 86/54 is hypotension (<90/60), HR 122 is tachycardia (>100), along with pale/cool/clammy skin. This clinical picture is consistent with hypotensive shock — requires immediate intervention.'
+  },
+  {
+    num: 16,
+    text: 'A nurse is caring for an older adult client. Which of the following blood pressure findings should the nurse expect compared to a younger adult?',
+    type: 'single',
+    options: ['A. Older adults typically have lower BP', 'B. Older adults typically have higher BP', 'C. BP does not change with age', 'D. Older adults always have hypotension'],
+    correct: 1,
+    rationale: 'Older adults typically have HIGHER BP due to decreased arterial elasticity (arteriosclerosis), making the vessels stiffer. Age is a major risk factor for hypertension.'
+  },
+  {
+    num: 17,
+    text: 'A nurse is assessing a client\'s oxygen saturation. Which of the following sites is MOST commonly used to place the pulse oximeter probe?',
+    type: 'single',
+    options: ['A. Earlobe only', 'B. Toe only', 'C. Finger — most commonly used vascular area', 'D. Forehead only'],
+    correct: 2,
+    rationale: 'The finger is the most commonly used site for pulse oximetry. Other acceptable sites include the earlobe and toe. The probe is placed on a vascular area for 10–30 seconds.'
+  },
+  {
+    num: 18,
+    text: 'A nurse notes that a client\'s temperature has been rising throughout the day. Which of the following causes of elevated temperature should the nurse consider? (Select all that apply)',
+    type: 'multi',
+    options: ['A. Dehydration', 'B. Heat exhaustion', 'C. Nervous system depression', 'D. Infection/fever', 'E. Cardiovascular distress'],
+    correct: [0, 1, 3],
+    rationale: 'Elevated temperature is caused by: dehydration, heat exhaustion, fever/infection, heat stroke, vital organ damage. Nervous system depression and cardiovascular distress LOWER temperature.'
+  },
+  {
+    num: 19,
+    text: 'A client\'s family member asks the nurse what the normal oxygen saturation range is. The nurse\'s BEST response is:',
+    type: 'single',
+    options: ['A. "Normal O2 sat is 85–90%"', 'B. "Normal O2 sat is 95–100%"', 'C. "Normal O2 sat is 70–80%"', 'D. "Any reading above 80% is acceptable"'],
+    correct: 1,
+    rationale: 'Normal oxygen saturation is 95–100%. Below 92% requires immediate intervention. Below 90% is considered hypoxemia and is a medical emergency.'
+  },
+  {
+    num: 20,
+    text: 'A nurse is preparing to assess a client\'s pulse. Which of the following pulse characteristics should be assessed? (Select all that apply)',
+    type: 'multi',
+    options: ['A. Rate', 'B. Rhythm', 'C. Skin color at the site', 'D. Strength/amplitude', 'E. Equality bilaterally'],
+    correct: [0, 1, 3, 4],
+    rationale: 'Pulse assessment includes: rate (bpm), rhythm (regular or irregular), strength/amplitude (bounding, strong, weak, thready), and equality of bilateral pulses. Skin color is a separate integumentary assessment.'
+  },
+  {
+    num: 21,
+    text: 'A nurse is assessing a client and finds the following: BP 120/78, T 100.8°F oral, HR 96, RR 18, O2 sat 97%. Which finding is ABNORMAL?',
+    type: 'single',
+    options: ['A. Blood pressure', 'B. Temperature', 'C. Heart rate', 'D. O2 saturation'],
+    correct: 1,
+    rationale: 'Temperature of 100.8°F is above the fever threshold of 100.4°F (38°C), making it the abnormal finding. All other values (BP <120/80, HR 60–100, RR 12–20, O2 sat 95–100%) are within normal range.'
+  },
+  {
+    num: 22,
+    text: 'A nurse is caring for a client who is anxious, in pain, and has a heart rate of 108 bpm. The nurse understands that the elevated heart rate is MOST likely caused by:',
+    type: 'single',
+    options: ['A. Hypothermia', 'B. Long-term physical fitness', 'C. Pain and anxiety stimulating the sympathetic nervous system', 'D. Medication causing bradycardia'],
+    correct: 2,
+    rationale: 'Pain and anxiety stimulate the sympathetic nervous system (fight-or-flight), which increases heart rate. Both are well-known causes of tachycardia (>100 bpm).'
+  },
+  {
+    num: 23,
+    text: 'A nurse is documenting assessment findings. Which of the following are examples of SUBJECTIVE data? (Select all that apply)',
+    type: 'multi',
+    options: ['A. Client states "I feel nauseous"', 'B. Heart rate 88 bpm', 'C. Client reports "My chest hurts"', 'D. Blood pressure 130/82', 'E. Client says "I have had a headache all day"'],
+    correct: [0, 2, 4],
+    rationale: 'Subjective data is what the CLIENT tells the nurse — nausea, chest pain, and headache are all self-reported symptoms. HR and BP are measurable, making them objective data.'
+  },
+  {
+    num: 24,
+    text: 'A nurse is preparing to take an oral temperature on a client who smokes. The client just finished smoking 10 minutes ago. What should the nurse do?',
+    type: 'single',
+    options: ['A. Take the temperature immediately — smoking does not affect oral temperature', 'B. Wait at least 20–30 more minutes before taking an oral temperature', 'C. Use the rectal route instead', 'D. Document that temperature could not be obtained'],
+    correct: 1,
+    rationale: 'Smoking, eating, drinking, and chewing gum can affect oral temperature readings. The nurse should wait at least 30 minutes after any of these activities before taking an oral temperature.'
+  },
+  {
+    num: 25,
+    text: 'A nurse is caring for a client who had surgery 2 hours ago. The client\'s BP is 94/60. Which of the following actions should the nurse take FIRST?',
+    type: 'single',
+    options: ['A. Administer antihypertensive medication', 'B. Document and continue monitoring', 'C. Assess the client and notify the provider', 'D. Encourage the client to drink more fluids'],
+    correct: 2,
+    rationale: 'BP of 94/60 is near hypotension (<90/60). In a postoperative client, this could indicate bleeding, fluid loss, or shock. The nurse should FIRST assess the client thoroughly and notify the provider immediately.'
+  },
+  {
+    num: 26,
+    text: 'A nurse is educating a nursing student about secondary sources of assessment data. Which of the following are secondary sources? (Select all that apply)',
+    type: 'multi',
+    options: ['A. The client\'s verbal report', 'B. Family member\'s description of symptoms', 'C. Previous medical records', 'D. The nurse\'s direct physical observation', 'E. Lab results from previous hospitalizations'],
+    correct: [1, 2, 4],
+    rationale: 'Secondary sources include: family members, medical records, other healthcare providers, and lab results. The client themselves and the nurse\'s direct observations are PRIMARY sources of data.'
+  },
+  {
+    num: 27,
+    text: 'A nurse is caring for a client with a known history of hypertension. Which of the following findings would be MOST consistent with this diagnosis?',
+    type: 'single',
+    options: ['A. BP 108/70 on two consecutive readings', 'B. BP 148/92 on two separate occasions', 'C. BP 90/58 with dizziness upon standing', 'D. HR 110 with BP 118/76'],
+    correct: 1,
+    rationale: 'Hypertension is consistently elevated BP — commonly above 120/80, significant at 140/90 mmHg. Two readings of 148/92 are consistent with hypertension. The other options describe hypotension or tachycardia.'
+  },
+  {
+    num: 28,
+    text: 'A nurse is assessing a client and notes that breathing appears labored with a rate of 26 breaths/min. The nurse should document this as:',
+    type: 'single',
+    options: ['A. Bradypnea', 'B. Normal respiratory rate', 'C. Tachypnea', 'D. Apnea'],
+    correct: 2,
+    rationale: 'Normal adult respiratory rate is 12–20 breaths/min. A rate of 26 exceeds normal, which is called tachypnea. Bradypnea is below 12 breaths/min. Apnea is absence of breathing.'
+  },
+  {
+    num: 29,
+    text: 'A nurse is caring for a client in respiratory distress with an O2 sat of 87%. After verifying the reading and repositioning the probe, the reading remains 87%. What should the nurse do NEXT?',
+    type: 'single',
+    options: ['A. Document and reassess in 30 minutes', 'B. Sit the client upright, apply supplemental oxygen, and notify the provider', 'C. Administer oral medication for dyspnea', 'D. Lower the head of the bed to improve circulation'],
+    correct: 1,
+    rationale: 'O2 sat 87% is critically low (below 92% intervention threshold). After verifying, the nurse should: sit the client up, provide supplemental oxygen per protocol, and notify the provider immediately. Lying flat worsens respiratory distress.'
+  },
+  {
+    num: 30,
+    text: 'A nurse is reviewing the differences between postural and orthostatic hypotension for a nursing student. Which statement is CORRECT?',
+    type: 'single',
+    options: ['A. Orthostatic hypotension means chronically low BP throughout the day', 'B. Postural hypotension is more severe than orthostatic hypotension', 'C. They are two different conditions requiring different treatments', 'D. Postural and orthostatic hypotension are exactly the same condition — just different names'],
+    correct: 3,
+    rationale: 'Postural hypotension and orthostatic hypotension are EXACTLY THE SAME condition — BP drops suddenly when changing positions. They are simply two different terms for the same phenomenon, as noted in the study guide.'
+  },
+];
+
+// ==================== RENDER TESTS ====================
+function renderTest(questions, containerId) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = questions.map((q, qi) => `
+    <div class="question-card" id="${containerId}-q${qi}">
+      <div class="question-num">Question ${qi + 1} of ${questions.length}</div>
+      <div class="question-text">${q.text}</div>
+      <div class="options">
+        ${q.options.map((opt, oi) => `
+          <label>
+            <input type="${q.type === 'multi' ? 'checkbox' : 'radio'}" 
+                   name="${containerId}-q${qi}" 
+                   value="${oi}"
+                   id="${containerId}-q${qi}-opt${oi}">
+            ${opt}
+          </label>
+        `).join('')}
+      </div>
+      <div class="answer-reveal" id="${containerId}-answer${qi}"></div>
+    </div>
+  `).join('');
+}
+
+function checkAnswers(testId) {
+  const questions = testId === 'test1' ? test1Questions : test2Questions;
+  let correct = 0;
+
+  questions.forEach((q, qi) => {
+    const revealDiv = document.getElementById(`${testId}-answer${qi}`);
+    let isCorrect = false;
+
+    if (q.type === 'single') {
+      const selected = document.querySelector(`input[name="${testId}-q${qi}"]:checked`);
+      if (selected && parseInt(selected.value) === q.correct) {
+        isCorrect = true;
+      }
+    } else {
+      const selected = Array.from(document.querySelectorAll(`input[name="${testId}-q${qi}"]:checked`))
+        .map(el => parseInt(el.value));
+      isCorrect = JSON.stringify(selected.sort()) === JSON.stringify(q.correct.sort());
+    }
+
+    if (isCorrect) correct++;
+
+    revealDiv.className = `answer-reveal ${isCorrect ? 'correct' : 'incorrect'} show`;
+    const correctAnswer = q.type === 'single' 
+      ? q.options[q.correct]
+      : q.correct.map(i => q.options[i]).join(', ');
+    revealDiv.innerHTML = `
+      <strong>${isCorrect ? '✅ Correct!' : '❌ Incorrect'}</strong><br>
+      <strong>Correct Answer:</strong> ${correctAnswer}<br>
+      <strong>Rationale:</strong> ${q.rationale}
+    `;
+  });
+
+  const scoreDiv = document.getElementById(`score${testId.slice(-1)}`);
+  const pct = Math.round((correct / questions.length) * 100);
+  scoreDiv.className = 'score-display show';
+  scoreDiv.innerHTML = `
+    <div class="score-number">${pct}%</div>
+    <div>You got ${correct} out of ${questions.length} correct</div>
+    <div style="margin-top:0.5rem; font-size:0.9rem; color:#a0b4c8;">
+      ${pct >= 80 ? '🎉 Great job! ATI passing is typically 70%+' : pct >= 70 ? '👍 Passing score — review missed questions' : '📚 Keep studying — review the study guide and try again'}
+    </div>
+  `;
+  scoreDiv.scrollIntoView({ behavior: 'smooth' });
+}
+
+function resetTest(testId) {
+  const questions = testId === 'test1' ? test1Questions : test2Questions;
+  questions.forEach((q, qi) => {
+    document.querySelectorAll(`input[name="${testId}-q${qi}"]`).forEach(el => el.checked = false);
+    const revealDiv = document.getElementById(`${testId}-answer${qi}`);
+    revealDiv.className = 'answer-reveal';
+    revealDiv.innerHTML = '';
+  });
+  document.getElementById(`score${testId.slice(-1)}`).className = 'score-display';
+}
+
+// ==================== INIT ====================
+renderFlashcards();
+renderTest(test1Questions, 'test1-questions');
+renderTest(test2Questions, 'test2-questions');
+</script>
+</body>
+</html>
