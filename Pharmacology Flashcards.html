@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💊 Pharmacology Study Guide 1 — Coquette Edition</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,500&family=Dancing+Script:wght@700&display=swap');
+
+:root {
+  --hot-pink:#f472b6;--rose:#fb7185;--deep:#be185d;
+  --blush:#fce7f3;--petal:#fdf2f8;--sakura:#fbcfe8;
+  --lilac:#e9d5ff;--lavender:#ddd6fe;--purple:#7c3aed;
+  --mint:#d1fae5;--cream:#fffbf7;--ink:#4a1942;
+  --soft:#9d4a7c;--gold:#f59e0b;--white:#ffffff;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#fce7f3 0%,#fdf2f8 40%,#f3e8ff 100%);min-height:100vh;color:var(--ink);overflow-x:hidden;}
+
+/* BG DECORATIONS */
+.bg-fixed{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden;}
+.bow{position:absolute;font-size:1.5rem;opacity:0.15;animation:float 6s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-5deg);}50%{transform:translateY(-15px) rotate(5deg);}}
+.sparkle{position:absolute;width:6px;height:6px;background:var(--hot-pink);border-radius:50%;animation:twinkle 3s ease-in-out infinite;}
+@keyframes twinkle{0%,100%{opacity:0;transform:scale(0);}50%{opacity:0.6;transform:scale(1);}}
+
+/* HEADER */
+header{position:relative;z-index:10;text-align:center;padding:2.5rem 1.5rem 1.5rem;}
+.header-ribbon{display:inline-flex;align-items:center;gap:0.5rem;background:var(--deep);color:white;padding:0.4rem 1.5rem;border-radius:50px;font-size:0.75rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:1rem;box-shadow:0 4px 20px rgba(190,24,93,0.3);}
+header h1{font-family:'Dancing Script',cursive;font-size:3rem;background:linear-gradient(135deg,var(--deep),var(--hot-pink),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2;margin-bottom:0.4rem;}
+header p{color:var(--soft);font-size:0.9rem;font-weight:600;}
+.bow-divider{font-size:1.3rem;letter-spacing:0.8rem;margin-top:0.8rem;opacity:0.7;}
+
+/* STATS BAR */
+.stats-bar{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;padding:0.8rem 1.5rem;position:relative;z-index:10;}
+.stat-pill{background:white;border:2px solid var(--sakura);border-radius:50px;padding:0.4rem 1.1rem;font-size:0.82rem;font-weight:700;color:var(--deep);box-shadow:0 2px 10px rgba(244,114,182,0.15);}
+.stat-pill span{color:var(--hot-pink);}
+
+/* CONTROLS */
+.controls{display:flex;justify-content:center;gap:0.7rem;flex-wrap:wrap;padding:0.5rem 1.5rem 1rem;position:relative;z-index:10;}
+.btn{padding:0.55rem 1.4rem;border-radius:50px;border:2px solid;cursor:pointer;font-family:'Nunito',sans-serif;font-size:0.85rem;font-weight:800;transition:all 0.2s;display:flex;align-items:center;gap:0.4rem;}
+.btn-primary{background:var(--deep);color:white;border-color:var(--deep);box-shadow:0 4px 15px rgba(190,24,93,0.3);}
+.btn-primary:hover{background:var(--hot-pink);border-color:var(--hot-pink);transform:translateY(-2px);}
+.btn-outline{background:white;color:var(--deep);border-color:var(--sakura);}
+.btn-outline:hover{background:var(--blush);border-color:var(--hot-pink);}
+.btn-purple{background:var(--purple);color:white;border-color:var(--purple);}
+.btn-purple:hover{background:#6d28d9;transform:translateY(-2px);}
+.btn-mint{background:#059669;color:white;border-color:#059669;}
+
+/* CATEGORY FILTER */
+.cat-filter{display:flex;justify-content:center;gap:0.5rem;flex-wrap:wrap;padding:0 1.5rem 1rem;position:relative;z-index:10;}
+.cat-btn{padding:0.35rem 0.9rem;border-radius:50px;border:2px solid var(--sakura);background:white;color:var(--soft);font-size:0.75rem;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:'Nunito',sans-serif;}
+.cat-btn:hover,.cat-btn.active{background:var(--hot-pink);border-color:var(--hot-pink);color:white;}
+
+/* MAIN CARD AREA */
+.card-area{max-width:700px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:10;}
+
+/* PROGRESS */
+.progress-wrap{background:rgba(255,255,255,0.6);border-radius:50px;height:8px;margin-bottom:1.2rem;overflow:hidden;border:1px solid var(--sakura);}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--hot-pink),var(--purple));border-radius:50px;transition:width 0.4s ease;}
+
+/* FLASHCARD */
+.fc-scene{width:100%;height:280px;perspective:1400px;cursor:pointer;margin-bottom:1rem;}
+.fc-inner{position:relative;width:100%;height:100%;transition:transform 0.65s cubic-bezier(0.4,0,0.2,1);transform-style:preserve-3d;}
+.fc-scene.flipped .fc-inner{transform:rotateY(180deg);}
+.fc-face{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:28px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 2.5rem;text-align:center;}
+
+/* FRONT */
+.fc-front{
+  background:linear-gradient(135deg,#fce7f3,#fdf2f8,#f3e8ff);
+  border:3px solid var(--sakura);
+  box-shadow:0 12px 40px rgba(244,114,182,0.2),inset 0 1px 0 rgba(255,255,255,0.8);
+}
+.fc-front::before{content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);width:60px;height:4px;background:linear-gradient(90deg,var(--hot-pink),var(--purple));border-radius:2px;opacity:0.5;}
+.fc-front::after{content:'🎀';position:absolute;top:-1px;right:20px;font-size:1.5rem;transform:translateY(-50%);}
+
+.fc-cat-badge{background:linear-gradient(135deg,var(--deep),var(--hot-pink));color:white;font-size:0.65rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:0.25rem 0.9rem;border-radius:50px;margin-bottom:0.9rem;box-shadow:0 2px 8px rgba(190,24,93,0.3);}
+.fc-question{font-size:1.05rem;font-weight:800;color:var(--ink);line-height:1.5;max-width:500px;}
+.fc-hint{font-size:0.72rem;color:var(--hot-pink);margin-top:0.9rem;font-weight:600;opacity:0.8;}
+.fc-num{position:absolute;bottom:14px;right:18px;font-size:0.7rem;color:var(--soft);font-weight:700;}
+
+/* BACK */
+.fc-back{
+  background:linear-gradient(135deg,#fdf4ff,#ede9fe,#dbeafe);
+  border:3px solid var(--lavender);
+  transform:rotateY(180deg);
+  box-shadow:0 12px 40px rgba(124,58,237,0.15);
+}
+.fc-back::after{content:'✨';position:absolute;top:-1px;right:20px;font-size:1.5rem;transform:translateY(-50%);}
+.fc-answer-label{background:linear-gradient(135deg,var(--purple),#9333ea);color:white;font-size:0.65rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:0.25rem 0.9rem;border-radius:50px;margin-bottom:0.9rem;}
+.fc-answer{font-size:0.92rem;font-weight:700;color:#2e1065;line-height:1.65;max-width:520px;}
+
+/* NAV DOTS */
+.dot-row{display:flex;justify-content:center;gap:5px;flex-wrap:wrap;max-width:500px;margin:0 auto 1.2rem;}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--sakura);cursor:pointer;transition:all 0.2s;}
+.dot.active{background:var(--hot-pink);transform:scale(1.3);}
+.dot.seen{background:var(--purple);}
+
+/* NAV BTNS */
+.nav-btns{display:flex;justify-content:center;align-items:center;gap:1rem;margin-bottom:2rem;}
+.nav-arrow{width:48px;height:48px;border-radius:50%;border:2px solid var(--sakura);background:white;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.1rem;transition:all 0.2s;box-shadow:0 2px 10px rgba(244,114,182,0.15);}
+.nav-arrow:hover{background:var(--blush);border-color:var(--hot-pink);transform:scale(1.1);}
+.nav-center{font-size:0.82rem;font-weight:700;color:var(--soft);}
+
+/* KNOWN/UNKNOWN */
+.reaction-btns{display:flex;justify-content:center;gap:1rem;margin-bottom:1.5rem;}
+.react-btn{padding:0.6rem 1.8rem;border-radius:50px;border:2px solid;font-family:'Nunito',sans-serif;font-size:0.85rem;font-weight:800;cursor:pointer;transition:all 0.2s;}
+.react-know{background:#d1fae5;color:#065f46;border-color:#6ee7b7;}
+.react-know:hover{background:#059669;color:white;border-color:#059669;}
+.react-review{background:#fce7f3;color:var(--deep);border-color:var(--sakura);}
+.react-review:hover{background:var(--hot-pink);color:white;border-color:var(--hot-pink);}
+
+/* SCORE DISPLAY */
+.score-display{display:none;background:linear-gradient(135deg,#fce7f3,#f3e8ff);border:3px solid var(--sakura);border-radius:28px;padding:2rem;text-align:center;margin-bottom:1.5rem;box-shadow:0 8px 30px rgba(244,114,182,0.2);}
+.score-display.show{display:block;}
+.score-num{font-family:'Dancing Script',cursive;font-size:4rem;background:linear-gradient(135deg,var(--deep),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.score-sub{font-size:0.9rem;color:var(--soft);font-weight:700;margin-top:0.3rem;}
+
+/* ALL CARDS LIST */
+.all-cards{display:none;max-width:700px;margin:0 auto;padding:0 1.5rem 2rem;position:relative;z-index:10;}
+.all-cards.show{display:block;}
+.card-list-item{background:white;border-radius:16px;border:2px solid var(--sakura);padding:1rem 1.2rem;margin-bottom:0.8rem;box-shadow:0 2px 10px rgba(244,114,182,0.08);}
+.cli-q{font-size:0.85rem;font-weight:800;color:var(--deep);margin-bottom:0.4rem;}
+.cli-a{font-size:0.82rem;color:var(--soft);line-height:1.5;}
+.cli-cat{display:inline-block;background:var(--blush);color:var(--deep);font-size:0.65rem;font-weight:800;padding:0.15rem 0.6rem;border-radius:50px;margin-bottom:0.4rem;}
+</style>
+</head>
+<body>
+
+<div class="bg-fixed" id="bgFixed"></div>
+
+<header>
+  <div class="header-ribbon">🎀 Pharmacology Study Guide 1 🎀</div>
+  <h1>💊 Pharm Flashcards</h1>
+  <p>Coquette Edition · Study cute, study smart ✨</p>
+  <div class="bow-divider">🎀 🌸 💕 🌸 🎀</div>
+</header>
+
+<div class="stats-bar">
+  <div class="stat-pill">Total: <span id="totalCount">57</span> cards</div>
+  <div class="stat-pill">Seen: <span id="seenCount">0</span></div>
+  <div class="stat-pill">Known: <span id="knownCount">0</span> 💕</div>
+  <div class="stat-pill">Review: <span id="reviewCount">0</span> 📚</div>
+</div>
+
+<div class="controls">
+  <button class="btn btn-outline" onclick="prevCard()">← Back</button>
+  <button class="btn btn-primary" onclick="nextCard()">Next →</button>
+  <button class="btn btn-purple" onclick="shuffleCards()">🔀 Shuffle</button>
+  <button class="btn btn-outline" onclick="resetAll()">↺ Reset</button>
+  <button class="btn btn-mint" onclick="toggleList()">📋 All Cards</button>
+</div>
+
+<div class="cat-filter" id="catFilter"></div>
+
+<div class="card-area">
+  <div class="progress-wrap"><div class="progress-fill" id="progressFill"></div></div>
+
+  <div class="fc-scene" id="fcScene" onclick="flipCard()">
+    <div class="fc-inner" id="fcInner">
+      <div class="fc-face fc-front">
+        <div class="fc-cat-badge" id="fcCat">Category</div>
+        <div class="fc-question" id="fcQ">Question</div>
+        <div class="fc-hint">🎀 tap to reveal the answer ✨</div>
+        <div class="fc-num" id="fcNum">1/57</div>
+      </div>
+      <div class="fc-face fc-back">
+        <div class="fc-answer-label">✨ Answer ✨</div>
+        <div class="fc-answer" id="fcA">Answer</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dot-row" id="dotRow"></div>
+
+  <div class="reaction-btns">
+    <button class="react-btn react-know" onclick="markKnown()">✅ Got it!</button>
+    <button class="react-btn react-review" onclick="markReview()">💭 Need review</button>
+  </div>
+
+  <div class="score-display" id="scoreDisplay"></div>
+</div>
+
+<div class="all-cards" id="allCards"></div>
+
+<script>
+// BG decoration
+(function(){
+  const bg=document.getElementById('bgFixed');
+  const bows=['🎀','🌸','💕','✨','🦋','🩷','💗','🌷'];
+  for(let i=0;i<20;i++){
+    const el=document.createElement('div');
+    el.className='bow';
+    el.textContent=bows[Math.floor(Math.random()*bows.length)];
+    el.style.left=Math.random()*100+'vw';
+    el.style.top=Math.random()*100+'vh';
+    el.style.fontSize=(0.8+Math.random()*1.5)+'rem';
+    el.style.animationDelay=Math.random()*6+'s';
+    el.style.animationDuration=(4+Math.random()*5)+'s';
+    bg.appendChild(el);
+  }
+  for(let i=0;i<25;i++){
+    const s=document.createElement('div');
+    s.className='sparkle';
+    s.style.left=Math.random()*100+'vw';
+    s.style.top=Math.random()*100+'vh';
+    s.style.animationDelay=Math.random()*3+'s';
+    s.style.animationDuration=(2+Math.random()*3)+'s';
+    s.style.width=(4+Math.random()*6)+'px';
+    s.style.height=s.style.width;
+    bg.appendChild(s);
+  }
+})();
+
+// ALL FLASHCARD DATA
+const allCards = [
+  {cat:'Drug Sources', q:'Medications are derived from which sources?', a:'Plants 🌿 · Animals 🐾 · Lab/Synthetic 🧪 · Minerals ⛏️ · Mold/Microorganisms 🦠'},
+  {cat:'Drug Names', q:"What's the difference between the generic drug name and the trade drug name?", a:'Generic name = the REAL name (nonproprietary, lowercase) 💊\nTrade name = the brand/selling name (capitalized, given by manufacturer) 🏷️'},
+  {cat:'Controlled Substances', q:'Controlled substances are:', a:'The most carefully monitored class of drugs — have a HIGH potential for abuse and dependency ⚠️'},
+  {cat:'Dependence', q:'Define physical dependence', a:"Person's body becomes UNABLE TO FUNCTION NORMALLY without a particular drug 😟"},
+  {cat:'Dependence', q:'Define physiological/psychological dependence', a:'CRAVING to use a drug to obtain a pleasurable experience 🧠'},
+  {cat:'DEA', q:'Who is the DEA?', a:'Drug Enforcement Agency — federal law enforcement regarding drugs 🚔'},
+  {cat:'Pharma Phases', q:'Describe the pharmaceutic drug phase', a:'Tablet/capsule DISSOLVES 💊 — drug disintegrates so it can be absorbed'},
+  {cat:'Pharma Phases', q:'Describe the Pharmacokinetics drug phase', a:'Transportation activity of drugs in the body after administration:\nAbsorption → Distribution → Metabolism → Excretion 🔄'},
+  {cat:'Pharma Phases', q:'What is absorption during the pharmacokinetic phase? What is the first-pass effect?', a:'Absorption = process where drug is made available for use by the body 🩸\n\nFirst-pass effect = drug passes through the LIVER before going to the small intestine — liver filters a significant amount before releasing it into the body 🫀'},
+  {cat:'Pharma Phases', q:'What is distribution during the pharmacokinetic phase? What is one factor distribution depends on?', a:'Distribution = how drug MOVES THROUGH THE SYSTEM 🌊\n\nKey factor: PROTEIN-BINDING — when drug binds to protein it becomes pharmacologically INACTIVE; only FREE drugs can make a therapeutic effect'},
+  {cat:'Pharma Phases', q:'What is metabolism during the pharmacokinetic phase?', a:'Where the body is USING the drug in order to PREPARE TO EXCRETE IT 🔥'},
+  {cat:'Drug Action', q:'Describe onset of action', a:'The time from when drug is administered to when it begins its THERAPEUTIC EFFECT ⏱️'},
+  {cat:'Drug Action', q:'Describe peak concentration', a:'When the drug is at its HIGHEST PERFORMANCE 📈'},
+  {cat:'Drug Action', q:"Describe duration of action", a:"The amount of time the drug's therapeutic effect LASTS ⏳"},
+  {cat:'Pharma Phases', q:'What is excretion during the pharmacokinetic phase?', a:'The body is GETTING RID OF the drug 🚽'},
+  {cat:'Drug Action', q:'Define the half life of a drug', a:'Time needed for the body to get rid of 50% of the drug ½'},
+  {cat:'Receptors', q:'Define agonist', a:'A drug that BINDS TO A RECEPTOR and simulates it to CREATE A THERAPEUTIC EFFECT 🔑\nEx: morphine on opioid receptors'},
+  {cat:'Receptors', q:'Define antagonist', a:'A drug that JOINS WITH A RECEPTOR and BLOCKS IT, creating a therapeutic effect 🚫\nEx: naloxone blocks opioid receptors'},
+  {cat:'Pregnancy', q:'Define teratogen', a:'A substance that causes ABNORMAL FORMATION by damaging fetal growth 🧬\nEx: thalidomide, isotretinoin, alcohol'},
+  {cat:'Pregnancy', q:'What are considerations regarding medications/substances for pregnant women?', a:'• May cause teratogenic effect during 1st trimester (organogenesis) 🤰\n• Most should NOT be used unless benefits outweigh risk\n• Use drugs/herbal supplements only after consultation\n• Risks of smoking/drinking: low birth weight, fetal alcohol syndrome, premature birth\n• Addictive drugs: children born with drug addiction'},
+  {cat:'Drug Reactions', q:'Adverse drug reactions', a:'UNDESIRABLE drug effects ❌'},
+  {cat:'Drug Reactions', q:'Define allergic drug reaction', a:'aka "hypersensitivity" — usually starts after MORE THAN ONE DOSE is given\n\nSigns/symptoms: itching/hives, skin rashes, wheezing, cyanosis, loss of consciousness, swelling of eyes/lips/tongue 😵'},
+  {cat:'Immune', q:'Define antigen', a:'A toxin or foreign substance that INDUCES AN IMMUNE RESPONSE in the body, especially the production of antibodies 🛡️'},
+  {cat:'Immune', q:'Define antibody', a:'A substance produced by the body that DESTROYS AN ANTIGEN that has entered the body 💪'},
+  {cat:'Anaphylaxis', q:'Can Anaphylactic shock be fatal? Why?', a:'YES — if symptoms are not identified and NOT TREATED IMMEDIATELY ⚡'},
+  {cat:'Anaphylaxis', q:'How does anaphylactic shock affect the RESPIRATORY system?', a:'🫁 Bronchospasm\n• Dyspnea (difficulty breathing)\n• Feeling of fullness in the throat\n• Cough\n• Wheezing'},
+  {cat:'Anaphylaxis', q:'How does anaphylactic shock affect the CARDIOVASCULAR system?', a:'❤️ Extremely low blood pressure\n• Tachycardia\n• Palpitations\n• Syncope (fainting)\n• Cardiac arrest'},
+  {cat:'Anaphylaxis', q:'How does anaphylactic shock affect the INTEGUMENTARY system?', a:'🩹 Urticaria\n• Angioedema\n• Pruritus (itching)\n• Sweating'},
+  {cat:'Anaphylaxis', q:'How does anaphylactic shock affect the GASTROINTESTINAL system?', a:'🤢 Nausea · Vomiting · Abdominal pain'},
+  {cat:'Anaphylaxis', q:'How do you treat anaphylactic shock?', a:'💉 Epinephrine via subcutaneous injection, followed by continuous IV infusion\n\nGoal: raise blood pressure, improve breathing, restore cardiac function'},
+  {cat:'Drug Reactions', q:'Define idiosyncrasy and provide an example', a:'UNUSUAL reaction to drug, different from expected reaction 🤔\n\nEx: Lucinapro induces coughing attacks but is used for high blood pressure'},
+  {cat:'Drug Reactions', q:'Define drug tolerance', a:'Starting at a LOW DOSE and needing MORE AND MORE to achieve the same effect 📈'},
+  {cat:'Drug Reactions', q:'Define cumulative drug effect', a:'Body is UNABLE TO METABOLIZE AND EXCRETE one dose of drug before next dose is given 💊💊'},
+  {cat:'Drug Categories', q:'Describe drug categories', a:'Categorized as: Non-prescription · Prescription · Controlled substance 📋'},
+  {cat:'Drug Reactions', q:'Describe toxic reactions', a:'LARGE DOSE exceeds therapeutic levels — usually DEADLY ☠️'},
+  {cat:'Drug Reactions', q:'Define antidote', a:'Administered to REVERSE DRUG TOXICITY 🔄'},
+  {cat:'Nursing Role', q:'What would an LVN do to ensure the drug remains within the therapeutic range?', a:'• Carefully monitor patient\'s blood level of the drug to make sure it stays within therapeutic range 📊\n• Be aware of signs and symptoms of toxicity'},
+  {cat:'Drug Interactions', q:'Describe drug-drug interactions', a:'One drug INTERACTS AND INTERFERES with the effect of another 💊↔️💊\nEx: antibiotics can affect birth control'},
+  {cat:'Drug Interactions', q:'What are the three types of effects in drug-drug interactions?', a:'1️⃣ Additive\n2️⃣ Synergistic\n3️⃣ Antagonistic'},
+  {cat:'Drug Interactions', q:'Describe drug-food interactions', a:'Some foods IMPAIR OR ENHANCE the effect of drugs 🍊'},
+  {cat:'Drug Interactions', q:'Describe ADDITIVE drug reaction', a:'(1+1=2) 🧮\nTwo drugs combined gives the SAME EFFECT as if they were on their own'},
+  {cat:'Drug Interactions', q:'Describe SYNERGISTIC drug reaction', a:'(1+1=3) ✨\nTwo drugs combined create an effect GREATER than each given alone'},
+  {cat:'Drug Interactions', q:'Describe ANTAGONISTIC drug reaction', a:'(1-1=0) 🚫\nOne drug INTERFERES with the other, creating a DECREASE in its effects'},
+  {cat:'Drug Factors', q:'Name the five factors affecting drug response', a:'1. Age 👴👶\n2. Weight ⚖️\n3. Gender 🚻 (women may require smaller dose)\n4. Disease state 🏥\n5. Genetics 🧬'},
+  {cat:'Drug Factors', q:'Polypharmacy', a:'The use of MULTIPLE MEDICATIONS on a regular basis 💊💊💊'},
+  {cat:'Drug Factors', q:'Fastest route of administration?', a:'💉 IV (Intravenous) — enters bloodstream directly!'},
+  {cat:'Drug Factors', q:'Slowest route of administration?', a:'💊 PO (Oral) — must dissolve and absorb through GI tract'},
+  {cat:'Drug Factors', q:'Drug reactions are:', a:'⚠️ Potentially SERIOUS — never take lightly!'},
+  {cat:'Herbal', q:'Are herbal supplements regulated by the FDA?', a:'🚫 NO — not regulated for safety or efficacy before marketing'},
+  {cat:'Drug History', q:'What should you ask your client when taking drug history?', a:'Ask about HERBAL THERAPY use 🌿 + all current medications + allergies + compliance'},
+  {cat:'Administration', q:'List 5+1 Rights of Drug Administration', a:'1. Right Patient 👤\n2. Right Drug 💊\n3. Right Dose ⚖️\n4. Right Route 💉\n5. Right Time ⏰\n+1. Record Immediately & Reason for giving Med 📝'},
+  {cat:'Administration', q:'These should also be rotated sites', a:'🩹 TRANSDERMAL patches — rotate to prevent skin irritation'},
+  {cat:'Administration', q:'The best way to identify a patient', a:'NAME + BIRTHDAY + Wristband 🎀'},
+  {cat:'Administration', q:'After administering a medication, what should a nurse do next?', a:'📝 RECORD THE PROCESS IMMEDIATELY'},
+  {cat:'Administration', q:'What reliable sources are available for drug administration information?', a:'📞 Call PHARMACIST — best source!'},
+  {cat:'Administration', q:'Before giving any drug for the first time, what should the nurse ask?', a:'Any known ALLERGIES + family history of allergies 🌸'},
+  {cat:'Med Orders', q:'PRN order', a:'💊 Administer WHEN NEEDED'},
+  {cat:'Med Orders', q:'STAT order', a:'⚡ ONE-TIME order given ASAP'},
+  {cat:'Med Orders', q:'Single order', a:'🕐 Administered one time only at a SPECIFIC TIME'},
+  {cat:'Med Orders', q:'Standing order', a:'📋 Written in advance — carried out under SPECIFIC CIRCUMSTANCES'},
+  {cat:'Safety', q:'Which 2 drugs are associated with deadly or adverse outcomes?', a:'💉 HEPARIN & INSULIN — always double check! ⚠️'},
+  {cat:'Safety', q:'Define unit dose', a:'A PACKAGE containing the amount of a drug required for ONE DOSE 📦'},
+  {cat:'Safety', q:'Describe bar coded systems', a:'A bar code placed on patient\'s WRISTBAND — used to identify and record 🏷️'},
+  {cat:'Safety', q:'What items are scanned in the barcode system?', a:'1. Provider\'s identification badge 👩‍⚕️\n2. Patient\'s wristband 🎀\n3. Bar code on drug unit dose packages 📦\n\nPurpose: PREVENT MEDICATION ERRORS ✅'},
+  {cat:'Oral Meds', q:'How much water does a patient need with medication?', a:'💧 8oz — a FULL glass!'},
+  {cat:'Oral Meds', q:'Nursing Responsibilities with Oral Meds', a:'• Verify ability to swallow 👅\n• Assess ability to hold tablet/capsule and water\n• NEVER leave drug at bedside to take later\n• Keep water readily available 💧'},
+  {cat:'Injections', q:'Define parenteral route', a:'💉 Dispensation of medications via a needle INTO THE SKIN LAYERS — bypasses GI tract'},
+  {cat:'Injections', q:'List parenteral routes', a:'💉 Subcutaneous (SQ)\n💉 Intramuscular (IM)\n💉 Intravenous (IV)\n💉 Intradermal'},
+  {cat:'Injections', q:'Nursing responsibilities when administering through parenteral route', a:'🧤 Wear gloves\n• Use standard precautions\n• Cleanse skin'},
+  {cat:'Injections', q:'Define enteric coating', a:'Has THICK COATING — survives process of stomach and breaks down in the SMALL INTESTINE 🌿'},
+  {cat:'Injections', q:'Intradermal injection (Test question!)', a:'Needle is really SMALL/THIN (26 gauge) 🔬\nFor needles: HIGHER number = SMALLER the needle'},
+  {cat:'Injections', q:'Best area for subcutaneous injection', a:'💕 Arm and abdomen / love handles\n• Thighs/buttocks'},
+  {cat:'Injections', q:'What is the reason for injection site rotation?', a:'To PREVENT SCAR TISSUE FORMATION 🌸'},
+  {cat:'Glucocorticoids', q:'Glucocorticoids', a:'• Raises blood sugar levels 📈\n• Steroids help bring down INFLAMMATION\n• Long term use results in cortisol raise\n• Cushing disease (if cortisol builds up = moon face 🌝)\n• Male pattern hair growth in women\n• Usually end in -one 💊'},
+  {cat:'Preparing Meds', q:'Preparing a drug for administration', a:'• Follow medication order 📋\n• Check guidelines for preparing\n• Be alert for SIMILAR NAMES (SALAD) ⚠️\n• NEVER give a drug someone else prepared\n• Always check label with MAR 3 times\n• Never remove drug from unlabeled container\n• Never crush without order\n• Place drugs requiring special storage back immediately'},
+  {cat:'Safety', q:'Besides the 6+1 rights, a nurse should adhere to what to help prevent drug errors?', a:'• Confirm questionable orders 🤔\n• When calculations needed, confirm with another nurse\n• Listen to client when they question the medication\n• Never administer until client\'s question is answered\n• Avoid distractions; one task at a time 🎯'},
+];
+
+// STATE
+let cards=[...allCards];
+let currentIdx=0;
+let isFlipped=false;
+let known=new Set();
+let review=new Set();
+let seen=new Set();
+let activeCategory='All';
+
+// CATEGORIES
+const categories=['All',...new Set(allCards.map(c=>c.cat))];
+function buildCatFilter(){
+  const cf=document.getElementById('catFilter');
+  cf.innerHTML=categories.map(cat=>`<button class="cat-btn ${cat==='All'?'active':''}" onclick="filterCat('${cat}',this)">${cat}</button>`).join('');
+}
+function filterCat(cat,btn){
+  activeCategory=cat;
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  cards=cat==='All'?[...allCards]:allCards.filter(c=>c.cat===cat);
+  currentIdx=0;isFlipped=false;
+  document.getElementById('fcScene').classList.remove('flipped');
+  renderCard();buildDots();
+}
+buildCatFilter();
+
+function renderCard(){
+  if(!cards.length)return;
+  const c=cards[currentIdx];
+  document.getElementById('fcCat').textContent=c.cat;
+  document.getElementById('fcQ').textContent=c.q;
+  document.getElementById('fcA').textContent=c.a;
+  document.getElementById('fcNum').textContent=`${currentIdx+1} / ${cards.length}`;
+  isFlipped=false;
+  document.getElementById('fcScene').classList.remove('flipped');
+  // progress
+  const pct=((currentIdx+1)/cards.length)*100;
+  document.getElementById('progressFill').style.width=pct+'%';
+  updateStats();buildDots();
+}
+
+function flipCard(){
+  isFlipped=!isFlipped;
+  document.getElementById('fcScene').classList.toggle('flipped',isFlipped);
+  const origIdx=allCards.indexOf(cards[currentIdx]);
+  if(isFlipped)seen.add(origIdx);
+  updateStats();
+}
+
+function nextCard(){
+  if(currentIdx<cards.length-1){currentIdx++;renderCard();}
+  else{showCompletion();}
+}
+function prevCard(){if(currentIdx>0){currentIdx--;renderCard();}}
+
+function markKnown(){
+  const origIdx=allCards.indexOf(cards[currentIdx]);
+  known.add(origIdx);review.delete(origIdx);
+  updateStats();nextCard();
+}
+function markReview(){
+  const origIdx=allCards.indexOf(cards[currentIdx]);
+  review.add(origIdx);known.delete(origIdx);
+  updateStats();nextCard();
+}
+
+function shuffleCards(){
+  cards=[...cards].sort(()=>Math.random()-0.5);
+  currentIdx=0;isFlipped=false;
+  document.getElementById('fcScene').classList.remove('flipped');
+  renderCard();
+}
+
+function resetAll(){
+  cards=activeCategory==='All'?[...allCards]:allCards.filter(c=>c.cat===activeCategory);
+  currentIdx=0;isFlipped=false;known.clear();review.clear();seen.clear();
+  document.getElementById('fcScene').classList.remove('flipped');
+  document.getElementById('scoreDisplay').className='score-display';
+  renderCard();
+}
+
+function buildDots(){
+  const dr=document.getElementById('dotRow');
+  dr.innerHTML=cards.slice(0,Math.min(cards.length,40)).map((_,i)=>{
+    const oi=allCards.indexOf(cards[i]);
+    let cls='dot';
+    if(i===currentIdx)cls+=' active';
+    else if(seen.has(oi))cls+=' seen';
+    return`<div class="${cls}" onclick="goTo(${i})"></div>`;
+  }).join('');
+}
+
+function goTo(i){currentIdx=i;renderCard();}
+
+function updateStats(){
+  document.getElementById('seenCount').textContent=seen.size;
+  document.getElementById('knownCount').textContent=known.size;
+  document.getElementById('reviewCount').textContent=review.size;
+  document.getElementById('totalCount').textContent=cards.length;
+}
+
+function showCompletion(){
+  const total=cards.length;
+  const k=known.size;
+  const pct=Math.round(k/total*100);
+  const sc=document.getElementById('scoreDisplay');
+  sc.className='score-display show';
+  sc.innerHTML=`
+    <div style="font-size:2rem;margin-bottom:0.5rem">🎀✨🎉</div>
+    <div class="score-num">${pct}%</div>
+    <div class="score-sub">You knew ${k} out of ${total} cards!</div>
+    <div style="margin-top:0.8rem;font-size:0.85rem;color:#9d4a7c;">
+      ${pct>=80?'🌸 Amazing! You\'re basically a pharmacology queen!':pct>=60?'💕 Great progress, keep going!':'📚 Keep studying — you\'ve got this babe!'}
+    </div>
+    <button class="btn btn-primary" style="margin-top:1rem" onclick="resetAll()">🔄 Try Again!</button>
+  `;
+}
+
+// ALL CARDS LIST
+let listShown=false;
+function toggleList(){
+  listShown=!listShown;
+  const el=document.getElementById('allCards');
+  if(listShown){
+    el.className='all-cards show';
+    el.innerHTML='<h2 style="text-align:center;font-family:Dancing Script,cursive;font-size:2rem;color:#be185d;margin-bottom:1rem;">📋 All Cards</h2>'+
+    allCards.map((c,i)=>`
+      <div class="card-list-item">
+        <div class="cli-cat">${c.cat}</div>
+        <div class="cli-q">Q${i+1}: ${c.q}</div>
+        <div class="cli-a">💕 ${c.a}</div>
+      </div>`).join('');
+  } else {
+    el.className='all-cards';
+  }
+}
+
+// INIT
+renderCard();
+buildDots();
+</script>
+</body>
+</html>
