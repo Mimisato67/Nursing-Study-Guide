@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cells & Tissues — Carrington College</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=Playfair+Display:ital,wght@0,700;1,400&display=swap');
+
+:root {
+  --blush: #f7c5d0;
+  --rose: #e8829a;
+  --deep-rose: #c45c78;
+  --petal: #fde8ee;
+  --sakura: #fad4df;
+  --moss: #7a9e7e;
+  --sky: #a8c5da;
+  --cream: #fdf6f0;
+  --warm-white: #fffaf7;
+  --ink: #3d2b35;
+  --soft-ink: #6b4d57;
+  --gold: #d4a853;
+  --lavender: #c5b8d4;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* === GHIBLI BACKGROUND ELEMENTS === */
+.bg-decor {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.petal-float {
+  position: absolute;
+  width: 12px; height: 16px;
+  background: var(--blush);
+  border-radius: 50% 0 50% 0;
+  opacity: 0.4;
+  animation: floatPetal linear infinite;
+}
+@keyframes floatPetal {
+  0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.4; }
+  90% { opacity: 0.4; }
+  100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+
+/* === HEADER === */
+header {
+  position: relative;
+  z-index: 10;
+  background: linear-gradient(135deg, #f9d0dc 0%, #fae0e8 40%, #e8b4c4 100%);
+  padding: 3rem 2rem 2rem;
+  text-align: center;
+  border-bottom: 3px solid var(--rose);
+  overflow: hidden;
+}
+header::before {
+  content: '';
+  position: absolute;
+  top: -30px; right: -30px;
+  width: 180px; height: 180px;
+  background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
+  border-radius: 50%;
+}
+header::after {
+  content: '🌸';
+  position: absolute;
+  font-size: 4rem;
+  top: 1rem; left: 2rem;
+  opacity: 0.3;
+}
+.header-badge {
+  display: inline-block;
+  background: var(--deep-rose);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 0.3rem 1rem;
+  border-radius: 50px;
+  margin-bottom: 0.8rem;
+}
+header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem;
+  color: var(--deep-rose);
+  margin-bottom: 0.3rem;
+  text-shadow: 1px 1px 0 rgba(255,255,255,0.5);
+}
+header p { color: var(--soft-ink); font-size: 0.95rem; }
+.sakura-row {
+  font-size: 1.5rem;
+  letter-spacing: 0.5rem;
+  margin-top: 0.8rem;
+  opacity: 0.6;
+}
+
+/* === NAV === */
+.tab-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(253, 232, 238, 0.95);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1rem;
+  border-bottom: 2px solid var(--blush);
+  flex-wrap: wrap;
+}
+.tab-btn {
+  background: white;
+  color: var(--soft-ink);
+  border: 2px solid var(--blush);
+  padding: 0.5rem 1.3rem;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  transition: all 0.2s;
+}
+.tab-btn:hover { background: var(--blush); border-color: var(--rose); }
+.tab-btn.active {
+  background: var(--deep-rose);
+  color: white;
+  border-color: var(--deep-rose);
+  box-shadow: 0 4px 12px rgba(196, 92, 120, 0.3);
+}
+
+/* === SECTIONS === */
+.section { display: none; padding: 2rem 1.5rem; max-width: 920px; margin: 0 auto; position: relative; z-index: 10; }
+.section.active { display: block; }
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  color: var(--deep-rose);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(to right, var(--rose), transparent);
+  margin-left: 0.5rem;
+}
+
+/* === STUDY GUIDE CARDS === */
+.topic-card {
+  background: var(--warm-white);
+  border-radius: 20px;
+  padding: 1.5rem;
+  margin-bottom: 1.2rem;
+  border: 2px solid var(--sakura);
+  box-shadow: 0 4px 16px rgba(232, 130, 154, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+.topic-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 5px; height: 100%;
+  background: linear-gradient(to bottom, var(--rose), var(--blush));
+  border-radius: 20px 0 0 20px;
+}
+.topic-card h2 {
+  font-size: 1rem;
+  color: var(--deep-rose);
+  font-weight: 800;
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.page-tag {
+  background: var(--blush);
+  color: var(--deep-rose);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 50px;
+}
+.topic-card p, .topic-card li {
+  font-size: 0.9rem;
+  color: var(--soft-ink);
+  line-height: 1.6;
+  margin-bottom: 0.3rem;
+}
+.topic-card ul { padding-left: 1.3rem; }
+.topic-card strong { color: var(--deep-rose); }
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  margin-top: 0.5rem;
+}
+@media(max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+
+.mini-card {
+  background: var(--petal);
+  border-radius: 12px;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--blush);
+}
+.mini-card h3 {
+  font-size: 0.85rem;
+  color: var(--deep-rose);
+  font-weight: 800;
+  margin-bottom: 0.4rem;
+}
+.mini-card p, .mini-card li {
+  font-size: 0.82rem;
+  color: var(--soft-ink);
+}
+
+/* quick ref table */
+.ref-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 0.5rem; }
+.ref-table th {
+  background: var(--deep-rose);
+  color: white;
+  padding: 0.5rem 0.8rem;
+  text-align: left;
+  font-weight: 700;
+}
+.ref-table td {
+  padding: 0.5rem 0.8rem;
+  border-bottom: 1px solid var(--sakura);
+  vertical-align: top;
+}
+.ref-table tr:nth-child(even) td { background: var(--petal); }
+
+/* === FLASHCARDS === */
+.fc-controls {
+  display: flex;
+  gap: 0.8rem;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.fc-counter {
+  background: var(--petal);
+  border: 2px solid var(--blush);
+  border-radius: 50px;
+  padding: 0.4rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--deep-rose);
+}
+.btn {
+  padding: 0.55rem 1.3rem;
+  border-radius: 50px;
+  border: 2px solid;
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  transition: all 0.2s;
+}
+.btn-rose { background: var(--deep-rose); color: white; border-color: var(--deep-rose); }
+.btn-rose:hover { background: var(--rose); border-color: var(--rose); box-shadow: 0 4px 12px rgba(196,92,120,0.3); }
+.btn-outline { background: white; color: var(--deep-rose); border-color: var(--rose); }
+.btn-outline:hover { background: var(--petal); }
+.btn-moss { background: var(--moss); color: white; border-color: var(--moss); }
+
+.flashcard-scene {
+  width: 100%;
+  max-width: 600px;
+  height: 260px;
+  perspective: 1200px;
+  margin: 0 auto 1.5rem;
+  cursor: pointer;
+}
+.flashcard-inner {
+  position: relative;
+  width: 100%; height: 100%;
+  transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
+  transform-style: preserve-3d;
+}
+.flashcard-scene.flipped .flashcard-inner { transform: rotateY(180deg); }
+.fc-face {
+  position: absolute;
+  width: 100%; height: 100%;
+  backface-visibility: hidden;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+}
+.fc-front {
+  background: linear-gradient(135deg, #fde8ee, #f9d0dc);
+  border: 3px solid var(--rose);
+  box-shadow: 0 8px 32px rgba(232, 130, 154, 0.2);
+}
+.fc-back {
+  background: linear-gradient(135deg, #d4f0d8, #c8e8cc);
+  border: 3px solid var(--moss);
+  transform: rotateY(180deg);
+  box-shadow: 0 8px 32px rgba(122, 158, 126, 0.2);
+}
+.fc-cat {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--rose);
+  margin-bottom: 0.8rem;
+  background: white;
+  padding: 0.2rem 0.8rem;
+  border-radius: 50px;
+}
+.fc-front .fc-question {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.5;
+}
+.fc-back .fc-answer {
+  font-size: 0.95rem;
+  color: #2d5a32;
+  line-height: 1.6;
+  font-weight: 600;
+}
+.fc-hint {
+  font-size: 0.75rem;
+  color: var(--rose);
+  margin-top: 0.8rem;
+  opacity: 0.7;
+}
+.fc-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+.fc-dots {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 300px;
+}
+.fc-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--blush);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.fc-dot.active { background: var(--deep-rose); }
+.fc-dot.seen { background: var(--moss); }
+
+/* === PRACTICE TEST === */
+.test-intro {
+  background: linear-gradient(135deg, #fde8ee, #fad4df);
+  border-radius: 20px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border: 2px solid var(--blush);
+  text-align: center;
+}
+.test-intro p { font-size: 0.9rem; color: var(--soft-ink); }
+
+.q-card {
+  background: var(--warm-white);
+  border-radius: 20px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  border: 2px solid var(--sakura);
+  box-shadow: 0 4px 12px rgba(232,130,154,0.08);
+}
+.q-num {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--rose);
+  margin-bottom: 0.5rem;
+}
+.q-text {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+.q-options label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 0.88rem;
+  color: var(--soft-ink);
+  margin-bottom: 0.4rem;
+  border: 2px solid var(--sakura);
+  background: white;
+  transition: all 0.15s;
+  font-family: 'Nunito', sans-serif;
+}
+.q-options label:hover { background: var(--petal); border-color: var(--rose); }
+.q-options input { margin-top: 2px; accent-color: var(--deep-rose); }
+.q-options input[type="checkbox"] { accent-color: var(--moss); }
+
+.answer-box {
+  display: none;
+  margin-top: 1rem;
+  padding: 1rem 1.2rem;
+  border-radius: 14px;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+.answer-box.show { display: block; }
+.answer-box.correct { background: #e8f5e9; border: 2px solid #81c784; color: #2e7d32; }
+.answer-box.incorrect { background: #fce4ec; border: 2px solid #f48fb1; color: #c62828; }
+
+.score-card {
+  display: none;
+  background: linear-gradient(135deg, #fde8ee, #fad4df);
+  border: 3px solid var(--rose);
+  border-radius: 24px;
+  padding: 2rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.score-card.show { display: block; }
+.score-big { font-size: 3.5rem; font-weight: 800; color: var(--deep-rose); }
+.score-label { font-size: 1rem; color: var(--soft-ink); margin-top: 0.3rem; }
+.score-emoji { font-size: 2rem; margin-top: 0.5rem; }
+
+.test-controls {
+  display: flex;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+</style>
+</head>
+<body>
+
+<!-- Floating petals -->
+<div class="bg-decor" id="bgDecor"></div>
+
+<header>
+  <div class="header-badge">Carrington College · VN16</div>
+  <h1>🌸 Cells & Tissues</h1>
+  <p>Study Guide · Flashcards · Practice Test</p>
+  <div class="sakura-row">🌸 🌿 🌸 🌿 🌸</div>
+</header>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('guide', this)">📖 Study Guide</button>
+  <button class="tab-btn" onclick="showTab('flashcards', this)">🃏 Flashcards</button>
+  <button class="tab-btn" onclick="showTab('test', this)">📝 Practice Test</button>
+</div>
+
+<!-- ===================== STUDY GUIDE ===================== -->
+<div id="guide" class="section active">
+  <h2 class="section-title">🌿 Complete Study Guide</h2>
+
+  <div class="topic-card">
+    <h2>1. Cells <span class="page-tag">pg. Introduction</span></h2>
+    <p>The <strong>basic unit of biological organization</strong> of the human body — smallest living units capable of carrying out life functions.</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>2. Cytoplasm <span class="page-tag">pg. 42</span></h2>
+    <p>Mainly composed of <strong>water</strong> (70–90%), plus proteins, lipids, carbohydrates, and minerals.</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>3. Colloidal Solution <span class="page-tag">pg. 42</span></h2>
+    <p>A mixture where <strong>large protein molecules are suspended (not dissolved) in water</strong> — gives cytoplasm its <strong>gel-like consistency</strong>. Proteins too large to dissolve but too small to settle out.</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>4. Compounds That Don't Dissolve in Water <span class="page-tag">pg. 43</span></h2>
+    <p><strong>Lipids (fats)</strong> — hydrophobic, do not dissolve in water.</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>5. Five Mineral Salts <span class="page-tag">pg. 43</span></h2>
+    <div class="two-col">
+      <div class="mini-card">
+        <ul>
+          <li>Sodium (Na)</li>
+          <li>Potassium (K)</li>
+          <li>Calcium (Ca)</li>
+        </ul>
+      </div>
+      <div class="mini-card">
+        <ul>
+          <li>Magnesium (Mg)</li>
+          <li>Phosphorus (P)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic-card">
+    <h2>6. Chromosomes — Count <span class="page-tag">pg. 44</span></h2>
+    <p><strong>46 total chromosomes</strong> (23 pairs) — <strong>23 from each parent</strong>.</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>7. Chromosomes — Composition <span class="page-tag">pg. 44</span></h2>
+    <p>Made of <strong>DNA</strong> and proteins called <strong>histones</strong>.</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>8. Chromosome Duplication <span class="page-tag">pg. 44</span></h2>
+    <p>Copies are called <strong>sister chromatids</strong>, joined at the <strong>centromere</strong>.</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>9. Chromatin (Non-dividing Chromosomes) <span class="page-tag">pg. 44</span></h2>
+    <p>When not dividing, chromosomes are called <strong>chromatin</strong> — loosely coiled <strong>DNA + histone proteins</strong>.</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>10. Mitochondria & ATP <span class="page-tag">pg. 45</span></h2>
+    <p>Organelle: <strong>Mitochondria</strong> — converts chemical energy (food) into usable energy.</p>
+    <p>Energy produced: <strong>ATP (Adenosine Triphosphate)</strong></p>
+  </div>
+
+  <div class="topic-card">
+    <h2>11. Mitochondrial Folds (Cristae) <span class="page-tag">pg. 45</span></h2>
+    <p>Folds = <strong>cristae</strong>. More folds = <strong>more surface area = more ATP produced</strong>. High-energy cells (muscle, liver) have more cristae.</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>12. Transcription <span class="page-tag">pg. 46</span></h2>
+    <p><strong>DNA is copied into mRNA</strong> (messenger RNA). Takes place in the <strong>nucleus</strong>. mRNA carries the genetic code to ribosomes for protein synthesis.</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>13. Cilia — Location & Purpose <span class="page-tag">pg. 47</span></h2>
+    <p>Found in: <strong>respiratory tract</strong> (trachea, bronchi) and <strong>fallopian tubes</strong>.</p>
+    <p>Purpose: <strong>move mucus, debris, and eggs</strong>.</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>14. Epithelial Cells <span class="page-tag">pg. 55</span></h2>
+    <p>Very <strong>little intercellular material</strong>. Cells are <strong>tightly packed</strong>, forming continuous sheets covering body surfaces.</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>15. Epithelial Cell Anchoring <span class="page-tag">pg. 55</span></h2>
+    <p>Anchored to connective tissue by a <strong>basement membrane</strong>. Connected to each other by <strong>desmosomes</strong>.</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>16. Bladder Tissue <span class="page-tag">pg. 57</span></h2>
+    <p><strong>Transitional epithelium</strong> — can stretch and recoil as the bladder fills and empties.</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>17. Glands — Tissue Type <span class="page-tag">pg. 58</span></h2>
+    <p>All glands are made of <strong>epithelial tissue</strong>.</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>18. Endocrine vs Exocrine Glands <span class="page-tag">pg. 58</span></h2>
+    <div class="two-col">
+      <div class="mini-card">
+        <h3>🔴 Endocrine</h3>
+        <p>Secrete <strong>hormones → bloodstream</strong> (NO ducts)</p>
+        <p>Ex: thyroid, adrenal glands</p>
+      </div>
+      <div class="mini-card">
+        <h3>🔵 Exocrine</h3>
+        <p>Secrete <strong>through ducts → to surface</strong></p>
+        <p>Ex: sweat, salivary glands</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic-card">
+    <h2>19. Circulatory System Lining <span class="page-tag">pg. 59</span></h2>
+    <p><strong>Endothelium</strong> — simple squamous epithelial tissue lining the heart, blood vessels, and lymphatic vessels.</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>20. Thoracic Cavity Lining <span class="page-tag">pg. 59</span></h2>
+    <p><strong>Pleura</strong> — serous membrane. <strong>Parietal pleura</strong> = chest wall. <strong>Visceral pleura</strong> = lung surface.</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>21. Matrix <span class="page-tag">pg. 60</span></h2>
+    <p>Non-living <strong>intercellular material in connective tissue</strong>. Found in bone, cartilage, blood. Can be solid, semi-solid, gel-like, or liquid.</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>22. Mast Cell Substances <span class="page-tag">pg. 61</span></h2>
+    <div class="two-col">
+      <div class="mini-card">
+        <h3>Histamine</h3>
+        <p>Vasodilation + increased capillary permeability (inflammation/allergy)</p>
+      </div>
+      <div class="mini-card">
+        <h3>Heparin</h3>
+        <p>Prevents blood clotting in area of inflammation</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic-card">
+    <h2>23. Adipose Tissue Functions <span class="page-tag">pg. 62</span></h2>
+    <ul>
+      <li><strong>Energy storage</strong> (stores fat as reserve fuel)</li>
+      <li><strong>Thermal insulation</strong> (reduces heat loss)</li>
+      <li><strong>Mechanical protection</strong> (cushions & protects organs from trauma)</li>
+    </ul>
+  </div>
+
+  <div class="topic-card">
+    <h2>24. Muscle → Bone Attachment <span class="page-tag">pg. 63</span></h2>
+    <p><strong>Tendons</strong> — dense regular connective tissue.</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>25. Lacunae <span class="page-tag">pg. 63</span></h2>
+    <p>Small cavities/spaces housing cells. In <strong>bone</strong> → contain <strong>osteocytes</strong>. In <strong>cartilage</strong> → contain <strong>chondrocytes</strong>.</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>26. Blood — Tissue Type & Composition <span class="page-tag">pg. 64</span></h2>
+    <p>Type: <strong>Connective tissue</strong> (liquid matrix).</p>
+    <p>Composed of: <strong>Plasma (55%)</strong>, RBCs, WBCs, Platelets.</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>27. Synovial Membranes <span class="page-tag">pg. 65</span></h2>
+    <p><strong>Connective tissue</strong>. Lines <strong>synovial joints</strong> (knees, shoulders, hips). Secretes <strong>synovial fluid</strong> for lubrication.</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>28. Three Types of Muscle Tissue <span class="page-tag">pg. 66</span></h2>
+    <table class="ref-table">
+      <tr><th>Type</th><th>Location</th><th>Control</th></tr>
+      <tr><td><strong>Skeletal</strong></td><td>Attached to bones</td><td>Voluntary</td></tr>
+      <tr><td><strong>Smooth</strong></td><td>Organ walls</td><td>Involuntary</td></tr>
+      <tr><td><strong>Cardiac</strong></td><td>Heart only</td><td>Involuntary</td></tr>
+    </table>
+  </div>
+
+  <div class="topic-card">
+    <h2>29. Smooth Muscle Locations <span class="page-tag">pg. 67</span></h2>
+    <ul>
+      <li>Stomach, intestines, bladder, uterus</li>
+      <li>Blood vessel walls</li>
+      <li>Airways, eyes (iris)</li>
+    </ul>
+  </div>
+
+  <div class="topic-card">
+    <h2>30. Peristalsis <span class="page-tag">pg. 67</span></h2>
+    <p><strong>Wave-like contractions</strong> propelling food through the digestive tract. Muscle involved: <strong>smooth muscle</strong>.</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>31. Cardiac Muscle — Unique Features <span class="page-tag">pg. 68</span></h2>
+    <ul>
+      <li>Involuntary — cannot be consciously controlled</li>
+      <li>Has <strong>intercalated discs</strong> for electrical conduction</li>
+      <li><strong>Autorhythmic</strong> — generates its own rhythm</li>
+      <li>Never fatigues under normal conditions</li>
+      <li>Found <strong>only in the heart</strong></li>
+    </ul>
+  </div>
+
+  <div class="topic-card">
+    <h2>32. Nervous Tissue Locations <span class="page-tag">pg. 69</span></h2>
+    <p>Found in: <strong>brain, spinal cord, peripheral nerves</strong>. Made of <strong>neurons</strong> and <strong>neuroglia</strong>.</p>
+  </div>
+
+  <div class="topic-card" style="border-color: var(--lavender);">
+    <h2>🔤 Medical Terminology</h2>
+    <table class="ref-table">
+      <tr><th>Prefix</th><th>Meaning</th><th>Example</th></tr>
+      <tr><td><strong>Intra-</strong></td><td>Within</td><td>Intracellular = within the cell</td></tr>
+      <tr><td><strong>Hyper-</strong></td><td>Increased / excessive</td><td>Hyperglycemia = high blood sugar</td></tr>
+      <tr><td><strong>Hypo-</strong></td><td>Below / under / decreased</td><td>Hypoglycemia = low blood sugar</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ===================== FLASHCARDS ===================== -->
+<div id="flashcards" class="section">
+  <h2 class="section-title">🃏 Flashcards</h2>
+  <div class="fc-controls">
+    <div class="fc-counter" id="fcCounter">Card 1 of 32</div>
+    <button class="btn btn-outline" onclick="prevCard()">← Prev</button>
+    <button class="btn btn-outline" onclick="nextCard()">Next →</button>
+    <button class="btn btn-moss" onclick="shuffleCards()">🔀 Shuffle</button>
+    <button class="btn btn-outline" onclick="resetCards()">↺ Reset</button>
+  </div>
+  <div class="flashcard-scene" id="fcScene" onclick="flipCard()">
+    <div class="flashcard-inner" id="fcInner">
+      <div class="fc-face fc-front">
+        <div class="fc-cat" id="fcCat">Category</div>
+        <div class="fc-question" id="fcQuestion">Question text</div>
+        <div class="fc-hint">🌸 tap to reveal answer</div>
+      </div>
+      <div class="fc-face fc-back">
+        <div class="fc-cat" id="fcCatBack" style="background: rgba(255,255,255,0.5); color: #2d5a32;">Answer</div>
+        <div class="fc-answer" id="fcAnswer">Answer text</div>
+      </div>
+    </div>
+  </div>
+  <div class="fc-nav">
+    <div class="fc-dots" id="fcDots"></div>
+  </div>
+</div>
+
+<!-- ===================== PRACTICE TEST ===================== -->
+<div id="test" class="section">
+  <h2 class="section-title">📝 Practice Test</h2>
+  <div class="test-intro">
+    <p>🌸 <strong>32 questions</strong> covering all topics from your study guide. Select your answer and submit when done!</p>
+  </div>
+  <div class="test-controls">
+    <button class="btn btn-rose" onclick="submitTest()">🌸 Submit Test</button>
+    <button class="btn btn-outline" onclick="resetTest()">↺ Reset</button>
+  </div>
+  <div class="score-card" id="scoreCard"></div>
+  <div id="testContainer"></div>
+</div>
+
+<script>
+// ===================== PETALS =====================
+function makePetals() {
+  const bg = document.getElementById('bgDecor');
+  for(let i = 0; i < 12; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal-float';
+    p.style.left = Math.random()*100 + 'vw';
+    p.style.animationDuration = (8 + Math.random()*12) + 's';
+    p.style.animationDelay = (Math.random()*15) + 's';
+    p.style.width = (8 + Math.random()*10) + 'px';
+    p.style.height = (10 + Math.random()*12) + 'px';
+    p.style.opacity = 0.2 + Math.random()*0.3;
+    bg.appendChild(p);
+  }
+}
+makePetals();
+
+// ===================== TABS =====================
+function showTab(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ===================== FLASHCARD DATA =====================
+const allCards = [
+  { cat:'Cells', q:'Define cells.', a:'The basic unit of biological organization of the human body — smallest living units capable of carrying out life functions.' },
+  { cat:'Cytoplasm', q:'What is cytoplasm mainly composed of?', a:'Mainly WATER (70–90%), plus proteins, lipids, carbohydrates, and minerals.' },
+  { cat:'Cytoplasm', q:'What is a colloidal solution?', a:'Large protein molecules SUSPENDED (not dissolved) in water — gives cytoplasm its gel-like consistency.' },
+  { cat:'Chemistry', q:'What type of compounds do not dissolve easily in water?', a:'LIPIDS (fats) — hydrophobic, do not dissolve in water.' },
+  { cat:'Mineral Salts', q:'Name the 5 mineral salts.', a:'Sodium (Na), Potassium (K), Calcium (Ca), Magnesium (Mg), Phosphorus (P)' },
+  { cat:'Chromosomes', q:'How many chromosomes does the human body have, and how many from each parent?', a:'46 total chromosomes (23 pairs) — 23 from each parent.' },
+  { cat:'Chromosomes', q:'What are chromosomes made of?', a:'DNA and proteins called HISTONES.' },
+  { cat:'Chromosomes', q:'When chromosomes duplicate, what are they called and how are they joined?', a:'Called SISTER CHROMATIDS — joined at the CENTROMERE.' },
+  { cat:'Chromosomes', q:'What are chromosomes called when NOT dividing?', a:'Called CHROMATIN — loosely coiled DNA + histone proteins.' },
+  { cat:'Cell Organelles', q:'What organelle converts chemical energy to usable energy? What is that energy called?', a:'MITOCHONDRIA converts food to ATP (Adenosine Triphosphate).' },
+  { cat:'Cell Organelles', q:'What are the folds in the inner mitochondrial membrane called? What is their significance?', a:'Called CRISTAE. More folds = more surface area = MORE ATP produced.' },
+  { cat:'Cell Function', q:'Describe transcription and where it takes place.', a:'DNA is copied into mRNA. Takes place in the NUCLEUS.' },
+  { cat:'Cilia', q:'Where are cilia found on stationary cells and what is their purpose?', a:'Found in respiratory tract and fallopian tubes. Move mucus, debris, and eggs.' },
+  { cat:'Epithelial Tissue', q:'Describe epithelial cells regarding intercellular material and arrangement.', a:'Very LITTLE intercellular material. Cells are TIGHTLY PACKED — form continuous sheets.' },
+  { cat:'Epithelial Tissue', q:'What are epithelial cells anchored with?', a:'Anchored by BASEMENT MEMBRANE. Connected to each other by DESMOSOMES.' },
+  { cat:'Epithelial Tissue', q:'What tissue is found in the bladder?', a:'TRANSITIONAL EPITHELIUM — stretches as bladder fills, recoils when empty.' },
+  { cat:'Epithelial Tissue', q:'All glands are made of what type of tissue?', a:'EPITHELIAL TISSUE.' },
+  { cat:'Glands', q:'Difference between endocrine and exocrine glands? Give an example of each.', a:'Endocrine = hormones → bloodstream, NO ducts (thyroid, adrenal). Exocrine = through ducts to surface (sweat, salivary).' },
+  { cat:'Epithelial Tissue', q:'What tissue lines the circulatory system?', a:'ENDOTHELIUM — simple squamous epithelial tissue.' },
+  { cat:'Epithelial Tissue', q:'What lines the thoracic cavity?', a:'PLEURA (serous membrane). Parietal = chest wall. Visceral = lung surface.' },
+  { cat:'Connective Tissue', q:'What is matrix and where is it found?', a:'Non-living intercellular material in connective tissue. Found in bone, cartilage, blood. Can be solid, semi-solid, gel-like, or liquid.' },
+  { cat:'Connective Tissue', q:'Name 2 substances mast cells produce and their functions.', a:'HISTAMINE = vasodilation + increased capillary permeability. HEPARIN = prevents blood clotting.' },
+  { cat:'Connective Tissue', q:'What are the functions of adipose tissue?', a:'Energy storage, thermal insulation, mechanical protection (cushions & protects organs from trauma).' },
+  { cat:'Connective Tissue', q:'What attaches muscle to bone?', a:'TENDONS — dense regular connective tissue.' },
+  { cat:'Connective Tissue', q:'What are lacunae and where are they found?', a:'Small cavities housing cells. Bone → osteocytes. Cartilage → chondrocytes.' },
+  { cat:'Connective Tissue', q:'What type of tissue is blood and what is it composed of?', a:'CONNECTIVE TISSUE (liquid matrix). Composed of: plasma (55%), RBCs, WBCs, platelets.' },
+  { cat:'Connective Tissue', q:'What are synovial membranes and where are they found?', a:'Connective tissue lining synovial joints (knees, shoulders, hips). Secretes synovial fluid for lubrication.' },
+  { cat:'Muscle Tissue', q:'Name the 3 types of muscle tissue, their location, and control.', a:'Skeletal (bones, voluntary), Smooth (organ walls, involuntary), Cardiac (heart, involuntary).' },
+  { cat:'Muscle Tissue', q:'Where is smooth muscle found?', a:'Stomach, intestines, bladder, uterus, blood vessel walls, airways, and eyes (iris).' },
+  { cat:'Muscle Tissue', q:'What is peristalsis and what muscle is involved?', a:'Wave-like contractions propelling food through the digestive tract. SMOOTH MUSCLE.' },
+  { cat:'Muscle Tissue', q:'What is unique about cardiac muscle?', a:'Involuntary, has intercalated discs, AUTORHYTHMIC (self-generating rhythm), never fatigues, found ONLY in the heart.' },
+  { cat:'Nervous Tissue', q:'Where is nervous tissue found?', a:'Brain, spinal cord, and peripheral nerves. Made of NEURONS and NEUROGLIA.' },
+];
+
+let cards = [...allCards];
+let currentCard = 0;
+let isFlipped = false;
+const seen = new Set();
+
+function renderCard() {
+  const c = cards[currentCard];
+  document.getElementById('fcCat').textContent = c.cat;
+  document.getElementById('fcCatBack').textContent = c.cat;
+  document.getElementById('fcQuestion').textContent = c.q;
+  document.getElementById('fcAnswer').textContent = c.a;
+  document.getElementById('fcCounter').textContent = `Card ${currentCard + 1} of ${cards.length}`;
+  isFlipped = false;
+  document.getElementById('fcScene').classList.remove('flipped');
+  renderDots();
+}
+
+function renderDots() {
+  const dotsEl = document.getElementById('fcDots');
+  dotsEl.innerHTML = cards.map((_, i) => {
+    let cls = 'fc-dot';
+    if(i === currentCard) cls += ' active';
+    else if(seen.has(i)) cls += ' seen';
+    return `<div class="${cls}" onclick="goToCard(${i})"></div>`;
+  }).join('');
+}
+
+function flipCard() {
+  isFlipped = !isFlipped;
+  document.getElementById('fcScene').classList.toggle('flipped', isFlipped);
+  if(isFlipped) seen.add(currentCard);
+}
+function nextCard() {
+  if(currentCard < cards.length - 1) { currentCard++; renderCard(); }
+}
+function prevCard() {
+  if(currentCard > 0) { currentCard--; renderCard(); }
+}
+function goToCard(i) { currentCard = i; renderCard(); }
+function shuffleCards() {
+  cards = [...allCards].sort(() => Math.random() - 0.5);
+  currentCard = 0;
+  seen.clear();
+  renderCard();
+}
+function resetCards() {
+  cards = [...allCards];
+  currentCard = 0;
+  seen.clear();
+  renderCard();
+}
+renderCard();
+
+// ===================== TEST DATA =====================
+const questions = [
+  { q:'What is the basic unit of biological organization of the human body?', type:'single', opts:['A. Tissue','B. Organ','C. Cell','D. Nucleus'], correct:2, rat:'Cells are the basic unit of biological organization of the human body — the smallest living units capable of carrying out life functions.' },
+  { q:'Cytoplasm is mainly composed of which substance?', type:'single', opts:['A. Lipids','B. Proteins','C. Water','D. DNA'], correct:2, rat:'Cytoplasm is mainly composed of water (70–90%), along with proteins, lipids, carbohydrates, and minerals.' },
+  { q:'A colloidal solution describes which property of cytoplasm?', type:'single', opts:['A. Its ability to dissolve all substances','B. Large protein molecules suspended in water giving gel-like consistency','C. Its liquid state with no particles','D. Its ability to conduct electricity'], correct:1, rat:'A colloidal solution has large protein molecules suspended (not dissolved) in water, giving cytoplasm its gel-like consistency.' },
+  { q:'Which type of compound does NOT dissolve easily in water?', type:'single', opts:['A. Carbohydrates','B. Mineral salts','C. Proteins','D. Lipids (fats)'], correct:3, rat:'Lipids (fats) are hydrophobic — they do not dissolve in water. This is why they require special carriers in the bloodstream.' },
+  { q:'Which of the following are mineral salts found in the body? (Select all that apply)', type:'multi', opts:['A. Sodium (Na)','B. Potassium (K)','C. Glucose','D. Calcium (Ca)','E. Phosphorus (P)'], correct:[0,1,3,4], rat:'The five mineral salts are: Sodium (Na), Potassium (K), Calcium (Ca), Magnesium (Mg), and Phosphorus (P). Glucose is a carbohydrate, not a mineral salt.' },
+  { q:'How many chromosomes does the human body have in total, and how many come from each parent?', type:'single', opts:['A. 23 total; all from one parent','B. 46 total; 23 from each parent','C. 46 total; 46 from each parent','D. 23 total; 23 from each parent'], correct:1, rat:'The human body has 46 total chromosomes (23 pairs). 23 chromosomes come from each parent.' },
+  { q:'Chromosomes are made of which of the following?', type:'single', opts:['A. RNA and lipids','B. DNA and proteins called histones','C. ATP and carbohydrates','D. mRNA and ribosomes'], correct:1, rat:'Chromosomes are made of DNA and proteins called histones.' },
+  { q:'When chromosomes duplicate, the copies are called _____ and they are joined at the _____.', type:'single', opts:['A. Chromatin; centrosome','B. Sister chromatids; centromere','C. Histones; nucleus','D. Cristae; centriole'], correct:1, rat:'Duplicated chromosomes are called sister chromatids, and they remain joined at the centromere until cell division.' },
+  { q:'When chromosomes are NOT dividing, they are called _____ and are described as _____.', type:'single', opts:['A. Chromatids; tightly coiled','B. Chromatin; loosely coiled DNA + histone proteins','C. ATP; dissolved in cytoplasm','D. Lacunae; stored in nucleus'], correct:1, rat:'Non-dividing chromosomes are called chromatin — loosely coiled DNA combined with histone proteins.' },
+  { q:'Which organelle converts chemical energy (food) into usable energy? What is that energy called?', type:'single', opts:['A. Nucleus; RNA','B. Ribosome; protein','C. Mitochondria; ATP','D. Golgi body; lipids'], correct:2, rat:'Mitochondria convert chemical energy (food) into ATP (Adenosine Triphosphate) — the usable energy currency of the cell.' },
+  { q:'The folds in the inner mitochondrial membrane are called _____, and having MORE folds means _____.', type:'single', opts:['A. Cilia; less ATP','B. Cristae; more surface area = more ATP produced','C. Lacunae; more storage','D. Desmosomes; stronger connections'], correct:1, rat:'The folds are cristae. More folds = more surface area = more ATP can be produced. High-energy cells like muscle cells have more cristae.' },
+  { q:'Transcription is best described as:', type:'single', opts:['A. DNA being replicated into another DNA strand in the cytoplasm','B. Proteins being made at the ribosome','C. DNA being copied into mRNA, taking place in the nucleus','D. mRNA being translated into protein'], correct:2, rat:'Transcription = DNA is copied into mRNA (messenger RNA). This process takes place in the NUCLEUS.' },
+  { q:'Where are cilia found on stationary cells, and what is their function? (Select all that apply)', type:'multi', opts:['A. Found in respiratory tract','B. Found in the digestive tract','C. Found in fallopian tubes','D. Move mucus and debris','E. Store genetic information'], correct:[0,2,3], rat:'Cilia are found in the respiratory tract (move mucus/debris) and fallopian tubes (move eggs toward the uterus). They do NOT store genetic information.' },
+  { q:'Epithelial cells are described as having _____ intercellular material and are _____ packed.', type:'single', opts:['A. Abundant; loosely','B. Very little; tightly','C. Moderate; evenly','D. No; randomly'], correct:1, rat:'Epithelial cells have very LITTLE intercellular material and are TIGHTLY PACKED, forming continuous sheets.' },
+  { q:'Epithelial cells are anchored to underlying connective tissue by a _____ and connected to each other by _____.', type:'single', opts:['A. Centromere; histones','B. Basement membrane; desmosomes','C. Matrix; cristae','D. Lacunae; tendons'], correct:1, rat:'Epithelial cells are anchored by a BASEMENT MEMBRANE and connected to each other by DESMOSOMES (cell junctions).' },
+  { q:'What type of tissue is found in the bladder, and why is it unique?', type:'single', opts:['A. Simple squamous — very thin for filtration','B. Transitional epithelium — stretches as bladder fills','C. Cardiac muscle — contracts involuntarily','D. Smooth muscle — moves urine along'], correct:1, rat:'TRANSITIONAL EPITHELIUM lines the bladder. It can stretch as the bladder fills and recoil when it empties — unique to the urinary system.' },
+  { q:'All glands in the body are made of which type of tissue?', type:'single', opts:['A. Connective tissue','B. Muscle tissue','C. Epithelial tissue','D. Nervous tissue'], correct:2, rat:'All glands are made of EPITHELIAL TISSUE.' },
+  { q:'Which of the following correctly describes an ENDOCRINE gland?', type:'single', opts:['A. Secretes products through ducts to a surface','B. Secretes hormones directly into the bloodstream with no ducts','C. Secretes mucus into the respiratory tract','D. Secretes enzymes into the digestive tract'], correct:1, rat:'Endocrine glands secrete HORMONES directly into the BLOODSTREAM (no ducts). Examples: thyroid, adrenal glands. Exocrine glands use DUCTS.' },
+  { q:'What tissue lines the circulatory system (heart, blood vessels, lymphatics)?', type:'single', opts:['A. Transitional epithelium','B. Endothelium — simple squamous epithelial tissue','C. Pleura — serous membrane','D. Basement membrane'], correct:1, rat:'The circulatory system is lined by ENDOTHELIUM — a type of simple squamous epithelial tissue.' },
+  { q:'The thoracic cavity is lined by _____, with _____ covering the chest wall and _____ covering the lung surface.', type:'single', opts:['A. Endothelium; visceral; parietal','B. Pleura; parietal; visceral','C. Matrix; serous; mucous','D. Basement membrane; inner; outer'], correct:1, rat:'The thoracic cavity is lined by PLEURA (serous membrane). Parietal pleura = chest wall. Visceral pleura = lung surface.' },
+  { q:'Matrix in connective tissue is best defined as:', type:'single', opts:['A. Living cells that produce collagen fibers','B. Non-living intercellular material that can be solid, semi-solid, gel-like, or liquid','C. The fluid portion of blood only','D. A type of epithelial lining'], correct:1, rat:'Matrix is the NON-LIVING intercellular material in connective tissue. It can be solid (bone), semi-solid (cartilage), gel-like (areolar tissue), or liquid (blood).' },
+  { q:'Mast cells produce two substances. Which correctly describes their functions?', type:'single', opts:['A. Histamine = clotting; Heparin = vasodilation','B. Histamine = vasodilation + increased capillary permeability; Heparin = prevents clotting','C. Both cause vasoconstriction','D. Histamine = ATP production; Heparin = gene expression'], correct:1, rat:'HISTAMINE causes vasodilation and increased capillary permeability (inflammation/allergic reactions). HEPARIN prevents blood clotting in areas of inflammation.' },
+  { q:'Which of the following are functions of adipose tissue? (Select all that apply)', type:'multi', opts:['A. Energy storage','B. Nerve conduction','C. Thermal insulation','D. Mechanical protection of organs','E. Transcription'], correct:[0,2,3], rat:'Adipose tissue functions: energy storage (fat reserves), thermal insulation (reduce heat loss), and mechanical protection (shock absorber for organs). It does not conduct nerves or perform transcription.' },
+  { q:'What structure attaches muscle to bone?', type:'single', opts:['A. Ligaments','B. Tendons','C. Lacunae','D. Desmosomes'], correct:1, rat:'TENDONS — made of dense regular connective tissue — attach muscle to bone. (Ligaments attach bone to bone.)' },
+  { q:'Lacunae are small cavities that house cells. In BONE they contain _____, and in CARTILAGE they contain _____.', type:'single', opts:['A. Chondrocytes; osteocytes','B. Neurons; neuroglia','C. Osteocytes; chondrocytes','D. Mast cells; plasma cells'], correct:2, rat:'Lacunae in BONE house OSTEOCYTES (bone cells). Lacunae in CARTILAGE house CHONDROCYTES (cartilage cells).' },
+  { q:'Blood is classified as which type of tissue, and what is it composed of?', type:'single', opts:['A. Epithelial tissue; cells and collagen','B. Muscle tissue; fibers and plasma','C. Connective tissue (liquid matrix); plasma, RBCs, WBCs, platelets','D. Nervous tissue; neurons and plasma'], correct:2, rat:'Blood is CONNECTIVE TISSUE with a liquid matrix. It is composed of plasma (55%), red blood cells, white blood cells, and platelets.' },
+  { q:'Synovial membranes are which type of tissue, and what do they secrete?', type:'single', opts:['A. Epithelial tissue; mucus','B. Connective tissue; synovial fluid for joint lubrication','C. Nervous tissue; neurotransmitters','D. Muscle tissue; lactic acid'], correct:1, rat:'Synovial membranes are CONNECTIVE TISSUE that line freely moving joints and secrete SYNOVIAL FLUID to lubricate joints.' },
+  { q:'Which muscle tissue type is VOLUNTARY and attached to bones?', type:'single', opts:['A. Smooth muscle','B. Cardiac muscle','C. Skeletal muscle','D. Transitional muscle'], correct:2, rat:'SKELETAL muscle is voluntary (consciously controlled) and attached to bones. It is responsible for body movement.' },
+  { q:'Where would you find smooth muscle? (Select all that apply)', type:'multi', opts:['A. Stomach and intestines','B. Heart','C. Blood vessel walls','D. Airways','E. Eyes (iris)'], correct:[0,2,3,4], rat:'Smooth muscle is found in: stomach, intestines, bladder, uterus, blood vessel walls, airways, and the iris of the eye. The heart contains cardiac muscle, not smooth.' },
+  { q:'Peristalsis is best described as:', type:'single', opts:['A. Electrical impulses through the nervous system','B. Wave-like contractions of smooth muscle propelling food through the digestive tract','C. Voluntary skeletal muscle contractions','D. Heart contractions pumping blood'], correct:1, rat:'Peristalsis = wave-like contractions of SMOOTH MUSCLE that propel food through the digestive tract.' },
+  { q:'Which of the following are UNIQUE features of cardiac muscle? (Select all that apply)', type:'multi', opts:['A. Voluntary control','B. Has intercalated discs for electrical conduction','C. Autorhythmic — generates its own rhythm','D. Never fatigues under normal conditions','E. Found only in the heart'], correct:[1,2,3,4], rat:'Cardiac muscle is: INVOLUNTARY, has intercalated discs, is autorhythmic (self-pacing), never fatigues normally, and is found ONLY in the heart.' },
+  { q:'Nervous tissue is found in which anatomical structures, and is made of which cell types?', type:'single', opts:['A. Bones and cartilage; osteocytes and chondrocytes','B. Blood vessels only; endothelial cells','C. Brain, spinal cord, and peripheral nerves; neurons and neuroglia','D. Glands only; epithelial cells'], correct:2, rat:'Nervous tissue is found in the BRAIN, SPINAL CORD, and PERIPHERAL NERVES. It is composed of NEURONS (nerve cells) and NEUROGLIA (supporting cells).' },
+];
+
+// ===================== RENDER TEST =====================
+function renderTest() {
+  const container = document.getElementById('testContainer');
+  container.innerHTML = questions.map((q, i) => `
+    <div class="q-card" id="qcard-${i}">
+      <div class="q-num">Question ${i+1} of ${questions.length}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="q-options">
+        ${q.opts.map((opt, oi) => `
+          <label>
+            <input type="${q.type === 'multi' ? 'checkbox' : 'radio'}" name="q${i}" value="${oi}">
+            ${opt}
+          </label>
+        `).join('')}
+      </div>
+      <div class="answer-box" id="ans-${i}"></div>
+    </div>
+  `).join('');
+}
+
+function submitTest() {
+  let correct = 0;
+  questions.forEach((q, i) => {
+    const ansEl = document.getElementById(`ans-${i}`);
+    let isCorrect = false;
+    if(q.type === 'single') {
+      const sel = document.querySelector(`input[name="q${i}"]:checked`);
+      isCorrect = sel && parseInt(sel.value) === q.correct;
+    } else {
+      const sel = Array.from(document.querySelectorAll(`input[name="q${i}"]:checked`)).map(e => parseInt(e.value));
+      isCorrect = JSON.stringify(sel.sort()) === JSON.stringify([...q.correct].sort());
+    }
+    if(isCorrect) correct++;
+    const correctAns = q.type === 'single' ? q.opts[q.correct] : q.correct.map(c => q.opts[c]).join(' + ');
+    ansEl.className = `answer-box ${isCorrect ? 'correct' : 'incorrect'} show`;
+    ansEl.innerHTML = `<strong>${isCorrect ? '✅ Correct!' : '❌ Incorrect'}</strong><br><strong>Answer:</strong> ${correctAns}<br><strong>Why:</strong> ${q.rat}`;
+  });
+  const pct = Math.round(correct/questions.length*100);
+  const sc = document.getElementById('scoreCard');
+  sc.className = 'score-card show';
+  sc.innerHTML = `
+    <div class="score-big">${pct}%</div>
+    <div class="score-label">You got ${correct} out of ${questions.length} correct 🌸</div>
+    <div class="score-emoji">${pct >= 80 ? '🌸🎉 Amazing! Keep blooming!' : pct >= 70 ? '🌿 Good job! Review missed ones.' : '📚 Keep studying — you got this!'}</div>
+  `;
+  sc.scrollIntoView({ behavior: 'smooth' });
+}
+
+function resetTest() {
+  questions.forEach((_, i) => {
+    document.querySelectorAll(`input[name="q${i}"]`).forEach(el => el.checked = false);
+    const a = document.getElementById(`ans-${i}`);
+    a.className = 'answer-box';
+    a.innerHTML = '';
+  });
+  document.getElementById('scoreCard').className = 'score-card';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+renderTest();
+</script>
+</body>
+</html>

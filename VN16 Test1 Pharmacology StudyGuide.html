@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VN16 Test 1 — General Principles of Pharmacology</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=Playfair+Display:ital,wght@0,700;1,400&display=swap');
+:root {
+  --blush:#f7c5d0;--rose:#e8829a;--deep-rose:#c45c78;--petal:#fde8ee;
+  --sakura:#fad4df;--moss:#7a9e7e;--sky:#a8c5da;--cream:#fdf6f0;
+  --warm-white:#fffaf7;--ink:#3d2b35;--soft-ink:#6b4d57;
+  --gold:#d4a853;--lavender:#c5b8d4;--mint:#d4ede8;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden;}
+.bg-decor{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden;}
+.petal-float{position:absolute;width:12px;height:16px;background:var(--blush);border-radius:50% 0 50% 0;opacity:0.35;animation:floatPetal linear infinite;}
+@keyframes floatPetal{0%{transform:translateY(-20px) rotate(0deg);opacity:0;}10%{opacity:0.35;}90%{opacity:0.35;}100%{transform:translateY(110vh) rotate(360deg);opacity:0;}}
+header{position:relative;z-index:10;background:linear-gradient(135deg,#f9d0dc 0%,#fae0e8 40%,#e8b4c4 100%);padding:3rem 2rem 2rem;text-align:center;border-bottom:3px solid var(--rose);overflow:hidden;}
+header::before{content:'';position:absolute;top:-30px;right:-30px;width:180px;height:180px;background:radial-gradient(circle,rgba(255,255,255,0.4) 0%,transparent 70%);border-radius:50%;}
+header::after{content:'💊';position:absolute;font-size:3.5rem;top:1rem;left:2rem;opacity:0.25;}
+.header-badge{display:inline-block;background:var(--deep-rose);color:white;font-size:0.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:0.3rem 1rem;border-radius:50px;margin-bottom:0.8rem;}
+header h1{font-family:'Playfair Display',serif;font-size:2.2rem;color:var(--deep-rose);margin-bottom:0.3rem;text-shadow:1px 1px 0 rgba(255,255,255,0.5);}
+header p{color:var(--soft-ink);font-size:0.95rem;}
+.sakura-row{font-size:1.4rem;letter-spacing:0.5rem;margin-top:0.8rem;opacity:0.6;}
+.tab-bar{position:sticky;top:0;z-index:100;background:rgba(253,232,238,0.95);backdrop-filter:blur(10px);display:flex;justify-content:center;gap:0.5rem;padding:0.8rem 1rem;border-bottom:2px solid var(--blush);flex-wrap:wrap;}
+.tab-btn{background:white;color:var(--soft-ink);border:2px solid var(--blush);padding:0.5rem 1.3rem;border-radius:50px;cursor:pointer;font-size:0.88rem;font-family:'Nunito',sans-serif;font-weight:700;transition:all 0.2s;}
+.tab-btn:hover{background:var(--blush);border-color:var(--rose);}
+.tab-btn.active{background:var(--deep-rose);color:white;border-color:var(--deep-rose);box-shadow:0 4px 12px rgba(196,92,120,0.3);}
+.section{display:none;padding:2rem 1.5rem;max-width:940px;margin:0 auto;position:relative;z-index:10;}
+.section.active{display:block;}
+.section-title{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--deep-rose);margin-bottom:1.5rem;display:flex;align-items:center;gap:0.6rem;}
+.section-title::after{content:'';flex:1;height:2px;background:linear-gradient(to right,var(--rose),transparent);margin-left:0.5rem;}
+.chapter-head{background:linear-gradient(135deg,var(--deep-rose),var(--rose));color:white;border-radius:16px;padding:0.8rem 1.3rem;margin:1.5rem 0 0.8rem;font-weight:800;font-size:1rem;letter-spacing:0.5px;}
+.topic-card{background:var(--warm-white);border-radius:20px;padding:1.4rem;margin-bottom:1rem;border:2px solid var(--sakura);box-shadow:0 4px 16px rgba(232,130,154,0.1);position:relative;overflow:hidden;}
+.topic-card::before{content:'';position:absolute;top:0;left:0;width:5px;height:100%;background:linear-gradient(to bottom,var(--rose),var(--blush));border-radius:20px 0 0 20px;}
+.topic-card h2{font-size:0.98rem;color:var(--deep-rose);font-weight:800;margin-bottom:0.7rem;}
+.topic-card p,.topic-card li{font-size:0.88rem;color:var(--soft-ink);line-height:1.65;margin-bottom:0.25rem;}
+.topic-card ul{padding-left:1.2rem;}
+.topic-card strong{color:var(--deep-rose);}
+.page-tag{background:var(--blush);color:var(--deep-rose);font-size:0.68rem;font-weight:700;padding:0.15rem 0.55rem;border-radius:50px;margin-left:0.4rem;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-top:0.6rem;}
+@media(max-width:580px){.two-col{grid-template-columns:1fr;}}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.7rem;margin-top:0.6rem;}
+@media(max-width:680px){.three-col{grid-template-columns:1fr 1fr;}}
+@media(max-width:420px){.three-col{grid-template-columns:1fr;}}
+.mini-card{background:var(--petal);border-radius:12px;padding:0.8rem 1rem;border:1px solid var(--blush);}
+.mini-card h3{font-size:0.82rem;color:var(--deep-rose);font-weight:800;margin-bottom:0.35rem;}
+.mini-card p,.mini-card li{font-size:0.8rem;color:var(--soft-ink);}
+.mini-card ul{padding-left:1rem;}
+.alert-pill{display:inline-block;background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:0.4rem 0.8rem;font-size:0.8rem;color:#856404;margin:0.4rem 0;}
+.danger-pill{display:inline-block;background:#fce4ec;border:1px solid #f48fb1;border-radius:8px;padding:0.4rem 0.8rem;font-size:0.8rem;color:#c62828;margin:0.4rem 0;}
+.success-pill{display:inline-block;background:#e8f5e9;border:1px solid #81c784;border-radius:8px;padding:0.4rem 0.8rem;font-size:0.8rem;color:#2e7d32;margin:0.4rem 0;}
+.ref-table{width:100%;border-collapse:collapse;font-size:0.82rem;margin:0.6rem 0;}
+.ref-table th{background:var(--deep-rose);color:white;padding:0.5rem 0.7rem;text-align:left;font-weight:700;}
+.ref-table td{padding:0.5rem 0.7rem;border-bottom:1px solid var(--sakura);vertical-align:top;}
+.ref-table tr:nth-child(even) td{background:var(--petal);}
+/* FLASHCARDS */
+.fc-controls{display:flex;gap:0.8rem;margin-bottom:1.2rem;flex-wrap:wrap;align-items:center;}
+.fc-counter{background:var(--petal);border:2px solid var(--blush);border-radius:50px;padding:0.4rem 1rem;font-size:0.85rem;font-weight:700;color:var(--deep-rose);}
+.btn{padding:0.55rem 1.3rem;border-radius:50px;border:2px solid;cursor:pointer;font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:700;transition:all 0.2s;}
+.btn-rose{background:var(--deep-rose);color:white;border-color:var(--deep-rose);}
+.btn-rose:hover{background:var(--rose);border-color:var(--rose);box-shadow:0 4px 12px rgba(196,92,120,0.3);}
+.btn-outline{background:white;color:var(--deep-rose);border-color:var(--rose);}
+.btn-outline:hover{background:var(--petal);}
+.btn-moss{background:var(--moss);color:white;border-color:var(--moss);}
+.flashcard-scene{width:100%;max-width:620px;height:240px;perspective:1200px;margin:0 auto 1.5rem;cursor:pointer;}
+.flashcard-inner{position:relative;width:100%;height:100%;transition:transform 0.6s cubic-bezier(0.4,0,0.2,1);transform-style:preserve-3d;}
+.flashcard-scene.flipped .flashcard-inner{transform:rotateY(180deg);}
+.fc-face{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.8rem;text-align:center;}
+.fc-front{background:linear-gradient(135deg,#fde8ee,#f9d0dc);border:3px solid var(--rose);box-shadow:0 8px 32px rgba(232,130,154,0.2);}
+.fc-back{background:linear-gradient(135deg,#d4f0d8,#c8e8cc);border:3px solid var(--moss);transform:rotateY(180deg);box-shadow:0 8px 32px rgba(122,158,126,0.2);}
+.fc-cat{font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--rose);margin-bottom:0.7rem;background:white;padding:0.2rem 0.8rem;border-radius:50px;}
+.fc-front .fc-question{font-size:1rem;font-weight:700;color:var(--ink);line-height:1.5;}
+.fc-back .fc-answer{font-size:0.88rem;color:#2d5a32;line-height:1.6;font-weight:600;}
+.fc-hint{font-size:0.72rem;color:var(--rose);margin-top:0.7rem;opacity:0.7;}
+.fc-nav{display:flex;justify-content:center;align-items:center;gap:1rem;margin-top:0.5rem;}
+.fc-dots{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;max-width:400px;}
+.fc-dot{width:7px;height:7px;border-radius:50%;background:var(--blush);cursor:pointer;transition:background 0.2s;}
+.fc-dot.active{background:var(--deep-rose);}
+.fc-dot.seen{background:var(--moss);}
+/* TEST */
+.test-intro{background:linear-gradient(135deg,#fde8ee,#fad4df);border-radius:20px;padding:1.5rem;margin-bottom:1.5rem;border:2px solid var(--blush);text-align:center;}
+.test-intro p{font-size:0.9rem;color:var(--soft-ink);}
+.q-card{background:var(--warm-white);border-radius:20px;padding:1.5rem;margin-bottom:1rem;border:2px solid var(--sakura);box-shadow:0 4px 12px rgba(232,130,154,0.08);}
+.q-num{font-size:0.72rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--rose);margin-bottom:0.5rem;}
+.q-text{font-size:0.93rem;font-weight:700;color:var(--ink);margin-bottom:1rem;line-height:1.5;}
+.q-options label{display:flex;align-items:flex-start;gap:0.8rem;padding:0.6rem 0.9rem;border-radius:12px;cursor:pointer;font-size:0.87rem;color:var(--soft-ink);margin-bottom:0.4rem;border:2px solid var(--sakura);background:white;transition:all 0.15s;font-family:'Nunito',sans-serif;}
+.q-options label:hover{background:var(--petal);border-color:var(--rose);}
+.q-options input{margin-top:2px;accent-color:var(--deep-rose);}
+.q-options input[type="checkbox"]{accent-color:var(--moss);}
+.answer-box{display:none;margin-top:1rem;padding:1rem 1.2rem;border-radius:14px;font-size:0.86rem;line-height:1.55;}
+.answer-box.show{display:block;}
+.answer-box.correct{background:#e8f5e9;border:2px solid #81c784;color:#2e7d32;}
+.answer-box.incorrect{background:#fce4ec;border:2px solid #f48fb1;color:#c62828;}
+.score-card{display:none;background:linear-gradient(135deg,#fde8ee,#fad4df);border:3px solid var(--rose);border-radius:24px;padding:2rem;text-align:center;margin-bottom:1.5rem;}
+.score-card.show{display:block;}
+.score-big{font-size:3.5rem;font-weight:800;color:var(--deep-rose);}
+.score-label{font-size:1rem;color:var(--soft-ink);margin-top:0.3rem;}
+.score-emoji{font-size:2rem;margin-top:0.5rem;}
+.test-controls{display:flex;gap:0.8rem;margin-bottom:1.5rem;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<div class="bg-decor" id="bgDecor"></div>
+
+<header>
+  <div class="header-badge">Carrington College · VN16</div>
+  <h1>🌸 General Principles of Pharmacology</h1>
+  <p>Test 1 Study Guide · Flashcards · Practice Test</p>
+  <div class="sakura-row">🌸 💊 🌿 💊 🌸</div>
+</header>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('guide',this)">📖 Study Guide</button>
+  <button class="tab-btn" onclick="showTab('flashcards',this)">🃏 Flashcards</button>
+  <button class="tab-btn" onclick="showTab('test',this)">📝 Practice Test</button>
+</div>
+
+<!-- ==================== STUDY GUIDE ==================== -->
+<div id="guide" class="section active">
+  <h2 class="section-title">🌿 Complete Study Guide</h2>
+
+  <div class="chapter-head">🌱 Sources of Medications</div>
+  <div class="topic-card">
+    <h2>Where Do Medications Come From?</h2>
+    <div class="three-col">
+      <div class="mini-card"><h3>🌿 Plant</h3><p>Digitalis, morphine, atropine</p></div>
+      <div class="mini-card"><h3>🐾 Animal</h3><p>Insulin (porcine), heparin</p></div>
+      <div class="mini-card"><h3>🧪 Laboratory/Synthetic</h3><p>Aspirin, sulfonamides</p></div>
+      <div class="mini-card"><h3>⛏️ Mineral</h3><p>Iron, calcium, potassium</p></div>
+      <div class="mini-card"><h3>🦠 Microbiological</h3><p>Penicillin, streptomycin</p></div>
+    </div>
+  </div>
+
+  <div class="chapter-head">💊 Drug Names & Classification</div>
+  <div class="topic-card">
+    <h2>Drug Names — Generic vs Trade</h2>
+    <div class="two-col">
+      <div class="mini-card">
+        <h3>Generic Name</h3>
+        <ul>
+          <li>Official nonproprietary name</li>
+          <li>Written in <strong>lowercase</strong></li>
+          <li>Assigned before approval</li>
+          <li>Bioequivalent to brand name but cheaper</li>
+          <li>Ex: <strong>ibuprofen</strong></li>
+        </ul>
+      </div>
+      <div class="mini-card">
+        <h3>Trade/Brand Name</h3>
+        <ul>
+          <li>Given by manufacturer</li>
+          <li>Written <strong>Capitalized</strong></li>
+          <li>May have multiple trade names</li>
+          <li>Ex: <strong>Advil, Motrin</strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic-card">
+    <h2>Drug Class/Category</h2>
+    <p>Drugs grouped together based on <strong>similar chemical structure, mechanism of action, or therapeutic use</strong>.</p>
+    <p>Examples: beta-blockers, ACE inhibitors, opioids, statins</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>Controlled Substances & DEA Schedules</h2>
+    <p>Drugs regulated by the federal government under the <strong>Controlled Substances Act (CSA)</strong> because they have potential for abuse, dependence, or addiction.</p>
+    <p><strong>DEA</strong> = Drug Enforcement Administration — federal agency that enforces controlled substance laws and regulations in the U.S.</p>
+    <table class="ref-table" style="margin-top:0.8rem;">
+      <tr><th>Schedule</th><th>Abuse Potential</th><th>Examples</th></tr>
+      <tr><td><strong>C-I</strong></td><td>Highest — no medical use</td><td>Heroin, LSD</td></tr>
+      <tr><td><strong>C-II</strong></td><td>High</td><td>Morphine, fentanyl, Adderall</td></tr>
+      <tr><td><strong>C-III</strong></td><td>Moderate</td><td>Codeine combos, ketamine</td></tr>
+      <tr><td><strong>C-IV</strong></td><td>Low</td><td>Benzodiazepines, tramadol</td></tr>
+      <tr><td><strong>C-V</strong></td><td>Lowest</td><td>Cough syrups with small codeine</td></tr>
+    </table>
+  </div>
+
+  <div class="topic-card">
+    <h2>Physical vs Psychological Dependence</h2>
+    <div class="two-col">
+      <div class="mini-card">
+        <h3>Physical Dependence</h3>
+        <p>Physiological state of adaptation where <strong>abrupt discontinuation causes withdrawal symptoms</strong></p>
+        <p>Ex: tremors, nausea, seizures</p>
+      </div>
+      <div class="mini-card">
+        <h3>Psychological Dependence</h3>
+        <p>Emotional/mental <strong>craving for a drug's effects</strong> — compulsive need to use a substance even without physical need</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="chapter-head">⚗️ Pharmacology Phases</div>
+  <div class="topic-card">
+    <h2>Drug Activity Within the Body</h2>
+    <p style="margin-bottom:0.6rem;">Process by which a drug tablet <strong>disintegrates and dissolves</strong> so it can be absorbed.</p>
+    <table class="ref-table">
+      <tr><th>Phase</th><th>Definition</th><th>Key Factors</th></tr>
+      <tr><td><strong>Pharmaceutic</strong></td><td>1st phase — drug dissolved & disintegrated so it can be absorbed</td><td>Drug form, enteric coating, pH, food</td></tr>
+      <tr><td><strong>Pharmacokinetic</strong></td><td>How the body processes the drug (ADME)</td><td>See ADME below</td></tr>
+    </table>
+  </div>
+
+  <div class="topic-card">
+    <h2>ADME — Pharmacokinetic Phase</h2>
+    <div class="two-col">
+      <div class="mini-card">
+        <h3>Absorption</h3>
+        <p>Movement of drug from administration site <strong>into the bloodstream</strong></p>
+        <p>Key factors: route, blood flow, drug solubility, GI motility</p>
+      </div>
+      <div class="mini-card">
+        <h3>Distribution</h3>
+        <p>Drug moves from blood into <strong>body tissues and fluids</strong></p>
+        <p>Key factors: protein binding, blood-brain barrier, liquid solubility, body fat</p>
+      </div>
+      <div class="mini-card">
+        <h3>Metabolism</h3>
+        <p>Drug chemically changed (primarily in the <strong>liver</strong>) into active or inactive metabolites</p>
+        <p>Key factors: liver function, first-pass effect, enzyme activity</p>
+      </div>
+      <div class="mini-card">
+        <h3>Excretion</h3>
+        <p>Elimination of drug from the body (primarily <strong>kidneys/urine</strong>)</p>
+        <p>Key factors: renal function, pH of urine</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic-card">
+    <h2>Drug Action Terms</h2>
+    <div class="three-col">
+      <div class="mini-card">
+        <h3>Onset</h3>
+        <p>Time from administration until drug reaches <strong>minimum effective concentration</strong> and produces a therapeutic effect</p>
+      </div>
+      <div class="mini-card">
+        <h3>Peak</h3>
+        <p>Time when the drug reaches its <strong>highest concentration</strong> in the blood</p>
+      </div>
+      <div class="mini-card">
+        <h3>Duration of Action</h3>
+        <p>Length of time the drug maintains <strong>sufficient concentration</strong> to produce therapeutic effect</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="chapter-head">🔬 Drug Receptor Actions</div>
+  <div class="topic-card">
+    <h2>Agonist vs Antagonist</h2>
+    <div class="two-col">
+      <div class="mini-card">
+        <h3>Agonist</h3>
+        <p>Drug that <strong>binds to a receptor and ACTIVATES it</strong>, producing a response</p>
+        <p>Ex: morphine on opioid receptors</p>
+      </div>
+      <div class="mini-card">
+        <h3>Antagonist</h3>
+        <p>Drug that <strong>binds to a receptor but BLOCKS the response</strong> without activating it</p>
+        <p>Ex: naloxone blocks opioid receptors</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic-card">
+    <h2>Teratogen</h2>
+    <p>A substance that <strong>causes birth defects by interfering with fetal development</strong></p>
+    <p>Examples: thalidomide, isotretinoin, alcohol</p>
+    <div class="alert-pill">⚠️ FDA Pregnancy Categories A, B, C, D, X guide prescribing decisions</div>
+  </div>
+
+  <div class="topic-card">
+    <h2>Pregnancy Considerations</h2>
+    <ul>
+      <li>All drugs are <strong>potentially harmful</strong> to the fetus, especially during 1st trimester (organogenesis)</li>
+      <li>Many drugs cross the placenta and reach fetal circulation</li>
+      <li>Avoid all non-essential medications during pregnancy</li>
+      <li>Always consult provider before taking any medication including OTC & herbal</li>
+    </ul>
+  </div>
+
+  <div class="chapter-head">⚠️ Drug Reactions & Safety</div>
+  <div class="topic-card">
+    <h2>Adverse Drug Reactions (ADR)</h2>
+    <p>Any <strong>unintended, harmful response</strong> to a drug given at the <strong>NORMAL therapeutic dose</strong></p>
+    <p>Examples: nausea, rash, hepatotoxicity</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>Allergic Drug Reactions</h2>
+    <p><strong>Immune-mediated (antigen-antibody) response</strong> — ranges from mild rash/hives to life-threatening anaphylaxis</p>
+    <div class="two-col">
+      <div class="mini-card">
+        <h3>Antigen</h3>
+        <p>Foreign substance (drug or pathogen) that the <strong>immune system identifies as foreign</strong> and triggers an immune response</p>
+      </div>
+      <div class="mini-card">
+        <h3>Antibody</h3>
+        <p>Protein produced by <strong>B cells</strong> in response to an antigen; designed to recognize and neutralize specific antigens</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic-card">
+    <h2>Signs & Symptoms of Allergic Reactions by System</h2>
+    <table class="ref-table">
+      <tr><th>System</th><th>Signs & Symptoms</th></tr>
+      <tr><td><strong>Respiratory</strong></td><td>Wheezing, bronchospasm, dyspnea, laryngeal edema, stridor</td></tr>
+      <tr><td><strong>Cardiovascular</strong></td><td>Hypotension, tachycardia, cardiovascular collapse, weak/thready pulse</td></tr>
+      <tr><td><strong>Skin</strong></td><td>Urticaria (hives), itching, rash, angioedema, flushing, pallor</td></tr>
+      <tr><td><strong>GI</strong></td><td>Nausea, vomiting, abdominal cramping, diarrhea</td></tr>
+    </table>
+  </div>
+
+  <div class="topic-card">
+    <h2>Anaphylactic Shock — Treatment</h2>
+    <div class="danger-pill">🚨 Can be fatal — massive histamine release causes vasodilation, bronchospasm, circulatory collapse → respiratory failure and death if not treated immediately</div>
+    <ul style="margin-top:0.6rem;">
+      <li><strong>Epinephrine (1st line)</strong> — administer IM immediately</li>
+      <li>Maintain airway, apply supplemental oxygen</li>
+      <li>IV fluid bolus to restore blood pressure</li>
+      <li>Diphenhydramine (Benadryl) IV/IM — antihistamine</li>
+      <li>Corticosteroids (methylprednisolone) — prevent recurrence</li>
+      <li>Activate emergency response / call 911</li>
+    </ul>
+  </div>
+
+  <div class="topic-card">
+    <h2>Drug Idiosyncrasy</h2>
+    <p>Abnormal, <strong>unexpected reaction unique to an individual</strong> — not related to the drug's known pharmacology</p>
+    <p>Ex: excitation instead of sedation from a barbiturate</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>Drug Tolerance</h2>
+    <p><strong>Decreased response to a drug after repeated use</strong>, requiring higher doses to achieve the same effect</p>
+    <p>Examples: opioids, benzodiazepines, alcohol</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>Cumulative Drug Effect</h2>
+    <p>Drug <strong>accumulates in the body faster than it can be metabolized or excreted</strong> → leads to toxicity</p>
+    <p>Common with patients who have <strong>renal or hepatic impairment</strong></p>
+  </div>
+
+  <div class="topic-card">
+    <h2>Toxic Reactions</h2>
+    <p>Harmful effects from <strong>excessively high drug concentrations</strong> in the body. Can result from overdose, impaired metabolism, or drug accumulation.</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>LVN Role — Keeping Drug Within Therapeutic Range</h2>
+    <ul>
+      <li>Monitor drug blood levels as ordered (trough and peak)</li>
+      <li>Observe for signs of toxicity or sub-therapeutic effect</li>
+      <li>Assess renal/hepatic function regularly</li>
+      <li>Administer drugs at consistently scheduled times</li>
+      <li>Report abnormal lab values to RN/provider immediately</li>
+    </ul>
+  </div>
+
+  <div class="chapter-head">💬 Drug Interactions</div>
+  <div class="topic-card">
+    <h2>Types of Drug Interactions</h2>
+    <table class="ref-table">
+      <tr><th>Type</th><th>Effect</th><th>Formula</th><th>Example</th></tr>
+      <tr><td><strong>Additive</strong></td><td>Effects add together</td><td>1+1=2</td><td>Two CNS depressants together</td></tr>
+      <tr><td><strong>Synergistic</strong></td><td>Effect greater than sum</td><td>1+1=3</td><td>Alcohol + benzodiazepines</td></tr>
+      <tr><td><strong>Antagonistic</strong></td><td>One blocks the other</td><td>1+1=0</td><td>Naloxone blocking morphine</td></tr>
+    </table>
+    <p style="margin-top:0.6rem;"><strong>Drug-to-Drug:</strong> When 2 drugs interact and alter the effect of one or both. Ex: Warfarin + Aspirin = increased bleeding risk</p>
+    <p style="margin-top:0.4rem;"><strong>Drug-to-Food:</strong> Food affects how a drug works — can make it more/less effective or cause dangerous reactions</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>Factors Influencing Drug Response</h2>
+    <div class="two-col">
+      <div class="mini-card">
+        <h3>Disease</h3><p>Liver/kidney disease impairs metabolism and excretion → increased drug levels and toxicity risk</p>
+      </div>
+      <div class="mini-card">
+        <h3>Route</h3><p>Affects absorption speed and bioavailability. <strong>IV = fastest, Oral = slowest</strong></p>
+      </div>
+      <div class="mini-card">
+        <h3>Weight</h3><p>Body weight and composition affect drug distribution; higher weight may require higher doses</p>
+      </div>
+      <div class="mini-card">
+        <h3>Age</h3><p>Elderly have reduced kidney/liver function; pediatric patients metabolize drugs differently</p>
+      </div>
+      <div class="mini-card">
+        <h3>Genetics</h3><p>Genetic variations affect enzyme activity (pharmacogenomics); some patients are rapid vs. slow metabolizers</p>
+      </div>
+      <div class="mini-card">
+        <h3>Polypharmacy</h3><p>Concurrent use of <strong>5+ medications</strong> by one patient; increases risk of drug interactions; most common in elderly</p>
+      </div>
+    </div>
+    <p style="margin-top:0.7rem; font-size:0.85rem;"><strong>Drug reactions are: Unpredictable & Individualized</strong></p>
+  </div>
+
+  <div class="topic-card">
+    <h2>Herbal Supplements</h2>
+    <p>Classified as <strong>dietary supplements — NOT regulated by the FDA</strong> for safety, efficacy, or standardization before marketing.</p>
+    <table class="ref-table" style="margin-top:0.6rem;">
+      <tr><th>Herb</th><th>Common Use</th></tr>
+      <tr><td><strong>Garlic</strong></td><td>Memory / cognitive function</td></tr>
+      <tr><td><strong>Ginkgo Biloba</strong></td><td>Heart health, cholesterol</td></tr>
+      <tr><td><strong>Echinacea</strong></td><td>Immune support, cold prevention</td></tr>
+      <tr><td><strong>St. John's Wort</strong></td><td>Depression, anxiety</td></tr>
+    </table>
+  </div>
+
+  <div class="chapter-head">📋 Drug History & Administration</div>
+  <div class="topic-card">
+    <h2>Drug History — What to Ask the Patient</h2>
+    <ul>
+      <li>All current prescriptions (name, dose, frequency)</li>
+      <li>OTC meds (pain relievers, antacids, cold meds)</li>
+      <li>Herbal/dietary supplement use</li>
+      <li>Past adverse/unusual drug reactions (allergies)</li>
+      <li>Alcohol, tobacco, and recreational drug use</li>
+      <li>Compliance with current meds (any missed doses?)</li>
+      <li>Drug, food, and environmental allergies (type of reaction)</li>
+    </ul>
+  </div>
+
+  <div class="topic-card">
+    <h2>7 Rights of Drug Administration</h2>
+    <table class="ref-table">
+      <tr><th>#</th><th>Right</th><th>Action</th></tr>
+      <tr><td>1</td><td><strong>Right Patient</strong></td><td>Verify 2 identifiers (name + DOB or MRN)</td></tr>
+      <tr><td>2</td><td><strong>Right Drug</strong></td><td>Compare drug label to MAR three times</td></tr>
+      <tr><td>3</td><td><strong>Right Dose</strong></td><td>Calculate carefully; verify with pharmacist for high-alert drugs</td></tr>
+      <tr><td>4</td><td><strong>Right Route</strong></td><td>Confirm correct administration route</td></tr>
+      <tr><td>5</td><td><strong>Right Time</strong></td><td>Administer at scheduled time; follow frequency rules</td></tr>
+      <tr><td>6</td><td><strong>Right Documentation</strong></td><td>Document AFTER giving the drug — NEVER before</td></tr>
+      <tr><td>7</td><td><strong>Right Reason</strong></td><td>Confirm drug is appropriate for the diagnosis</td></tr>
+    </table>
+  </div>
+
+  <div class="topic-card">
+    <h2>Considerations Before Drug Administration</h2>
+    <ul>
+      <li>Check allergies</li>
+      <li>Verify 6+1 rights</li>
+      <li>Assess client's ability to take the medication (swallow, IV patency, etc.)</li>
+      <li>Check contraindications and precautions</li>
+      <li>Know the drug before giving it</li>
+    </ul>
+    <p style="margin-top:0.6rem; font-weight:700; color:var(--deep-rose);">What nurse must know before giving:</p>
+    <ul>
+      <li>1. Indications — why is this drug ordered?</li>
+      <li>2. Contraindications/Precautions — is it safe?</li>
+      <li>3. Adverse effects — what do I monitor for?</li>
+      <li>4. Correct dose, route & time — am I giving it correctly?</li>
+      <li>5. Drug interactions — any conflicts with food, meds or supplements?</li>
+    </ul>
+  </div>
+
+  <div class="topic-card">
+    <h2>4 Types of Medication Orders</h2>
+    <table class="ref-table">
+      <tr><th>Type</th><th>Definition</th></tr>
+      <tr><td><strong>PRN (As Needed)</strong></td><td>Given when patient requires it based on assessment</td></tr>
+      <tr><td><strong>Standing (Routine)</strong></td><td>Given on a regular schedule until discontinued</td></tr>
+      <tr><td><strong>Single (One Time)</strong></td><td>Administered once only</td></tr>
+      <tr><td><strong>STAT</strong></td><td>Administered IMMEDIATELY — urgent/emergency situations</td></tr>
+    </table>
+  </div>
+
+  <div class="topic-card">
+    <h2>Preparing a Drug — Key Steps</h2>
+    <ul>
+      <li>Check & verify <strong>MAR</strong> (Medication Administration Record)</li>
+      <li>Check label <strong>3 times</strong>: when pulling, when preparing, when administering</li>
+      <li>Verify patient allergies before each administration</li>
+      <li>Calculate dose correctly; have another nurse double-check high-alert drugs</li>
+      <li>Check expiration date on all medications</li>
+      <li>Use proper aseptic technique for parenteral medications</li>
+      <li><strong>Never crush</strong> enteric-coated or sustained-release tablets</li>
+      <li>Do not transfer drug to different containers</li>
+    </ul>
+  </div>
+
+  <div class="topic-card">
+    <h2>Preventing Medication Errors</h2>
+    <p>Any <strong>preventable event that may cause or lead to inappropriate medication use or patient harm</strong></p>
+    <ul style="margin-top:0.6rem;">
+      <li>Follow facility policies/procedures</li>
+      <li>Question unclear orders</li>
+      <li>Be alert to <strong>SALAD drugs</strong> (Sound-Alike/Look-Alike Drugs)</li>
+      <li>Document immediately after administration</li>
+      <li>Never leave medication unattended</li>
+      <li><strong>Insulin & Heparin</strong> — 2 drugs associated with deadly/adverse outcomes</li>
+    </ul>
+  </div>
+
+  <div class="topic-card">
+    <h2>Bar Coded Medication Systems & Unit Dose</h2>
+    <div class="two-col">
+      <div class="mini-card">
+        <h3>Unit Dose</h3>
+        <p>Each medication dose is <strong>individually packaged and labeled</strong> for single administration — reduces errors, minimizes waste, improves accountability</p>
+      </div>
+      <div class="mini-card">
+        <h3>Bar Coded System — 3 Scans</h3>
+        <ul>
+          <li>1. Patient wristband (identity)</li>
+          <li>2. Medication barcode (drug, dose, route)</li>
+          <li>3. Nurse's ID badge (authorized nurse)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="chapter-head">💉 Routes of Administration</div>
+  <div class="topic-card">
+    <h2>4 Main Routes</h2>
+    <table class="ref-table">
+      <tr><th>Route</th><th>Description</th></tr>
+      <tr><td><strong>Oral (PO)</strong></td><td>Swallowed through the mouth</td></tr>
+      <tr><td><strong>Parenteral</strong></td><td>Injected — bypasses GI tract</td></tr>
+      <tr><td><strong>Topical</strong></td><td>Applied to skin or mucous membrane</td></tr>
+      <tr><td><strong>Inhalation</strong></td><td>Breathed into the lungs</td></tr>
+    </table>
+    <p style="margin-top:0.6rem;"><strong>Fastest route:</strong> IV (intravenous) — enters bloodstream directly, no absorption barrier</p>
+    <p><strong>Slowest route:</strong> Oral (enteral) — must dissolve and absorb through GI tract</p>
+  </div>
+
+  <div class="topic-card">
+    <h2>Injection Route Details</h2>
+    <table class="ref-table">
+      <tr><th>Route</th><th>Needle</th><th>Angle</th><th>Site/Notes</th></tr>
+      <tr><td><strong>Intradermal (ID)</strong></td><td>25-27g, 3/8–1/2"</td><td>5–15° bevel UP</td><td>Forearm; expect wheal; TB test/allergy testing</td></tr>
+      <tr><td><strong>Subcutaneous (SC)</strong></td><td>25-27g, 3/8–5/8"</td><td>45° or 90°</td><td>Abdomen, outer arm, thigh; NO massage</td></tr>
+      <tr><td><strong>Intramuscular (IM)</strong></td><td>21-23g, 1–1.5"</td><td>90°</td><td>Vastus lateralis, deltoid, ventrogluteal</td></tr>
+      <tr><td><strong>Z-Track</strong></td><td>21-23g, 1–1.5"</td><td>90°</td><td>Pull skin 1–1.5" laterally before injecting; do NOT massage</td></tr>
+      <tr><td><strong>IV</strong></td><td>18-24g, varies</td><td>N/A</td><td>Verify patency first; check for infiltration</td></tr>
+    </table>
+  </div>
+
+  <div class="topic-card">
+    <h2>After Giving a Drug — Nurse Responsibilities</h2>
+    <ul>
+      <li>1. Document — time, dose, route, site, and client response</li>
+      <li>2. Monitor — assess for therapeutic effect and adverse effects within appropriate timeframe</li>
+      <li>3. Assess vitals if needed</li>
+      <li>4. Teach patient what to expect</li>
+    </ul>
+  </div>
+
+  <div class="chapter-head">🩺 Glucocorticoids (Adrenocortical Hormones)</div>
+  <div class="topic-card">
+    <h2>Glucocorticoids Overview</h2>
+    <p>Class of <strong>adrenocortical hormones (steroids)</strong> either naturally produced by the adrenal cortex or synthetically made.</p>
+    <div class="two-col">
+      <div class="mini-card">
+        <h3>Actions</h3>
+        <ul>
+          <li>Anti-inflammatory — suppress inflammatory response</li>
+          <li>Immunosuppressive — decrease immune system activity</li>
+          <li>Suppress adrenal cortex function (long-term)</li>
+          <li>Increase blood glucose (gluconeogenesis)</li>
+          <li>Cause sodium and water retention</li>
+        </ul>
+      </div>
+      <div class="mini-card">
+        <h3>Uses</h3>
+        <ul>
+          <li>Inflammatory conditions (arthritis, IBD, asthma)</li>
+          <li>Allergic reactions/anaphylaxis</li>
+          <li>Adrenal insufficiency (Addison's disease)</li>
+          <li>Organ transplant rejection prevention</li>
+          <li>Autoimmune disorders (lupus, MS)</li>
+          <li>Cerebral edema</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic-card">
+    <h2>Glucocorticoids — Adverse Reactions</h2>
+    <div class="two-col">
+      <div class="mini-card">
+        <ul>
+          <li>Cushing's syndrome (moon face, buffalo bump, central obesity)</li>
+          <li>Hyperglycemia</li>
+          <li>Osteoporosis</li>
+          <li>Immunosuppression → increased infection risk</li>
+          <li>Peptic ulcers / GI bleeding</li>
+        </ul>
+      </div>
+      <div class="mini-card">
+        <ul>
+          <li>Adrenal insufficiency if stopped abruptly</li>
+          <li>Poor wound healing</li>
+          <li>Cataracts/glaucoma (long-term)</li>
+          <li>Hypertension</li>
+          <li>Mood changes, insomnia, psychosis</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic-card">
+    <h2>Glucocorticoids — Drug Interactions</h2>
+    <table class="ref-table">
+      <tr><th>Drug</th><th>Effect</th></tr>
+      <tr><td>NSAIDs</td><td>Increased GI bleeding risk</td></tr>
+      <tr><td>Diuretics (thiazide/loop)</td><td>Increased hypokalemia risk</td></tr>
+      <tr><td>Antidiabetic agents</td><td>Decreased effectiveness (steroids raise blood glucose)</td></tr>
+      <tr><td>Digoxin</td><td>Increased toxicity risk (hypokalemia amplifies digoxin effect)</td></tr>
+      <tr><td>Aspirin</td><td>Increased GI ulceration</td></tr>
+    </table>
+  </div>
+
+  <div class="topic-card">
+    <h2>Glucocorticoids — Nursing Alert & Client Education</h2>
+    <div class="danger-pill">🚨 NEVER stop abruptly — always TAPER to prevent adrenal crisis</div>
+    <div class="two-col" style="margin-top:0.6rem;">
+      <div class="mini-card">
+        <h3>Nursing Monitoring</h3>
+        <ul>
+          <li>Never stop abruptly — taper dose</li>
+          <li>Monitor blood glucose frequently</li>
+          <li>Monitor for signs of Cushing's</li>
+          <li>Monitor for infection (steroids mask fever)</li>
+          <li>Monitor weight, BP, electrolytes</li>
+          <li>Adrenal crisis signs: hypotension, weakness, N/V, confusion</li>
+        </ul>
+      </div>
+      <div class="mini-card">
+        <h3>Client Education</h3>
+        <ul>
+          <li>Never stop abruptly — taper as directed</li>
+          <li>Take with food, in the morning</li>
+          <li>Wear medical alert bracelet</li>
+          <li>Avoid live vaccines</li>
+          <li>Report signs of infection immediately</li>
+          <li>Monitor glucose if diabetic</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic-card">
+    <h2>Glucocorticoids — Gerontologic Considerations</h2>
+    <ul>
+      <li>Use lowest effective dose for shortest time</li>
+      <li>Decreased renal/hepatic function → drug accumulates → toxicity risk</li>
+      <li>Higher risk for osteoporosis, hypertension, hyperglycemia, infection</li>
+      <li>Increased fall risk from muscle weakness</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ==================== FLASHCARDS ==================== -->
+<div id="flashcards" class="section">
+  <h2 class="section-title">🃏 Flashcards</h2>
+  <div class="fc-controls">
+    <div class="fc-counter" id="fcCounter">Card 1 of 50</div>
+    <button class="btn btn-outline" onclick="prevCard()">← Prev</button>
+    <button class="btn btn-outline" onclick="nextCard()">Next →</button>
+    <button class="btn btn-moss" onclick="shuffleCards()">🔀 Shuffle</button>
+    <button class="btn btn-outline" onclick="resetCards()">↺ Reset</button>
+  </div>
+  <div class="flashcard-scene" id="fcScene" onclick="flipCard()">
+    <div class="flashcard-inner" id="fcInner">
+      <div class="fc-face fc-front">
+        <div class="fc-cat" id="fcCat">Category</div>
+        <div class="fc-question" id="fcQuestion">Question</div>
+        <div class="fc-hint">🌸 tap to reveal answer</div>
+      </div>
+      <div class="fc-face fc-back">
+        <div class="fc-cat" id="fcCatBack" style="background:rgba(255,255,255,0.5);color:#2d5a32;">Answer</div>
+        <div class="fc-answer" id="fcAnswer">Answer</div>
+      </div>
+    </div>
+  </div>
+  <div class="fc-nav"><div class="fc-dots" id="fcDots"></div></div>
+</div>
+
+<!-- ==================== PRACTICE TEST ==================== -->
+<div id="test" class="section">
+  <h2 class="section-title">📝 Practice Test</h2>
+  <div class="test-intro">
+    <p>🌸 <strong>50 questions</strong> covering all topics from your VN16 Test 1 Study Guide. Mix of single-answer and select-all-that-apply!</p>
+  </div>
+  <div class="test-controls">
+    <button class="btn btn-rose" onclick="submitTest()">🌸 Submit Test</button>
+    <button class="btn btn-outline" onclick="resetTest()">↺ Reset</button>
+  </div>
+  <div class="score-card" id="scoreCard"></div>
+  <div id="testContainer"></div>
+</div>
+
+<script>
+// PETALS
+function makePetals(){const bg=document.getElementById('bgDecor');for(let i=0;i<14;i++){const p=document.createElement('div');p.className='petal-float';p.style.left=Math.random()*100+'vw';p.style.animationDuration=(8+Math.random()*14)+'s';p.style.animationDelay=(Math.random()*18)+'s';p.style.width=(8+Math.random()*10)+'px';p.style.height=(10+Math.random()*12)+'px';p.style.opacity=0.15+Math.random()*0.25;bg.appendChild(p);}}
+makePetals();
+
+function showTab(id,btn){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.getElementById(id).classList.add('active');btn.classList.add('active');}
+
+// FLASHCARD DATA
+const allCards=[
+  {cat:'Drug Sources',q:'Name the 5 sources of medications.',a:'Plant (digitalis, morphine), Animal (insulin, heparin), Laboratory/Synthetic (aspirin), Mineral (iron, calcium), Microbiological (penicillin, streptomycin)'},
+  {cat:'Drug Names',q:'What is a generic drug name?',a:'Official nonproprietary name, written in LOWERCASE, assigned before approval. Bioequivalent to brand name but significantly cheaper. Ex: ibuprofen'},
+  {cat:'Drug Names',q:'What is a trade/brand drug name?',a:'Name given by the MANUFACTURER, written CAPITALIZED. A drug may have multiple trade names. Ex: Advil, Motrin (both are ibuprofen)'},
+  {cat:'Drug Classification',q:'What is a drug class/category?',a:'Drugs grouped together based on similar chemical structure, mechanism of action, or therapeutic use. Ex: beta-blockers, ACE inhibitors, opioids'},
+  {cat:'Controlled Substances',q:'What are controlled substances?',a:'Drugs regulated by the federal government under the Controlled Substances Act (CSA) because they have potential for abuse, dependence, or addiction. Enforced by the DEA.'},
+  {cat:'Controlled Substances',q:'What does DEA stand for and what does it do?',a:'Drug Enforcement Administration — federal agency that enforces controlled substance laws and regulations in the U.S.'},
+  {cat:'Controlled Substances',q:'Order the DEA schedules from highest to lowest abuse potential.',a:'C-I (highest, no medical use) → C-II (high) → C-III (moderate) → C-IV (low) → C-V (lowest)'},
+  {cat:'Dependence',q:'Define physical dependence.',a:'Physiological state of adaptation where ABRUPT DISCONTINUATION causes withdrawal symptoms. Ex: tremors, nausea, seizures'},
+  {cat:'Dependence',q:'Define psychological dependence.',a:'Emotional/mental CRAVING for a drug\'s effects — compulsive need to use a substance even without physical need'},
+  {cat:'Pharmacology Phases',q:'What is the pharmaceutic phase?',a:'1st phase of drug action — when the drug is DISSOLVED and DISINTEGRATED so it can be absorbed by the body'},
+  {cat:'Pharmacology Phases',q:'What is the pharmacokinetic phase?',a:'How the BODY PROCESSES a drug — what the body does to the drug (ADME: Absorption, Distribution, Metabolism, Excretion)'},
+  {cat:'ADME',q:'Define Absorption.',a:'Movement of drug from administration site INTO THE BLOODSTREAM. Key factors: route, blood flow, drug solubility, GI motility'},
+  {cat:'ADME',q:'Define Distribution.',a:'Drug moves from blood INTO BODY TISSUES AND FLUIDS. Key factors: protein binding, blood-brain barrier, liquid solubility, body fat'},
+  {cat:'ADME',q:'Define Metabolism.',a:'Drug chemically changed (primarily in the LIVER) into active or inactive metabolites. Key factors: liver function, first-pass effect, enzyme activity'},
+  {cat:'ADME',q:'Define Excretion.',a:'Elimination of drug from the body — primarily KIDNEYS/URINE. Key factors: renal function, pH of urine'},
+  {cat:'Drug Action Terms',q:'Define Onset of drug action.',a:'Time from administration until drug reaches MINIMUM EFFECTIVE CONCENTRATION and produces a therapeutic effect'},
+  {cat:'Drug Action Terms',q:'Define Peak of drug action.',a:'Time when drug reaches its HIGHEST CONCENTRATION in the blood'},
+  {cat:'Drug Action Terms',q:'Define Duration of Action.',a:'Length of time the drug maintains SUFFICIENT CONCENTRATION to produce therapeutic effect'},
+  {cat:'Receptor Actions',q:'What is an agonist?',a:'A drug that BINDS TO A RECEPTOR AND ACTIVATES IT, producing a response. Ex: morphine on opioid receptors'},
+  {cat:'Receptor Actions',q:'What is an antagonist?',a:'A drug that BINDS TO A RECEPTOR BUT BLOCKS the response without activating it. Ex: naloxone blocks opioid receptors'},
+  {cat:'Pregnancy',q:'What is a teratogen?',a:'A substance that CAUSES BIRTH DEFECTS by interfering with fetal development. Ex: thalidomide, isotretinoin, alcohol'},
+  {cat:'Drug Reactions',q:'Define Adverse Drug Reaction (ADR).',a:'Any UNINTENDED, HARMFUL RESPONSE to a drug given at the NORMAL therapeutic dose. Ex: nausea, rash, hepatotoxicity'},
+  {cat:'Drug Reactions',q:'What is an allergic drug reaction?',a:'IMMUNE-MEDIATED (antigen-antibody) response — ranges from mild rash/hives to life-threatening anaphylaxis'},
+  {cat:'Allergy',q:'What is an antigen?',a:'Foreign substance (drug or pathogen) that the IMMUNE SYSTEM IDENTIFIES AS FOREIGN and triggers an immune response'},
+  {cat:'Allergy',q:'What is an antibody?',a:'Protein produced by B CELLS in response to an antigen; designed to recognize and neutralize specific antigens'},
+  {cat:'Anaphylaxis',q:'What is the FIRST-LINE treatment for anaphylactic shock?',a:'EPINEPHRINE — administered IM IMMEDIATELY. Then: maintain airway, O2, IV fluids, diphenhydramine, corticosteroids'},
+  {cat:'Drug Reactions',q:'What is drug idiosyncrasy?',a:'Abnormal, UNEXPECTED reaction UNIQUE TO AN INDIVIDUAL — not related to the drug\'s known pharmacology. Ex: excitation instead of sedation from a barbiturate'},
+  {cat:'Drug Reactions',q:'Define drug tolerance.',a:'DECREASED RESPONSE to a drug after repeated use, requiring HIGHER DOSES to achieve the same effect. Ex: opioids, benzodiazepines'},
+  {cat:'Drug Reactions',q:'What is a cumulative drug effect?',a:'Drug ACCUMULATES IN THE BODY faster than it can be metabolized or excreted → leads to TOXICITY. Common with renal or hepatic impairment'},
+  {cat:'Drug Interactions',q:'What is an additive drug reaction? Give formula and example.',a:'2 drugs with similar actions produce effect equal to SUM (1+1=2). Ex: two CNS depressants together'},
+  {cat:'Drug Interactions',q:'What is a synergistic drug reaction? Give formula and example.',a:'2 drugs together produce effect GREATER THAN the sum (1+1=3). Ex: alcohol + benzodiazepines'},
+  {cat:'Drug Interactions',q:'What is an antagonistic drug reaction? Give formula and example.',a:'One drug DECREASES or BLOCKS effect of another (1+1=0). Ex: naloxone blocking morphine'},
+  {cat:'Drug Factors',q:'What is polypharmacy?',a:'Concurrent use of 5+ medications by one patient. Increases risk of drug interactions and adverse effects; most common in elderly'},
+  {cat:'Drug Factors',q:'Which route of administration is FASTEST? SLOWEST?',a:'FASTEST: IV (intravenous) — enters bloodstream directly. SLOWEST: Oral (enteral) — must dissolve and absorb through GI tract'},
+  {cat:'Herbal',q:'Are herbal supplements regulated by the FDA?',a:'NO — classified as dietary supplements; NOT regulated for safety, efficacy, or standardization BEFORE marketing'},
+  {cat:'Administration',q:'List the 7 Rights of Drug Administration.',a:'1-Patient, 2-Drug, 3-Dose, 4-Route, 5-Time, 6-Documentation (AFTER giving), 7-Reason'},
+  {cat:'Administration',q:'When should documentation occur after giving a medication?',a:'IMMEDIATELY AFTER administration — NEVER before giving the drug'},
+  {cat:'Administration',q:'How many times should the nurse check the drug label, and when?',a:'3 TIMES: when PULLING from storage, when PREPARING, and when ADMINISTERING'},
+  {cat:'Medication Orders',q:'What is a STAT medication order?',a:'Administered IMMEDIATELY — one time; urgent/emergency situations'},
+  {cat:'Medication Orders',q:'What is a PRN medication order?',a:'Given when patient REQUIRES IT based on assessment (as needed)'},
+  {cat:'Medication Safety',q:'Which 2 drugs are most associated with deadly outcomes?',a:'INSULIN and HEPARIN — both are high-alert medications requiring extra verification'},
+  {cat:'Medication Safety',q:'What are SALAD drugs?',a:'Sound-Alike / Look-Alike Drugs — drugs that look or sound similar and can be easily confused, causing medication errors'},
+  {cat:'Medication Safety',q:'What is a unit dose system?',a:'Each medication dose is INDIVIDUALLY PACKAGED AND LABELED for single administration — reduces errors, minimizes waste, improves accountability'},
+  {cat:'Glucocorticoids',q:'What class of drugs are glucocorticoids?',a:'Adrenocortical hormones (steroids) — either naturally produced by the adrenal cortex or synthetically made'},
+  {cat:'Glucocorticoids',q:'Name 4 actions of glucocorticoids.',a:'Anti-inflammatory, immunosuppressive, increase blood glucose (gluconeogenesis), cause sodium/water retention, suppress adrenal cortex long-term'},
+  {cat:'Glucocorticoids',q:'Name 4 adverse reactions of glucocorticoids.',a:'Cushing\'s syndrome, hyperglycemia, osteoporosis, immunosuppression, peptic ulcers, poor wound healing, hypertension, mood changes'},
+  {cat:'Glucocorticoids',q:'Why should glucocorticoids NEVER be stopped abruptly?',a:'Can cause ADRENAL CRISIS — the adrenal glands have suppressed their own hormone production; abrupt stop leads to hypotension, weakness, N/V, confusion'},
+  {cat:'Glucocorticoids',q:'What is the most important patient teaching for glucocorticoids?',a:'NEVER stop abruptly — always taper as directed. Take with food in the morning. Wear medical alert bracelet. Avoid live vaccines. Report signs of infection immediately.'},
+  {cat:'Glucocorticoids',q:'What drug interaction between glucocorticoids and NSAIDs should nurses know?',a:'NSAIDs + glucocorticoids = INCREASED GI BLEEDING RISK. Avoid concurrent use when possible.'},
+  {cat:'Glucocorticoids',q:'What are signs of adrenal crisis?',a:'Hypotension, weakness, nausea/vomiting, confusion — life-threatening emergency caused by abrupt steroid discontinuation'},
+];
+
+let cards=[...allCards];let currentCard=0;let isFlipped=false;const seen=new Set();
+function renderCard(){const c=cards[currentCard];document.getElementById('fcCat').textContent=c.cat;document.getElementById('fcCatBack').textContent=c.cat;document.getElementById('fcQuestion').textContent=c.q;document.getElementById('fcAnswer').textContent=c.a;document.getElementById('fcCounter').textContent=`Card ${currentCard+1} of ${cards.length}`;isFlipped=false;document.getElementById('fcScene').classList.remove('flipped');renderDots();}
+function renderDots(){const d=document.getElementById('fcDots');d.innerHTML=cards.map((_,i)=>{let cls='fc-dot';if(i===currentCard)cls+=' active';else if(seen.has(i))cls+=' seen';return`<div class="${cls}" onclick="goToCard(${i})"></div>`;}).join('');}
+function flipCard(){isFlipped=!isFlipped;document.getElementById('fcScene').classList.toggle('flipped',isFlipped);if(isFlipped)seen.add(currentCard);}
+function nextCard(){if(currentCard<cards.length-1){currentCard++;renderCard();}}
+function prevCard(){if(currentCard>0){currentCard--;renderCard();}}
+function goToCard(i){currentCard=i;renderCard();}
+function shuffleCards(){cards=[...allCards].sort(()=>Math.random()-0.5);currentCard=0;seen.clear();renderCard();}
+function resetCards(){cards=[...allCards];currentCard=0;seen.clear();renderCard();}
+renderCard();
+
+// TEST QUESTIONS
+const questions=[
+  {q:'From which source is penicillin derived?',type:'single',opts:['A. Plant','B. Animal','C. Mineral','D. Microbiological'],correct:3,rat:'Penicillin is derived from a MICROBIOLOGICAL source (mold/fungi). Digitalis and morphine = plant; insulin and heparin = animal; iron = mineral.'},
+  {q:'A nurse is reviewing a medication label. The drug name is written in lowercase letters. This indicates it is which type of name?',type:'single',opts:['A. Trade name','B. Brand name','C. Generic name','D. Chemical name'],correct:2,rat:'Generic names are written in LOWERCASE. Trade/brand names are Capitalized. The generic name is the official nonproprietary name assigned before approval.'},
+  {q:'Which of the following correctly describes a trade drug name? (Select all that apply)',type:'multi',opts:['A. Written in lowercase','B. Given by the manufacturer','C. Written capitalized','D. May have multiple trade names','E. Always cheaper than generic'],correct:[1,2,3],rat:'Trade names are given by the MANUFACTURER, written CAPITALIZED, and one drug can have MULTIPLE trade names. Generic names are lowercase. Generics are cheaper, not trade names.'},
+  {q:'What is the primary purpose of the DEA in relation to medications?',type:'single',opts:['A. Approves new medications for market','B. Enforces controlled substance laws and regulations in the U.S.','C. Sets prices for prescription medications','D. Regulates herbal supplements'],correct:1,rat:'The DEA (Drug Enforcement Administration) is the federal agency that ENFORCES controlled substance laws and regulations in the U.S. The FDA approves new medications.'},
+  {q:'A client taking opioids for chronic pain tells the nurse, "I need more and more medication to get the same relief." The nurse should recognize this as:',type:'single',opts:['A. Psychological dependence','B. Drug tolerance','C. Cumulative drug effect','D. Drug idiosyncrasy'],correct:1,rat:'DRUG TOLERANCE is a decreased response to a drug after repeated use, requiring HIGHER DOSES to achieve the same effect. Opioids, benzodiazepines, and alcohol are common examples.'},
+  {q:'A client abruptly stops taking their prescribed corticosteroids and develops hypotension, weakness, and confusion. The nurse recognizes this as:',type:'single',opts:['A. Drug tolerance','B. Allergic reaction','C. Physical dependence — adrenal crisis','D. Drug idiosyncrasy'],correct:2,rat:'Abrupt discontinuation of corticosteroids causes ADRENAL CRISIS — a manifestation of PHYSICAL DEPENDENCE. The adrenal glands have suppressed their own production; symptoms include hypotension, weakness, N/V, confusion.'},
+  {q:'Which phase of drug activity involves the drug being dissolved and disintegrated so it can be absorbed?',type:'single',opts:['A. Pharmacokinetic phase','B. Pharmacodynamic phase','C. Pharmaceutic phase','D. Distribution phase'],correct:2,rat:'The PHARMACEUTIC phase is the 1st phase — drug is dissolved and disintegrated so it can be absorbed. This occurs BEFORE pharmacokinetics (ADME).'},
+  {q:'Which of the following are part of the pharmacokinetic (ADME) phase? (Select all that apply)',type:'multi',opts:['A. Absorption','B. Distribution','C. Dissolution','D. Metabolism','E. Excretion'],correct:[0,1,3,4],rat:'Pharmacokinetics = ADME: Absorption, Distribution, Metabolism, Excretion. Dissolution is part of the PHARMACEUTIC phase, not pharmacokinetics.'},
+  {q:'Where does drug metabolism primarily occur?',type:'single',opts:['A. Kidneys','B. Small intestine','C. Liver','D. Lungs'],correct:2,rat:'Drug metabolism occurs primarily in the LIVER, where drugs are chemically changed into active or inactive metabolites. Key factors: liver function, first-pass effect, enzyme activity.'},
+  {q:'A client has severe renal failure. Which pharmacokinetic process will be most affected?',type:'single',opts:['A. Absorption','B. Distribution','C. Metabolism','D. Excretion'],correct:3,rat:'EXCRETION is primarily performed by the KIDNEYS. Renal failure impairs drug excretion → drug accumulates → toxicity risk. This is why dose adjustments are needed in renal disease.'},
+  {q:'The time when a drug reaches its HIGHEST concentration in the blood is called:',type:'single',opts:['A. Onset','B. Duration of action','C. Peak','D. Therapeutic range'],correct:2,rat:'PEAK is the time when the drug reaches its highest concentration in the blood. Onset = when drug first reaches minimum effective concentration. Duration = how long it maintains therapeutic effect.'},
+  {q:'A drug that binds to a receptor and ACTIVATES it, producing a response, is called:',type:'single',opts:['A. Antagonist','B. Teratogen','C. Agonist','D. Idiosyncratic drug'],correct:2,rat:'An AGONIST binds to a receptor and ACTIVATES it, producing a response. An ANTAGONIST binds but BLOCKS the response without activating it. Example: morphine = agonist, naloxone = antagonist.'},
+  {q:'Naloxone is given to reverse an opioid overdose. Which term describes naloxone\'s mechanism?',type:'single',opts:['A. Agonist','B. Antagonist','C. Teratogen','D. Additive effect'],correct:1,rat:'Naloxone is an ANTAGONIST — it BINDS to opioid receptors but BLOCKS the response without activating them, thereby reversing opioid effects.'},
+  {q:'Which of the following substances are TERATOGENS? (Select all that apply)',type:'multi',opts:['A. Thalidomide','B. Isotretinoin','C. Penicillin','D. Alcohol','E. Ibuprofen'],correct:[0,1,3],rat:'Teratogens cause birth defects: THALIDOMIDE, ISOTRETINOIN (Accutane), and ALCOHOL are classic examples. Penicillin is generally considered safe. Ibuprofen (NSAID) is cautioned but not classically a teratogen like the others.'},
+  {q:'A client is experiencing wheezing, hypotension, hives, and nausea after receiving a medication. The nurse should recognize these as signs of:',type:'single',opts:['A. Drug tolerance','B. Anaphylactic reaction','C. Cumulative drug effect','D. Drug idiosyncrasy'],correct:1,rat:'ANAPHYLAXIS presents across multiple body systems: respiratory (wheezing), cardiovascular (hypotension), skin (hives/urticaria), and GI (nausea). This is a life-threatening allergic reaction.'},
+  {q:'What is the FIRST-LINE treatment for anaphylactic shock?',type:'single',opts:['A. Diphenhydramine (Benadryl) IV','B. Methylprednisolone (corticosteroid)','C. Epinephrine IM immediately','D. IV fluid bolus'],correct:2,rat:'EPINEPHRINE administered IM IMMEDIATELY is the first-line treatment for anaphylaxis. It reverses bronchospasm, causes vasoconstriction, and stops the massive histamine release. Other interventions follow.'},
+  {q:'A client takes a sedative and instead becomes agitated and restless. This is an example of:',type:'single',opts:['A. Drug tolerance','B. Cumulative drug effect','C. Drug idiosyncrasy','D. Synergistic reaction'],correct:2,rat:'DRUG IDIOSYNCRASY is an abnormal, unexpected reaction UNIQUE TO AN INDIVIDUAL — not related to the drug\'s known pharmacology. Example: excitation instead of sedation from a barbiturate/sedative.'},
+  {q:'A client with renal failure is on an antibiotic. The nurse is MOST concerned about which complication?',type:'single',opts:['A. Drug tolerance','B. Cumulative drug effect leading to toxicity','C. Psychological dependence','D. Drug idiosyncrasy'],correct:1,rat:'Renal failure impairs EXCRETION → drug accumulates faster than it can be removed → CUMULATIVE DRUG EFFECT → TOXICITY. The nurse must monitor drug levels and renal function closely.'},
+  {q:'Warfarin + Aspirin is an example of which type of drug interaction?',type:'single',opts:['A. Additive','B. Synergistic','C. Antagonistic','D. Drug-to-drug interaction causing increased bleeding risk'],correct:3,rat:'Warfarin + Aspirin is a DRUG-TO-DRUG interaction where BOTH drugs affect clotting — this increases the BLEEDING RISK beyond what either drug would cause alone.'},
+  {q:'Alcohol combined with benzodiazepines produces an effect GREATER than either drug alone. This is an example of:',type:'single',opts:['A. Additive reaction (1+1=2)','B. Synergistic reaction (1+1=3)','C. Antagonistic reaction (1+1=0)','D. Drug idiosyncrasy'],correct:1,rat:'SYNERGISTIC reaction occurs when 2 drugs together produce an effect GREATER THAN the sum (1+1=3). Alcohol + benzodiazepines is the classic example — dangerously enhanced CNS depression.'},
+  {q:'Which of the following are factors that influence drug response? (Select all that apply)',type:'multi',opts:['A. Client\'s disease state','B. Route of administration','C. Client\'s age','D. Genetics/pharmacogenomics','E. Brand name of the drug'],correct:[0,1,2,3],rat:'Factors influencing drug response: disease state, route, age, genetics, weight. The BRAND NAME of the drug does not affect response — generic and brand name are bioequivalent.'},
+  {q:'An older adult is prescribed a new medication. The nurse knows older adults are at greater risk for drug toxicity due to:',type:'single',opts:['A. Increased kidney and liver function','B. Decreased kidney and liver function','C. Higher drug absorption','D. Faster metabolism'],correct:1,rat:'Older adults have DECREASED renal and hepatic function → drugs accumulate → TOXICITY RISK increases. The nurse should use the lowest effective dose for the shortest time.'},
+  {q:'A nurse is reviewing a client\'s medication list: the client takes 8 different medications daily. The nurse should recognize this as:',type:'single',opts:['A. Drug tolerance','B. Physical dependence','C. Polypharmacy','D. Cumulative drug effect'],correct:2,rat:'POLYPHARMACY = concurrent use of 5 or more medications by one patient. It increases the risk of drug interactions and adverse effects and is most common in the elderly.'},
+  {q:'Herbal supplements are NOT regulated by the FDA. Which statement explains why this is a safety concern? (Select all that apply)',type:'multi',opts:['A. They are not tested for safety before marketing','B. They can interact with prescription medications','C. Their potency and content are not standardized','D. They are always safe because they are natural','E. They have no effect on the body'],correct:[0,1,2],rat:'Herbal supplements are NOT regulated for safety, efficacy, or standardization BEFORE marketing. They CAN interact with drugs (e.g., St. John\'s Wort affects many medications). "Natural" does NOT mean safe.'},
+  {q:'A nurse is preparing to administer a medication and should check the drug label how many times, and when?',type:'single',opts:['A. Once — before removing from storage','B. Twice — before and after administration','C. Three times — when pulling, when preparing, when administering','D. Once — right before giving'],correct:2,rat:'The label must be checked THREE TIMES: 1) when PULLING from storage, 2) when PREPARING the dose, 3) when ADMINISTERING to the patient. This is a key medication safety practice.'},
+  {q:'A nurse should verify patient identity using which of the following?',type:'single',opts:['A. Room number and bed number','B. Two identifiers: name + date of birth or MRN','C. The patient\'s appearance','D. One identifier is sufficient'],correct:1,rat:'TWO IDENTIFIERS must be used — typically name AND date of birth OR medical record number (MRN). Room number is NEVER an acceptable identifier.'},
+  {q:'Which of the following are the 7 Rights of Drug Administration? (Select all that apply)',type:'multi',opts:['A. Right Patient','B. Right Drug','C. Right Pharmacist','D. Right Dose','E. Right Route','F. Right Time','G. Right Documentation','H. Right Reason'],correct:[0,1,3,4,5,6,7],rat:'The 7 Rights are: Patient, Drug, Dose, Route, Time, Documentation, Reason. "Right Pharmacist" is not one of the rights — that\'s a separate professional role.'},
+  {q:'Documentation of medication administration should occur:',type:'single',opts:['A. Before giving the drug to save time','B. Immediately AFTER giving the drug','C. At the end of the shift','D. When the nurse has time during the shift'],correct:1,rat:'Documentation must occur IMMEDIATELY AFTER administration — NEVER before. Pre-documentation is a serious safety violation that can lead to double-dosing.'},
+  {q:'A nurse is preparing to give a medication and realizes the order is unclear. What should the nurse do?',type:'single',opts:['A. Administer based on best judgment','B. Skip the dose','C. Question and clarify the unclear order before giving','D. Ask another nurse to guess the intent'],correct:2,rat:'Nurses must QUESTION UNCLEAR ORDERS before administering. This is a key medication safety principle and helps prevent medication errors.'},
+  {q:'Which 2 drugs are MOST associated with deadly or adverse outcomes and require extra verification?',type:'single',opts:['A. Aspirin and ibuprofen','B. Insulin and heparin','C. Acetaminophen and naproxen','D. Penicillin and amoxicillin'],correct:1,rat:'INSULIN and HEPARIN are the two drugs most associated with serious adverse outcomes. Both are high-alert medications requiring two-nurse verification and careful dose calculation.'},
+  {q:'A nurse is preparing parenteral medications. Which of the following is most important?',type:'single',opts:['A. Mix all medications together to save time','B. Use strict aseptic technique','C. Recap needles after use','D. Transfer medications to different containers'],correct:1,rat:'ASEPTIC TECHNIQUE is essential for parenteral medications to prevent infection. Never recap needles (sharps injury risk), never mix medications without checking compatibility, never transfer to different containers.'},
+  {q:'What are SALAD drugs and why are they dangerous?',type:'single',opts:['A. Drugs that taste bad; patients refuse them','B. Sound-Alike/Look-Alike Drugs that can be easily confused and cause medication errors','C. Drugs that require refrigeration','D. Drugs given only with food'],correct:1,rat:'SALAD = Sound-Alike/Look-Alike Drugs — drugs that look or sound similar (e.g., Celebrex vs. Celexa). They are dangerous because they can be confused and lead to wrong-drug errors.'},
+  {q:'A nurse uses a barcode medication system. Which THREE items must be scanned?',type:'single',opts:['A. Patient chart, drug, nurse uniform','B. Patient wristband, medication barcode, nurse\'s ID badge','C. MAR, drug label, patient insurance card','D. Physician order, drug, patient wristband'],correct:1,rat:'Bar Coded Medication Administration scans: 1) PATIENT WRISTBAND (verifies identity), 2) MEDICATION BARCODE (verifies drug, dose, route), 3) NURSE\'S ID BADGE (verifies authorized nurse).'},
+  {q:'A nurse needs to give a medication for an emergency. Which type of medication order should be written?',type:'single',opts:['A. PRN order','B. Standing order','C. Single order','D. STAT order'],correct:3,rat:'STAT orders are for IMMEDIATE administration — one time, for urgent/emergency situations. PRN = as needed, Standing = routine schedule, Single = once only (non-urgent).'},
+  {q:'Which route of administration is FASTEST and why?',type:'single',opts:['A. Oral — absorbed through GI tract quickly','B. Subcutaneous — bypasses first-pass','C. IV — enters bloodstream directly with no absorption barrier','D. Intramuscular — large muscle absorbs quickly'],correct:2,rat:'IV (intravenous) is FASTEST because it enters the BLOODSTREAM DIRECTLY — there is NO ABSORPTION BARRIER. All other routes require some form of absorption first.'},
+  {q:'A nurse is giving an intradermal injection for TB testing. Which technique is correct?',type:'single',opts:['A. 90° angle, vastus lateralis','B. 45° angle, abdomen','C. 5–15° angle, bevel up, inner forearm — expect a wheal','D. 90° angle, ventrogluteal — pull skin laterally'],correct:2,rat:'Intradermal injections: 5–15° angle, bevel UP, inner forearm, 25–27g, 3/8–1/2 inch. A WHEAL (raised bleb) should form. No massage. Used for TB testing and allergy testing.'},
+  {q:'Which of the following correctly describes Z-track injection technique?',type:'single',opts:['A. Pull skin laterally 1–1.5 inches before injecting; do NOT massage','B. Insert at 45° angle; massage after','C. Use 25–27g needle; inject into forearm','D. 15° angle; bevel up at all times'],correct:0,rat:'Z-track: Pull skin LATERALLY 1–1.5 inches before injecting, inject at 90°, hold 10 seconds, NEVER MASSAGE. Used for irritating medications to prevent staining/irritation of tissues.'},
+  {q:'After administering a medication, what are the nurse\'s responsibilities? (Select all that apply)',type:'multi',opts:['A. Document time, dose, route, site, and client response','B. Assess for therapeutic effect','C. Monitor for adverse effects','D. Assess vitals if needed','E. Teach patient what to expect'],correct:[0,1,2,3,4],rat:'ALL five are correct post-administration responsibilities: 1) Document, 2) Monitor therapeutic effect, 3) Monitor adverse effects, 4) Assess vitals if needed, 5) Teach patient what to expect.'},
+  {q:'What is the primary action of glucocorticoids on the immune system?',type:'single',opts:['A. Stimulate immune response','B. Increase white blood cell production','C. Suppress the inflammatory and immune response','D. Increase antibody production'],correct:2,rat:'Glucocorticoids are ANTI-INFLAMMATORY and IMMUNOSUPPRESSIVE — they suppress the inflammatory response and decrease immune system activity. This is why they increase infection risk with long-term use.'},
+  {q:'A client on long-term glucocorticoid therapy develops a round face, central obesity, and a hump behind their neck. The nurse should recognize this as:',type:'single',opts:['A. Addison\'s disease','B. Cushing\'s syndrome','C. Adrenal crisis','D. Drug idiosyncrasy'],correct:1,rat:'CUSHING\'S SYNDROME is caused by excess glucocorticoids (endogenous or exogenous) — classic features include moon face, buffalo hump, and central obesity.'},
+  {q:'Which of the following are ADVERSE REACTIONS of glucocorticoids? (Select all that apply)',type:'multi',opts:['A. Hyperglycemia','B. Osteoporosis','C. Bradycardia','D. Immunosuppression → increased infection risk','E. Peptic ulcers / GI bleeding'],correct:[0,1,3,4],rat:'Glucocorticoid adverse reactions: hyperglycemia, osteoporosis, immunosuppression, GI ulcers/bleeding, Cushing\'s syndrome, hypertension, poor wound healing, mood changes. Bradycardia is NOT a glucocorticoid adverse effect.'},
+  {q:'A nurse is caring for a client who has been taking prednisone for 6 months. The client says they want to stop because they feel better. The nurse\'s BEST response is:',type:'single',opts:['A. "That sounds fine — you can stop whenever you feel ready."','B. "You must NEVER stop prednisone abruptly — the dose must be tapered gradually to prevent adrenal crisis."','C. "Stop taking it but come back if symptoms return."','D. "Switch to a herbal supplement instead."'],correct:1,rat:'Glucocorticoids must NEVER be stopped abruptly — the dose must be tapered gradually. Abrupt discontinuation causes ADRENAL CRISIS because the adrenal glands have suppressed their own hormone production.'},
+  {q:'Which drug interactions with glucocorticoids are clinically significant? (Select all that apply)',type:'multi',opts:['A. NSAIDs → increased GI bleeding risk','B. Diuretics → increased hypokalemia risk','C. Antidiabetic agents → decreased effectiveness','D. Digoxin → increased toxicity','E. Antacids → no interaction'],correct:[0,1,2,3],rat:'All four are significant: NSAIDs (GI bleed), diuretics (hypokalemia), antidiabetic agents (steroids raise glucose, reducing their effectiveness), digoxin (hypokalemia amplifies toxicity). Antacids are actually given WITH steroids to protect the stomach.'},
+  {q:'A nurse is teaching a diabetic client who was started on prednisone. Which additional monitoring is most important?',type:'single',opts:['A. Daily weight only','B. Blood glucose monitoring — steroids cause hyperglycemia','C. Heart rate monitoring','D. Serum potassium only'],correct:1,rat:'Glucocorticoids cause HYPERGLYCEMIA (gluconeogenesis). Diabetic clients must monitor BLOOD GLUCOSE more frequently, and insulin/antidiabetic doses may need adjustment.'},
+  {q:'What signs and symptoms indicate ADRENAL CRISIS from abrupt glucocorticoid discontinuation?',type:'single',opts:['A. Hypertension, bradycardia, flushing','B. Hypotension, weakness, nausea/vomiting, confusion','C. Hyperglycemia, moon face, central obesity','D. Increased energy, hyperactivity, insomnia'],correct:1,rat:'Adrenal crisis signs: HYPOTENSION, WEAKNESS, NAUSEA/VOMITING, and CONFUSION. This is a life-threatening emergency requiring immediate medical intervention. Always taper steroids to prevent this.'},
+  {q:'Which of the following are CONTRAINDICATIONS for glucocorticoids? (Select all that apply)',type:'multi',opts:['A. Systemic fungal infections','B. Live virus vaccines','C. Mild hypertension','D. Use caution with: diabetes, osteoporosis, peptic ulcer disease'],correct:[0,1,3],rat:'Contraindications: systemic fungal infections, live virus vaccines (immunosuppressed). Use CAUTION (precaution, not absolute contraindication) with diabetes, hypertension, osteoporosis, TB, peptic ulcer disease.'},
+  {q:'An older adult is prescribed a glucocorticoid. Which gerontologic consideration is most important?',type:'single',opts:['A. Older adults need higher doses due to increased metabolism','B. Use lowest effective dose for shortest time; monitor for toxicity due to decreased renal/hepatic function','C. Older adults are less affected by glucocorticoids','D. No special considerations needed for older adults'],correct:1,rat:'Gerontologic considerations: use LOWEST EFFECTIVE DOSE for SHORTEST TIME. Older adults have decreased renal/hepatic function → drug accumulates → TOXICITY. Also at higher risk for osteoporosis, hypertension, hyperglycemia, infection, and falls.'},
+  {q:'What should be included when taking a complete drug history from a patient? (Select all that apply)',type:'multi',opts:['A. All current prescription medications','B. OTC medications','C. Herbal/dietary supplements','D. Alcohol and tobacco use','E. Any drug, food, or environmental allergies'],correct:[0,1,2,3,4],rat:'A complete drug history includes: ALL prescriptions, OTCs, herbal supplements, alcohol/tobacco/recreational drug use, past adverse reactions, allergies (drug, food, environmental), and compliance with current medications.'},
+  {q:'A nurse must know which of the following BEFORE giving any drug for the first time? (Select all that apply)',type:'multi',opts:['A. Indications — why is this drug ordered?','B. Contraindications/precautions — is it safe?','C. Adverse effects — what to monitor for?','D. Correct dose, route, and time','E. Drug interactions — any conflicts?'],correct:[0,1,2,3,4],rat:'ALL FIVE are essential pre-administration knowledge: Indications, Contraindications/Precautions, Adverse Effects, Correct dose/route/time, and Drug Interactions. This is the foundation of safe medication administration.'},
+];
+
+function renderTest(){const c=document.getElementById('testContainer');c.innerHTML=questions.map((q,i)=>`
+  <div class="q-card" id="qcard-${i}">
+    <div class="q-num">Question ${i+1} of ${questions.length} ${q.type==='multi'?'· Select all that apply':''}</div>
+    <div class="q-text">${q.q}</div>
+    <div class="q-options">
+      ${q.opts.map((opt,oi)=>`<label><input type="${q.type==='multi'?'checkbox':'radio'}" name="q${i}" value="${oi}">${opt}</label>`).join('')}
+    </div>
+    <div class="answer-box" id="ans-${i}"></div>
+  </div>`).join('');}
+
+function submitTest(){let correct=0;questions.forEach((q,i)=>{const a=document.getElementById(`ans-${i}`);let ok=false;if(q.type==='single'){const s=document.querySelector(`input[name="q${i}"]:checked`);ok=s&&parseInt(s.value)===q.correct;}else{const s=Array.from(document.querySelectorAll(`input[name="q${i}"]:checked`)).map(e=>parseInt(e.value));ok=JSON.stringify(s.sort())===JSON.stringify([...q.correct].sort());}if(ok)correct++;const ca=q.type==='single'?q.opts[q.correct]:q.correct.map(c=>q.opts[c]).join(' + ');a.className=`answer-box ${ok?'correct':'incorrect'} show`;a.innerHTML=`<strong>${ok?'✅ Correct!':'❌ Incorrect'}</strong><br><strong>Answer:</strong> ${ca}<br><strong>Why:</strong> ${q.rat}`;});const pct=Math.round(correct/questions.length*100);const sc=document.getElementById('scoreCard');sc.className='score-card show';sc.innerHTML=`<div class="score-big">${pct}%</div><div class="score-label">You got ${correct} out of ${questions.length} correct 🌸</div><div class="score-emoji">${pct>=80?'🌸🎉 Amazing! You\'re blooming!':pct>=70?'🌿 Good job! Review missed ones.':'📚 Keep studying — you got this!'}</div>`;sc.scrollIntoView({behavior:'smooth'});}
+
+function resetTest(){questions.forEach((_,i)=>{document.querySelectorAll(`input[name="q${i}"]`).forEach(e=>e.checked=false);const a=document.getElementById(`ans-${i}`);a.className='answer-box';a.innerHTML='';});document.getElementById('scoreCard').className='score-card';window.scrollTo({top:0,behavior:'smooth'});}
+
+renderTest();
+</script>
+</body>
+</html>
