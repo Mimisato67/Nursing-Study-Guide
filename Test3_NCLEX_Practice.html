@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VN15 Test 3 — NCLEX Practice ✨</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Playfair+Display:wght@700&display=swap');
+
+:root {
+  --blush:    #fde8ee;
+  --rose:     #f4a7bb;
+  --rose-dark:#d97896;
+  --mint:     #d4f0e8;
+  --mint-dark:#5bbfa0;
+  --lavender: #ede3f7;
+  --violet:   #b39ddb;
+  --violet-dark:#7e57c2;
+  --lemon:    #fef9c3;
+  --lemon-dark:#d4b800;
+  --sky:      #dbeeff;
+  --sky-dark: #4d94d4;
+  --peach:    #ffe5cc;
+  --peach-dark:#e07a3a;
+  --white:    #ffffff;
+  --text:     #3d2c4a;
+  --text-soft:#7a6585;
+  --border:   #eee0f5;
+  --bg:       #fdf6ff;
+  --correct:  #5bbfa0;
+  --wrong:    #e57373;
+  --correct-bg:#d4f0e8;
+  --wrong-bg: #fde8e8;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(135deg, #f9d4e8 0%, #e8d4f7 50%, #d4e8f9 100%);
+  padding: 2.2rem 1.5rem 1.8rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 2px solid var(--border);
+}
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.35;
+}
+.b1 { width:120px; height:120px; background:var(--rose); top:-30px; left:-20px; }
+.b2 { width:80px;  height:80px;  background:var(--mint); bottom:-20px; right:30px; }
+.b3 { width:60px;  height:60px;  background:var(--violet); top:10px; right:-10px; }
+.b4 { width:50px;  height:50px;  background:var(--lemon); bottom:5px; left:60px; }
+
+.header-emoji { font-size: 2.4rem; margin-bottom: 0.3rem; }
+.header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.75rem;
+  color: var(--text);
+  line-height: 1.2;
+  position: relative;
+  z-index: 1;
+}
+.header-sub {
+  font-size: 0.8rem;
+  color: var(--text-soft);
+  margin-top: 0.4rem;
+  font-weight: 600;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── SCORE DASHBOARD ── */
+.dashboard {
+  background: var(--white);
+  border-bottom: 2px solid var(--border);
+  padding: 1rem 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.score-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--lavender);
+  border-radius: 99px;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--violet-dark);
+  white-space: nowrap;
+}
+.score-pill span { font-size: 1rem; }
+.progress-wrap { flex: 1; min-width: 120px; }
+.prog-label { font-size: 0.68rem; font-weight: 700; color: var(--text-soft); margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.prog-track { height: 8px; background: var(--border); border-radius: 99px; overflow: hidden; }
+.prog-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--rose), var(--violet), var(--mint-dark));
+  border-radius: 99px;
+  transition: width 0.4s ease;
+  width: 0%;
+}
+.reset-btn {
+  background: var(--blush);
+  border: 1.5px solid var(--rose);
+  color: var(--rose-dark);
+  border-radius: 99px;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+  transition: all 0.2s;
+}
+.reset-btn:hover { background: var(--rose); color: white; }
+
+/* ── SECTION HEADERS ── */
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1.4rem 1.2rem 0.6rem;
+}
+.section-badge {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.9rem;
+  border-radius: 99px;
+  white-space: nowrap;
+}
+.sec-pink  { background: var(--blush);    color: var(--rose-dark); }
+.sec-mint  { background: var(--mint);     color: #2d8a6e; }
+.sec-violet{ background: var(--lavender); color: var(--violet-dark); }
+.sec-sky   { background: var(--sky);      color: var(--sky-dark); }
+.sec-peach { background: var(--peach);    color: var(--peach-dark); }
+.section-rule { flex: 1; height: 1.5px; background: var(--border); border-radius: 99px; }
+
+/* ── QUESTION CARDS ── */
+.qcard {
+  background: var(--white);
+  border-radius: 18px;
+  margin: 0.6rem 1rem;
+  border: 2px solid var(--border);
+  overflow: hidden;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+.qcard:hover { box-shadow: 0 6px 24px rgba(180,140,220,0.12); }
+.qcard.correct-card { border-color: var(--correct); }
+.qcard.wrong-card   { border-color: var(--wrong); }
+
+.qcard-top {
+  padding: 1rem 1.1rem 0.8rem;
+}
+.q-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+.q-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.72rem; font-weight: 800;
+  flex-shrink: 0;
+}
+.q-tag {
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  padding: 0.15rem 0.6rem;
+  border-radius: 99px;
+}
+.q-type-select { background: var(--sky);     color: var(--sky-dark); }
+.q-type-sata   { background: var(--peach);   color: var(--peach-dark); }
+.q-type-order  { background: var(--lavender); color: var(--violet-dark); }
+.q-type-exhibit{ background: var(--mint);    color: #2d8a6e; }
+
+.q-stem {
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.55;
+  color: var(--text);
+}
+.q-client-info {
+  background: var(--lemon);
+  border-left: 3px solid var(--lemon-dark);
+  border-radius: 0 8px 8px 0;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: #5a4a00;
+  margin-bottom: 0.6rem;
+}
+
+/* ── OPTIONS ── */
+.options { padding: 0 1.1rem 0.6rem; display: flex; flex-direction: column; gap: 0.45rem; }
+
+.opt-btn {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 0.65rem 0.85rem;
+  cursor: pointer;
+  text-align: left;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text);
+  transition: all 0.18s;
+  line-height: 1.45;
+  width: 100%;
+}
+.opt-btn:hover:not(:disabled) {
+  background: var(--lavender);
+  border-color: var(--violet);
+  transform: translateX(2px);
+}
+.opt-letter {
+  min-width: 22px; height: 22px;
+  border-radius: 6px;
+  background: var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; font-weight: 800;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.opt-btn.correct-opt {
+  background: var(--correct-bg);
+  border-color: var(--correct);
+  color: #1a5c45;
+}
+.opt-btn.correct-opt .opt-letter { background: var(--correct); color: white; }
+.opt-btn.wrong-opt {
+  background: var(--wrong-bg);
+  border-color: var(--wrong);
+  color: #8b1a1a;
+}
+.opt-btn.wrong-opt .opt-letter { background: var(--wrong); color: white; }
+.opt-btn:disabled { cursor: default; }
+
+/* SATA checkboxes */
+.sata-opt {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 0.65rem 0.85rem;
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text);
+  transition: all 0.18s;
+  line-height: 1.45;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.sata-opt:hover { background: var(--lavender); border-color: var(--violet); }
+.sata-opt.selected { background: var(--lavender); border-color: var(--violet); }
+.sata-opt.correct-opt { background: var(--correct-bg); border-color: var(--correct); color: #1a5c45; }
+.sata-opt.wrong-opt   { background: var(--wrong-bg);   border-color: var(--wrong);   color: #8b1a1a; }
+.sata-opt.missed-opt  { background: var(--lemon);      border-color: var(--lemon-dark); color: #5a4a00; }
+.sata-check {
+  min-width: 20px; height: 20px;
+  border-radius: 5px;
+  border: 2px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+  background: white;
+}
+.sata-opt.selected .sata-check,
+.sata-opt.correct-opt .sata-check { background: var(--correct); border-color: var(--correct); color: white; }
+.sata-opt.wrong-opt .sata-check   { background: var(--wrong);   border-color: var(--wrong);   color: white; }
+.sata-opt.missed-opt .sata-check  { background: var(--lemon-dark); border-color: var(--lemon-dark); color: white; }
+
+.submit-sata {
+  margin: 0.3rem 1.1rem 0.6rem;
+  background: linear-gradient(135deg, var(--rose), var(--violet));
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 0.6rem 1.2rem;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.submit-sata:hover { opacity: 0.9; transform: translateY(-1px); }
+.submit-sata:disabled { opacity: 0.5; cursor: default; transform: none; }
+
+/* ── RATIONALE ── */
+.rationale {
+  display: none;
+  margin: 0 1.1rem 1rem;
+  border-radius: 12px;
+  padding: 0.8rem 1rem;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+.rationale.show { display: block; }
+.rationale.rat-correct { background: var(--correct-bg); border-left: 3px solid var(--correct); color: #1a5c45; }
+.rationale.rat-wrong   { background: var(--wrong-bg);   border-left: 3px solid var(--wrong);   color: #8b1a1a; }
+.rationale.rat-partial { background: var(--peach);      border-left: 3px solid var(--peach-dark); color: #7a3010; }
+.rat-header { font-weight: 800; font-size: 0.8rem; margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.4rem; }
+
+/* ── RESULTS SCREEN ── */
+.results-screen {
+  display: none;
+  padding: 2rem 1.2rem;
+  text-align: center;
+}
+.results-screen.show { display: block; }
+.results-emoji { font-size: 3rem; margin-bottom: 0.5rem; }
+.results-title { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--text); margin-bottom: 0.3rem; }
+.results-score { font-size: 2.5rem; font-weight: 800; color: var(--violet-dark); margin: 0.5rem 0; }
+.results-sub { font-size: 0.85rem; color: var(--text-soft); margin-bottom: 1.5rem; }
+.results-bars { text-align: left; margin: 1rem 0; }
+.res-bar-row { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.6rem; font-size: 0.8rem; font-weight: 700; color: var(--text); }
+.res-bar-label { min-width: 120px; font-size: 0.75rem; }
+.res-bar-track { flex:1; height:10px; background:var(--border); border-radius:99px; overflow:hidden; }
+.res-bar-fill { height:100%; border-radius:99px; transition: width 0.6s ease; }
+.try-again-btn {
+  background: linear-gradient(135deg, var(--rose), var(--violet));
+  color: white;
+  border: none;
+  border-radius: 99px;
+  padding: 0.75rem 2rem;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 800;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: transform 0.2s, opacity 0.2s;
+}
+.try-again-btn:hover { transform: translateY(-2px); opacity: 0.9; }
+
+footer {
+  text-align: center;
+  padding: 2rem 1rem 3rem;
+  font-size: 0.72rem;
+  color: var(--text-soft);
+  font-weight: 600;
+}
+
+@media (min-width: 640px) {
+  .qcard { margin: 0.7rem 1.5rem; }
+  .section-head { padding: 1.5rem 1.5rem 0.6rem; }
+  .header h1 { font-size: 2.1rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="bubble b1"></div>
+  <div class="bubble b2"></div>
+  <div class="bubble b3"></div>
+  <div class="bubble b4"></div>
+  <div class="header-emoji">🌸</div>
+  <h1>VN15 Test 3<br>NCLEX Practice Quiz</h1>
+  <p class="header-sub">35 Questions · Nursing Process · Health Promotion · Mobility · Chapters 7, 16 & 40</p>
+</div>
+
+<div class="dashboard">
+  <div class="score-pill"><span>✨</span> Score: <b id="scoreDisp">0</b>/<b id="totalDisp">35</b></div>
+  <div class="score-pill" style="background:var(--mint);color:#2d8a6e;"><span>✅</span> <b id="correctDisp">0</b> correct</div>
+  <div class="score-pill" style="background:var(--blush);color:var(--rose-dark);"><span>💭</span> <b id="answeredDisp">0</b> answered</div>
+  <div class="progress-wrap">
+    <div class="prog-label">Progress</div>
+    <div class="prog-track"><div class="prog-fill" id="progFill"></div></div>
+  </div>
+  <button class="reset-btn" onclick="resetAll()">🔄 Reset</button>
+</div>
+
+<div id="quizBody">
+
+<!-- ════════════════════════════════════════
+     SECTION 1: NURSING PROCESS (Ch. 7)
+════════════════════════════════════════ -->
+<div class="section-head">
+  <span class="section-badge sec-pink">🩺 Nursing Process — Chapter 7</span>
+  <div class="section-rule"></div>
+</div>
+
+<!-- Q1 -->
+<div class="qcard" id="qcard1">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--blush);color:var(--rose-dark);">1</div>
+      <span class="q-tag q-type-select">Single Select</span>
+    </div>
+    <div class="q-stem">The nurse is caring for a client admitted with chest pain. Which step of the nursing process does the nurse perform FIRST?</div>
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(1,'A','B')"><span class="opt-letter">A</span>Plan nursing interventions to reduce pain</button>
+    <button class="opt-btn" onclick="answer(1,'B','B')"><span class="opt-letter">B</span>Collect subjective and objective data from the client</button>
+    <button class="opt-btn" onclick="answer(1,'C','B')"><span class="opt-letter">C</span>Implement oxygen therapy as ordered</button>
+    <button class="opt-btn" onclick="answer(1,'D','B')"><span class="opt-letter">D</span>Evaluate the effectiveness of pain medication</button>
+  </div>
+  <div class="rationale" id="rat1">
+    <div class="rat-header">💡 Rationale</div>
+    <b>B is correct.</b> The nursing process always begins with <b>Assessment/Data Collection</b> — systematically collecting subjective and objective data to identify the client's needs. Planning, implementation, and evaluation follow assessment. (Ch. 7)
+  </div>
+</div>
+
+<!-- Q2 -->
+<div class="qcard" id="qcard2">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--blush);color:var(--rose-dark);">2</div>
+      <span class="q-tag q-type-select">Single Select</span>
+    </div>
+    <div class="q-stem">A client tells the nurse, "My pain is a 9 out of 10 and nothing helps." The nurse documents this as which type of data?</div>
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(2,'A','A')"><span class="opt-letter">A</span>Subjective data</button>
+    <button class="opt-btn" onclick="answer(2,'B','A')"><span class="opt-letter">B</span>Objective data</button>
+    <button class="opt-btn" onclick="answer(2,'C','A')"><span class="opt-letter">C</span>Secondary data</button>
+    <button class="opt-btn" onclick="answer(2,'D','A')"><span class="opt-letter">D</span>Diagnostic data</button>
+  </div>
+  <div class="rationale" id="rat2">
+    <div class="rat-header">💡 Rationale</div>
+    <b>A is correct.</b> <b>Subjective data</b> (manifestations) includes what the client tells the nurse — feelings, perceptions, and descriptions of health status. Only the client can describe and verify their own manifestations. (Ch. 7)
+  </div>
+</div>
+
+<!-- Q3 -->
+<div class="qcard" id="qcard3">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--blush);color:var(--rose-dark);">3</div>
+      <span class="q-tag q-type-select">Single Select</span>
+    </div>
+    <div class="q-stem">During the planning step, the nurse sets a client goal: "Client will ambulate 50 feet with a walker by day 3 without complaints of dizziness." Which characteristic of a well-written goal does this demonstrate?</div>
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(3,'A','D')"><span class="opt-letter">A</span>Nurse-centered and realistic</button>
+    <button class="opt-btn" onclick="answer(3,'B','D')"><span class="opt-letter">B</span>Long-term and comprehensive</button>
+    <button class="opt-btn" onclick="answer(3,'C','D')"><span class="opt-letter">C</span>Provider-initiated and measurable</button>
+    <button class="opt-btn" onclick="answer(3,'D','D')"><span class="opt-letter">D</span>Client-centered, singular, observable, measurable, and time-limited</button>
+  </div>
+  <div class="rationale" id="rat3">
+    <div class="rat-header">💡 Rationale</div>
+    <b>D is correct.</b> Ch. 7 states goals/outcomes must be <b>client-centered, singular, observable, measurable, time-limited, mutually agreeable, and reasonable</b>. The example meets all of these criteria.
+  </div>
+</div>
+
+<!-- Q4 -->
+<div class="qcard" id="qcard4">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--blush);color:var(--rose-dark);">4</div>
+      <span class="q-tag q-type-select">Single Select</span>
+    </div>
+    <div class="q-stem">The nurse repositions a client every 2 hours to prevent skin breakdown without a specific provider order. This is an example of which type of nursing intervention?</div>
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(4,'A','A')"><span class="opt-letter">A</span>Nurse-initiated/independent intervention</button>
+    <button class="opt-btn" onclick="answer(4,'B','A')"><span class="opt-letter">B</span>Provider-initiated/dependent intervention</button>
+    <button class="opt-btn" onclick="answer(4,'C','A')"><span class="opt-letter">C</span>Collaborative intervention</button>
+    <button class="opt-btn" onclick="answer(4,'D','A')"><span class="opt-letter">D</span>Delegated intervention</button>
+  </div>
+  <div class="rationale" id="rat4">
+    <div class="rat-header">💡 Rationale</div>
+    <b>A is correct.</b> <b>Nurse-initiated/independent interventions</b> are autonomous actions nurses take using evidence-based rationale without a provider's order. Ch. 7 uses repositioning every 2 hours to prevent skin breakdown as the exact example.
+  </div>
+</div>
+
+<!-- Q5 -->
+<div class="qcard" id="qcard5">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--blush);color:var(--rose-dark);">5</div>
+      <span class="q-tag q-type-select">Single Select</span>
+    </div>
+    <div class="q-stem">During the evaluation step, the nurse determines that the client did not meet the planned outcome. Which factor should the nurse consider FIRST as a reason for goal failure?</div>
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(5,'A','A')"><span class="opt-letter">A</span>The database may be incomplete</button>
+    <button class="opt-btn" onclick="answer(5,'B','A')"><span class="opt-letter">B</span>The client was non-compliant</button>
+    <button class="opt-btn" onclick="answer(5,'C','A')"><span class="opt-letter">C</span>The provider gave incorrect orders</button>
+    <button class="opt-btn" onclick="answer(5,'D','A')"><span class="opt-letter">D</span>The family interfered with the plan</button>
+  </div>
+  <div class="rationale" id="rat5">
+    <div class="rat-header">💡 Rationale</div>
+    <b>A is correct.</b> Ch. 7 lists factors that can lead to lack of goal achievement: <b>incomplete database, unrealistic client outcomes, nonspecific nursing interventions, and inadequate time</b>. The nurse first evaluates the nursing process itself before blaming the client.
+  </div>
+</div>
+
+<!-- Q6 -->
+<div class="qcard" id="qcard6">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--blush);color:var(--rose-dark);">6</div>
+      <span class="q-tag q-type-select">Single Select</span>
+    </div>
+    <div class="q-stem">Three clients need attention: Client A has a pain rating of 9/10, Client B needs a scheduled bath, and Client C reports dizziness upon standing. Using ABCDE prioritization, which client does the nurse assess FIRST?</div>
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(6,'A','C')"><span class="opt-letter">A</span>Client A — severe pain</button>
+    <button class="opt-btn" onclick="answer(6,'B','C')"><span class="opt-letter">B</span>Client B — needs a bath</button>
+    <button class="opt-btn" onclick="answer(6,'C','C')"><span class="opt-letter">C</span>Client C — dizziness upon standing</button>
+    <button class="opt-btn" onclick="answer(6,'D','C')"><span class="opt-letter">D</span>All clients simultaneously</button>
+  </div>
+  <div class="rationale" id="rat6">
+    <div class="rat-header">💡 Rationale</div>
+    <b>C is correct.</b> Dizziness upon standing indicates possible <b>orthostatic hypotension or cardiovascular/neurological compromise</b> — a circulation (C in ABCDE) emergency. This is a safety risk that requires immediate assessment. Bathing is a comfort need; pain is second priority.
+  </div>
+</div>
+
+<!-- Q7 SATA -->
+<div class="qcard" id="qcard7">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--blush);color:var(--rose-dark);">7</div>
+      <span class="q-tag q-type-sata">SATA</span>
+    </div>
+    <div class="q-stem">The nurse is in the Implementation step of the nursing process. Which of the following actions are appropriate during this step? <i>(Select all that apply)</i></div>
+  </div>
+  <div class="options" id="sata7">
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Perform nursing actions to promote, maintain, or restore health</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Delegate tasks to assistive personnel</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Document delivery of care and client responses</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Identify patterns in the collected data</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Supervise other health care staff</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Set priorities and establish client outcomes</div>
+  </div>
+  <button class="submit-sata" id="sataSub7" onclick="submitSata(7,[0,1,2,4])">Submit Answer</button>
+  <div class="rationale" id="rat7">
+    <div class="rat-header">💡 Rationale</div>
+    <b>A, B, C, E are correct.</b> During <b>Implementation</b>, nurses perform nursing actions, delegate tasks, supervise staff, and document care. <b>Identifying data patterns</b> is Analysis/Diagnosis. <b>Setting priorities and outcomes</b> is Planning. (Ch. 7)
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     SECTION 2: DELEGATION & CLINICAL JUDGMENT
+════════════════════════════════════════ -->
+<div class="section-head">
+  <span class="section-badge sec-violet">🧠 Delegation & Clinical Judgment</span>
+  <div class="section-rule"></div>
+</div>
+
+<!-- Q8 -->
+<div class="qcard" id="qcard8">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--lavender);color:var(--violet-dark);">8</div>
+      <span class="q-tag q-type-select">Single Select</span>
+    </div>
+    <div class="q-stem">Which task is APPROPRIATE for the nurse to delegate to an unlicensed assistive personnel (UAP)?</div>
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(8,'A','C')"><span class="opt-letter">A</span>Performing an initial head-to-toe assessment</button>
+    <button class="opt-btn" onclick="answer(8,'B','C')"><span class="opt-letter">B</span>Administering oral medications</button>
+    <button class="opt-btn" onclick="answer(8,'C','C')"><span class="opt-letter">C</span>Measuring vital signs on a stable client</button>
+    <button class="opt-btn" onclick="answer(8,'D','C')"><span class="opt-letter">D</span>Developing the nursing care plan</button>
+  </div>
+  <div class="rationale" id="rat8">
+    <div class="rat-header">💡 Rationale</div>
+    <b>C is correct.</b> Vital signs on a <b>stable client</b> is a routine, predictable task appropriate for UAP. Assessment, medication administration, and care planning require nursing licensure and clinical judgment — these cannot be delegated.
+  </div>
+</div>
+
+<!-- Q9 -->
+<div class="qcard" id="qcard9">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--lavender);color:var(--violet-dark);">9</div>
+      <span class="q-tag q-type-select">Single Select</span>
+    </div>
+    <div class="q-stem">A nurse delegates bathing to the UAP. The nurse checks back 30 minutes later to see how the client tolerated the activity. This represents which Right of Delegation?</div>
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(9,'A','D')"><span class="opt-letter">A</span>Right Task</button>
+    <button class="opt-btn" onclick="answer(9,'B','D')"><span class="opt-letter">B</span>Right Person</button>
+    <button class="opt-btn" onclick="answer(9,'C','D')"><span class="opt-letter">C</span>Right Direction</button>
+    <button class="opt-btn" onclick="answer(9,'D','D')"><span class="opt-letter">D</span>Right Supervision</button>
+  </div>
+  <div class="rationale" id="rat9">
+    <div class="rat-header">💡 Rationale</div>
+    <b>D is correct.</b> <b>Right Supervision</b> means the nurse follows up after delegating to evaluate the outcome and ensure the task was completed safely. The nurse retains accountability for all delegated tasks.
+  </div>
+</div>
+
+<!-- Q10 -->
+<div class="qcard" id="qcard10">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--lavender);color:var(--violet-dark);">10</div>
+      <span class="q-tag q-type-select">Single Select</span>
+    </div>
+    <div class="q-stem">A nurse is using the Clinical Judgment Model. The nurse observes that a client's blood pressure has dropped from 130/80 to 90/60 mmHg and the client is diaphoretic. Which phase of the model is the nurse performing?</div>
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(10,'A','A')"><span class="opt-letter">A</span>Recognize cues</button>
+    <button class="opt-btn" onclick="answer(10,'B','A')"><span class="opt-letter">B</span>Analyze cues</button>
+    <button class="opt-btn" onclick="answer(10,'C','A')"><span class="opt-letter">C</span>Prioritize hypotheses</button>
+    <button class="opt-btn" onclick="answer(10,'D','A')"><span class="opt-letter">D</span>Generate solutions</button>
+  </div>
+  <div class="rationale" id="rat10">
+    <div class="rat-header">💡 Rationale</div>
+    <b>A is correct.</b> <b>Recognizing cues</b> is noticing relevant client data — in this case the drop in BP and diaphoresis. Analyzing cues comes next (determining what it means), followed by prioritizing hypotheses and generating solutions.
+  </div>
+</div>
+
+<!-- Q11 SATA -->
+<div class="qcard" id="qcard11">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--lavender);color:var(--violet-dark);">11</div>
+      <span class="q-tag q-type-sata">SATA</span>
+    </div>
+    <div class="q-stem">Which tasks should the nurse NOT delegate to unlicensed assistive personnel? <i>(Select all that apply)</i></div>
+  </div>
+  <div class="options" id="sata11">
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Performing the initial client assessment</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Assisting the client with ambulation</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Administering oral medications</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Developing the nursing care plan</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Measuring and recording intake and output</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Providing client education about discharge medications</div>
+  </div>
+  <button class="submit-sata" id="sataSub11" onclick="submitSata(11,[0,2,3,5])">Submit Answer</button>
+  <div class="rationale" id="rat11">
+    <div class="rat-header">💡 Rationale</div>
+    <b>A, C, D, F are correct.</b> Assessment, medication administration, care planning, and client education require nursing licensure and clinical judgment. Assisting with ambulation and measuring I&O are routine tasks appropriate for UAP.
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     SECTION 3: HEALTH PROMOTION (Ch. 16)
+════════════════════════════════════════ -->
+<div class="section-head">
+  <span class="section-badge sec-mint">🌿 Health Promotion & Disease Prevention — Chapter 16</span>
+  <div class="section-rule"></div>
+</div>
+
+<!-- Q12 -->
+<div class="qcard" id="qcard12">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--mint);color:#2d8a6e;">12</div>
+      <span class="q-tag q-type-select">Single Select</span>
+    </div>
+    <div class="q-stem">A nurse teaches a group of teenagers about the dangers of tobacco use and how to avoid peer pressure to smoke. This is an example of which level of prevention?</div>
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(12,'A','A')"><span class="opt-letter">A</span>Primary prevention</button>
+    <button class="opt-btn" onclick="answer(12,'B','A')"><span class="opt-letter">B</span>Secondary prevention</button>
+    <button class="opt-btn" onclick="answer(12,'C','A')"><span class="opt-letter">C</span>Tertiary prevention</button>
+    <button class="opt-btn" onclick="answer(12,'D','A')"><span class="opt-letter">D</span>Health promotion</button>
+  </div>
+  <div class="rationale" id="rat12">
+    <div class="rat-header">💡 Rationale</div>
+    <b>A is correct.</b> <b>Primary prevention</b> addresses the needs of healthy clients to promote health and prevent disease with specific protections — decreasing exposure risk before disease occurs. Health education in schools is a primary prevention example from Ch. 16.
+  </div>
+</div>
+
+<!-- Q13 -->
+<div class="qcard" id="qcard13">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--mint);color:#2d8a6e;">13</div>
+      <span class="q-tag q-type-select">Single Select</span>
+    </div>
+    <div class="q-stem">A client with a recent spinal cord injury attends rehabilitation to learn how to manage daily activities and prevent complications. This is an example of which level of prevention?</div>
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(13,'A','C')"><span class="opt-letter">A</span>Primary prevention</button>
+    <button class="opt-btn" onclick="answer(13,'B','C')"><span class="opt-letter">B</span>Secondary prevention</button>
+    <button class="opt-btn" onclick="answer(13,'C','C')"><span class="opt-letter">C</span>Tertiary prevention</button>
+    <button class="opt-btn" onclick="answer(13,'D','C')"><span class="opt-letter">D</span>Quaternary prevention</button>
+  </div>
+  <div class="rationale" id="rat13">
+    <div class="rat-header">💡 Rationale</div>
+    <b>C is correct.</b> <b>Tertiary prevention</b> aims to prevent the long-term consequences of a chronic illness or disability and support optimal functioning. Ch. 16 lists rehabilitation after injury as a tertiary prevention example.
+  </div>
+</div>
+
+<!-- Q14 -->
+<div class="qcard" id="qcard14">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--mint);color:#2d8a6e;">14</div>
+      <span class="q-tag q-type-select">Single Select</span>
+    </div>
+    <div class="q-stem">A nurse is screening clients for diabetes at a community health fair. Clients who test positive are referred for treatment. This is an example of:</div>
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(14,'A','B')"><span class="opt-letter">A</span>Primary prevention</button>
+    <button class="opt-btn" onclick="answer(14,'B','B')"><span class="opt-letter">B</span>Secondary prevention</button>
+    <button class="opt-btn" onclick="answer(14,'C','B')"><span class="opt-letter">C</span>Tertiary prevention</button>
+    <button class="opt-btn" onclick="answer(14,'D','B')"><span class="opt-letter">D</span>Quaternary prevention</button>
+  </div>
+  <div class="rationale" id="rat14">
+    <div class="rat-header">💡 Rationale</div>
+    <b>B is correct.</b> <b>Secondary prevention</b> focuses on identifying illness, providing treatment, and conducting activities that help prevent worsening health status. Early detection and treatment of diabetes mellitus is a Ch. 16 secondary prevention example.
+  </div>
+</div>
+
+<!-- Q15 -->
+<div class="qcard" id="qcard15">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--mint);color:#2d8a6e;">15</div>
+      <span class="q-tag q-type-select">Single Select</span>
+    </div>
+    <div class="q-stem">A 45-year-old female client with no family history of colon cancer asks when she should have her first colonoscopy. The nurse's best response is:</div>
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(15,'A','A')"><span class="opt-letter">A</span>"Colorectal screening begins every year between ages 45 and 75."</button>
+    <button class="opt-btn" onclick="answer(15,'B','A')"><span class="opt-letter">B</span>"You should have a colonoscopy every year starting now."</button>
+    <button class="opt-btn" onclick="answer(15,'C','A')"><span class="opt-letter">C</span>"Colonoscopies start at age 50 for women."</button>
+    <button class="opt-btn" onclick="answer(15,'D','A')"><span class="opt-letter">D</span>"Since you have no family history, you don't need screening."</button>
+  </div>
+  <div class="rationale" id="rat15">
+    <div class="rat-header">💡 Rationale</div>
+    <b>A is correct.</b> Ch. 16 states colorectal screening includes colonoscopy every 10 years for individuals not at increased risk, or high-sensitivity fecal occult blood testing every year between ages <b>45 and 75</b>. All adults in this range should be screened regardless of family history.
+  </div>
+</div>
+
+<!-- Q16 SATA -->
+<div class="qcard" id="qcard16">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--mint);color:#2d8a6e;">16</div>
+      <span class="q-tag q-type-sata">SATA</span>
+    </div>
+    <div class="q-stem">A nurse is teaching a client about modifiable risk factors for cardiovascular disease. Which of the following are modifiable risk factors? <i>(Select all that apply)</i></div>
+  </div>
+  <div class="options" id="sata16">
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Tobacco use</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Family history of heart disease</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Sedentary lifestyle</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>High-fat diet</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Age</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Chronic stress</div>
+  </div>
+  <button class="submit-sata" id="sataSub16" onclick="submitSata(16,[0,2,3,5])">Submit Answer</button>
+  <div class="rationale" id="rat16">
+    <div class="rat-header">💡 Rationale</div>
+    <b>A, C, D, F are correct.</b> Ch. 16 identifies <b>lifestyle-risk behaviors</b> clients have control over: tobacco use, diet, lack of exercise, and stress. Family history (genetics) and age are <b>nonmodifiable</b> — they cannot be changed but nurses help clients manage them.
+  </div>
+</div>
+
+<!-- Q17 -->
+<div class="qcard" id="qcard17">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--mint);color:#2d8a6e;">17</div>
+      <span class="q-tag q-type-select">Single Select</span>
+    </div>
+    <div class="q-stem">The Healthy People 2030 initiative is best described as:</div>
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(17,'A','B')"><span class="opt-letter">A</span>A federal law requiring all hospitals to screen for chronic disease</button>
+    <button class="opt-btn" onclick="answer(17,'B','B')"><span class="opt-letter">B</span>A national set of objectives updated every 10 years to promote health and prevent disease</button>
+    <button class="opt-btn" onclick="answer(17,'C','B')"><span class="opt-letter">C</span>A mandatory vaccination program for all Americans</button>
+    <button class="opt-btn" onclick="answer(17,'D','B')"><span class="opt-letter">D</span>A hospital accreditation program focused on quality improvement</button>
+  </div>
+  <div class="rationale" id="rat17">
+    <div class="rat-header">💡 Rationale</div>
+    <b>B is correct.</b> Ch. 16 describes Healthy People 2030 as a list of <b>national objectives updated every 10 years</b> to promote health and prevent disease among the national population through collaborative effort by governments, organizations, businesses, and individuals.
+  </div>
+</div>
+
+<!-- Q18 -->
+<div class="qcard" id="qcard18">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--mint);color:#2d8a6e;">18</div>
+      <span class="q-tag q-type-select">Single Select</span>
+    </div>
+    <div class="q-stem">A nurse is caring for a 21-year-old male client at a routine health visit. Which screening should the nurse anticipate the provider will recommend?</div>
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(18,'A','A')"><span class="opt-letter">A</span>Testicular self-examination education and blood pressure check</button>
+    <button class="opt-btn" onclick="answer(18,'B','A')"><span class="opt-letter">B</span>Prostate-specific antigen test</button>
+    <button class="opt-btn" onclick="answer(18,'C','A')"><span class="opt-letter">C</span>Blood glucose screening</button>
+    <button class="opt-btn" onclick="answer(18,'D','A')"><span class="opt-letter">D</span>Colonoscopy</button>
+  </div>
+  <div class="rationale" id="rat18">
+    <div class="rat-header">💡 Rationale</div>
+    <b>A is correct.</b> Ch. 16 states testicular cancer is most common in males 15–34 years. Monthly testicular self-exam should be encouraged after puberty. Blood pressure is assessed at every health care visit. PSA starts at 55, blood glucose at 45, and colonoscopy at 45.
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     SECTION 4: MOBILITY & IMMOBILITY (Ch. 40)
+════════════════════════════════════════ -->
+<div class="section-head">
+  <span class="section-badge sec-sky">🦴 Mobility & Immobility — Chapter 40</span>
+  <div class="section-rule"></div>
+</div>
+
+<!-- Q19 -->
+<div class="qcard" id="qcard19">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--sky);color:var(--sky-dark);">19</div>
+      <span class="q-tag q-type-select">Single Select</span>
+    </div>
+    <div class="q-stem">A client has been on bed rest for 5 days following surgery. Which complication related to immobility should the nurse monitor for FIRST?</div>
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(19,'A','B')"><span class="opt-letter">A</span>Constipation</button>
+    <button class="opt-btn" onclick="answer(19,'B','B')"><span class="opt-letter">B</span>Deep vein thrombosis (DVT)</button>
+    <button class="opt-btn" onclick="answer(19,'C','B')"><span class="opt-letter">C</span>Muscle atrophy</button>
+    <button class="opt-btn" onclick="answer(19,'D','B')"><span class="opt-letter">D</span>Depression</button>
+  </div>
+  <div class="rationale" id="rat19">
+    <div class="rat-header">💡 Rationale</div>
+    <b>B is correct.</b> DVT is a life-threatening cardiovascular complication of immobility. Ch. 40 identifies stasis of blood in the legs and increased risk of thrombus development as key cardiovascular effects. DVT can lead to pulmonary embolism — a priority safety concern.
+  </div>
+</div>
+
+<!-- Q20 -->
+<div class="qcard" id="qcard20">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--sky);color:var(--sky-dark);">20</div>
+      <span class="q-tag q-type-select">Single Select</span>
+    </div>
+    <div class="q-stem">A client is being taught to use a cane after a right hip replacement. The nurse instructs the client to hold the cane on which side?</div>
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(20,'A','B')"><span class="opt-letter">A</span>On the right (surgical/weaker) side</button>
+    <button class="opt-btn" onclick="answer(20,'B','B')"><span class="opt-letter">B</span>On the left (stronger) side</button>
+    <button class="opt-btn" onclick="answer(20,'C','B')"><span class="opt-letter">C</span>Either side — it doesn't matter</button>
+    <button class="opt-btn" onclick="answer(20,'D','B')"><span class="opt-letter">D</span>Only needed on stairs</button>
+  </div>
+  <div class="rationale" id="rat20">
+    <div class="rat-header">💡 Rationale</div>
+    <b>B is correct.</b> Ch. 40 Cane Instructions state: <b>"Keep the cane on the stronger side of the body."</b> This distributes weight away from the weaker/surgical leg and provides lateral support during ambulation.
+  </div>
+</div>
+
+<!-- Q21 -->
+<div class="qcard" id="qcard21">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--sky);color:var(--sky-dark);">21</div>
+      <span class="q-tag q-type-select">Single Select</span>
+    </div>
+    <div class="q-stem">A client with left-sided weakness is learning to climb stairs with a cane. In which order should the nurse instruct the client to move when going UP the stairs?</div>
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(21,'A','C')"><span class="opt-letter">A</span>Cane first, then strong leg, then weak leg</button>
+    <button class="opt-btn" onclick="answer(21,'B','C')"><span class="opt-letter">B</span>Weak leg first, then cane, then strong leg</button>
+    <button class="opt-btn" onclick="answer(21,'C','C')"><span class="opt-letter">C</span>Strong leg first, then cane and weak leg together</button>
+    <button class="opt-btn" onclick="answer(21,'D','C')"><span class="opt-letter">D</span>Cane and weak leg together, then strong leg</button>
+  </div>
+  <div class="rationale" id="rat21">
+    <div class="rat-header">💡 Rationale</div>
+    <b>C is correct.</b> When going <b>UP</b> stairs: <b>Strong leg goes first</b>, then the cane and weak leg follow. Memory trick: <b>"Up with the good, down with the bad."</b> Going down, the weak leg and cane go first.
+  </div>
+</div>
+
+<!-- Q22 -->
+<div class="qcard" id="qcard22">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--sky);color:var(--sky-dark);">22</div>
+      <span class="q-tag q-type-select">Single Select</span>
+    </div>
+    <div class="q-stem">Which principle of proper body mechanics should the nurse apply when transferring a client from the bed to a wheelchair?</div>
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(22,'A','D')"><span class="opt-letter">A</span>Keep feet close together to maintain balance</button>
+    <button class="opt-btn" onclick="answer(22,'B','D')"><span class="opt-letter">B</span>Bend at the waist to keep the center of gravity high</button>
+    <button class="opt-btn" onclick="answer(22,'C','D')"><span class="opt-letter">C</span>Hold the client as far from the body as possible</button>
+    <button class="opt-btn" onclick="answer(22,'D','D')"><span class="opt-letter">D</span>Bend at the knees and use the large leg muscles to lift</button>
+  </div>
+  <div class="rationale" id="rat22">
+    <div class="rat-header">💡 Rationale</div>
+    <b>D is correct.</b> Proper body mechanics requires bending at the <b>knees</b> (not waist), using large muscle groups (legs), maintaining a wide base of support, and keeping the load close to the body. This protects the nurse's back and provides safe transfer for the client. (Ch. 40)
+  </div>
+</div>
+
+<!-- Q23 SATA -->
+<div class="qcard" id="qcard23">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--sky);color:var(--sky-dark);">23</div>
+      <span class="q-tag q-type-sata">SATA</span>
+    </div>
+    <div class="q-stem">A client has been immobile for 1 week. Which complications should the nurse assess for? <i>(Select all that apply)</i></div>
+  </div>
+  <div class="options" id="sata23">
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Pressure injuries on bony prominences</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Hypostatic pneumonia</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Improved cardiac output</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Urinary tract infection</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Constipation</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Muscle atrophy</div>
+  </div>
+  <button class="submit-sata" id="sataSub23" onclick="submitSata(23,[0,1,3,4,5])">Submit Answer</button>
+  <div class="rationale" id="rat23">
+    <div class="rat-header">💡 Rationale</div>
+    <b>A, B, D, E, F are correct.</b> Ch. 40 lists systemic effects of immobility including pressure injuries (integumentary), hypostatic pneumonia (respiratory), UTI (genitourinary), constipation (GI), and muscle atrophy (musculoskeletal). Immobility <b>decreases</b> cardiac output — it does NOT improve it.
+  </div>
+</div>
+
+<!-- Q24 -->
+<div class="qcard" id="qcard24">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--sky);color:var(--sky-dark);">24</div>
+      <span class="q-tag q-type-select">Single Select</span>
+    </div>
+    <div class="q-stem">The nurse is preparing to ambulate a client for the first time after 3 days of bed rest. Which action should the nurse perform FIRST?</div>
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(24,'A','C')"><span class="opt-letter">A</span>Apply a gait belt and assist the client to stand</button>
+    <button class="opt-btn" onclick="answer(24,'B','C')"><span class="opt-letter">B</span>Ask the client to walk to the end of the hallway</button>
+    <button class="opt-btn" onclick="answer(24,'C','C')"><span class="opt-letter">C</span>Measure orthostatic blood pressure before ambulation</button>
+    <button class="opt-btn" onclick="answer(24,'D','C')"><span class="opt-letter">D</span>Have the client perform leg exercises in bed</button>
+  </div>
+  <div class="rationale" id="rat24">
+    <div class="rat-header">💡 Rationale</div>
+    <b>C is correct.</b> Before ambulating a client after bed rest, the nurse measures <b>orthostatic blood pressure</b> (lying → sitting → standing) to assess for orthostatic hypotension — a major cardiovascular complication of immobility (Ch. 40). This ensures client safety before standing.
+  </div>
+</div>
+
+<!-- Q25 -->
+<div class="qcard" id="qcard25">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--sky);color:var(--sky-dark);">25</div>
+      <span class="q-tag q-type-select">Single Select</span>
+    </div>
+    <div class="q-stem">To prevent hypostatic pneumonia in an immobile client, which nursing intervention is MOST important?</div>
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(25,'A','B')"><span class="opt-letter">A</span>Encourage the client to drink 500 mL of fluids per day</button>
+    <button class="opt-btn" onclick="answer(25,'B','B')"><span class="opt-letter">B</span>Reposition the client every 1 to 2 hours and encourage deep breathing</button>
+    <button class="opt-btn" onclick="answer(25,'C','B')"><span class="opt-letter">C</span>Apply compression stockings to both legs</button>
+    <button class="opt-btn" onclick="answer(25,'D','B')"><span class="opt-letter">D</span>Maintain the client in a supine position at all times</button>
+  </div>
+  <div class="rationale" id="rat25">
+    <div class="rat-header">💡 Rationale</div>
+    <b>B is correct.</b> Ch. 40 respiratory nursing actions include repositioning every 1–2 hours, teaching the client to turn/cough/breathe deeply every 1–2 hours while awake, and using an incentive spirometer. Fluid intake should be at least 2,000 mL/day. Supine position worsens respiratory function.
+  </div>
+</div>
+
+<!-- Q26 -->
+<div class="qcard" id="qcard26">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--sky);color:var(--sky-dark);">26</div>
+      <span class="q-tag q-type-select">Single Select</span>
+    </div>
+    <div class="q-stem">A client using a walker is instructed to advance the walker how far forward before stepping?</div>
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(26,'A','B')"><span class="opt-letter">A</span>5–10 cm (2–4 in)</button>
+    <button class="opt-btn" onclick="answer(26,'B','B')"><span class="opt-letter">B</span>15–20 cm (6–8 in)</button>
+    <button class="opt-btn" onclick="answer(26,'C','B')"><span class="opt-letter">C</span>30–40 cm (12–16 in)</button>
+    <button class="opt-btn" onclick="answer(26,'D','B')"><span class="opt-letter">D</span>As far as the client's reach allows</button>
+  </div>
+  <div class="rationale" id="rat26">
+    <div class="rat-header">💡 Rationale</div>
+    <b>B is correct.</b> Ch. 40 Walker Instructions state: advance walker forward <b>15–20 cm (6–8 in)</b>, then set all four feet down on the floor before stepping. This maintains stability and a safe center of gravity.
+  </div>
+</div>
+
+<!-- Q27 SATA -->
+<div class="qcard" id="qcard27">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--sky);color:var(--sky-dark);">27</div>
+      <span class="q-tag q-type-sata">SATA</span>
+    </div>
+    <div class="q-stem">The nurse is planning care to promote mobility and prevent complications for a client on bed rest. Which interventions are appropriate? <i>(Select all that apply)</i></div>
+  </div>
+  <div class="options" id="sata27">
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Reposition the client every 1–2 hours</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Encourage active or perform passive ROM 2–3 times daily</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Apply sequential compression devices (SCDs)</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Keep the client in the same position all day for comfort</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Maintain fluid intake of at least 2,000 mL/day</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Refer to physical therapy for decreased mobility</div>
+  </div>
+  <button class="submit-sata" id="sataSub27" onclick="submitSata(27,[0,1,2,4,5])">Submit Answer</button>
+  <div class="rationale" id="rat27">
+    <div class="rat-header">💡 Rationale</div>
+    <b>A, B, C, E, F are correct.</b> All are Ch. 40 nursing actions for immobile clients. Keeping a client in the same position all day <b>increases</b> the risk of pressure injuries, DVT, contractures, and pneumonia — this is the incorrect option.
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     SECTION 5: MIXED/PRIORITY (All Topics)
+════════════════════════════════════════ -->
+<div class="section-head">
+  <span class="section-badge sec-peach">⭐ Priority & Mixed — All Topics</span>
+  <div class="section-rule"></div>
+</div>
+
+<!-- Q28 -->
+<div class="qcard" id="qcard28">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--peach);color:var(--peach-dark);">28</div>
+      <span class="q-tag q-type-exhibit">Client Scenario</span>
+    </div>
+    <div class="q-client-info">🏥 A nurse is caring for four clients. Client 1: reports chronic low back pain rated 4/10. Client 2: just returned from surgery and has a BP of 88/50 mmHg. Client 3: needs discharge teaching about diet. Client 4: is requesting pain medication for a headache rated 3/10.</div>
+    <div class="q-stem">Using Maslow's hierarchy and ABCDE prioritization, which client should the nurse assess FIRST?</div>
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(28,'A','B')"><span class="opt-letter">A</span>Client 1 — chronic back pain</button>
+    <button class="opt-btn" onclick="answer(28,'B','B')"><span class="opt-letter">B</span>Client 2 — BP 88/50 post-surgery</button>
+    <button class="opt-btn" onclick="answer(28,'C','B')"><span class="opt-letter">C</span>Client 3 — discharge teaching</button>
+    <button class="opt-btn" onclick="answer(28,'D','B')"><span class="opt-letter">D</span>Client 4 — headache pain 3/10</button>
+  </div>
+  <div class="rationale" id="rat28">
+    <div class="rat-header">💡 Rationale</div>
+    <b>B is correct.</b> A BP of 88/50 mmHg post-surgery indicates possible hemorrhage or shock — a life-threatening <b>Circulation</b> emergency (ABCDE). This is a physiological priority per Maslow's. Discharge teaching and mild/chronic pain are lower priorities. (Ch. 7)
+  </div>
+</div>
+
+<!-- Q29 -->
+<div class="qcard" id="qcard29">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--peach);color:var(--peach-dark);">29</div>
+      <span class="q-tag q-type-select">Single Select</span>
+    </div>
+    <div class="q-stem">A nurse documents: "Client grimaced when turning in bed and rated pain 8/10." This is an example of which type of data?</div>
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(29,'A','C')"><span class="opt-letter">A</span>Subjective data only</button>
+    <button class="opt-btn" onclick="answer(29,'B','C')"><span class="opt-letter">B</span>Secondary data</button>
+    <button class="opt-btn" onclick="answer(29,'C','C')"><span class="opt-letter">C</span>Both subjective and objective data</button>
+    <button class="opt-btn" onclick="answer(29,'D','C')"><span class="opt-letter">D</span>Objective data only</button>
+  </div>
+  <div class="rationale" id="rat29">
+    <div class="rat-header">💡 Rationale</div>
+    <b>C is correct.</b> The <b>pain rating of 8/10</b> is subjective data (what the client reports). The <b>grimacing</b> is objective data (what the nurse observes). Ch. 7: nurses observe/measure objective data during physical examination, while subjective data is what the client tells the nurse.
+  </div>
+</div>
+
+<!-- Q30 -->
+<div class="qcard" id="qcard30">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--peach);color:var(--peach-dark);">30</div>
+      <span class="q-tag q-type-select">Single Select</span>
+    </div>
+    <div class="q-stem">A nurse notices an immobile client has redness over the sacrum that does not blanch. What is the nurse's priority intervention?</div>
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(30,'A','A')"><span class="opt-letter">A</span>Reposition the client immediately and implement a turning schedule</button>
+    <button class="opt-btn" onclick="answer(30,'B','A')"><span class="opt-letter">B</span>Apply ice to the area to reduce redness</button>
+    <button class="opt-btn" onclick="answer(30,'C','A')"><span class="opt-letter">C</span>Document the finding and reassess in 24 hours</button>
+    <button class="opt-btn" onclick="answer(30,'D','A')"><span class="opt-letter">D</span>Massage the reddened area vigorously</button>
+  </div>
+  <div class="rationale" id="rat30">
+    <div class="rat-header">💡 Rationale</div>
+    <b>A is correct.</b> Non-blanchable redness over a bony prominence is a Stage 1 pressure injury. Ch. 40 nursing actions include repositioning every 1–2 hours, using corrective positioning devices, and implementing a turning schedule. Massaging reddened areas is contraindicated — it damages fragile tissue.
+  </div>
+</div>
+
+<!-- Q31 -->
+<div class="qcard" id="qcard31">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--peach);color:var(--peach-dark);">31</div>
+      <span class="q-tag q-type-select">Single Select</span>
+    </div>
+    <div class="q-stem">An older adult client is being discharged after a hip fracture repair. Which statement by the client indicates understanding of fall prevention?</div>
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(31,'A','D')"><span class="opt-letter">A</span>"I will walk in my socks at home since they are more comfortable."</button>
+    <button class="opt-btn" onclick="answer(31,'B','D')"><span class="opt-letter">B</span>"I will get up quickly in the morning so I don't waste time."</button>
+    <button class="opt-btn" onclick="answer(31,'C','D')"><span class="opt-letter">C</span>"I will place throw rugs at the entrance to each room."</button>
+    <button class="opt-btn" onclick="answer(31,'D','D')"><span class="opt-letter">D</span>"I will wear non-slip footwear and use my walker when I get up."</button>
+  </div>
+  <div class="rationale" id="rat31">
+    <div class="rat-header">💡 Rationale</div>
+    <b>D is correct.</b> Ch. 40 fall prevention includes using assistive devices and non-slip footwear. Socks without grips increase fall risk. Getting up quickly risks orthostatic hypotension. Throw rugs are a trip hazard. The client should dangle at the bedside before standing.
+  </div>
+</div>
+
+<!-- Q32 -->
+<div class="qcard" id="qcard32">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--peach);color:var(--peach-dark);">32</div>
+      <span class="q-tag q-type-select">Single Select</span>
+    </div>
+    <div class="q-stem">A client on a crutch with a three-point gait pattern has a fractured right leg. Which description of this gait pattern is correct?</div>
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(32,'A','B')"><span class="opt-letter">A</span>Client bears weight on both legs, alternating each leg with the opposite crutch</button>
+    <button class="opt-btn" onclick="answer(32,'B','B')"><span class="opt-letter">B</span>Client bears all weight on one foot; the fractured leg never touches the ground</button>
+    <button class="opt-btn" onclick="answer(32,'C','B')"><span class="opt-letter">C</span>Client has partial weight bearing on both feet and both crutches</button>
+    <button class="opt-btn" onclick="answer(32,'D','B')"><span class="opt-letter">D</span>Client uses three steps for every crutch advancement</button>
+  </div>
+  <div class="rationale" id="rat32">
+    <div class="rat-header">💡 Rationale</div>
+    <b>B is correct.</b> Ch. 40 defines <b>three-point gait</b>: requires bearing all weight on one foot while using both crutches. The affected leg <b>should never bear weight or touch the ground</b>. This is used when one leg is non-weight bearing (fractures, post-op).
+  </div>
+</div>
+
+<!-- Q33 SATA -->
+<div class="qcard" id="qcard33">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--peach);color:var(--peach-dark);">33</div>
+      <span class="q-tag q-type-sata">SATA</span>
+    </div>
+    <div class="q-stem">The nurse is assessing a client's mobility. Which findings should the nurse include in the mobility assessment? <i>(Select all that apply)</i></div>
+  </div>
+  <div class="options" id="sata33">
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Range of motion of all joints</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Gait and balance</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Body alignment while standing, sitting, and lying</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Client's insurance coverage</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Activity tolerance and exercise status</div>
+    <div class="sata-opt" onclick="toggleSata(this)"><div class="sata-check"></div>Use of assistive devices</div>
+  </div>
+  <button class="submit-sata" id="sataSub33" onclick="submitSata(33,[0,1,2,4,5])">Submit Answer</button>
+  <div class="rationale" id="rat33">
+    <div class="rat-header">💡 Rationale</div>
+    <b>A, B, C, E, F are correct.</b> Ch. 40 states assessment focuses on mobility, range of motion (ROM), gait, exercise status, activity tolerance, and body alignment while standing, sitting, and lying. Insurance coverage is not part of the mobility assessment.
+  </div>
+</div>
+
+<!-- Q34 -->
+<div class="qcard" id="qcard34">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--peach);color:var(--peach-dark);">34</div>
+      <span class="q-tag q-type-select">Single Select</span>
+    </div>
+    <div class="q-stem">A nurse is educating a community group about how lifestyle factors affect health. Which statement by a participant indicates a NEED for further teaching?</div>
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(34,'A','C')"><span class="opt-letter">A</span>"Eating a healthy diet can reduce my risk of chronic disease."</button>
+    <button class="opt-btn" onclick="answer(34,'B','C')"><span class="opt-letter">B</span>"Regular exercise helps maintain a healthy weight and heart."</button>
+    <button class="opt-btn" onclick="answer(34,'C','C')"><span class="opt-letter">C</span>"Since heart disease runs in my family, there is nothing I can do to prevent it."</button>
+    <button class="opt-btn" onclick="answer(34,'D','C')"><span class="opt-letter">D</span>"Quitting smoking will lower my risk for lung cancer."</button>
+  </div>
+  <div class="rationale" id="rat34">
+    <div class="rat-header">💡 Rationale</div>
+    <b>C is correct (needs further teaching).</b> Ch. 16 distinguishes modifiable risk factors (diet, exercise, smoking) from nonmodifiable ones (family history/genetics). While family history cannot be changed, <b>clients CAN reduce their risk</b> by controlling modifiable lifestyle factors — this statement shows a misconception.
+  </div>
+</div>
+
+<!-- Q35 -->
+<div class="qcard" id="qcard35">
+  <div class="qcard-top">
+    <div class="q-meta">
+      <div class="q-num" style="background:var(--peach);color:var(--peach-dark);">35</div>
+      <span class="q-tag q-type-select">Single Select</span>
+    </div>
+    <div class="q-stem">A nurse is caring for an immobile client who develops a negative nitrogen balance. Which systemic effect of immobility does this represent?</div>
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(35,'A','B')"><span class="opt-letter">A</span>Cardiovascular effect</button>
+    <button class="opt-btn" onclick="answer(35,'B','B')"><span class="opt-letter">B</span>Metabolic effect</button>
+    <button class="opt-btn" onclick="answer(35,'C','B')"><span class="opt-letter">C</span>Integumentary effect</button>
+    <button class="opt-btn" onclick="answer(35,'D','B')"><span class="opt-letter">D</span>Respiratory effect</button>
+  </div>
+  <div class="rationale" id="rat35">
+    <div class="rat-header">💡 Rationale</div>
+    <b>B is correct.</b> Ch. 40 lists <b>metabolic effects of immobility</b>: negative nitrogen balance, decreased protein resulting in loss of muscle, decreased basal metabolic rate, altered endocrine system, and changes in protein, carbohydrate, and fat metabolism. High-calorie, high-protein diet with vitamins B and C is the nursing intervention.
+  </div>
+</div>
+
+</div><!-- end quizBody -->
+
+<!-- RESULTS SCREEN -->
+<div class="results-screen" id="resultsScreen">
+  <div class="results-emoji" id="resultsEmoji">🌸</div>
+  <div class="results-title">Quiz Complete!</div>
+  <div class="results-score" id="resultsPct">0%</div>
+  <div class="results-sub" id="resultsSub">Keep studying — you've got this! 💪</div>
+  <div class="results-bars">
+    <div class="res-bar-row">
+      <div class="res-bar-label">🩺 Nursing Process</div>
+      <div class="res-bar-track"><div class="res-bar-fill" id="bar1" style="background:var(--rose);width:0%"></div></div>
+      <span id="bar1txt">0/7</span>
+    </div>
+    <div class="res-bar-row">
+      <div class="res-bar-label">🧠 Delegation/Judgment</div>
+      <div class="res-bar-track"><div class="res-bar-fill" id="bar2" style="background:var(--violet);width:0%"></div></div>
+      <span id="bar2txt">0/4</span>
+    </div>
+    <div class="res-bar-row">
+      <div class="res-bar-label">🌿 Health Promotion</div>
+      <div class="res-bar-track"><div class="res-bar-fill" id="bar2b" style="background:var(--mint-dark);width:0%"></div></div>
+      <span id="bar2btxt">0/7</span>
+    </div>
+    <div class="res-bar-row">
+      <div class="res-bar-label">🦴 Mobility Ch.40</div>
+      <div class="res-bar-track"><div class="res-bar-fill" id="bar3" style="background:var(--sky-dark);width:0%"></div></div>
+      <span id="bar3txt">0/9</span>
+    </div>
+    <div class="res-bar-row">
+      <div class="res-bar-label">⭐ Mixed Priority</div>
+      <div class="res-bar-track"><div class="res-bar-fill" id="bar4" style="background:var(--peach-dark);width:0%"></div></div>
+      <span id="bar4txt">0/8</span>
+    </div>
+  </div>
+  <button class="try-again-btn" onclick="resetAll()">🔄 Try Again</button>
+</div>
+
+<footer>VN15 Fundamentals of Nursing Theory · Test 3 · Carrington College<br>Based on Fundamentals for Nursing 11th Ed. — Chapters 7, 16 & 40 ✨</footer>
+
+<script>
+const TOTAL = 35;
+let answered = {};
+let correct = {};
+
+// Section ranges for scoring
+const sections = {
+  1: [1,2,3,4,5,6,7],
+  2: [8,9,10,11],
+  3: [12,13,14,15,16,17,18],
+  4: [19,20,21,22,23,24,25,26,27],
+  5: [28,29,30,31,32,33,34,35]
+};
+
+function updateDash() {
+  const ans = Object.keys(answered).length;
+  const cor = Object.keys(correct).length;
+  document.getElementById('answeredDisp').textContent = ans;
+  document.getElementById('correctDisp').textContent = cor;
+  document.getElementById('scoreDisp').textContent = cor;
+  document.getElementById('progFill').style.width = (ans/TOTAL*100)+'%';
+
+  if (ans === TOTAL) showResults();
+}
+
+function answer(qNum, chosen, correctAns) {
+  if (answered[qNum]) return;
+  answered[qNum] = chosen;
+
+  const card = document.getElementById('qcard'+qNum);
+  const btns = card.querySelectorAll('.opt-btn');
+  const letters = ['A','B','C','D'];
+  const isCorrect = chosen === correctAns;
+
+  if (isCorrect) correct[qNum] = true;
+
+  btns.forEach((btn, i) => {
+    btn.disabled = true;
+    if (letters[i] === correctAns) btn.classList.add('correct-opt');
+    else if (letters[i] === chosen && !isCorrect) btn.classList.add('wrong-opt');
+  });
+
+  const rat = document.getElementById('rat'+qNum);
+  rat.classList.add('show', isCorrect ? 'rat-correct' : 'rat-wrong');
+  card.classList.add(isCorrect ? 'correct-card' : 'wrong-card');
+  updateDash();
+}
+
+function toggleSata(el) {
+  if (el.classList.contains('disabled')) return;
+  el.classList.toggle('selected');
+  if (el.classList.contains('selected')) {
+    el.querySelector('.sata-check').textContent = '✓';
+  } else {
+    el.querySelector('.sata-check').textContent = '';
+  }
+}
+
+function submitSata(qNum, correctIndices) {
+  const container = document.getElementById('sata'+qNum);
+  const submitBtn = document.getElementById('sataSub'+qNum);
+  if (submitBtn.disabled) return;
+
+  const opts = container.querySelectorAll('.sata-opt');
+  const selected = [];
+  opts.forEach((opt, i) => { if (opt.classList.contains('selected')) selected.push(i); });
+
+  answered[qNum] = selected;
+  submitBtn.disabled = true;
+
+  const correctSet = new Set(correctIndices);
+  const selectedSet = new Set(selected);
+
+  let allCorrect = correctSet.size === selectedSet.size &&
+    [...correctSet].every(i => selectedSet.has(i));
+
+  opts.forEach((opt, i) => {
+    opt.classList.add('disabled');
+    opt.style.cursor = 'default';
+    if (correctSet.has(i) && selectedSet.has(i)) opt.classList.add('correct-opt');
+    else if (!correctSet.has(i) && selectedSet.has(i)) opt.classList.add('wrong-opt');
+    else if (correctSet.has(i) && !selectedSet.has(i)) opt.classList.add('missed-opt');
+  });
+
+  if (allCorrect) correct[qNum] = true;
+
+  const rat = document.getElementById('rat'+qNum);
+  rat.classList.add('show');
+  rat.classList.add(allCorrect ? 'rat-correct' : 'rat-partial');
+
+  const card = document.getElementById('qcard'+qNum);
+  card.classList.add(allCorrect ? 'correct-card' : 'wrong-card');
+  updateDash();
+}
+
+function showResults() {
+  document.getElementById('quizBody').style.display = 'none';
+  const rs = document.getElementById('resultsScreen');
+  rs.classList.add('show');
+
+  const total = Object.keys(correct).length;
+  const pct = Math.round(total/TOTAL*100);
+  document.getElementById('resultsPct').textContent = pct+'%';
+
+  let emoji = pct >= 90 ? '🌟' : pct >= 75 ? '🌸' : pct >= 60 ? '💪' : '📚';
+  let sub = pct >= 90 ? 'Excellent work! You are ready! 🎉' :
+            pct >= 75 ? 'Great job! Review the missed topics.' :
+            pct >= 60 ? 'Good effort! Keep reviewing the chapters.' :
+            'Keep studying — you can do this! 💕';
+  document.getElementById('resultsEmoji').textContent = emoji;
+  document.getElementById('resultsSub').textContent = sub;
+
+  // Section bars
+  const sectionDefs = [
+    {id:'bar1', txtId:'bar1txt', qs:sections[1]},
+    {id:'bar2', txtId:'bar2txt', qs:sections[2]},
+    {id:'bar2b',txtId:'bar2btxt',qs:sections[3]},
+    {id:'bar3', txtId:'bar3txt', qs:sections[4]},
+    {id:'bar4', txtId:'bar4txt', qs:sections[5]},
+  ];
+  sectionDefs.forEach(s => {
+    const cor = s.qs.filter(q => correct[q]).length;
+    const tot = s.qs.length;
+    setTimeout(() => {
+      document.getElementById(s.id).style.width = (cor/tot*100)+'%';
+    }, 200);
+    document.getElementById(s.txtId).textContent = cor+'/'+tot;
+  });
+}
+
+function resetAll() {
+  answered = {};
+  correct = {};
+  document.getElementById('quizBody').style.display = 'block';
+  document.getElementById('resultsScreen').classList.remove('show');
+  document.getElementById('progFill').style.width = '0%';
+  document.getElementById('answeredDisp').textContent = '0';
+  document.getElementById('correctDisp').textContent = '0';
+  document.getElementById('scoreDisp').textContent = '0';
+
+  document.querySelectorAll('.opt-btn').forEach(btn => {
+    btn.disabled = false;
+    btn.classList.remove('correct-opt','wrong-opt');
+  });
+  document.querySelectorAll('.sata-opt').forEach(opt => {
+    opt.classList.remove('selected','correct-opt','wrong-opt','missed-opt','disabled');
+    opt.style.cursor = '';
+    opt.querySelector('.sata-check').textContent = '';
+  });
+  document.querySelectorAll('.submit-sata').forEach(btn => btn.disabled = false);
+  document.querySelectorAll('.rationale').forEach(r => r.classList.remove('show','rat-correct','rat-wrong','rat-partial'));
+  document.querySelectorAll('.qcard').forEach(c => c.classList.remove('correct-card','wrong-card'));
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
