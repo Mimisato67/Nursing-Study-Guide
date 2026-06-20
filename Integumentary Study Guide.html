@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Integumentary System Study Guide ✨</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=DM+Sans:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap');
+
+:root {
+  --rust:     #c0392b;
+  --mustard:  #d4a017;
+  --teal:     #2a7f6f;
+  --cream:    #fdf6e3;
+  --tan:      #e8d5a3;
+  --brown:    #6b3a2a;
+  --olive:    #7a8c3a;
+  --coral:    #e05c3a;
+  --paprika:  #b34a1a;
+  --gold:     #c8922a;
+  --sand:     #f5e6c0;
+  --dark:     #2c1a0e;
+  --softwhite:#fefaf0;
+  --border:   #c0a060;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--dark);
+  min-height: 100vh;
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(192,57,43,0.06) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(42,127,111,0.06) 0%, transparent 50%);
+}
+
+/* ── RETRO HEADER ── */
+.hero {
+  background: var(--rust);
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(0,0,0,0.06) 10px,
+      rgba(0,0,0,0.06) 20px
+    );
+  padding: 2.5rem 1.5rem 2rem;
+  text-align: center;
+  border-bottom: 6px solid var(--brown);
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg, transparent, transparent 28px,
+    rgba(255,255,255,0.04) 28px, rgba(255,255,255,0.04) 30px
+  );
+}
+.hero-badge {
+  display: inline-block;
+  background: var(--mustard);
+  color: var(--dark);
+  font-family: 'Courier Prime', monospace;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.3rem 1rem;
+  border-radius: 2px;
+  margin-bottom: 0.8rem;
+  border: 2px solid var(--brown);
+}
+.hero h1 {
+  font-family: 'Abril Fatface', serif;
+  font-size: 2.6rem;
+  color: var(--cream);
+  line-height: 1.1;
+  text-shadow: 3px 3px 0 var(--brown);
+  position: relative;
+  z-index: 1;
+}
+.hero h1 span { color: var(--mustard); }
+.hero-sub {
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.8rem;
+  color: rgba(253,246,227,0.75);
+  margin-top: 0.6rem;
+  letter-spacing: 0.1em;
+  position: relative; z-index: 1;
+}
+.hero-deco {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  position: relative; z-index: 1;
+}
+
+/* ── NAV TABS ── */
+.tabs {
+  background: var(--brown);
+  display: flex;
+  border-bottom: 4px solid var(--rust);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  overflow-x: auto;
+}
+.tab-btn {
+  flex: 1;
+  min-width: 130px;
+  padding: 0.85rem 1rem;
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tan);
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-bottom: 4px solid transparent;
+  transition: all 0.2s;
+  text-align: center;
+  white-space: nowrap;
+}
+.tab-btn:hover { background: rgba(255,255,255,0.08); color: var(--cream); }
+.tab-btn.active { color: var(--mustard); border-bottom-color: var(--mustard); background: rgba(255,255,255,0.06); }
+
+/* ── PANELS ── */
+.panel { display: none; padding-bottom: 4rem; }
+.panel.active { display: block; }
+
+/* ── SECTION HEADS ── */
+.sec-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.8rem 1.2rem 0.75rem;
+}
+.sec-label {
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.28rem 0.85rem;
+  border-radius: 2px;
+  border: 2px solid;
+  white-space: nowrap;
+}
+.sl-rust   { background: var(--rust);    color: var(--cream);  border-color: var(--brown); }
+.sl-teal   { background: var(--teal);    color: var(--cream);  border-color: #1a5040; }
+.sl-mustard{ background: var(--mustard); color: var(--dark);   border-color: var(--brown); }
+.sl-coral  { background: var(--coral);   color: var(--cream);  border-color: var(--paprika); }
+.sl-olive  { background: var(--olive);   color: var(--cream);  border-color: #4a5a20; }
+.sec-rule  { flex:1; height:2px; background: var(--border); }
+
+/* ── STUDY GUIDE ACCORDION ── */
+.sg-card {
+  background: var(--softwhite);
+  border-radius: 4px;
+  margin: 0.55rem 1rem;
+  border: 2px solid var(--border);
+  border-left: 5px solid var(--rust);
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+.sg-card:hover { box-shadow: 4px 4px 0 var(--tan); }
+.sg-card.reviewed { border-left-color: var(--teal); }
+
+.sg-card-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 0.95rem 1.1rem;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.sg-num {
+  min-width: 28px; height: 28px;
+  background: var(--rust);
+  color: var(--cream);
+  font-family: 'Abril Fatface', serif;
+  font-size: 0.85rem;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 2px;
+  flex-shrink: 0; margin-top: 1px;
+}
+.sg-card.reviewed .sg-num { background: var(--teal); }
+.sg-q {
+  flex: 1;
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--dark);
+}
+.sg-chev { font-size: 0.7rem; color: var(--gold); transition: transform 0.3s; margin-top: 5px; flex-shrink:0; }
+.sg-card.open .sg-chev { transform: rotate(180deg); }
+
+.sg-body { max-height: 0; overflow: hidden; transition: max-height 0.45s ease; }
+.sg-card.open .sg-body { max-height: 9999px; }
+.sg-inner {
+  border-top: 2px solid var(--border);
+  padding: 1rem 1.1rem 1.15rem;
+}
+
+/* Answer content */
+.ans-table { width:100%; border-collapse:collapse; font-size:0.82rem; margin:0.5rem 0; }
+.ans-table th {
+  background: var(--brown); color: var(--cream);
+  padding:0.45rem 0.7rem; text-align:left;
+  font-family:'Courier Prime',monospace; font-size:0.73rem; letter-spacing:0.06em;
+}
+.ans-table td { padding:0.45rem 0.7rem; border-bottom:1px solid var(--border); vertical-align:top; line-height:1.45; font-size:0.83rem; }
+.ans-table tr:last-child td { border-bottom:none; }
+.ans-table tr:nth-child(even) td { background: var(--sand); }
+
+.ans-ul { padding-left:1.1rem; margin:0.4rem 0; }
+.ans-ul li { font-size:0.84rem; line-height:1.55; margin-bottom:0.28rem; }
+.body-p { font-size:0.85rem; line-height:1.6; margin:0.3rem 0; }
+.sub-lbl {
+  font-family:'Courier Prime',monospace;
+  font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em;
+  color: var(--rust); margin:0.8rem 0 0.3rem;
+}
+
+.callout {
+  border-radius: 3px; padding:0.65rem 0.85rem;
+  margin:0.65rem 0; font-size:0.82rem; line-height:1.5;
+}
+.c-rust   { background:#fdf0ee; border-left:3px solid var(--rust);    color:#6a1a0a; }
+.c-teal   { background:#e8f5f0; border-left:3px solid var(--teal);    color:#1a4a3a; }
+.c-mustard{ background:#fdf5e0; border-left:3px solid var(--mustard); color:#5a3a00; }
+.callout strong { display:block; font-size:0.69rem; text-transform:uppercase; letter-spacing:0.09em; margin-bottom:0.2rem; font-family:'Courier Prime',monospace; }
+
+.rev-btn {
+  margin-top:0.9rem; background:none;
+  border:2px solid var(--border); border-radius:2px;
+  padding:0.38rem 0.85rem; font-size:0.76rem; font-weight:700;
+  color:var(--gold); cursor:pointer; font-family:'Courier Prime',monospace;
+  letter-spacing:0.06em; text-transform:uppercase; transition:all 0.2s;
+}
+.rev-btn:hover { border-color:var(--teal); color:var(--teal); }
+.sg-card.reviewed .rev-btn { background:var(--teal); border-color:var(--teal); color:var(--cream); }
+
+/* SG Progress */
+.sg-prog {
+  background: var(--sand);
+  border-bottom: 2px solid var(--border);
+  padding: 0.85rem 1.2rem;
+  display: flex; align-items: center; gap: 0.9rem;
+}
+.sg-prog-lbl { font-family:'Courier Prime',monospace; font-size:0.72rem; font-weight:700; color:var(--brown); text-transform:uppercase; letter-spacing:0.1em; white-space:nowrap; }
+.sg-prog-track { flex:1; height:8px; background:var(--border); border-radius:2px; overflow:hidden; }
+.sg-prog-fill  { height:100%; background: linear-gradient(90deg,var(--rust),var(--mustard),var(--teal)); border-radius:2px; transition:width 0.4s; width:0%; }
+.sg-prog-count { font-family:'Courier Prime',monospace; font-size:0.72rem; font-weight:700; color:var(--rust); white-space:nowrap; }
+
+/* ── FLASHCARDS ── */
+.fc-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.9rem;
+  padding: 1rem 1rem 0;
+}
+@media(min-width:600px) { .fc-grid { grid-template-columns: 1fr 1fr; } }
+
+.fc-wrap { perspective: 1000px; min-height: 160px; cursor: pointer; }
+.fc-inner {
+  position: relative;
+  width: 100%; height: 100%; min-height: 160px;
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+.fc-wrap.flipped .fc-inner { transform: rotateY(180deg); }
+
+.fc-front, .fc-back {
+  position: absolute; inset: 0;
+  border-radius: 4px;
+  border: 2px solid var(--border);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  padding: 1.2rem 1rem;
+  text-align: center;
+  min-height: 160px;
+}
+.fc-front {
+  background: var(--softwhite);
+  border-left: 5px solid var(--rust);
+}
+.fc-back {
+  background: var(--rust);
+  background-image: repeating-linear-gradient(45deg,transparent,transparent 8px,rgba(0,0,0,0.06) 8px,rgba(0,0,0,0.06) 16px);
+  border-left: 5px solid var(--brown);
+  transform: rotateY(180deg);
+}
+.fc-tag {
+  font-family:'Courier Prime',monospace;
+  font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em;
+  padding:0.15rem 0.5rem; border-radius:2px;
+  margin-bottom:0.6rem;
+}
+.ft-rust   { background:var(--rust);    color:var(--cream); }
+.ft-teal   { background:var(--teal);    color:var(--cream); }
+.ft-mustard{ background:var(--mustard); color:var(--dark); }
+.ft-coral  { background:var(--coral);   color:var(--cream); }
+.ft-olive  { background:var(--olive);   color:var(--cream); }
+
+.fc-front-q {
+  font-size:0.9rem; font-weight:700; line-height:1.45; color:var(--dark);
+}
+.fc-front-hint {
+  font-family:'Courier Prime',monospace;
+  font-size:0.62rem; color:var(--gold); margin-top:0.7rem; letter-spacing:0.08em;
+}
+.fc-back-a {
+  font-size:0.85rem; font-weight:600; line-height:1.5; color:var(--cream);
+}
+.fc-back-a strong { color: var(--mustard); }
+
+/* FC controls */
+.fc-controls {
+  display:flex; align-items:center; justify-content:center; gap:0.75rem;
+  padding: 1rem 1rem 0;
+  flex-wrap: wrap;
+}
+.fc-ctrl-btn {
+  background: var(--brown);
+  color: var(--cream);
+  border: 2px solid var(--border);
+  border-radius: 3px;
+  padding: 0.45rem 1rem;
+  font-family:'Courier Prime',monospace;
+  font-size:0.76rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em;
+  cursor:pointer; transition:all 0.2s;
+}
+.fc-ctrl-btn:hover { background:var(--rust); border-color:var(--rust); }
+.fc-prog-wrap { font-family:'Courier Prime',monospace; font-size:0.75rem; color:var(--brown); font-weight:700; }
+
+/* ── QUIZ ── */
+.quiz-dash {
+  background: var(--sand);
+  border-bottom: 2px solid var(--border);
+  padding: 0.85rem 1.2rem;
+  display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
+}
+.qpill {
+  font-family:'Courier Prime',monospace; font-size:0.73rem; font-weight:700;
+  padding:0.28rem 0.8rem; border-radius:2px; border:2px solid; white-space:nowrap;
+}
+.qp-rust   { background:var(--rust);    color:var(--cream);  border-color:var(--brown); }
+.qp-teal   { background:var(--teal);    color:var(--cream);  border-color:#1a5040; }
+.qp-gold   { background:var(--mustard); color:var(--dark);   border-color:var(--brown); }
+.qprog-wrap { flex:1; min-width:80px; }
+.qprog-lbl { font-family:'Courier Prime',monospace; font-size:0.64rem; font-weight:700; color:var(--brown); text-transform:uppercase; letter-spacing:0.09em; margin-bottom:0.25rem; }
+.qprog-track { height:7px; background:var(--border); border-radius:2px; overflow:hidden; }
+.qprog-fill  { height:100%; background:linear-gradient(90deg,var(--rust),var(--mustard)); border-radius:2px; transition:width 0.4s; width:0%; }
+.reset-btn {
+  background:none; border:2px solid var(--border); border-radius:2px;
+  padding:0.28rem 0.8rem; font-family:'Courier Prime',monospace;
+  font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em;
+  color:var(--brown); cursor:pointer; transition:all 0.2s;
+}
+.reset-btn:hover { background:var(--rust); border-color:var(--rust); color:var(--cream); }
+
+/* Quiz section heads */
+.qsec-head { display:flex; align-items:center; gap:0.75rem; padding:1.4rem 1.2rem 0.6rem; }
+.qsec-rule { flex:1; height:2px; background:var(--border); }
+
+/* Question cards */
+.qcard {
+  background:var(--softwhite); border-radius:4px;
+  margin:0.55rem 1rem; border:2px solid var(--border);
+  border-left:5px solid var(--rust); overflow:hidden;
+  transition:box-shadow 0.2s;
+}
+.qcard:hover { box-shadow:3px 3px 0 var(--tan); }
+.qcard.qc-correct { border-left-color:var(--teal); }
+.qcard.qc-wrong   { border-left-color:var(--coral); }
+
+.qcard-top { padding:0.9rem 1.1rem 0.7rem; }
+.q-meta { display:flex; align-items:center; gap:0.45rem; margin-bottom:0.5rem; }
+.qnum {
+  width:26px; height:26px; border-radius:2px;
+  background:var(--rust); color:var(--cream);
+  font-family:'Abril Fatface',serif; font-size:0.8rem;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.qtag {
+  font-family:'Courier Prime',monospace;
+  font-size:0.6rem; font-weight:700; text-transform:uppercase;
+  letter-spacing:0.09em; padding:0.12rem 0.55rem; border-radius:2px;
+}
+.tag-ss { background:var(--sand);   color:var(--brown); border:1.5px solid var(--border); }
+.tag-sa { background:var(--coral);  color:var(--cream); border:1.5px solid var(--paprika); }
+
+.client-box {
+  background:var(--sand); border-left:3px solid var(--mustard);
+  border-radius:0 3px 3px 0; padding:0.5rem 0.75rem;
+  font-size:0.79rem; line-height:1.5; color:var(--brown); margin-bottom:0.55rem;
+  font-family:'Courier Prime',monospace;
+}
+.q-stem { font-size:0.87rem; font-weight:700; line-height:1.5; color:var(--dark); }
+
+.opts { padding:0 1.1rem 0.6rem; display:flex; flex-direction:column; gap:0.4rem; }
+.opt {
+  display:flex; align-items:flex-start; gap:0.65rem;
+  background:var(--cream); border:2px solid var(--border);
+  border-radius:3px; padding:0.6rem 0.8rem;
+  cursor:pointer; font-family:'DM Sans',sans-serif;
+  font-size:0.83rem; font-weight:600; color:var(--dark);
+  transition:all 0.17s; line-height:1.45; width:100%; text-align:left;
+}
+.opt:hover:not(:disabled) { background:var(--sand); border-color:var(--rust); transform:translateX(2px); }
+.oletter {
+  min-width:20px; height:20px; border-radius:2px;
+  background:var(--tan); display:flex; align-items:center; justify-content:center;
+  font-family:'Courier Prime',monospace; font-size:0.66rem; font-weight:700; flex-shrink:0; margin-top:1px;
+}
+.opt.opt-c { background:#e8f5f0; border-color:var(--teal); color:#1a4a3a; }
+.opt.opt-c .oletter { background:var(--teal); color:var(--cream); }
+.opt.opt-w { background:#fdf0ee; border-color:var(--coral); color:#6a1a0a; }
+.opt.opt-w .oletter { background:var(--coral); color:var(--cream); }
+.opt:disabled { cursor:default; }
+
+/* SATA */
+.sata-opt {
+  display:flex; align-items:flex-start; gap:0.65rem;
+  background:var(--cream); border:2px solid var(--border);
+  border-radius:3px; padding:0.6rem 0.8rem;
+  cursor:pointer; font-family:'DM Sans',sans-serif;
+  font-size:0.83rem; font-weight:600; color:var(--dark);
+  transition:all 0.17s; line-height:1.45; user-select:none;
+  -webkit-tap-highlight-color:transparent;
+}
+.sata-opt:hover { background:var(--sand); border-color:var(--rust); }
+.sata-opt.sel { background:var(--sand); border-color:var(--mustard); }
+.sata-opt.opt-c { background:#e8f5f0; border-color:var(--teal); color:#1a4a3a; }
+.sata-opt.opt-w { background:#fdf0ee; border-color:var(--coral); color:#6a1a0a; }
+.sata-opt.opt-m { background:var(--sand); border-color:var(--mustard); color:var(--brown); }
+.sata-box {
+  min-width:20px; height:20px; border-radius:2px;
+  border:2px solid var(--border); background:white;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Courier Prime',monospace; font-size:0.7rem; flex-shrink:0; margin-top:1px;
+}
+.sata-opt.sel .sata-box, .sata-opt.opt-c .sata-box { background:var(--teal); border-color:var(--teal); color:white; }
+.sata-opt.opt-w .sata-box { background:var(--coral); border-color:var(--coral); color:white; }
+.sata-opt.opt-m .sata-box { background:var(--mustard); border-color:var(--mustard); color:var(--dark); }
+
+.sata-sub {
+  margin:0.3rem 1.1rem 0.6rem;
+  background:var(--brown); color:var(--cream); border:none; border-radius:2px;
+  padding:0.5rem 1.1rem; font-family:'Courier Prime',monospace;
+  font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em;
+  cursor:pointer; transition:opacity 0.2s;
+}
+.sata-sub:hover:not(:disabled) { opacity:0.85; }
+.sata-sub:disabled { opacity:0.4; cursor:default; }
+
+.rat {
+  display:none; margin:0 1.1rem 1rem;
+  border-radius:3px; padding:0.75rem 0.95rem;
+  font-size:0.81rem; line-height:1.6;
+  font-family:'DM Sans',sans-serif;
+}
+.rat.show { display:block; }
+.rat-c { background:#e8f5f0; border-left:3px solid var(--teal); color:#1a4a3a; }
+.rat-w { background:#fdf0ee; border-left:3px solid var(--coral); color:#6a1a0a; }
+.rat-p { background:var(--sand); border-left:3px solid var(--mustard); color:var(--brown); }
+.rat-hd { font-family:'Courier Prime',monospace; font-weight:700; font-size:0.73rem; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.3rem; }
+
+/* Results */
+.results {
+  display:none; padding:3rem 1.5rem; text-align:center;
+  background: var(--sand);
+}
+.results.show { display:block; }
+.results-title { font-family:'Abril Fatface',serif; font-size:2rem; color:var(--rust); margin:0.4rem 0 0.2rem; }
+.results-score { font-family:'Abril Fatface',serif; font-size:3.5rem; color:var(--brown); margin:0.3rem 0; }
+.results-sub { font-family:'Courier Prime',monospace; font-size:0.82rem; color:var(--brown); margin-bottom:1.5rem; }
+.res-bars { text-align:left; margin:1rem auto 1.5rem; max-width:400px; }
+.res-row { display:flex; align-items:center; gap:0.6rem; margin-bottom:0.55rem; }
+.res-lbl { min-width:110px; font-family:'Courier Prime',monospace; font-size:0.72rem; font-weight:700; color:var(--dark); }
+.res-track { flex:1; height:9px; background:var(--border); border-radius:2px; overflow:hidden; }
+.res-fill { height:100%; border-radius:2px; transition:width 0.6s ease; }
+.res-num { font-family:'Courier Prime',monospace; font-size:0.72rem; font-weight:700; color:var(--brown); }
+.try-again {
+  background:var(--rust); color:var(--cream); border:3px solid var(--brown); border-radius:3px;
+  padding:0.75rem 2rem; font-family:'Courier Prime',monospace;
+  font-size:0.9rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em;
+  cursor:pointer; transition:all 0.2s; margin-top:1rem;
+  box-shadow: 3px 3px 0 var(--brown);
+}
+.try-again:hover { transform:translate(-2px,-2px); box-shadow:5px 5px 0 var(--brown); }
+
+footer {
+  text-align:center; padding:2rem 1rem 3rem;
+  font-family:'Courier Prime',monospace; font-size:0.72rem; color:var(--brown); letter-spacing:0.08em;
+}
+
+@media(min-width:640px){
+  .hero h1 { font-size:3.2rem; }
+  .sg-card, .qcard { margin:0.6rem 1.5rem; }
+  .sec-head, .qsec-head { padding:1.6rem 1.5rem 0.7rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-deco">🔬 🧬 🩺</div>
+  <div class="hero-badge">Anatomy & Physiology · VN15</div>
+  <h1>Integumentary<br><span>System</span></h1>
+  <p class="hero-sub">Study Guide · Flashcards · 30-Item Practice Test</p>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('study',this)">📖 Study Guide</button>
+  <button class="tab-btn" onclick="switchTab('flash',this)">🃏 Flashcards</button>
+  <button class="tab-btn" onclick="switchTab('quiz',this)">📝 Practice Test</button>
+</div>
+
+<!-- ═══════════════════════════════════
+     STUDY GUIDE
+═══════════════════════════════════ -->
+<div class="panel active" id="panel-study">
+
+<div class="sg-prog">
+  <span class="sg-prog-lbl">Reviewed</span>
+  <div class="sg-prog-track"><div class="sg-prog-fill" id="sgFill"></div></div>
+  <span class="sg-prog-count" id="sgCount">0 / 10</span>
+</div>
+
+<!-- SKIN LAYERS -->
+<div class="sec-head"><span class="sec-label sl-rust">🏗 Skin Layers</span><div class="sec-rule"></div></div>
+
+<div class="sg-card" id="sg1">
+  <div class="sg-card-top" onclick="toggleSG(1)">
+    <div class="sg-num">1</div>
+    <div class="sg-q">Describe the layers of the skin.</div>
+    <div class="sg-chev">▼</div>
+  </div>
+  <div class="sg-body"><div class="sg-inner">
+    <table class="ans-table">
+      <tr><th>Layer</th><th>Description</th></tr>
+      <tr><td><strong>Epidermis</strong></td><td>Superficial (outermost) layer of the skin; composed of epithelial tissue</td></tr>
+      <tr><td><strong>Dermis</strong></td><td>Second layer; thick layer of dense connective tissue that connects the skin below it; contains hair follicles, glands, nerves, and blood vessels</td></tr>
+      <tr><td><strong>Hypodermis</strong></td><td>Below the dermis; composed of adipose (fat) tissue; also called subcutaneous layer</td></tr>
+    </table>
+    <div class="callout c-mustard"><strong>💡 Memory Trick</strong>EDH — Epidermis · Dermis · Hypodermis (outside → inside)</div>
+    <button class="rev-btn" onclick="markSG(1)">✓ Mark Reviewed</button>
+  </div></div>
+</div>
+
+<div class="sg-card" id="sg2">
+  <div class="sg-card-top" onclick="toggleSG(2)">
+    <div class="sg-num">2</div>
+    <div class="sg-q">Define all the stratums (layers) of the epidermis.</div>
+    <div class="sg-chev">▼</div>
+  </div>
+  <div class="sg-body"><div class="sg-inner">
+    <p class="body-p">Listed from <strong>outermost → deepest</strong> (remember: Come Let's Get Some Beer):</p>
+    <table class="ans-table">
+      <tr><th>Stratum</th><th>Nickname</th><th>Key Facts</th></tr>
+      <tr><td><strong>Corneum</strong></td><td>"Horny layer"</td><td>Outermost; dead keratinized cells; physical barrier to light, heat, microorganisms, and chemicals</td></tr>
+      <tr><td><strong>Lucidum</strong></td><td>"Clear layer"</td><td>Beneath corneum; only in thick skin (soles, palms); rows of dead flat keratinocytes; adds protection in high-friction areas</td></tr>
+      <tr><td><strong>Granulosum</strong></td><td>"Granular layer"</td><td>2–3 layers of flattened cells; where keratinization begins; cells fill with keratin, nuclei & organelles degrade, shape becomes compact and brittle</td></tr>
+      <tr><td><strong>Spinosum</strong></td><td>"Spiny layer"</td><td>Several layers of prickly/spiny polyhedral cells; desmosomes prevalent; contains dendritic cells (immune cells) that find/capture pathogens</td></tr>
+      <tr><td><strong>Basale</strong></td><td>"Germinativum"</td><td>Deepest layer; ONLY cells capable of dividing by mitosis; contains melanocytes</td></tr>
+    </table>
+    <div class="callout c-rust"><strong>💡 Mnemonic — Outermost to Deepest</strong>"<strong>C</strong>ome <strong>L</strong>et's <strong>G</strong>et <strong>S</strong>un <strong>B</strong>aby" — Corneum · Lucidum · Granulosum · Spinosum · Basale</div>
+    <button class="rev-btn" onclick="markSG(2)">✓ Mark Reviewed</button>
+  </div></div>
+</div>
+
+<div class="sg-card" id="sg3">
+  <div class="sg-card-top" onclick="toggleSG(3)">
+    <div class="sg-num">3</div>
+    <div class="sg-q">What is the difference between melanocytes and melanin?</div>
+    <div class="sg-chev">▼</div>
+  </div>
+  <div class="sg-body"><div class="sg-inner">
+    <table class="ans-table">
+      <tr><th>Term</th><th>Definition</th></tr>
+      <tr><td><strong>Melanocytes</strong></td><td>Cells found in the stratum basale that <b>produce pigment (melanin)</b></td></tr>
+      <tr><td><strong>Melanin</strong></td><td>The pigment itself — <b>absorbs and diffuses the sun's radiation</b> to prevent it from damaging DNA in skin cells</td></tr>
+    </table>
+    <div class="callout c-teal"><strong>💡 Simple Rule</strong>Melanocytes = the CELL · Melanin = the PRODUCT (pigment)</div>
+    <button class="rev-btn" onclick="markSG(3)">✓ Mark Reviewed</button>
+  </div></div>
+</div>
+
+<!-- BURNS & HAIR -->
+<div class="sec-head"><span class="sec-label sl-teal">🔥 Burns, Hair & Glands</span><div class="sec-rule"></div></div>
+
+<div class="sg-card" id="sg4">
+  <div class="sg-card-top" onclick="toggleSG(4)">
+    <div class="sg-num">4</div>
+    <div class="sg-q">What is the difference between the degrees of burns?</div>
+    <div class="sg-chev">▼</div>
+  </div>
+  <div class="sg-body"><div class="sg-inner">
+    <table class="ans-table">
+      <tr><th>Degree</th><th>Layers Involved</th><th>Key Features</th></tr>
+      <tr><td><strong>First Degree</strong></td><td>Epidermis only</td><td>Brief contact with very hot/cold objects; e.g. sunburn; redness, pain, no blisters</td></tr>
+      <tr><td><strong>Second Degree</strong></td><td>Epidermis + dermis (minor dermal involvement)</td><td>Redness, pain, swelling, <b>blisters</b></td></tr>
+      <tr><td><strong>Third Degree</strong></td><td>Epidermis + dermis completely destroyed</td><td>Full-thickness burn; usually <b>painless</b> because sensory receptors in skin are destroyed</td></tr>
+    </table>
+    <div class="callout c-rust"><strong>⚠️ Key Fact</strong>Third-degree burns are painless because sensory receptors are destroyed along with the skin layers.</div>
+    <button class="rev-btn" onclick="markSG(4)">✓ Mark Reviewed</button>
+  </div></div>
+</div>
+
+<div class="sg-card" id="sg5">
+  <div class="sg-card-top" onclick="toggleSG(5)">
+    <div class="sg-num">5</div>
+    <div class="sg-q">What is hair composed of? What parts are visible? Explain goosebumps.</div>
+    <div class="sg-chev">▼</div>
+  </div>
+  <div class="sg-body"><div class="sg-inner">
+    <div class="sub-lbl">3 Parts of a Hair Strand</div>
+    <table class="ans-table">
+      <tr><th>Part</th><th>Description</th></tr>
+      <tr><td><strong>Cuticle</strong></td><td>Outermost portion; made of scalelike cells</td></tr>
+      <tr><td><strong>Cortex</strong></td><td>Principal portion; elongated, flattened cells united to form fibers</td></tr>
+      <tr><td><strong>Medulla</strong></td><td>Middle or central part of the hair</td></tr>
+    </table>
+    <div class="callout c-mustard"><strong>👁️ Visible Part</strong>The <b>shaft</b> is the visible part of the hair — the portion that extends above the surface of the skin. The <b>root</b> is embedded in the follicle below the skin.</div>
+    <div class="sub-lbl">Arrector Pili Muscle — Goosebumps</div>
+    <p class="body-p">The <strong>arrector pili muscle</strong> is an involuntary muscle attached to the hair follicle. When we are <strong>scared or cold</strong>, this muscle contracts and pulls on the hair follicle, causing the hair to "stand on its end" — producing the goosebump appearance on the skin.</p>
+    <button class="rev-btn" onclick="markSG(5)">✓ Mark Reviewed</button>
+  </div></div>
+</div>
+
+<div class="sg-card" id="sg6">
+  <div class="sg-card-top" onclick="toggleSG(6)">
+    <div class="sg-num">6</div>
+    <div class="sg-q">Explain cyanosis and how to determine it in a dark-skinned person.</div>
+    <div class="sg-chev">▼</div>
+  </div>
+  <div class="sg-body"><div class="sg-inner">
+    <p class="body-p"><strong>Cyanosis</strong> is a bluish discoloration of the skin caused by a <strong>lack of oxygen in the blood</strong>.</p>
+    <table class="ans-table">
+      <tr><th>Skin Tone</th><th>How Cyanosis Appears</th></tr>
+      <tr><td>Light-skinned individuals</td><td>Bluish tinge, most visible in lips, fingertips, nail beds</td></tr>
+      <tr><td>Dark-skinned individuals</td><td>Results in a <b>grayish/white tinge</b> rather than blue — assess mucous membranes, nail beds, and palms</td></tr>
+    </table>
+    <button class="rev-btn" onclick="markSG(6)">✓ Mark Reviewed</button>
+  </div></div>
+</div>
+
+<div class="sg-card" id="sg7">
+  <div class="sg-card-top" onclick="toggleSG(7)">
+    <div class="sg-num">7</div>
+    <div class="sg-q">What are sebaceous glands? What do they produce? What is significant about the nail bed?</div>
+    <div class="sg-chev">▼</div>
+  </div>
+  <div class="sg-body"><div class="sg-inner">
+    <div class="sub-lbl">Sebaceous Glands</div>
+    <p class="body-p"><strong>Sebaceous glands</strong> develop along the walls of hair follicles and produce <strong>sebum</strong> — an oily secretion that lubricates the skin and hair, preventing dryness and providing a mild antimicrobial effect.</p>
+    <div class="sub-lbl">Nail Bed</div>
+    <p class="body-p">The <strong>bed of the nail</strong> is where our nails grow. It contains blood vessels that give nails their pinkish color. It is assessed for circulation (capillary refill) and signs of cyanosis or clubbing.</p>
+    <button class="rev-btn" onclick="markSG(7)">✓ Mark Reviewed</button>
+  </div></div>
+</div>
+
+<!-- SWEAT & TERMINOLOGY -->
+<div class="sec-head"><span class="sec-label sl-mustard">💧 Sweat Glands & Medical Terminology</span><div class="sec-rule"></div></div>
+
+<div class="sg-card" id="sg8">
+  <div class="sg-card-top" onclick="toggleSG(8)">
+    <div class="sg-num">8</div>
+    <div class="sg-q">What is sodium chloride's role in sweat? What are the types of sweat glands?</div>
+    <div class="sg-chev">▼</div>
+  </div>
+  <div class="sg-body"><div class="sg-inner">
+    <div class="callout c-mustard"><strong>🧂 Sodium Chloride in Sweat</strong>Sodium chloride is present in sweat — this is why sweat tastes salty. It is released as part of the body's thermoregulation process.</div>
+    <table class="ans-table">
+      <tr><th>Gland Type</th><th>Location</th><th>Function</th></tr>
+      <tr><td><strong>Eccrine</strong></td><td>Most common; found all over the body</td><td>Produce sweat and help <b>regulate body temperature</b></td></tr>
+      <tr><td><strong>Apocrine</strong></td><td>Armpits, genitalia, around anus</td><td>Produce thicker secretions containing protein & fat; <b>NOT involved in regulating body temperature</b></td></tr>
+    </table>
+    <div class="callout c-teal"><strong>💡 Memory</strong>Eccrine = Everywhere (most common) · Apocrine = Armpits & private areas</div>
+    <button class="rev-btn" onclick="markSG(8)">✓ Mark Reviewed</button>
+  </div></div>
+</div>
+
+<div class="sg-card" id="sg9">
+  <div class="sg-card-top" onclick="toggleSG(9)">
+    <div class="sg-num">9</div>
+    <div class="sg-q">Medical Terminology — Integumentary System</div>
+    <div class="sg-chev">▼</div>
+  </div>
+  <div class="sg-body"><div class="sg-inner">
+    <table class="ans-table">
+      <tr><th>Term/Root</th><th>Meaning</th><th>Notes</th></tr>
+      <tr><td><strong>Chondr/o</strong></td><td>Cartilage</td><td>e.g., chondritis = inflammation of cartilage</td></tr>
+      <tr><td><strong>Contus/o</strong></td><td>Bruise / type of injury</td><td>Contusion = a bruising injury from blunt force without breaking the skin; described as <b>ecchymosis</b></td></tr>
+      <tr><td><strong>Ecchymosis</strong></td><td>Bruise</td><td>Discoloration of skin due to bleeding beneath the skin (bruise); used to describe the appearance of a contusion</td></tr>
+      <tr><td><strong>Erythema</strong></td><td>Redness of the skin</td><td>Caused by <b>dilation of capillaries</b> (not just inflammation); the increased blood flow causes the visible redness</td></tr>
+      <tr><td><strong>Edema</strong></td><td>Tissue swelling</td><td>Accumulation of excess fluid in tissue spaces</td></tr>
+      <tr><td><strong>Pruritus</strong></td><td>Itching</td><td>Associated with dermatitis (skin inflammation)</td></tr>
+    </table>
+    <div class="callout c-rust"><strong>⚠️ Key Distinctions</strong><b>Contus/o</b> = the injury (contusion) · <b>Ecchymosis</b> = what you SEE (the bruise/discoloration) · <b>Erythema</b> = redness from capillary dilation</div>
+    <button class="rev-btn" onclick="markSG(9)">✓ Mark Reviewed</button>
+  </div></div>
+</div>
+
+<div class="sg-card" id="sg10">
+  <div class="sg-card-top" onclick="toggleSG(10)">
+    <div class="sg-num">10</div>
+    <div class="sg-q">Quick Review — Key Integumentary Facts</div>
+    <div class="sg-chev">▼</div>
+  </div>
+  <div class="sg-body"><div class="sg-inner">
+    <ul class="ans-ul">
+      <li>The <strong>epidermis</strong> has 5 stratums; the <strong>basale</strong> is the only one that divides by mitosis</li>
+      <li>The <strong>shaft</strong> is the visible part of the hair; the root is below the skin</li>
+      <li>The <strong>arrector pili muscle</strong> contracts to cause goosebumps (piloerection)</li>
+      <li><strong>Third-degree burns</strong> are painless because sensory receptors are destroyed</li>
+      <li><strong>Melanocytes</strong> produce melanin in the stratum basale</li>
+      <li><strong>Eccrine</strong> glands are most common and regulate temperature; <strong>apocrine</strong> do not</li>
+      <li><strong>Sebaceous glands</strong> produce sebum from hair follicle walls</li>
+      <li><strong>Cyanosis</strong> in dark-skinned clients appears grayish/white — assess mucous membranes</li>
+      <li><strong>Erythema</strong> = redness from dilation of capillaries</li>
+      <li><strong>Ecchymosis</strong> = bruising (visual finding of a contusion)</li>
+    </ul>
+    <button class="rev-btn" onclick="markSG(10)">✓ Mark Reviewed</button>
+  </div></div>
+</div>
+
+</div><!-- end study panel -->
+
+<!-- ═══════════════════════════════════
+     FLASHCARDS
+═══════════════════════════════════ -->
+<div class="panel" id="panel-flash">
+<div class="fc-controls">
+  <button class="fc-ctrl-btn" onclick="shuffleFC()">🔀 Shuffle</button>
+  <button class="fc-ctrl-btn" onclick="flipAllFC()">↕ Flip All</button>
+  <button class="fc-ctrl-btn" onclick="resetFC()">↺ Reset</button>
+  <div class="fc-prog-wrap" id="fcProg">Card 1 of 20</div>
+</div>
+
+<div class="fc-grid" id="fcGrid">
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+  <div class="fc-inner">
+    <div class="fc-front"><span class="fc-tag ft-rust">Skin Layers</span><div class="fc-front-q">What are the 3 main layers of the skin from outside to inside?</div><div class="fc-front-hint">tap to flip</div></div>
+    <div class="fc-back"><span class="fc-tag ft-mustard">Answer</span><div class="fc-back-a"><strong>Epidermis</strong> (superficial) → <strong>Dermis</strong> (dense connective tissue) → <strong>Hypodermis</strong> (adipose tissue)</div></div>
+  </div>
+</div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+  <div class="fc-inner">
+    <div class="fc-front"><span class="fc-tag ft-rust">Skin Layers</span><div class="fc-front-q">Which layer of the epidermis is the outermost and what is it made of?</div><div class="fc-front-hint">tap to flip</div></div>
+    <div class="fc-back"><span class="fc-tag ft-mustard">Answer</span><div class="fc-back-a"><strong>Stratum Corneum</strong> — dead keratinized cells; acts as physical barrier to light, heat, microorganisms & chemicals</div></div>
+  </div>
+</div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+  <div class="fc-inner">
+    <div class="fc-front"><span class="fc-tag ft-rust">Skin Layers</span><div class="fc-front-q">Which stratum is the DEEPEST and what makes it special?</div><div class="fc-front-hint">tap to flip</div></div>
+    <div class="fc-back"><span class="fc-tag ft-mustard">Answer</span><div class="fc-back-a"><strong>Stratum Basale</strong> (aka Germinativum) — only layer that divides by <strong>mitosis</strong>; contains melanocytes</div></div>
+  </div>
+</div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+  <div class="fc-inner">
+    <div class="fc-front"><span class="fc-tag ft-rust">Skin Layers</span><div class="fc-front-q">Where does keratinization BEGIN in the epidermis?</div><div class="fc-front-hint">tap to flip</div></div>
+    <div class="fc-back"><span class="fc-tag ft-mustard">Answer</span><div class="fc-back-a"><strong>Stratum Granulosum</strong> — cells fill with keratin, nuclei & organelles degrade, shape becomes compact and brittle</div></div>
+  </div>
+</div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+  <div class="fc-inner">
+    <div class="fc-front"><span class="fc-tag ft-teal">Cells & Pigment</span><div class="fc-front-q">What is the difference between melanocytes and melanin?</div><div class="fc-front-hint">tap to flip</div></div>
+    <div class="fc-back"><span class="fc-tag ft-mustard">Answer</span><div class="fc-back-a"><strong>Melanocytes</strong> = cells that PRODUCE pigment<br><strong>Melanin</strong> = the pigment itself — absorbs/diffuses UV radiation to protect DNA</div></div>
+  </div>
+</div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+  <div class="fc-inner">
+    <div class="fc-front"><span class="fc-tag ft-teal">Cells & Pigment</span><div class="fc-front-q">What type of immune cells are found in the stratum spinosum and what do they do?</div><div class="fc-front-hint">tap to flip</div></div>
+    <div class="fc-back"><span class="fc-tag ft-mustard">Answer</span><div class="fc-back-a"><strong>Dendritic cells</strong> — find & capture pathogens, then alert other immune cells to their presence (important line of defense)</div></div>
+  </div>
+</div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+  <div class="fc-inner">
+    <div class="fc-front"><span class="fc-tag ft-coral">Burns</span><div class="fc-front-q">A client has a burn with redness, pain, and blisters. What degree of burn is this?</div><div class="fc-front-hint">tap to flip</div></div>
+    <div class="fc-back"><span class="fc-tag ft-mustard">Answer</span><div class="fc-back-a"><strong>Second-degree burn</strong> — involves epidermis AND dermis; symptoms: redness, pain, swelling, <strong>blisters</strong></div></div>
+  </div>
+</div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+  <div class="fc-inner">
+    <div class="fc-front"><span class="fc-tag ft-coral">Burns</span><div class="fc-front-q">Why is a third-degree burn usually painless?</div><div class="fc-front-hint">tap to flip</div></div>
+    <div class="fc-back"><span class="fc-tag ft-mustard">Answer</span><div class="fc-back-a">Because the <strong>sensory receptors in the skin are destroyed</strong> along with the epidermis and dermis (full-thickness burn)</div></div>
+  </div>
+</div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+  <div class="fc-inner">
+    <div class="fc-front"><span class="fc-tag ft-olive">Hair</span><div class="fc-front-q">What is the VISIBLE part of the hair called? Name the 3 parts of a hair strand.</div><div class="fc-front-hint">tap to flip</div></div>
+    <div class="fc-back"><span class="fc-tag ft-mustard">Answer</span><div class="fc-back-a">Visible part = <strong>Shaft</strong><br>3 Parts: <strong>Cuticle</strong> (outermost/scalelike) · <strong>Cortex</strong> (principal, elongated fibers) · <strong>Medulla</strong> (central core)</div></div>
+  </div>
+</div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+  <div class="fc-inner">
+    <div class="fc-front"><span class="fc-tag ft-olive">Hair</span><div class="fc-front-q">What muscle causes goosebumps and what triggers it?</div><div class="fc-front-hint">tap to flip</div></div>
+    <div class="fc-back"><span class="fc-tag ft-mustard">Answer</span><div class="fc-back-a"><strong>Arrector pili muscle</strong> — involuntary muscle that contracts when scared or cold, pulling on the hair follicle causing the hair to "stand on end"</div></div>
+  </div>
+</div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+  <div class="fc-inner">
+    <div class="fc-front"><span class="fc-tag ft-teal">Assessment</span><div class="fc-front-q">How does cyanosis appear differently in dark-skinned clients?</div><div class="fc-front-hint">tap to flip</div></div>
+    <div class="fc-back"><span class="fc-tag ft-mustard">Answer</span><div class="fc-back-a">In dark-skinned clients, cyanosis appears as a <strong>grayish/white tinge</strong> rather than blue — assess mucous membranes, palms, and nail beds</div></div>
+  </div>
+</div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+  <div class="fc-inner">
+    <div class="fc-front"><span class="fc-tag ft-teal">Assessment</span><div class="fc-front-q">What causes cyanosis?</div><div class="fc-front-hint">tap to flip</div></div>
+    <div class="fc-back"><span class="fc-tag ft-mustard">Answer</span><div class="fc-back-a">Lack of <strong>oxygen in the blood</strong> — bluish/grayish discoloration of the skin</div></div>
+  </div>
+</div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+  <div class="fc-inner">
+    <div class="fc-front"><span class="fc-tag ft-olive">Glands</span><div class="fc-front-q">What do sebaceous glands produce and where are they located?</div><div class="fc-front-hint">tap to flip</div></div>
+    <div class="fc-back"><span class="fc-tag ft-mustard">Answer</span><div class="fc-back-a">Located along <strong>walls of hair follicles</strong>; produce <strong>sebum</strong> — an oily secretion that lubricates skin and hair</div></div>
+  </div>
+</div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+  <div class="fc-inner">
+    <div class="fc-front"><span class="fc-tag ft-olive">Glands</span><div class="fc-front-q">Compare eccrine vs. apocrine sweat glands.</div><div class="fc-front-hint">tap to flip</div></div>
+    <div class="fc-back"><span class="fc-tag ft-mustard">Answer</span><div class="fc-back-a"><strong>Eccrine</strong>: most common, everywhere, regulate body temperature<br><strong>Apocrine</strong>: armpits/genitalia/anus, thicker secretions (protein & fat), NOT for temperature regulation</div></div>
+  </div>
+</div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+  <div class="fc-inner">
+    <div class="fc-front"><span class="fc-tag ft-rust">Medical Terms</span><div class="fc-front-q">Define: Erythema</div><div class="fc-front-hint">tap to flip</div></div>
+    <div class="fc-back"><span class="fc-tag ft-mustard">Answer</span><div class="fc-back-a"><strong>Erythema</strong> = redness of the skin caused by <strong>dilation of capillaries</strong> — increased blood flow makes the skin appear red</div></div>
+  </div>
+</div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+  <div class="fc-inner">
+    <div class="fc-front"><span class="fc-tag ft-rust">Medical Terms</span><div class="fc-front-q">What is the difference between Contus/o and Ecchymosis?</div><div class="fc-front-hint">tap to flip</div></div>
+    <div class="fc-back"><span class="fc-tag ft-mustard">Answer</span><div class="fc-back-a"><strong>Contus/o</strong> = the INJURY (contusion — blunt force bruise without breaking skin)<br><strong>Ecchymosis</strong> = what you SEE (the bruise/discoloration from bleeding under skin)</div></div>
+  </div>
+</div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+  <div class="fc-inner">
+    <div class="fc-front"><span class="fc-tag ft-rust">Medical Terms</span><div class="fc-front-q">Define: Pruritus</div><div class="fc-front-hint">tap to flip</div></div>
+    <div class="fc-back"><span class="fc-tag ft-mustard">Answer</span><div class="fc-back-a"><strong>Pruritus</strong> = itching; associated with <strong>dermatitis</strong> (skin inflammation)</div></div>
+  </div>
+</div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+  <div class="fc-inner">
+    <div class="fc-front"><span class="fc-tag ft-rust">Medical Terms</span><div class="fc-front-q">Define: Edema and Chondr/o</div><div class="fc-front-hint">tap to flip</div></div>
+    <div class="fc-back"><span class="fc-tag ft-mustard">Answer</span><div class="fc-back-a"><strong>Edema</strong> = tissue swelling from excess fluid accumulation<br><strong>Chondr/o</strong> = cartilage (e.g., chondritis = inflammation of cartilage)</div></div>
+  </div>
+</div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+  <div class="fc-inner">
+    <div class="fc-front"><span class="fc-tag ft-coral">Quick Facts</span><div class="fc-front-q">Where is the stratum lucidum found and why is it only there?</div><div class="fc-front-hint">tap to flip</div></div>
+    <div class="fc-back"><span class="fc-tag ft-mustard">Answer</span><div class="fc-back-a">Found only in <strong>thick skin</strong> (soles of feet & palms of hands) — adds extra protection in areas that experience a lot of friction</div></div>
+  </div>
+</div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')">
+  <div class="fc-inner">
+    <div class="fc-front"><span class="fc-tag ft-coral">Quick Facts</span><div class="fc-front-q">What is the role of sodium chloride in sweat and which sweat gland regulates body temperature?</div><div class="fc-front-hint">tap to flip</div></div>
+    <div class="fc-back"><span class="fc-tag ft-mustard">Answer</span><div class="fc-back-a">NaCl makes sweat taste <strong>salty</strong>; released during thermoregulation<br><strong>Eccrine</strong> glands regulate body temperature (most common type)</div></div>
+  </div>
+</div>
+
+</div><!-- end fc-grid -->
+</div><!-- end flash panel -->
+
+<!-- ═══════════════════════════════════
+     PRACTICE TEST
+═══════════════════════════════════ -->
+<div class="panel" id="panel-quiz">
+
+<div class="quiz-dash">
+  <div class="qpill qp-rust">Score: <b id="scoreD">0</b>/30</div>
+  <div class="qpill qp-teal">✓ <b id="corD">0</b> correct</div>
+  <div class="qpill qp-gold">📝 <b id="ansD">0</b> answered</div>
+  <div class="qprog-wrap">
+    <div class="qprog-lbl">Progress</div>
+    <div class="qprog-track"><div class="qprog-fill" id="qFill"></div></div>
+  </div>
+  <button class="reset-btn" onclick="resetQuiz()">↺ Reset</button>
+</div>
+
+<div id="quizBody">
+
+<div class="qsec-head"><span class="sec-label sl-rust">Skin Layers & Epidermis</span><div class="qsec-rule"></div></div>
+
+<!-- Q1 -->
+<div class="qcard" id="qc1"><div class="qcard-top"><div class="q-meta"><div class="qnum">1</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">Which layer of the skin is described as the superficial layer composed of epithelial tissue?</div></div>
+<div class="opts"><button class="opt" onclick="ans(1,'A','B')"><span class="oletter">A</span>Hypodermis</button><button class="opt" onclick="ans(1,'B','B')"><span class="oletter">B</span>Epidermis</button><button class="opt" onclick="ans(1,'C','B')"><span class="oletter">C</span>Dermis</button><button class="opt" onclick="ans(1,'D','B')"><span class="oletter">D</span>Adipose layer</button></div>
+<div class="rat" id="r1"><div class="rat-hd">Rationale</div><b>B is correct.</b> The <b>epidermis</b> is the superficial (outermost) layer of the skin, composed of epithelial tissue. The dermis is the second layer (dense connective tissue). The hypodermis is the deepest layer (adipose tissue).</div></div>
+
+<!-- Q2 -->
+<div class="qcard" id="qc2"><div class="qcard-top"><div class="q-meta"><div class="qnum">2</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">The hypodermis is primarily composed of which type of tissue?</div></div>
+<div class="opts"><button class="opt" onclick="ans(2,'A','C')"><span class="oletter">A</span>Epithelial tissue</button><button class="opt" onclick="ans(2,'B','C')"><span class="oletter">B</span>Muscle tissue</button><button class="opt" onclick="ans(2,'C','C')"><span class="oletter">C</span>Adipose tissue</button><button class="opt" onclick="ans(2,'D','C')"><span class="oletter">D</span>Nervous tissue</button></div>
+<div class="rat" id="r2"><div class="rat-hd">Rationale</div><b>C is correct.</b> The hypodermis (below the dermis) is composed of <b>adipose (fat) tissue</b>. It provides insulation, cushioning, and energy storage.</div></div>
+
+<!-- Q3 -->
+<div class="qcard" id="qc3"><div class="qcard-top"><div class="q-meta"><div class="qnum">3</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">Which stratum of the epidermis is the ONLY layer capable of cell division by mitosis?</div></div>
+<div class="opts"><button class="opt" onclick="ans(3,'A','D')"><span class="oletter">A</span>Stratum corneum</button><button class="opt" onclick="ans(3,'B','D')"><span class="oletter">B</span>Stratum granulosum</button><button class="opt" onclick="ans(3,'C','D')"><span class="oletter">C</span>Stratum spinosum</button><button class="opt" onclick="ans(3,'D','D')"><span class="oletter">D</span>Stratum basale</button></div>
+<div class="rat" id="r3"><div class="rat-hd">Rationale</div><b>D is correct.</b> The <b>stratum basale</b> (aka germinativum) is the deepest layer and the only one capable of dividing by mitosis. It also contains melanocytes.</div></div>
+
+<!-- Q4 -->
+<div class="qcard" id="qc4"><div class="qcard-top"><div class="q-meta"><div class="qnum">4</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">Keratinization begins in which layer of the epidermis?</div></div>
+<div class="opts"><button class="opt" onclick="ans(4,'A','B')"><span class="oletter">A</span>Stratum corneum</button><button class="opt" onclick="ans(4,'B','B')"><span class="oletter">B</span>Stratum granulosum</button><button class="opt" onclick="ans(4,'C','B')"><span class="oletter">C</span>Stratum lucidum</button><button class="opt" onclick="ans(4,'D','B')"><span class="oletter">D</span>Stratum spinosum</button></div>
+<div class="rat" id="r4"><div class="rat-hd">Rationale</div><b>B is correct.</b> The <b>stratum granulosum</b> is the "granular layer" where keratinization begins. Cells fill with keratin, their nuclei and organelles degrade, and they become compact and brittle.</div></div>
+
+<!-- Q5 -->
+<div class="qcard" id="qc5"><div class="qcard-top"><div class="q-meta"><div class="qnum">5</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">The stratum lucidum is found only in which areas of the body?</div></div>
+<div class="opts"><button class="opt" onclick="ans(5,'A','C')"><span class="oletter">A</span>Face and neck</button><button class="opt" onclick="ans(5,'B','C')"><span class="oletter">B</span>Elbows and knees</button><button class="opt" onclick="ans(5,'C','C')"><span class="oletter">C</span>Soles of the feet and palms of the hands</button><button class="opt" onclick="ans(5,'D','C')"><span class="oletter">D</span>Scalp and back</button></div>
+<div class="rat" id="r5"><div class="rat-hd">Rationale</div><b>C is correct.</b> The stratum lucidum ("clear layer") is found only in <b>thick skin</b> — the soles of feet and palms of hands — where it adds extra protection in high-friction areas.</div></div>
+
+<!-- Q6 -->
+<div class="qcard" id="qc6"><div class="qcard-top"><div class="q-meta"><div class="qnum">6</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">Which cells in the stratum spinosum are responsible for finding and capturing pathogens?</div></div>
+<div class="opts"><button class="opt" onclick="ans(6,'A','B')"><span class="oletter">A</span>Keratinocytes</button><button class="opt" onclick="ans(6,'B','B')"><span class="oletter">B</span>Dendritic cells</button><button class="opt" onclick="ans(6,'C','B')"><span class="oletter">C</span>Melanocytes</button><button class="opt" onclick="ans(6,'D','B')"><span class="oletter">D</span>Fibroblasts</button></div>
+<div class="rat" id="r6"><div class="rat-hd">Rationale</div><b>B is correct.</b> <b>Dendritic cells</b> are specialized immune cells found in the stratum spinosum. They find and capture pathogens and alert other immune cells — making this layer an important line of defense.</div></div>
+
+<div class="qsec-head"><span class="sec-label sl-teal">Pigment, Burns & Hair</span><div class="qsec-rule"></div></div>
+
+<!-- Q7 -->
+<div class="qcard" id="qc7"><div class="qcard-top"><div class="q-meta"><div class="qnum">7</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">What is the primary function of melanin in the skin?</div></div>
+<div class="opts"><button class="opt" onclick="ans(7,'A','B')"><span class="oletter">A</span>To produce sebum for skin lubrication</button><button class="opt" onclick="ans(7,'B','B')"><span class="oletter">B</span>To absorb and diffuse the sun's radiation to protect DNA</button><button class="opt" onclick="ans(7,'C','B')"><span class="oletter">C</span>To regulate body temperature</button><button class="opt" onclick="ans(7,'D','B')"><span class="oletter">D</span>To provide structural support to the dermis</button></div>
+<div class="rat" id="r7"><div class="rat-hd">Rationale</div><b>B is correct.</b> <b>Melanin</b> absorbs and diffuses the sun's radiation to <b>prevent it from damaging DNA</b> in skin cells. Melanocytes (cells in stratum basale) produce melanin.</div></div>
+
+<!-- Q8 -->
+<div class="qcard" id="qc8"><div class="qcard-top"><div class="q-meta"><div class="qnum">8</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">A client presents with a burn that is painless and involves full destruction of the epidermis and dermis. What degree of burn is this?</div></div>
+<div class="opts"><button class="opt" onclick="ans(8,'A','C')"><span class="oletter">A</span>First degree</button><button class="opt" onclick="ans(8,'B','C')"><span class="oletter">B</span>Second degree</button><button class="opt" onclick="ans(8,'C','C')"><span class="oletter">C</span>Third degree</button><button class="opt" onclick="ans(8,'D','C')"><span class="oletter">D</span>Superficial degree</button></div>
+<div class="rat" id="r8"><div class="rat-hd">Rationale</div><b>C is correct.</b> <b>Third-degree burns</b> are full-thickness burns where the epidermis and dermis are completely destroyed. They are usually <b>painless</b> because sensory receptors are destroyed.</div></div>
+
+<!-- Q9 -->
+<div class="qcard" id="qc9"><div class="qcard-top"><div class="q-meta"><div class="qnum">9</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">A sunburn with redness and pain but NO blisters is classified as which degree of burn?</div></div>
+<div class="opts"><button class="opt" onclick="ans(9,'A','A')"><span class="oletter">A</span>First degree</button><button class="opt" onclick="ans(9,'B','A')"><span class="oletter">B</span>Second degree</button><button class="opt" onclick="ans(9,'C','A')"><span class="oletter">C</span>Third degree</button><button class="opt" onclick="ans(9,'D','A')"><span class="oletter">D</span>Fourth degree</button></div>
+<div class="rat" id="r9"><div class="rat-hd">Rationale</div><b>A is correct.</b> <b>First-degree burns</b> involve only the epidermis — brief contact with hot/cold objects (e.g., sunburn). Symptoms: redness and pain, <b>no blisters</b>.</div></div>
+
+<!-- Q10 -->
+<div class="qcard" id="qc10"><div class="qcard-top"><div class="q-meta"><div class="qnum">10</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">What is the VISIBLE part of the hair called?</div></div>
+<div class="opts"><button class="opt" onclick="ans(10,'A','C')"><span class="oletter">A</span>Cuticle</button><button class="opt" onclick="ans(10,'B','C')"><span class="oletter">B</span>Root</button><button class="opt" onclick="ans(10,'C','C')"><span class="oletter">C</span>Shaft</button><button class="opt" onclick="ans(10,'D','C')"><span class="oletter">D</span>Follicle</button></div>
+<div class="rat" id="r10"><div class="rat-hd">Rationale</div><b>C is correct.</b> The <b>shaft</b> is the visible portion of the hair that extends above the surface of the skin. The root is embedded in the follicle below the skin.</div></div>
+
+<!-- Q11 -->
+<div class="qcard" id="qc11"><div class="qcard-top"><div class="q-meta"><div class="qnum">11</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">Which structure contracts when a person is scared or cold, causing goosebumps?</div></div>
+<div class="opts"><button class="opt" onclick="ans(11,'A','B')"><span class="oletter">A</span>Sebaceous gland</button><button class="opt" onclick="ans(11,'B','B')"><span class="oletter">B</span>Arrector pili muscle</button><button class="opt" onclick="ans(11,'C','B')"><span class="oletter">C</span>Eccrine gland</button><button class="opt" onclick="ans(11,'D','B')"><span class="oletter">D</span>Dermal papilla</button></div>
+<div class="rat" id="r11"><div class="rat-hd">Rationale</div><b>B is correct.</b> The <b>arrector pili muscle</b> is an involuntary muscle attached to the hair follicle. When scared or cold, it contracts and pulls on the follicle, causing the hair to stand up (piloerection/goosebumps).</div></div>
+
+<!-- Q12 -->
+<div class="qcard" id="qc12"><div class="qcard-top"><div class="q-meta"><div class="qnum">12</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">Hair is composed of three parts. Which part is the outermost layer made of scalelike cells?</div></div>
+<div class="opts"><button class="opt" onclick="ans(12,'A','A')"><span class="oletter">A</span>Cuticle</button><button class="opt" onclick="ans(12,'B','A')"><span class="oletter">B</span>Cortex</button><button class="opt" onclick="ans(12,'C','A')"><span class="oletter">C</span>Medulla</button><button class="opt" onclick="ans(12,'D','A')"><span class="oletter">D</span>Shaft</button></div>
+<div class="rat" id="r12"><div class="rat-hd">Rationale</div><b>A is correct.</b> The <b>cuticle</b> is the outermost portion of the hair strand, made of scalelike cells. The cortex is the principal/middle portion, and the medulla is the central core.</div></div>
+
+<div class="qsec-head"><span class="sec-label sl-mustard">Glands, Nails & Assessment</span><div class="qsec-rule"></div></div>
+
+<!-- Q13 -->
+<div class="qcard" id="qc13"><div class="qcard-top"><div class="q-meta"><div class="qnum">13</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">Sebaceous glands develop along the walls of which structure?</div></div>
+<div class="opts"><button class="opt" onclick="ans(13,'A','C')"><span class="oletter">A</span>Sweat ducts</button><button class="opt" onclick="ans(13,'B','C')"><span class="oletter">B</span>Blood vessels</button><button class="opt" onclick="ans(13,'C','C')"><span class="oletter">C</span>Hair follicles</button><button class="opt" onclick="ans(13,'D','C')"><span class="oletter">D</span>Nerve fibers</button></div>
+<div class="rat" id="r13"><div class="rat-hd">Rationale</div><b>C is correct.</b> <b>Sebaceous glands</b> develop along the walls of <b>hair follicles</b> and produce sebum, which lubricates the skin and hair.</div></div>
+
+<!-- Q14 -->
+<div class="qcard" id="qc14"><div class="qcard-top"><div class="q-meta"><div class="qnum">14</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">Which type of sweat gland is the MOST common and is responsible for regulating body temperature?</div></div>
+<div class="opts"><button class="opt" onclick="ans(14,'A','A')"><span class="oletter">A</span>Eccrine glands</button><button class="opt" onclick="ans(14,'B','A')"><span class="oletter">B</span>Apocrine glands</button><button class="opt" onclick="ans(14,'C','A')"><span class="oletter">C</span>Sebaceous glands</button><button class="opt" onclick="ans(14,'D','A')"><span class="oletter">D</span>Ceruminous glands</button></div>
+<div class="rat" id="r14"><div class="rat-hd">Rationale</div><b>A is correct.</b> <b>Eccrine glands</b> are the most common and numerous type of sweat gland. They are found all over the body and produce sweat to help regulate body temperature.</div></div>
+
+<!-- Q15 -->
+<div class="qcard" id="qc15"><div class="qcard-top"><div class="q-meta"><div class="qnum">15</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">Apocrine sweat glands are found in which areas of the body?</div></div>
+<div class="opts"><button class="opt" onclick="ans(15,'A','B')"><span class="oletter">A</span>All over the body including the palms</button><button class="opt" onclick="ans(15,'B','B')"><span class="oletter">B</span>Armpits, genitalia, and around the anus</button><button class="opt" onclick="ans(15,'C','B')"><span class="oletter">C</span>Only on the face and scalp</button><button class="opt" onclick="ans(15,'D','B')"><span class="oletter">D</span>Along hair follicles throughout the body</button></div>
+<div class="rat" id="r15"><div class="rat-hd">Rationale</div><b>B is correct.</b> <b>Apocrine glands</b> are found in the armpits, genitalia, and around the anus. They produce thicker secretions (protein & fat) and are <b>NOT</b> involved in regulating body temperature.</div></div>
+
+<!-- Q16 -->
+<div class="qcard" id="qc16"><div class="qcard-top"><div class="q-meta"><div class="qnum">16</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">Why does sweat taste salty?</div></div>
+<div class="opts"><button class="opt" onclick="ans(16,'A','C')"><span class="oletter">A</span>Due to the presence of sebum</button><button class="opt" onclick="ans(16,'B','C')"><span class="oletter">B</span>Due to protein secretions from apocrine glands</button><button class="opt" onclick="ans(16,'C','C')"><span class="oletter">C</span>Due to the presence of sodium chloride</button><button class="opt" onclick="ans(16,'D','C')"><span class="oletter">D</span>Due to melanin in the sweat</button></div>
+<div class="rat" id="r16"><div class="rat-hd">Rationale</div><b>C is correct.</b> Sweat contains <b>sodium chloride (NaCl)</b>, which is why it tastes salty. This is released during the body's thermoregulation process through eccrine glands.</div></div>
+
+<!-- Q17 -->
+<div class="qcard" id="qc17"><div class="qcard-top"><div class="q-meta"><div class="qnum">17</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">A nurse is assessing a dark-skinned client for cyanosis. Where should the nurse look?</div></div>
+<div class="opts"><button class="opt" onclick="ans(17,'A','D')"><span class="oletter">A</span>The forehead and cheeks</button><button class="opt" onclick="ans(17,'B','D')"><span class="oletter">B</span>The upper back</button><button class="opt" onclick="ans(17,'C','D')"><span class="oletter">C</span>The chest wall</button><button class="opt" onclick="ans(17,'D','D')"><span class="oletter">D</span>Mucous membranes, nail beds, and palms</button></div>
+<div class="rat" id="r17"><div class="rat-hd">Rationale</div><b>D is correct.</b> In dark-skinned clients, cyanosis appears as a <b>grayish/white tinge</b> rather than blue. The nurse should assess <b>mucous membranes, nail beds, and palms</b> where pigmentation is less and changes are more visible.</div></div>
+
+<div class="qsec-head"><span class="sec-label sl-coral">Medical Terminology</span><div class="qsec-rule"></div></div>
+
+<!-- Q18 -->
+<div class="qcard" id="qc18"><div class="qcard-top"><div class="q-meta"><div class="qnum">18</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">A client has bruising on their arm after a fall. The nurse documents discoloration of the skin due to bleeding beneath the surface. What is the correct medical term for this finding?</div></div>
+<div class="opts"><button class="opt" onclick="ans(18,'A','C')"><span class="oletter">A</span>Erythema</button><button class="opt" onclick="ans(18,'B','C')"><span class="oletter">B</span>Edema</button><button class="opt" onclick="ans(18,'C','C')"><span class="oletter">C</span>Ecchymosis</button><button class="opt" onclick="ans(18,'D','C')"><span class="oletter">D</span>Pruritus</button></div>
+<div class="rat" id="r18"><div class="rat-hd">Rationale</div><b>C is correct.</b> <b>Ecchymosis</b> = bruising — discoloration of the skin caused by bleeding beneath the skin. It is the visual finding associated with a contusion (Contus/o injury).</div></div>
+
+<!-- Q19 -->
+<div class="qcard" id="qc19"><div class="qcard-top"><div class="q-meta"><div class="qnum">19</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">Erythema of the skin is caused by which physiological mechanism?</div></div>
+<div class="opts"><button class="opt" onclick="ans(19,'A','B')"><span class="oletter">A</span>Accumulation of melanin in the dermis</button><button class="opt" onclick="ans(19,'B','B')"><span class="oletter">B</span>Dilation of capillaries causing increased blood flow</button><button class="opt" onclick="ans(19,'C','B')"><span class="oletter">C</span>Decreased oxygen in the blood</button><button class="opt" onclick="ans(19,'D','B')"><span class="oletter">D</span>Accumulation of fluid in tissue spaces</button></div>
+<div class="rat" id="r19"><div class="rat-hd">Rationale</div><b>B is correct.</b> <b>Erythema</b> (redness) is caused by the <b>dilation of capillaries</b> — the increased blood flow to the area makes the skin appear red. It is not simply inflammation; capillary dilation is the mechanism.</div></div>
+
+<!-- Q20 -->
+<div class="qcard" id="qc20"><div class="qcard-top"><div class="q-meta"><div class="qnum">20</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">A client fell and has a bruising injury from blunt force that did NOT break the skin. The medical root for this type of injury is:</div></div>
+<div class="opts"><button class="opt" onclick="ans(20,'A','B')"><span class="oletter">A</span>Chondr/o</button><button class="opt" onclick="ans(20,'B','B')"><span class="oletter">B</span>Contus/o</button><button class="opt" onclick="ans(20,'C','B')"><span class="oletter">C</span>Erythem/o</button><button class="opt" onclick="ans(20,'D','B')"><span class="oletter">D</span>Pruritus</button></div>
+<div class="rat" id="r20"><div class="rat-hd">Rationale</div><b>B is correct.</b> <b>Contus/o</b> is the medical root for a type of bruising injury — a contusion is caused by blunt force without breaking the skin. The visible result (discoloration) is called ecchymosis.</div></div>
+
+<!-- Q21 -->
+<div class="qcard" id="qc21"><div class="qcard-top"><div class="q-meta"><div class="qnum">21</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">A client complains of intense itching associated with skin inflammation. The nurse documents this as:</div></div>
+<div class="opts"><button class="opt" onclick="ans(21,'A','D')"><span class="oletter">A</span>Edema</button><button class="opt" onclick="ans(21,'B','D')"><span class="oletter">B</span>Erythema</button><button class="opt" onclick="ans(21,'C','D')"><span class="oletter">C</span>Ecchymosis</button><button class="opt" onclick="ans(21,'D','D')"><span class="oletter">D</span>Pruritus</button></div>
+<div class="rat" id="r21"><div class="rat-hd">Rationale</div><b>D is correct.</b> <b>Pruritus</b> = itching, commonly associated with <b>dermatitis</b> (skin inflammation). It is a subjective complaint the client reports.</div></div>
+
+<!-- Q22 -->
+<div class="qcard" id="qc22"><div class="qcard-top"><div class="q-meta"><div class="qnum">22</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">The medical term "Chondr/o" refers to which structure?</div></div>
+<div class="opts"><button class="opt" onclick="ans(22,'A','C')"><span class="oletter">A</span>Skin</button><button class="opt" onclick="ans(22,'B','C')"><span class="oletter">B</span>Bone</button><button class="opt" onclick="ans(22,'C','C')"><span class="oletter">C</span>Cartilage</button><button class="opt" onclick="ans(22,'D','C')"><span class="oletter">D</span>Muscle</button></div>
+<div class="rat" id="r22"><div class="rat-hd">Rationale</div><b>C is correct.</b> <b>Chondr/o</b> = cartilage (e.g., chondritis = inflammation of cartilage).</div></div>
+
+<div class="qsec-head"><span class="sec-label sl-olive">Mixed & Application</span><div class="qsec-rule"></div></div>
+
+<!-- Q23 SATA -->
+<div class="qcard" id="qc23"><div class="qcard-top"><div class="q-meta"><div class="qnum">23</div><span class="qtag tag-sa">SATA</span></div><div class="q-stem">Which of the following are characteristics of the stratum basale? <em>(Select all that apply)</em></div></div>
+<div class="opts" id="s23">
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Contains melanocytes</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Only layer capable of dividing by mitosis</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Forms the outermost layer of the epidermis</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Also called the germinativum</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Composed of dead keratinized cells</div>
+</div>
+<button class="sata-sub" id="ss23" onclick="subSata(23,[0,1,3])">Submit</button>
+<div class="rat" id="r23"><div class="rat-hd">Rationale</div><b>A, B, D are correct.</b> The stratum basale contains melanocytes, is the only mitosis-capable layer, and is also called germinativum. The outermost layer is the corneum. Dead keratinized cells describe the corneum, not the basale.</div></div>
+
+<!-- Q24 -->
+<div class="qcard" id="qc24"><div class="qcard-top"><div class="q-meta"><div class="qnum">24</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">What is the correct order of epidermal stratums from OUTERMOST to DEEPEST?</div></div>
+<div class="opts"><button class="opt" onclick="ans(24,'A','C')"><span class="oletter">A</span>Basale → Spinosum → Granulosum → Lucidum → Corneum</button><button class="opt" onclick="ans(24,'B','C')"><span class="oletter">B</span>Corneum → Granulosum → Lucidum → Spinosum → Basale</button><button class="opt" onclick="ans(24,'C','C')"><span class="oletter">C</span>Corneum → Lucidum → Granulosum → Spinosum → Basale</button><button class="opt" onclick="ans(24,'D','C')"><span class="oletter">D</span>Lucidum → Corneum → Spinosum → Granulosum → Basale</button></div>
+<div class="rat" id="r24"><div class="rat-hd">Rationale</div><b>C is correct.</b> Outermost → deepest: <b>Corneum → Lucidum → Granulosum → Spinosum → Basale</b>. Mnemonic: "Come Let's Get Some Beer."</div></div>
+
+<!-- Q25 SATA -->
+<div class="qcard" id="qc25"><div class="qcard-top"><div class="q-meta"><div class="qnum">25</div><span class="qtag tag-sa">SATA</span></div><div class="q-stem">Which statements about sweat glands are correct? <em>(Select all that apply)</em></div></div>
+<div class="opts" id="s25">
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Eccrine glands are the most common type</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Apocrine glands help regulate body temperature</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Sweat contains sodium chloride, making it taste salty</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Apocrine glands are found in the armpits and genitalia</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Eccrine glands produce thicker secretions containing protein and fat</div>
+</div>
+<button class="sata-sub" id="ss25" onclick="subSata(25,[0,2,3])">Submit</button>
+<div class="rat" id="r25"><div class="rat-hd">Rationale</div><b>A, C, D are correct.</b> Eccrine glands are most common. Sweat contains NaCl (salty taste). Apocrine glands are in armpits/genitalia. Apocrine glands do <b>NOT</b> regulate temperature (eccrine do). Eccrine produce watery sweat, not thick protein/fat secretions (that's apocrine).</div></div>
+
+<!-- Q26 -->
+<div class="qcard" id="qc26"><div class="qcard-top"><div class="q-meta"><div class="qnum">26</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">A client has a burn with redness, pain, swelling, and blisters involving the epidermis and dermis with minor dermal involvement. What degree is this?</div></div>
+<div class="opts"><button class="opt" onclick="ans(26,'A','B')"><span class="oletter">A</span>First degree</button><button class="opt" onclick="ans(26,'B','B')"><span class="oletter">B</span>Second degree</button><button class="opt" onclick="ans(26,'C','B')"><span class="oletter">C</span>Third degree</button><button class="opt" onclick="ans(26,'D','B')"><span class="oletter">D</span>Chemical burn</button></div>
+<div class="rat" id="r26"><div class="rat-hd">Rationale</div><b>B is correct.</b> <b>Second-degree burns</b> involve the epidermis AND dermis with minor dermal involvement. Classic signs: redness, pain, swelling, and <b>blisters</b>.</div></div>
+
+<!-- Q27 -->
+<div class="qcard" id="qc27"><div class="qcard-top"><div class="q-meta"><div class="qnum">27</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">Which layer of skin contains hair follicles, blood vessels, nerves, and glands?</div></div>
+<div class="opts"><button class="opt" onclick="ans(27,'A','B')"><span class="oletter">A</span>Epidermis</button><button class="opt" onclick="ans(27,'B','B')"><span class="oletter">B</span>Dermis</button><button class="opt" onclick="ans(27,'C','B')"><span class="oletter">C</span>Hypodermis</button><button class="opt" onclick="ans(27,'D','B')"><span class="oletter">D</span>Stratum corneum</button></div>
+<div class="rat" id="r27"><div class="rat-hd">Rationale</div><b>B is correct.</b> The <b>dermis</b> is the second layer of skin — it is a thick layer of dense connective tissue that contains hair follicles, sebaceous glands, sweat glands, blood vessels, lymph vessels, and nerves.</div></div>
+
+<!-- Q28 SATA -->
+<div class="qcard" id="qc28"><div class="qcard-top"><div class="q-meta"><div class="qnum">28</div><span class="qtag tag-sa">SATA</span></div><div class="q-stem">Which of the following medical terms are correctly matched to their meaning? <em>(Select all that apply)</em></div></div>
+<div class="opts" id="s28">
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Pruritus = itching associated with dermatitis</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Edema = redness from inflammation</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Ecchymosis = bruising/discoloration from bleeding under the skin</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Erythema = redness from dilation of capillaries</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Chondr/o = skin</div>
+</div>
+<button class="sata-sub" id="ss28" onclick="subSata(28,[0,2,3])">Submit</button>
+<div class="rat" id="r28"><div class="rat-hd">Rationale</div><b>A, C, D are correct.</b> Pruritus = itching. Ecchymosis = bruising. Erythema = redness from capillary dilation. Edema = swelling (NOT redness). Chondr/o = cartilage (NOT skin).</div></div>
+
+<!-- Q29 -->
+<div class="qcard" id="qc29"><div class="qcard-top"><div class="q-meta"><div class="qnum">29</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">The nurse observes a dark-skinned client has a grayish-white tinge to their lips and nail beds. The nurse should document this as:</div></div>
+<div class="opts"><button class="opt" onclick="ans(29,'A','C')"><span class="oletter">A</span>Erythema</button><button class="opt" onclick="ans(29,'B','C')"><span class="oletter">B</span>Ecchymosis</button><button class="opt" onclick="ans(29,'C','C')"><span class="oletter">C</span>Cyanosis</button><button class="opt" onclick="ans(29,'D','C')"><span class="oletter">D</span>Jaundice</button></div>
+<div class="rat" id="r29"><div class="rat-hd">Rationale</div><b>C is correct.</b> In dark-skinned clients, <b>cyanosis</b> (lack of oxygen in the blood) appears as a grayish/white tinge rather than blue. The nurse should assess mucous membranes, nail beds, and palms to detect it.</div></div>
+
+<!-- Q30 -->
+<div class="qcard" id="qc30"><div class="qcard-top"><div class="q-meta"><div class="qnum">30</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">Which statement BEST differentiates a contusion (Contus/o) from ecchymosis?</div></div>
+<div class="opts"><button class="opt" onclick="ans(30,'A','D')"><span class="oletter">A</span>Ecchymosis is the injury; contusion is what you see</button><button class="opt" onclick="ans(30,'B','D')"><span class="oletter">B</span>Both terms refer to the same exact thing</button><button class="opt" onclick="ans(30,'C','D')"><span class="oletter">C</span>Contusion involves broken skin; ecchymosis does not</button><button class="opt" onclick="ans(30,'D','D')"><span class="oletter">D</span>Contusion is the blunt-force injury; ecchymosis is the visible bruise/discoloration</button></div>
+<div class="rat" id="r30"><div class="rat-hd">Rationale</div><b>D is correct.</b> <b>Contus/o (contusion)</b> = the TYPE of injury (blunt force without breaking skin). <b>Ecchymosis</b> = what you SEE (the bruise/discoloration from bleeding beneath the skin). A contusion causes ecchymosis.</div></div>
+
+</div><!-- quizBody -->
+
+<!-- RESULTS -->
+<div class="results" id="results">
+  <div style="font-size:3rem;margin-bottom:0.5rem;" id="resEmoji">🔬</div>
+  <div class="results-title">Test Complete!</div>
+  <div class="results-score" id="resPct">0%</div>
+  <div class="results-sub" id="resSub">Keep studying — you've got this!</div>
+  <div class="res-bars">
+    <div class="res-row"><div class="res-lbl">Skin Layers</div><div class="res-track"><div class="res-fill" id="rb1" style="background:var(--rust);"></div></div><span class="res-num" id="rn1">0/6</span></div>
+    <div class="res-row"><div class="res-lbl">Pigment/Burns/Hair</div><div class="res-track"><div class="res-fill" id="rb2" style="background:var(--teal);"></div></div><span class="res-num" id="rn2">0/6</span></div>
+    <div class="res-row"><div class="res-lbl">Glands/Nails</div><div class="res-track"><div class="res-fill" id="rb3" style="background:var(--mustard);"></div></div><span class="res-num" id="rn3">0/5</span></div>
+    <div class="res-row"><div class="res-lbl">Medical Terms</div><div class="res-track"><div class="res-fill" id="rb4" style="background:var(--coral);"></div></div><span class="res-num" id="rn4">0/5</span></div>
+    <div class="res-row"><div class="res-lbl">Mixed/Application</div><div class="res-track"><div class="res-fill" id="rb5" style="background:var(--olive);"></div></div><span class="res-num" id="rn5">0/8</span></div>
+  </div>
+  <button class="try-again" onclick="resetQuiz()">↺ Try Again</button>
+</div>
+
+</div><!-- end quiz panel -->
+
+<footer>
+  Integumentary System · Anatomy & Physiology · VN15<br>
+  Fundamentals for Nursing 11th Ed. — Chapters 114–123 ✦ Retro Edition
+</footer>
+
+<script>
+// ── TABS ──
+function switchTab(tab, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + tab).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ── STUDY GUIDE ──
+let sgRev = new Set();
+function toggleSG(n) {
+  const c = document.getElementById('sg' + n);
+  const isOpen = c.classList.contains('open');
+  document.querySelectorAll('.sg-card.open').forEach(x => x.classList.remove('open'));
+  if (!isOpen) c.classList.add('open');
+}
+function markSG(n) {
+  const c = document.getElementById('sg' + n);
+  if (sgRev.has(n)) {
+    sgRev.delete(n); c.classList.remove('reviewed');
+    c.querySelector('.rev-btn').textContent = '✓ Mark Reviewed';
+  } else {
+    sgRev.add(n); c.classList.add('reviewed');
+    c.querySelector('.rev-btn').textContent = '✅ Reviewed!';
+  }
+  document.getElementById('sgFill').style.width = (sgRev.size / 10 * 100) + '%';
+  document.getElementById('sgCount').textContent = sgRev.size + ' / 10';
+}
+
+// ── FLASHCARDS ──
+function shuffleFC() {
+  const grid = document.getElementById('fcGrid');
+  const cards = [...grid.children];
+  cards.sort(() => Math.random() - 0.5);
+  cards.forEach(c => grid.appendChild(c));
+}
+function flipAllFC() {
+  document.querySelectorAll('.fc-wrap').forEach(c => c.classList.toggle('flipped'));
+}
+function resetFC() {
+  document.querySelectorAll('.fc-wrap').forEach(c => c.classList.remove('flipped'));
+}
+
+// ── QUIZ ──
+const TOTAL = 30;
+let answered = {}, correct = {};
+const secs = {
+  1:[1,2,3,4,5,6], 2:[7,8,9,10,11,12], 3:[13,14,15,16,17],
+  4:[18,19,20,21,22], 5:[23,24,25,26,27,28,29,30]
+};
+function updateDash() {
+  const a = Object.keys(answered).length;
+  const c = Object.keys(correct).length;
+  document.getElementById('ansD').textContent = a;
+  document.getElementById('corD').textContent = c;
+  document.getElementById('scoreD').textContent = c;
+  document.getElementById('qFill').style.width = (a / TOTAL * 100) + '%';
+  if (a === TOTAL) showResults();
+}
+function ans(q, chosen, ca) {
+  if (answered[q]) return;
+  answered[q] = chosen;
+  const card = document.getElementById('qc' + q);
+  const btns = card.querySelectorAll('.opt');
+  const L = ['A','B','C','D'];
+  const ok = chosen === ca;
+  if (ok) correct[q] = true;
+  btns.forEach((b, i) => {
+    b.disabled = true;
+    if (L[i] === ca) b.classList.add('opt-c');
+    else if (L[i] === chosen && !ok) b.classList.add('opt-w');
+  });
+  const rat = document.getElementById('r' + q);
+  rat.classList.add('show', ok ? 'rat-c' : 'rat-w');
+  card.classList.add(ok ? 'qc-correct' : 'qc-wrong');
+  updateDash();
+}
+function togS(el) {
+  if (el.classList.contains('disabled')) return;
+  el.classList.toggle('sel');
+  el.querySelector('.sata-box').textContent = el.classList.contains('sel') ? '✓' : '';
+}
+function subSata(q, ci) {
+  const btn = document.getElementById('ss' + q);
+  if (btn.disabled) return;
+  btn.disabled = true;
+  const opts = document.getElementById('s' + q).querySelectorAll('.sata-opt');
+  const sel = [];
+  opts.forEach((o, i) => { if (o.classList.contains('sel')) sel.push(i); });
+  answered[q] = sel;
+  const cSet = new Set(ci), sSet = new Set(sel);
+  const ok = cSet.size === sSet.size && [...cSet].every(i => sSet.has(i));
+  if (ok) correct[q] = true;
+  opts.forEach((o, i) => {
+    o.classList.add('disabled'); o.style.cursor = 'default';
+    if (cSet.has(i) && sSet.has(i)) o.classList.add('opt-c');
+    else if (!cSet.has(i) && sSet.has(i)) o.classList.add('opt-w');
+    else if (cSet.has(i) && !sSet.has(i)) o.classList.add('opt-m');
+  });
+  const rat = document.getElementById('r' + q);
+  rat.classList.add('show', ok ? 'rat-c' : 'rat-p');
+  document.getElementById('qc' + q).classList.add(ok ? 'qc-correct' : 'qc-wrong');
+  updateDash();
+}
+function showResults() {
+  document.getElementById('quizBody').style.display = 'none';
+  document.getElementById('results').classList.add('show');
+  const c = Object.keys(correct).length;
+  const pct = Math.round(c / TOTAL * 100);
+  document.getElementById('resPct').textContent = pct + '%';
+  document.getElementById('resEmoji').textContent = pct >= 90 ? '🏆' : pct >= 75 ? '🔬' : pct >= 60 ? '💪' : '📚';
+  document.getElementById('resSub').textContent = pct >= 90 ? 'Outstanding! You know your integumentary system!' : pct >= 75 ? 'Great job! Review missed topics in the Study Guide.' : pct >= 60 ? 'Good effort! Review flashcards and try again.' : 'Keep studying — start with the Study Guide tab!';
+  const defs = [
+    {rb:'rb1',rn:'rn1',qs:secs[1],tot:6},
+    {rb:'rb2',rn:'rn2',qs:secs[2],tot:6},
+    {rb:'rb3',rn:'rn3',qs:secs[3],tot:5},
+    {rb:'rb4',rn:'rn4',qs:secs[4],tot:5},
+    {rb:'rb5',rn:'rn5',qs:secs[5],tot:8},
+  ];
+  defs.forEach(d => {
+    const cor = d.qs.filter(q => correct[q]).length;
+    setTimeout(() => { document.getElementById(d.rb).style.width = (cor/d.tot*100)+'%'; }, 300);
+    document.getElementById(d.rn).textContent = cor+'/'+d.tot;
+  });
+}
+function resetQuiz() {
+  answered = {}; correct = {};
+  document.getElementById('quizBody').style.display = 'block';
+  document.getElementById('results').classList.remove('show');
+  ['ansD','corD','scoreD'].forEach(id => document.getElementById(id).textContent='0');
+  document.getElementById('qFill').style.width='0%';
+  document.querySelectorAll('.opt').forEach(b=>{b.disabled=false;b.classList.remove('opt-c','opt-w');});
+  document.querySelectorAll('.sata-opt').forEach(o=>{o.classList.remove('sel','opt-c','opt-w','opt-m','disabled');o.style.cursor='';o.querySelector('.sata-box').textContent='';});
+  document.querySelectorAll('.sata-sub').forEach(b=>b.disabled=false);
+  document.querySelectorAll('.rat').forEach(r=>r.classList.remove('show','rat-c','rat-w','rat-p'));
+  document.querySelectorAll('.qcard').forEach(c=>c.classList.remove('qc-correct','qc-wrong'));
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>

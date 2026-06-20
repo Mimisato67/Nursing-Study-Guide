@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VN16 Pharmacology — Kiki's Study Guide</title>
+<style>
+/* ─── TOKENS ─────────────────────────────── */
+:root {
+  --sky:        #b8d4e8;
+  --sky-l:      #dceef8;
+  --sky-ll:     #eef7fd;
+  --lav:        #c9b8e8;
+  --lav-l:      #ede5f8;
+  --rose:       #e8b8c9;
+  --rose-l:     #f8dce8;
+  --mint:       #b8e8d4;
+  --mint-l:     #dcf8ee;
+  --peach:      #f0d4b0;
+  --peach-l:    #faebd7;
+  --cream:      #fdf8f2;
+  --d-blue:     #3a5a7a;
+  --d-purple:   #5a3a7a;
+  --d-rose:     #7a3a5a;
+  --d-green:    #2a6a2a;
+  --text:       #3a3250;
+  --text-l:     #8a7a9a;
+  --border:     #e2d8f0;
+  --white:      #ffffff;
+  --warn:       #b05050;
+  --warn-bg:    #ffeaea;
+  --warn-b:     #f0c0c0;
+  --ci:         #7a5000;
+  --ci-bg:      #fff8cc;
+  --ci-b:       #e0d080;
+}
+
+/* ─── RESET ──────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Georgia', serif;
+  background: linear-gradient(160deg, var(--sky-l) 0%, var(--lav-l) 45%, var(--rose-l) 100%);
+  min-height: 100vh;
+  color: var(--text);
+}
+
+/* ─── SCREENS ────────────────────────────── */
+.screen { display: none; min-height: 100vh; }
+.screen.active { display: block; }
+
+/* ─── NAV BAR ────────────────────────────── */
+.topnav {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 20px;
+}
+.topnav-inner {
+  max-width: 780px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+}
+.nav-back {
+  background: none; border: none; color: var(--d-purple);
+  font-family: Georgia, serif; font-size: 13px; cursor: pointer; padding: 4px 8px;
+}
+.nav-title { font-size: 14px; font-weight: bold; color: var(--d-purple); }
+.nav-btn {
+  background: var(--lav); border: none; border-radius: 12px;
+  padding: 6px 14px; font-size: 12px; color: var(--d-purple);
+  cursor: pointer; font-family: Georgia, serif;
+}
+
+/* ─── PROGRESS BAR ───────────────────────── */
+.progress-wrap { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; margin-top: 8px; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--lav)); border-radius: 4px; transition: width .4s ease; }
+
+/* ─── CATEGORY TABS ──────────────────────── */
+.cat-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.cat-tab {
+  font-size: 11px; padding: 4px 12px; border-radius: 12px;
+  border: 1px solid var(--border); background: rgba(255,255,255,0.7);
+  color: var(--text-l); cursor: pointer; font-family: Georgia, serif;
+  transition: all .2s;
+}
+.cat-tab.active { background: var(--lav); border-color: var(--d-purple); color: var(--d-purple); font-weight: bold; }
+
+/* ─── LAYOUT WRAPPER ─────────────────────── */
+.wrap { max-width: 780px; margin: 0 auto; padding: 24px 16px 80px; }
+
+/* ─── HOME SCREEN ────────────────────────── */
+#home { position: relative; overflow: hidden; }
+.home-hero {
+  text-align: center; padding: 36px 20px 28px;
+  max-width: 620px; margin: 0 auto; position: relative; z-index: 1;
+}
+.home-kiki {
+  display: flex; align-items: flex-end; justify-content: center;
+  gap: 10px; margin-bottom: 6px;
+}
+.eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--text-l); margin-bottom: 6px; }
+.home-title { font-size: 30px; font-weight: bold; color: var(--d-purple); line-height: 1.15; margin-bottom: 4px; }
+.home-sub { font-size: 15px; color: var(--d-blue); font-style: italic; margin-bottom: 12px; }
+.home-badge {
+  display: inline-block; background: rgba(255,255,255,0.75);
+  border: 1px solid var(--lav); border-radius: 20px;
+  padding: 4px 16px; font-size: 11px; color: var(--text-l);
+}
+
+.mode-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin: 28px auto; max-width: 660px; padding: 0 16px; }
+.mode-card {
+  background: rgba(255,255,255,0.88); border-radius: 20px;
+  padding: 22px 16px; text-align: center; cursor: pointer;
+  box-shadow: 0 4px 20px rgba(180,160,220,.18);
+  transition: transform .2s, box-shadow .2s; border: 2px solid transparent;
+}
+.mode-card:hover { transform: translateY(-5px); box-shadow: 0 8px 28px rgba(180,160,220,.28); }
+.mode-card.card-study { border-color: var(--sky); }
+.mode-card.card-flash { border-color: var(--mint); }
+.mode-card.card-quiz  { border-color: var(--lav); }
+.mode-icon { font-size: 38px; margin-bottom: 8px; }
+.mode-label { font-weight: bold; font-size: 15px; margin-bottom: 4px; }
+.mode-label.blue   { color: var(--d-blue); }
+.mode-label.green  { color: #2a6a4a; }
+.mode-label.purple { color: var(--d-purple); }
+.mode-desc { color: var(--text-l); font-size: 12px; }
+
+.topics-card {
+  background: rgba(255,255,255,0.78); border-radius: 20px;
+  padding: 20px 24px; border: 1px solid var(--border);
+  max-width: 660px; margin: 0 auto 20px; box-shadow: 0 2px 16px rgba(180,160,220,.12);
+}
+.topics-head { font-size: 12px; font-weight: bold; color: var(--d-purple); margin-bottom: 14px; letter-spacing: 1px; }
+.topic-row { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; }
+.topic-row + .topic-row { border-top: 1px dashed var(--border); }
+.topic-icon-box { width: 38px; height: 38px; border-radius: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.topic-name { font-weight: bold; color: var(--text); font-size: 13px; margin-bottom: 2px; }
+.topic-badge { font-size: 10px; border-radius: 8px; padding: 1px 7px; font-weight: 600; margin-left: 6px; }
+.topic-sub { font-size: 11px; color: var(--text-l); line-height: 1.5; }
+
+/* floating decorations */
+.deco { position: absolute; pointer-events: none; }
+
+/* ─── STUDY SCREEN ───────────────────────── */
+.section-head {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+}
+.section-icon-box { width: 44px; height: 44px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.section-title-text { font-size: 20px; font-weight: bold; font-family: Georgia, serif; }
+
+.study-card {
+  background: rgba(255,255,255,0.88); border-radius: 18px;
+  padding: 20px 22px; margin-bottom: 14px; border: 1px solid var(--border);
+  box-shadow: 0 2px 12px rgba(180,160,220,.10);
+}
+.study-card-title { font-weight: bold; font-size: 15px; margin-bottom: 12px; font-family: Georgia, serif; }
+
+.bullet-list { list-style: none; }
+.bullet-list li { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 7px; font-size: 13px; line-height: 1.55; }
+.bullet-list li::before { content: "◆"; flex-shrink: 0; margin-top: 2px; font-size: 10px; }
+
+/* Tables */
+.study-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 4px; }
+.study-table th { padding: 8px 10px; text-align: left; font-weight: bold; border-bottom: 2px solid; font-size: 11px; }
+.study-table td { padding: 7px 10px; border-bottom: 1px solid; vertical-align: top; line-height: 1.4; }
+.study-table tr:nth-child(even) td { background: rgba(255,255,255,0.45); }
+
+/* Drug pills grid */
+.drug-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 6px; margin-top: 8px; }
+.drug-pill { border-radius: 10px; padding: 8px 12px; font-size: 12px; }
+.drug-pill strong { display: block; }
+
+/* Tag rows */
+.tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.tag { border-radius: 10px; padding: 4px 10px; font-size: 11px; }
+
+/* ─── FLASHCARD SCREEN ───────────────────── */
+.flash-counter { text-align: center; font-size: 13px; color: var(--text-l); margin-bottom: 20px; }
+.flash-counter strong { color: var(--d-purple); }
+
+.flashcard-viewport { perspective: 1200px; margin: 0 auto 24px; max-width: 580px; height: 300px; cursor: pointer; }
+.flashcard-inner {
+  width: 100%; height: 100%;
+  transition: transform .55s cubic-bezier(.4,0,.2,1);
+  transform-style: preserve-3d; position: relative;
+}
+.flashcard-inner.flipped { transform: rotateY(180deg); }
+.flashcard-face {
+  position: absolute; inset: 0; backface-visibility: hidden;
+  border-radius: 24px; padding: 28px 28px; display: flex; flex-direction: column;
+  justify-content: center; align-items: center; text-align: center;
+  box-shadow: 0 8px 36px rgba(180,160,220,.22); border: 2px solid;
+}
+.flashcard-back { transform: rotateY(180deg); }
+
+.flash-face-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; opacity: 0.65; }
+.flash-q { font-size: 17px; font-weight: bold; line-height: 1.45; }
+.flash-a { font-size: 14px; line-height: 1.6; }
+.flash-cat-badge { font-size: 10px; border-radius: 10px; padding: 3px 10px; margin-bottom: 10px; font-weight: 600; }
+
+.flash-hint { text-align: center; font-size: 12px; color: var(--text-l); margin-bottom: 20px; font-style: italic; }
+
+.flash-controls { display: flex; align-items: center; justify-content: center; gap: 14px; max-width: 580px; margin: 0 auto 20px; }
+.flash-btn {
+  background: rgba(255,255,255,0.88); border: 1px solid var(--border); border-radius: 14px;
+  padding: 10px 20px; font-size: 13px; color: var(--text); cursor: pointer;
+  font-family: Georgia, serif; transition: transform .15s, box-shadow .15s;
+  box-shadow: 0 2px 8px rgba(180,160,220,.15);
+}
+.flash-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(180,160,220,.22); }
+.flash-btn.primary { background: linear-gradient(135deg, var(--lav), var(--sky)); border: none; color: var(--d-purple); font-weight: bold; }
+
+.flash-knew { display: flex; gap: 10px; justify-content: center; max-width: 580px; margin: 0 auto; }
+.knew-yes {
+  flex: 1; padding: 12px; border-radius: 14px; font-size: 13px; cursor: pointer;
+  font-family: Georgia, serif; border: none;
+  background: #e8f8e8; color: var(--d-green); font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0,150,0,.1); transition: transform .15s;
+}
+.knew-yes:hover { transform: translateY(-2px); }
+.knew-no {
+  flex: 1; padding: 12px; border-radius: 14px; font-size: 13px; cursor: pointer;
+  font-family: Georgia, serif; border: none;
+  background: var(--warn-bg); color: var(--warn); font-weight: bold;
+  box-shadow: 0 2px 8px rgba(180,80,80,.1); transition: transform .15s;
+}
+.knew-no:hover { transform: translateY(-2px); }
+
+.flash-progress-text { text-align: center; font-size: 11px; color: var(--text-l); margin-top: 16px; }
+.flash-cat-filter { max-width: 580px; margin: 0 auto 18px; }
+
+/* Flash results */
+.flash-results {
+  background: rgba(255,255,255,0.92); border-radius: 24px;
+  padding: 36px 28px; text-align: center; max-width: 480px; margin: 0 auto;
+  box-shadow: 0 8px 40px rgba(180,160,220,.2); border: 1px solid var(--border);
+}
+.flash-results-emoji { font-size: 56px; margin-bottom: 8px; }
+.flash-results-score { font-size: 42px; font-weight: bold; color: var(--d-purple); margin-bottom: 4px; }
+.flash-results-label { font-size: 14px; color: var(--text-l); margin-bottom: 20px; }
+.flash-results-btns { display: flex; flex-direction: column; gap: 10px; }
+
+/* ─── QUIZ SCREEN ────────────────────────── */
+.quiz-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.quiz-score-badge { font-size: 13px; color: var(--text-l); }
+.quiz-score-badge strong { color: var(--d-blue); }
+
+.quiz-cat-badge { border-radius: 12px; padding: 4px 14px; font-size: 11px; font-weight: bold; letter-spacing: .4px; display: inline-block; margin-bottom: 14px; }
+.quiz-question-card {
+  background: rgba(255,255,255,0.92); border-radius: 22px;
+  padding: 26px 24px; margin-bottom: 16px;
+  box-shadow: 0 4px 24px rgba(180,160,220,.15);
+}
+.quiz-qnum { font-size: 11px; color: var(--text-l); letter-spacing: 1px; margin-bottom: 8px; }
+.quiz-qtext { font-size: 16px; font-weight: 500; line-height: 1.6; }
+
+.options-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+.option-btn {
+  background: rgba(255,255,255,0.85); border: 1px solid var(--border);
+  border-radius: 16px; padding: 13px 18px; text-align: left;
+  cursor: pointer; font-size: 13.5px; color: var(--text);
+  font-family: Georgia, serif; line-height: 1.5;
+  display: flex; align-items: center; gap: 10px;
+  transition: transform .15s, box-shadow .15s;
+  box-shadow: 0 2px 10px rgba(180,160,220,.09);
+}
+.option-btn:not(.locked):hover { transform: translateX(4px); box-shadow: 0 4px 16px rgba(180,160,220,.16); }
+.option-btn.locked { cursor: default; }
+.option-btn.correct { background: #e8f8e8; border-color: #a0d0a0; color: var(--d-green); }
+.option-btn.wrong   { background: var(--warn-bg); border-color: var(--warn-b); color: var(--warn); }
+
+.option-letter {
+  flex-shrink: 0; width: 26px; height: 26px; border-radius: 8px;
+  background: var(--lav-l); display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: bold; color: var(--d-purple);
+}
+.option-btn.correct .option-letter { background: #a0d0a0; color: var(--d-green); }
+.option-btn.wrong   .option-letter { background: var(--warn-b); color: var(--warn); }
+
+.explain-box {
+  border-radius: 16px; padding: 14px 18px; margin-bottom: 16px;
+  font-size: 13px; line-height: 1.6;
+}
+.explain-box.correct-exp { background: #e8f8e8; border: 1px solid #a0d0a0; }
+.explain-box.wrong-exp   { background: var(--ci-bg); border: 1px solid var(--ci-b); }
+.explain-label { font-size: 11px; font-weight: bold; letter-spacing: .5px; margin-bottom: 5px; }
+
+.next-btn {
+  width: 100%; background: linear-gradient(135deg, var(--lav), var(--sky));
+  border: none; border-radius: 16px; padding: 14px;
+  font-size: 15px; color: var(--d-purple); cursor: pointer;
+  font-family: Georgia, serif; font-weight: bold;
+  box-shadow: 0 4px 16px rgba(180,160,220,.28);
+  transition: transform .15s;
+}
+.next-btn:hover { transform: translateY(-2px); }
+
+/* Results */
+.results-card {
+  background: rgba(255,255,255,0.92); border-radius: 28px;
+  padding: 44px 36px; text-align: center; max-width: 420px; margin: 40px auto;
+  box-shadow: 0 8px 40px rgba(180,160,220,.2); border: 1px solid var(--border);
+}
+.results-grade { font-size: 64px; font-weight: bold; color: var(--d-purple); margin-bottom: 4px; }
+.results-score { font-size: 24px; color: var(--d-blue); margin-bottom: 6px; }
+.results-pct { font-size: 32px; font-weight: bold; margin-bottom: 12px; }
+.results-msg { font-size: 15px; color: var(--text-l); font-style: italic; margin-bottom: 26px; }
+.results-btns { display: flex; flex-direction: column; gap: 10px; }
+.results-btn {
+  border: none; border-radius: 14px; padding: 12px 24px;
+  font-size: 14px; cursor: pointer; font-family: Georgia, serif; font-weight: bold;
+}
+.results-btn.primary { background: var(--lav); color: var(--d-purple); }
+.results-btn.secondary { background: var(--sky); color: var(--d-blue); }
+.results-btn.ghost { background: rgba(255,255,255,0.8); border: 1px solid var(--border); color: var(--text-l); }
+
+/* ─── CLOUD SVG ──────────────────────────── */
+svg.cloud-svg { position: absolute; pointer-events: none; }
+svg.star-svg  { position: absolute; pointer-events: none; }
+
+/* ─── RESPONSIVE ─────────────────────────── */
+@media (max-width: 520px) {
+  .mode-grid { grid-template-columns: 1fr; }
+  .drug-grid { grid-template-columns: 1fr; }
+  .flash-controls { gap: 8px; }
+  .flash-btn { padding: 9px 14px; font-size: 12px; }
+  .flashcard-viewport { height: 280px; }
+  .flash-q { font-size: 15px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     HOME SCREEN
+═══════════════════════════════════════════ -->
+<div id="home" class="screen active">
+  <!-- bg decorations -->
+  <svg class="cloud-svg" style="top:10px;left:-30px;width:220px;opacity:.5" viewBox="0 0 120 60"><ellipse cx="40" cy="40" rx="30" ry="20" fill="#ddeeff"/><ellipse cx="70" cy="38" rx="35" ry="22" fill="#ddeeff"/><ellipse cx="55" cy="28" rx="25" ry="20" fill="#e8f2ff"/><ellipse cx="30" cy="45" rx="22" ry="14" fill="#ddeeff"/><ellipse cx="92" cy="44" rx="20" ry="13" fill="#ddeeff"/></svg>
+  <svg class="cloud-svg" style="top:55px;right:-20px;width:180px;opacity:.45" viewBox="0 0 120 60"><ellipse cx="40" cy="40" rx="30" ry="20" fill="#eedfff"/><ellipse cx="70" cy="38" rx="35" ry="22" fill="#eedfff"/><ellipse cx="55" cy="28" rx="25" ry="20" fill="#f4eaff"/><ellipse cx="30" cy="45" rx="22" ry="14" fill="#eedfff"/></svg>
+  <svg class="cloud-svg" style="bottom:160px;left:30px;width:160px;opacity:.38" viewBox="0 0 120 60"><ellipse cx="40" cy="40" rx="30" ry="20" fill="#ffd8e8"/><ellipse cx="70" cy="38" rx="35" ry="22" fill="#ffd8e8"/><ellipse cx="55" cy="28" rx="25" ry="20" fill="#ffe4ef"/></svg>
+  <svg class="star-svg" id="star1" style="top:42px;right:90px;width:22px;opacity:.5" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" fill="#ffd6e0"/></svg>
+  <svg class="star-svg" id="star2" style="top:210px;left:28px;width:16px;opacity:.4" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" fill="#d6eaff"/></svg>
+  <svg class="star-svg" id="star3" style="bottom:210px;right:38px;width:20px;opacity:.42" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" fill="#e8d6ff"/></svg>
+
+  <div class="home-hero">
+    <!-- Kiki + Jiji SVG -->
+    <div class="home-kiki" id="kiki-wrap">
+      <!-- Jiji (black cat) -->
+      <svg width="58" height="74" viewBox="0 0 80 100" fill="none">
+        <ellipse cx="40" cy="65" rx="22" ry="28" fill="#2a2a2a"/>
+        <ellipse cx="40" cy="40" rx="18" ry="18" fill="#2a2a2a"/>
+        <ellipse cx="33" cy="42" rx="5" ry="7" fill="#1a1a1a"/>
+        <ellipse cx="47" cy="42" rx="5" ry="7" fill="#1a1a1a"/>
+        <ellipse cx="33" cy="42" rx="2" ry="4" fill="#4aaa4a"/>
+        <ellipse cx="47" cy="42" rx="2" ry="4" fill="#4aaa4a"/>
+        <ellipse cx="33" cy="43" rx="1" ry="2.5" fill="#111"/>
+        <ellipse cx="47" cy="43" rx="1" ry="2.5" fill="#111"/>
+        <ellipse cx="33.5" cy="41.5" rx=".6" ry=".6" fill="white"/>
+        <ellipse cx="47.5" cy="41.5" rx=".6" ry=".6" fill="white"/>
+        <path d="M35 50 Q40 53 45 50" stroke="#555" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <path d="M30 36 L22 26" stroke="#2a2a2a" stroke-width="3" stroke-linecap="round"/>
+        <path d="M50 36 L58 26" stroke="#2a2a2a" stroke-width="3" stroke-linecap="round"/>
+        <ellipse cx="22" cy="24" rx="5" ry="4" fill="#2a2a2a"/>
+        <ellipse cx="58" cy="24" rx="5" ry="4" fill="#2a2a2a"/>
+        <line x1="20" y1="48" x2="5"  y2="44" stroke="#555" stroke-width="1"/>
+        <line x1="20" y1="50" x2="3"  y2="50" stroke="#555" stroke-width="1"/>
+        <line x1="20" y1="52" x2="5"  y2="56" stroke="#555" stroke-width="1"/>
+        <line x1="60" y1="48" x2="75" y2="44" stroke="#555" stroke-width="1"/>
+        <line x1="60" y1="50" x2="77" y2="50" stroke="#555" stroke-width="1"/>
+        <line x1="60" y1="52" x2="75" y2="56" stroke="#555" stroke-width="1"/>
+        <path d="M62 78 Q75 70 78 88 Q65 85 62 78Z" fill="#2a2a2a"/>
+      </svg>
+      <!-- Broom -->
+      <svg width="44" height="88" viewBox="0 0 60 120" fill="none">
+        <rect x="27" y="0" width="6" height="68" rx="3" fill="#8B6914"/>
+        <ellipse cx="30" cy="88" rx="18" ry="28" fill="#5a8a4a" opacity=".82"/>
+        <ellipse cx="30" cy="88" rx="13" ry="21" fill="#6aaa5a" opacity=".7"/>
+        <rect x="26" y="64" width="8" height="12" rx="2" fill="#7a5a10"/>
+        <line x1="13" y1="100" x2="30" y2="74" stroke="#5a8a4a" stroke-width="2" opacity=".6"/>
+        <line x1="47" y1="100" x2="30" y2="74" stroke="#5a8a4a" stroke-width="2" opacity=".6"/>
+        <line x1="20" y1="110" x2="30" y2="80" stroke="#4a7a3a" stroke-width="1.5" opacity=".5"/>
+        <line x1="40" y1="110" x2="30" y2="80" stroke="#4a7a3a" stroke-width="1.5" opacity=".5"/>
+      </svg>
+    </div>
+
+    <div class="eyebrow">✦ Carrington College VN16 ✦</div>
+    <h1 class="home-title">Pharmacology of Nurses</h1>
+    <p class="home-sub">Test 2 Study Guide</p>
+    <span class="home-badge">📚 ATI Pharmacology Made Easy 5.0 · Ford 12th Ed.</span>
+  </div>
+
+  <div class="mode-grid">
+    <div class="mode-card card-study" onclick="showScreen('study')">
+      <div class="mode-icon">📖</div>
+      <div class="mode-label blue">Study Guide</div>
+      <div class="mode-desc">Review all 25 topics by category</div>
+    </div>
+    <div class="mode-card card-flash" onclick="showScreen('flash')">
+      <div class="mode-icon">🃏</div>
+      <div class="mode-label green">Flashcards</div>
+      <div class="mode-desc">50 flip cards — tap to reveal</div>
+    </div>
+    <div class="mode-card card-quiz" onclick="showScreen('quiz')">
+      <div class="mode-icon">✏️</div>
+      <div class="mode-label purple">Practice Quiz</div>
+      <div class="mode-desc">40 NCLEX-style questions</div>
+    </div>
+  </div>
+
+  <div class="topics-card">
+    <div class="topics-head">✨ WHAT'S COVERED</div>
+    <div class="topic-row">
+      <div class="topic-icon-box" style="background:var(--sky-l)">🫀</div>
+      <div>
+        <div class="topic-name">Cardiovascular &amp; Lipid <span class="topic-badge" style="background:var(--sky);color:var(--d-blue)">Q1–18</span></div>
+        <div class="topic-sub">Atherosclerosis · Statins · LDL/HDL · Rhabdomyolysis · PCSK9 · Resins · Niacin · Ezetimibe · Garlic</div>
+      </div>
+    </div>
+    <div class="topic-row">
+      <div class="topic-icon-box" style="background:var(--lav-l)">🌿</div>
+      <div>
+        <div class="topic-name">Oncology Pharmacology <span class="topic-badge" style="background:var(--lav);color:var(--d-purple)">Q19–34</span></div>
+        <div class="topic-sub">Metastasis · Cell Cycle · Myelosuppression · Extravasation · Vesicants · CINV · PPE · Nutrition · Body Image</div>
+      </div>
+    </div>
+    <div class="topic-row">
+      <div class="topic-icon-box" style="background:var(--rose-l)">📋</div>
+      <div>
+        <div class="topic-name">Nursing Process <span class="topic-badge" style="background:var(--rose);color:var(--d-rose)">Q35–40</span></div>
+        <div class="topic-sub">ADPIE · Health Management · Health Literacy · Teach-Back</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     STUDY SCREEN
+═══════════════════════════════════════════ -->
+<div id="study" class="screen">
+  <div class="topnav">
+    <div class="topnav-inner">
+      <button class="nav-back" onclick="showScreen('home')">← Home</button>
+      <div class="nav-title">📖 Study Guide</div>
+      <button class="nav-btn" onclick="showScreen('quiz')">Quiz →</button>
+    </div>
+    <div style="max-width:780px;margin:8px auto 0">
+      <div class="cat-tabs">
+        <button class="cat-tab active" onclick="filterStudy('all',this)">✨ All Topics</button>
+        <button class="cat-tab" onclick="filterStudy('cardio',this)">🫀 Cardiovascular</button>
+        <button class="cat-tab" onclick="filterStudy('onco',this)">🌿 Oncology</button>
+        <button class="cat-tab" onclick="filterStudy('np',this)">📋 Nursing Process</button>
+      </div>
+    </div>
+  </div>
+  <div class="wrap" id="study-content"><!-- filled by JS --></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     FLASHCARD SCREEN
+═══════════════════════════════════════════ -->
+<div id="flash" class="screen">
+  <div class="topnav">
+    <div class="topnav-inner">
+      <button class="nav-back" onclick="showScreen('home')">← Home</button>
+      <div class="nav-title">🃏 Flashcards</div>
+      <button class="nav-btn" onclick="showScreen('quiz')">Quiz →</button>
+    </div>
+    <div style="max-width:780px;margin:8px auto 0">
+      <div class="cat-tabs">
+        <button class="cat-tab active" id="ftab-all"   onclick="filterFlash('all',this)">✨ All</button>
+        <button class="cat-tab" id="ftab-cardio" onclick="filterFlash('cardio',this)">🫀 Cardio</button>
+        <button class="cat-tab" id="ftab-onco"   onclick="filterFlash('onco',this)">🌿 Onco</button>
+        <button class="cat-tab" id="ftab-np"     onclick="filterFlash('np',this)">📋 NP</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div id="flash-panel"><!-- filled by JS --></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     QUIZ SCREEN
+═══════════════════════════════════════════ -->
+<div id="quiz" class="screen">
+  <div class="topnav">
+    <div class="topnav-inner">
+      <button class="nav-back" onclick="showScreen('home')">← Home</button>
+      <div class="nav-title">✏️ Practice Quiz</div>
+      <span id="quiz-score-nav" class="quiz-score-badge">Score: <strong>0</strong></span>
+    </div>
+    <div style="max-width:780px;margin:8px auto 0">
+      <div class="progress-wrap"><div class="progress-fill" id="quiz-progress" style="width:0%"></div></div>
+    </div>
+  </div>
+  <div class="wrap" id="quiz-content"><!-- filled by JS --></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     DATA + LOGIC
+═══════════════════════════════════════════ -->
+<script>
+/* ─── SCREEN ROUTER ─── */
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  if (id === 'study')  renderStudy('all');
+  if (id === 'flash')  initFlash('all');
+  if (id === 'quiz')   initQuiz();
+}
+
+/* ─── FLOATING ANIMATION ─── */
+let t = 0;
+function floatLoop() {
+  t += 0.016;
+  const y = Math.sin(t * 0.8) * 8;
+  const el = document.getElementById('kiki-wrap');
+  if (el) el.style.transform = `translateY(${y}px)`;
+  const s1 = document.getElementById('star1');
+  const s2 = document.getElementById('star2');
+  const s3 = document.getElementById('star3');
+  if(s1) s1.style.transform = `translateY(${Math.sin(t)*6}px)`;
+  if(s2) s2.style.transform = `translateY(${Math.sin(t+1)*5}px)`;
+  if(s3) s3.style.transform = `translateY(${Math.sin(t+2)*7}px)`;
+  requestAnimationFrame(floatLoop);
+}
+requestAnimationFrame(floatLoop);
+
+/* ════════════════════════════════════════════
+   STUDY DATA
+════════════════════════════════════════════ */
+const studySections = [
+  /* ── CARDIOVASCULAR ── */
+  { cat:'cardio', heading:'🫀 Atherosclerosis', color:'--d-blue', bg:'--sky-l', border:'--sky',
+    points:[
+      'Fatty plaque deposits on artery inner walls → narrowing, hardening, loss of elasticity',
+      '⬇️ Blood flow to heart, brain, and extremities',
+      '⬆️ Risk: CAD, MI, stroke — plaques can rupture → clot → complete blockage',
+      '⬆️ Blood pressure (vessels become less flexible)',
+    ]
+  },
+  { cat:'cardio', heading:'📊 Lipoprotein Goals', color:'--d-blue', bg:'--sky-l', border:'--sky',
+    table:{ header:['Lipoprotein','Nickname','Function','Goal'],
+      rows:[
+        ['LDL (Low-Density)','"Bad" cholesterol','Carries cholesterol TO arterial walls → plaque buildup','< 100 mg/dL'],
+        ['HDL (High-Density)','"Good" cholesterol','Carries cholesterol AWAY to liver for excretion','≥ 60 mg/dL'],
+        ['Total Cholesterol','—','Overall cardiovascular risk marker','< 200 mg/dL'],
+        ['Triglycerides','—','Blood fats; elevated = ↑ CV risk','< 150 mg/dL'],
+      ]
+    }
+  },
+  { cat:'cardio', heading:'💊 Statins — HMG-CoA Reductase Inhibitors', color:'--d-blue', bg:'--sky-l', border:'--sky',
+    points:[
+      'MOA: Inhibit HMG-CoA reductase → ↓ liver cholesterol synthesis → ⬆️ LDL receptors → ↓ blood LDL',
+      'Take in the EVENING — liver makes cholesterol at night (especially lovastatin & simvastatin)',
+      '⚠️ AVOID grapefruit juice — inhibits CYP3A4 → ⬆️ statin blood levels → toxicity',
+      'Monitor: LFTs (liver function), CK (muscle enzyme)',
+    ],
+    drugs:[ ['Atorvastatin','Lipitor'], ['Rosuvastatin','Crestor'], ['Lovastatin','Mevacor'], ['Simvastatin','Zocor'] ],
+    drugColor:'--sky-l', drugTextColor:'--d-blue',
+    sideEffects:['Myalgia/myopathy (most common)','Rhabdomyolysis (rare — tea-colored urine!)','↑ Liver enzymes','Headache, GI upset'],
+    contraindications:['Pregnancy — Category X 🚫','Active liver disease','Breastfeeding'],
+    interactions:['Grapefruit juice (⬆️ statin levels)','Fibrates → ⬆️ rhabdo risk','Niacin → ⬆️ myopathy risk','Warfarin → ⬆️ anticoagulant effect'],
+  },
+  { cat:'cardio', heading:'💥 Rhabdomyolysis', color:'--d-blue', bg:'--sky-l', border:'--sky',
+    points:[
+      'Rapid skeletal muscle breakdown → myoglobin released into bloodstream → AKI',
+      '☕ KEY SIGN: Tea-colored / cola-colored / dark red-brown urine (myoglobinuria)',
+      'Other S&S: severe muscle pain/weakness, ↓ urine output, ↑ CK, ↑ BUN/creatinine',
+      '🛑 ACTION: STOP statin immediately → aggressive IV hydration → monitor renal function',
+    ]
+  },
+  { cat:'cardio', heading:'💉 PCSK9 Inhibitors', color:'--d-blue', bg:'--sky-l', border:'--sky',
+    points:[
+      'MOA: Block PCSK9 protein → LDL receptors survive longer → pulls more LDL from blood → ↓ LDL up to 60%!',
+      'Evolocumab (Repatha) & Alirocumab (Praluent)',
+      'Route: SubQ injection every 2–4 weeks — store in refrigerator',
+      'Used for: familial hypercholesterolemia, statin intolerance, very high CV risk',
+    ]
+  },
+  { cat:'cardio', heading:'🌿 Bile Acid Sequestrants (Resins)', color:'--d-blue', bg:'--sky-l', border:'--sky',
+    points:[
+      'Examples: Cholestyramine (Questran), Colestipol (Colestid), Colesevelam (Welchol)',
+      'MOA: Bind bile acids in gut → liver must use cholesterol to make new bile acids → ↓ LDL',
+      '⚠️ CONSTIPATION = most common AE — increase fluid and fiber intake',
+      '⚡ MAJOR interaction: binds other oral meds → take other drugs 1 hr BEFORE or 4–6 hrs AFTER',
+      'Never take dry — always mix powder with water or juice',
+    ]
+  },
+  { cat:'cardio', heading:'✨ Niacin & Ezetimibe', color:'--d-blue', bg:'--sky-l', border:'--sky',
+    points:[
+      'Niacin (B3): Best drug for RAISING HDL | MOA: inhibits hepatic VLDL synthesis',
+      '🔴 Niacin #1 AE: FLUSHING — take aspirin 30 min before; take with food; tolerance develops',
+      'Niacin cautions: hyperglycemia (diabetics!), hyperuricemia → gout risk, hepatotoxicity (high doses)',
+      'Ezetimibe (Zetia): Inhibits cholesterol absorption at small intestine brush border',
+      'Ezetimibe: Generally well tolerated; often combined with statins for additive LDL lowering',
+    ]
+  },
+  { cat:'cardio', heading:'🧄 Garlic Supplementation', color:'--d-blue', bg:'--sky-l', border:'--sky',
+    points:[
+      'May modestly ↓ cholesterol — evidence is inconsistent and modest',
+      '⚠️ Anticoagulant/antiplatelet effect — do NOT combine with warfarin, aspirin, NSAIDs',
+      '🗓️ Discontinue 2 weeks BEFORE surgery (bleeding risk)',
+      'May potentiate antihypertensives → hypotension',
+      'Always inform provider of ALL supplement use!',
+    ]
+  },
+
+  /* ── ONCOLOGY ── */
+  { cat:'onco', heading:'🔬 Key Oncology Terms', color:'--d-purple', bg:'--lav-l', border:'--lav',
+    points:[
+      'Metastasis: Cancer spread from primary tumor to distant organs via blood or lymph',
+      'Cell Cycle-SPECIFIC: Acts only during a specific phase (methotrexate = S phase; vincristine = M phase)',
+      'Cell Cycle-NONSPECIFIC: Acts at ANY phase including resting G₀ (alkylating agents, doxorubicin)',
+    ]
+  },
+  { cat:'onco', heading:'⚠️ Common Antineoplastic Adverse Effects', color:'--d-purple', bg:'--lav-l', border:'--lav',
+    table:{ header:['System','Effect','Clinical Notes'],
+      rows:[
+        ['Bone Marrow (MOST SERIOUS)','Myelosuppression','Leukopenia → infection; thrombocytopenia → bleeding; anemia → fatigue'],
+        ['GI','N/V, mucositis, diarrhea, anorexia','Most common complaint overall'],
+        ['Integumentary','Alopecia, skin changes, photosensitivity','Usually reversible'],
+        ['Reproductive','Infertility, teratogenicity','Category D/X — use contraception!'],
+        ['Neuro','Peripheral neuropathy','Especially vinca alkaloids'],
+        ['Cardiac','Cardiotoxicity','Doxorubicin ("Adriamycin heart")'],
+        ['Renal','Nephrotoxicity','Cisplatin — monitor BUN/Cr'],
+      ]
+    }
+  },
+  { cat:'onco', heading:'🩺 Extravasation & Vesicants', color:'--d-purple', bg:'--lav-l', border:'--lav',
+    points:[
+      'Extravasation: IV chemo leaks OUT of vein into surrounding tissue',
+      'Vesicant: Drug that causes blistering & tissue necrosis — doxorubicin, vincristine, vinblastine',
+      '🛑 STEP 1: STOP infusion immediately — leave catheter in place',
+      'Aspirate residual drug → compress per protocol → antidote if applicable (dexrazoxane for anthracyclines)',
+      'Notify provider immediately; document thoroughly; monitor site closely',
+    ]
+  },
+  { cat:'onco', heading:'🤢 Chemo-Induced N/V (CINV)', color:'--d-purple', bg:'--lav-l', border:'--lav',
+    table:{ header:['Pharmacologic','Non-Pharmacologic'],
+      rows:[
+        ['Antiemetics BEFORE chemo (Zofran/ondansetron, granisetron)','Small frequent meals (5–6/day)'],
+        ['Dexamethasone — adjunct antiemetic','Cool, bland, odorless foods'],
+        ['Aprepitant (Emend) — NK1 antagonist for highly emetogenic chemo','Sit upright 30–60 min after eating'],
+        ['Prochlorperazine — backup antiemetic','Ginger, guided imagery, distraction, relaxation'],
+      ]
+    }
+  },
+  { cat:'onco', heading:'🛡️ Pre-Admin Assessments for Chemo', color:'--d-purple', bg:'--lav-l', border:'--lav',
+    points:[
+      'CBC with diff: WBC/ANC — hold if ANC < 1,000; platelets — hold if < 100,000 (per protocol)',
+      'LFTs — hepatotoxicity risk; BUN/Creatinine — nephrotoxicity risk; electrolytes',
+      'Height & weight (dosing = mg/m²), VS, allergy history, informed consent signed',
+      'IV patency with blood return — MUST confirm before administering any chemo',
+      'Pre-medicate with antiemetics; wear full PPE; double-check with second RN per policy',
+    ]
+  },
+  { cat:'onco', heading:'🥼 PPE for Chemo Administration', color:'--d-purple', bg:'--lav-l', border:'--lav',
+    table:{ header:['PPE Item','Why It\'s Needed'],
+      rows:[
+        ['Chemo-rated gloves (double-glove)','Prevent skin absorption of cytotoxic drug'],
+        ['Impermeable gown (long-sleeved, cuffed)','Prevent skin & clothing contamination'],
+        ['Face shield or goggles','Protect eyes from splashes'],
+        ['N95 or surgical mask','Prevent aerosol inhalation'],
+        ['Shoe covers (if spill risk)','Prevent foot contamination'],
+      ]
+    }
+  },
+  { cat:'onco', heading:'🦠 Infection Prevention (Immunocompromised)', color:'--d-purple', bg:'--lav-l', border:'--lav',
+    points:[
+      '🙌 Hand hygiene = #1 most important intervention for ALL healthcare settings',
+      'Neutropenic fever ≥ 100.4°F (38°C) = MEDICAL EMERGENCY — report immediately!',
+      'Avoid: fresh flowers/plants (Pseudomonas), standing water, sick visitors, live vaccines',
+      'Neutropenic diet: no fresh unpeeled fruits/veg; no raw foods when ANC very low',
+      'No rectal temperatures or suppositories (mucosal disruption risk)',
+    ]
+  },
+  { cat:'onco', heading:'🍽️ Nutrition During Chemotherapy', color:'--d-purple', bg:'--lav-l', border:'--lav',
+    points:[
+      'Small frequent meals (5–6/day); high-calorie/high-protein when appetite allows',
+      'Cool or room-temperature foods (less odor = less nausea)',
+      'Plastic utensils if metallic taste is present',
+      'Nutritional supplements (Ensure, Boost) between meals; consult dietitian',
+      'Appetite stimulants as prescribed: megestrol acetate, dronabinol',
+      'Monitor: weight, albumin, prealbumin, electrolytes',
+    ]
+  },
+  { cat:'onco', heading:'🪞 Body Image Disturbances', color:'--d-purple', bg:'--lav-l', border:'--lav',
+    points:[
+      'Common changes: alopecia (most distressing), cachexia, surgical scars, lymphedema, skin changes',
+      'Use therapeutic communication — acknowledge feelings as VALID; never minimize ("at least you\'re alive")',
+      'Refer to "Look Good Feel Better" program; discuss wigs, scarves, hats, cold cap therapy',
+      'Support groups, counseling, peer visitors; involve family/partner with patient consent',
+    ]
+  },
+
+  /* ── NURSING PROCESS ── */
+  { cat:'np', heading:'📋 ADPIE — The 5 Steps of the Nursing Process', color:'--d-rose', bg:'--rose-l', border:'--rose',
+    table:{ header:['Step','Action','Key Point'],
+      rows:[
+        ['1. Assessment','Collect subjective & objective data','FIRST step — VS, labs, history, physical exam'],
+        ['2. Diagnosis','Identify nursing diagnoses','Prioritize using Maslow\'s hierarchy'],
+        ['3. Planning','Set SMART goals/outcomes','Specific, Measurable, Achievable, Relevant, Time-bound'],
+        ['4. Implementation','Carry out nursing interventions','Independent, dependent, or collaborative'],
+        ['5. Evaluation','Determine if goals were met','If NOT met → reassess & MODIFY plan (cyclical!)'],
+      ]
+    }
+  },
+  { cat:'np', heading:'🚧 Ineffective Health Management', color:'--d-rose', bg:'--rose-l', border:'--rose',
+    points:[
+      'Definition: Difficulty managing illness/medications/behaviors to meet health goals',
+      'Patient factors: Low health literacy, financial barriers, complex regimen, lack of social support',
+      'Patient factors: Cultural/language barriers, denial of diagnosis, depression, cognitive impairment',
+      'System factors: Poor discharge teaching, fragmented care, communication gaps with provider',
+      'Nursing interventions: Teach-back, plain language, simplify regimen, connect to community resources',
+    ]
+  },
+  { cat:'np', heading:'📖 Health Literacy Assessment', color:'--d-rose', bg:'--rose-l', border:'--rose',
+    points:[
+      'Definition: Ability to obtain, process, and understand health info to make appropriate decisions',
+      'Clues to LOW literacy: avoids reading, can\'t complete forms, unexplained non-compliance',
+      'REALM: Patient reads medical words aloud | TOFHLA: comprehension + numeracy',
+      'NVS (Newest Vital Sign): reads nutrition label — quick & practical in clinical settings',
+      '⭐ TEACH-BACK: Most commonly used clinically — "Can you show me how you\'d take this?"',
+      'Always: plain language (5th–6th grade), visual aids, pictures, non-judgmental approach',
+    ]
+  },
+];
+
+/* ════════════════════════════════════════════
+   FLASHCARD DATA (50 cards)
+════════════════════════════════════════════ */
+const flashcards = [
+  // CARDIO
+  { cat:'cardio', q:'What is atherosclerosis?', a:'Fatty plaque deposits on the inner walls of arteries → narrowing, hardening, and loss of elasticity → ↓ blood flow and ↑ risk of CAD, MI, and stroke.' },
+  { cat:'cardio', q:'What is the goal LDL level?', a:'< 100 mg/dL (optimal). LDL is "bad" cholesterol — carries cholesterol TO arterial walls and promotes plaque buildup.' },
+  { cat:'cardio', q:'What is the goal HDL level?', a:'≥ 60 mg/dL. HDL is "good" cholesterol — carries cholesterol AWAY from arteries back to the liver for excretion.' },
+  { cat:'cardio', q:'What is a desirable total cholesterol level?', a:'< 200 mg/dL. Borderline high = 200–239 mg/dL. High risk = ≥ 240 mg/dL.' },
+  { cat:'cardio', q:'What enzyme do statins inhibit?', a:'HMG-CoA reductase — the liver enzyme that synthesizes cholesterol. Inhibiting it → ↓ cholesterol production → ⬆️ LDL receptors → ↓ blood LDL.' },
+  { cat:'cardio', q:'Trade names: atorvastatin, lovastatin, rosuvastatin, simvastatin', a:'Atorvastatin = Lipitor\nLovastatin = Mevacor\nRosuvastatin = Crestor\nSimvastatin = Zocor\nMemory: "All Lions Roar Soundly"' },
+  { cat:'cardio', q:'When should statins be taken and why?', a:'Evening — because the liver synthesizes most cholesterol at night. Especially important for lovastatin and simvastatin.' },
+  { cat:'cardio', q:'Why must patients avoid grapefruit juice with statins?', a:'Grapefruit inhibits CYP3A4 enzyme → ↑ statin plasma levels → increased risk of myopathy and rhabdomyolysis (especially atorvastatin, lovastatin, simvastatin).' },
+  { cat:'cardio', q:'Most common statin adverse effect?', a:'Myalgia/myopathy — muscle pain and weakness. If severe → could be rhabdomyolysis (monitor CK levels).' },
+  { cat:'cardio', q:'Statins are Category ___ in pregnancy. Why?', a:'Category X — proven teratogenic (causes birth defects). Must use effective contraception. Also contraindicated in active liver disease and breastfeeding.' },
+  { cat:'cardio', q:'Define rhabdomyolysis & give KEY assessment finding', a:'Rapid skeletal muscle breakdown → myoglobin into bloodstream → acute kidney injury (AKI).\nKEY SIGN: Tea-colored/cola-colored dark urine (myoglobinuria ☕).\nAction: STOP statin, IV hydration, monitor renal function.' },
+  { cat:'cardio', q:'How do PCSK9 inhibitors lower LDL?', a:'Block PCSK9 protein → LDL receptors survive longer on liver cells → more LDL pulled from blood → LDL ↓ up to 60%. Given by SubQ injection every 2–4 weeks.' },
+  { cat:'cardio', q:'Name a PCSK9 inhibitor (generic + trade)', a:'Evolocumab (Repatha) and Alirocumab (Praluent). Store in refrigerator. Used for familial hypercholesterolemia or statin intolerance.' },
+  { cat:'cardio', q:'Most common AE of bile acid sequestrants?', a:'Constipation — most common and bothersome complaint. Increase fluid and fiber intake. Mix powder with water/juice — never take dry.' },
+  { cat:'cardio', q:'Major drug interaction with bile acid sequestrants?', a:'Bind other oral medications → ↓ absorption. Take all other drugs 1 HOUR BEFORE or 4–6 HOURS AFTER. Also ↓ fat-soluble vitamins A, D, E, K.' },
+  { cat:'cardio', q:'Niacin: best for which lipid effect?', a:'Best drug for RAISING HDL (most effective). MOA: inhibits hepatic VLDL synthesis. #1 AE = FLUSHING (take aspirin 30 min before + take with food).' },
+  { cat:'cardio', q:'Niacin adverse effects to remember', a:'FLUSHING (most common), pruritus (itching), hyperglycemia (caution in diabetics!), hyperuricemia → gout risk, hepatotoxicity (high doses), GI upset.' },
+  { cat:'cardio', q:'How does ezetimibe (Zetia) work?', a:'Inhibits cholesterol absorption at the brush border of the small intestine → ↓ dietary and biliary cholesterol reaching the liver. Often combined with statins for additive LDL lowering.' },
+  { cat:'cardio', q:'Garlic supplement: key nursing concern', a:'Anticoagulant/antiplatelet effect → ↑ bleeding risk. Do NOT combine with warfarin, aspirin, NSAIDs. Discontinue 2 weeks before surgery. Tell provider about ALL supplements.' },
+
+  // ONCOLOGY
+  { cat:'onco', q:'Define metastasis', a:'Spread of cancer cells from the primary (original) tumor to distant organs or tissues via bloodstream (hematogenous), lymphatic system, or direct invasion.' },
+  { cat:'onco', q:'Cell cycle-SPECIFIC vs. NONSPECIFIC drugs — key difference?', a:'Cycle-SPECIFIC: works only in a specific phase (methotrexate=S, vincristine=M).\nCycle-NONSPECIFIC: kills at ANY phase including resting G₀ (alkylating agents like cyclophosphamide, doxorubicin).' },
+  { cat:'onco', q:'Most SERIOUS antineoplastic adverse effect?', a:'Myelosuppression (bone marrow suppression):\n• Leukopenia → ↑ infection risk\n• Thrombocytopenia → ↑ bleeding risk\n• Anemia → fatigue, pallor' },
+  { cat:'onco', q:'Why do chemo drugs affect healthy cells?', a:'They cannot distinguish cancer cells from normal rapidly dividing cells (bone marrow, GI tract, hair follicles, gonads, skin). They target rapid cell division itself.' },
+  { cat:'onco', q:'Define extravasation', a:'Leakage of IV chemotherapy out of the vein into surrounding tissue → severe tissue damage, necrosis, ulceration, possible permanent disfigurement.' },
+  { cat:'onco', q:'What is a vesicant? Give examples.', a:'A chemo drug that causes blistering and tissue necrosis upon extravasation.\nExamples: Doxorubicin (Adriamycin), vincristine, vinblastine, mechlorethamine.' },
+  { cat:'onco', q:'Extravasation: First nursing action?', a:'STOP the IV infusion IMMEDIATELY. Leave catheter in place and aspirate residual drug. Then: compress per protocol, antidote if applicable (dexrazoxane for anthracyclines), notify provider, document.' },
+  { cat:'onco', q:'What antiemetic is given BEFORE chemo and why?', a:'Prophylactic antiemetics BEFORE chemo — e.g., ondansetron (Zofran), granisetron, aprepitant (Emend). Prevents chemo-induced N/V (CINV) rather than treating it after it starts.' },
+  { cat:'onco', q:'Neutropenic fever definition and action?', a:'Temperature ≥ 100.4°F (38°C) with ANC < 1,000 = MEDICAL EMERGENCY.\nReport to provider IMMEDIATELY — neutropenic patients can decompensate rapidly without prompt treatment.' },
+  { cat:'onco', q:'#1 most important infection prevention measure for ALL patients?', a:'HAND HYGIENE — strict handwashing by all staff, patient, and visitors. This is always the priority intervention regardless of setting.' },
+  { cat:'onco', q:'Why no fresh flowers in a neutropenic patient\'s room?', a:'Fresh flowers and plants harbor Pseudomonas aeruginosa and other bacteria/fungi. Immunocompromised patients cannot fight these organisms effectively.' },
+  { cat:'onco', q:'Pre-chemo labs — when do you HOLD chemotherapy?', a:'Hold if: ANC < 1,000/mm³ (per protocol) OR platelets < 100,000/mm³ (per protocol). Also check LFTs (hepatotoxicity risk) and BUN/Cr (nephrotoxicity risk).' },
+  { cat:'onco', q:'What must be confirmed BEFORE administering IV chemo?', a:'IV patency WITH blood return — MUST confirm before administration. Also: consent signed, pre-meds given, correct drug/dose/route/rate verified (double-check with second RN per policy).' },
+  { cat:'onco', q:'Which PPE must the nurse wear to administer chemo?', a:'Chemo-rated gloves (double-glove), impermeable gown (long-sleeved, cuffed), face shield or goggles, N95 or surgical mask, shoe covers if spill risk. All waste = chemo disposal container.' },
+  { cat:'onco', q:'Nutrition intervention: metallic taste during chemo?', a:'Use PLASTIC utensils (reduces metallic taste). Also: small frequent meals, cool foods (less odor), high-calorie/protein when tolerated, nutritional supplements (Ensure/Boost) between meals.' },
+  { cat:'onco', q:'Body image: most distressing change for chemo patients?', a:'Alopecia (hair loss) — most commonly reported as most distressing. Refer to "Look Good Feel Better" program, discuss wigs/scarves/cold cap therapy, use therapeutic communication.' },
+
+  // NURSING PROCESS
+  { cat:'np', q:'What does ADPIE stand for?', a:'Assessment → Diagnosis → Planning → Implementation → Evaluation.\nThe 5 steps of the nursing process. It is cyclical — if Evaluation shows goal not met, reassess and modify.' },
+  { cat:'np', q:'What is the FIRST step of the nursing process?', a:'Assessment — collecting subjective data (what the patient says) and objective data (measurable: VS, labs, physical exam). Foundation for all other steps.' },
+  { cat:'np', q:'What happens if a goal is NOT met during Evaluation?', a:'The nurse reassesses the patient and MODIFIES the plan of care. The nursing process is cyclical — Evaluation loops back to Assessment.' },
+  { cat:'np', q:'Define ineffective health management', a:'Difficulty managing a chronic illness, medications, or health behaviors to meet health goals. Causes: low health literacy, financial barriers, complex regimen, lack of support, cultural/language barriers.' },
+  { cat:'np', q:'What is health literacy?', a:'The ability to obtain, process, and understand basic health information to make appropriate health decisions. Low literacy → ↑ non-compliance and ↑ adverse outcomes.' },
+  { cat:'np', q:'What is the Teach-Back method?', a:'Most commonly used clinical tool to assess health literacy. Ask the patient to explain or demonstrate information back in their own words.\nExample: "Can you show me how you would take this medication?"' },
+  { cat:'np', q:'Signs of LOW health literacy to watch for', a:'Avoids reading materials ("forgot my glasses"), cannot complete forms, difficulty explaining medications or diagnosis, unexplained non-compliance, asks family member to read everything.' },
+  { cat:'np', q:'What reading level should patient education materials be?', a:'5th–6th grade reading level. Also use: plain language (no medical jargon), visual aids and pictures, teach-back method, involve family/caregivers, non-judgmental approach.' },
+  { cat:'np', q:'Name 3 formal health literacy screening tools', a:'1. REALM — patient reads medical words aloud\n2. TOFHLA — reading comprehension + numeracy\n3. NVS (Newest Vital Sign) — reads nutrition label, answers 6 questions; quick & practical' },
+  { cat:'np', q:'What are SMART goals in nursing planning?', a:'Specific, Measurable, Achievable, Relevant, Time-bound.\nExample: "Patient will demonstrate correct inhaler technique by end of today\'s teaching session."' },
+];
+
+/* ════════════════════════════════════════════
+   QUIZ DATA (40 questions)
+════════════════════════════════════════════ */
+const quizData = [
+  { cat:'cardio', q:'What is atherosclerosis and what does it do to arteries?', opts:['A viral infection that inflames the heart muscle','Fatty plaque deposits causing narrowing, hardening, and loss of arterial elasticity','A blood clot that forms in the venous system','Inflammation of the pericardium'], ans:1, exp:'Atherosclerosis = fatty plaque buildup on artery inner walls → narrowing, hardening, loss of elasticity → ↓ blood flow, ↑ MI and stroke risk.' },
+  { cat:'cardio', q:'Which lipoprotein is called "bad" cholesterol because it deposits plaque on artery walls?', opts:['HDL','VLDL','LDL','Chylomicrons'], ans:2, exp:'LDL (Low-Density Lipoprotein) carries cholesterol TO artery walls and promotes plaque buildup. Goal: < 100 mg/dL.' },
+  { cat:'cardio', q:'What is the goal HDL level that is considered protective against cardiovascular disease?', opts:['≥ 40 mg/dL','≥ 60 mg/dL','≥ 100 mg/dL','≥ 200 mg/dL'], ans:1, exp:'HDL ≥ 60 mg/dL is protective — it carries cholesterol AWAY from arteries back to the liver for excretion.' },
+  { cat:'cardio', q:'What is a desirable total cholesterol level?', opts:['< 150 mg/dL','< 200 mg/dL','< 240 mg/dL','< 300 mg/dL'], ans:1, exp:'Desirable total cholesterol = < 200 mg/dL. Borderline high = 200–239 mg/dL. High risk = ≥ 240 mg/dL.' },
+  { cat:'cardio', q:'What enzyme do statins inhibit to lower cholesterol?', opts:['ACE (angiotensin-converting enzyme)','COX-2 (cyclooxygenase-2)','HMG-CoA reductase','Phosphodiesterase'], ans:2, exp:'Statins inhibit HMG-CoA reductase → ↓ liver cholesterol synthesis → ⬆️ LDL receptors → ↓ circulating LDL.' },
+  { cat:'cardio', q:'What is the trade name for atorvastatin?', opts:['Zocor','Crestor','Mevacor','Lipitor'], ans:3, exp:'Atorvastatin = Lipitor. Memory tip: "All Lions Roar Soundly" → Atorvastatin/Lipitor, Lovastatin/Mevacor, Rosuvastatin/Crestor, Simvastatin/Zocor.' },
+  { cat:'cardio', q:'When should statins ideally be taken and why?', opts:['Morning with breakfast for best absorption','Afternoon to avoid GI upset','Evening — the liver produces cholesterol at night','At bedtime only if with grapefruit juice'], ans:2, exp:'Lovastatin and simvastatin especially should be taken in the evening because the liver synthesizes most cholesterol at night.' },
+  { cat:'cardio', q:'Why is grapefruit juice dangerous with many statins?', opts:['It decreases statin absorption making them ineffective','It inhibits CYP3A4, raising statin blood levels and increasing toxicity risk','It directly causes liver failure','It lowers HDL when combined with statins'], ans:1, exp:'Grapefruit inhibits CYP3A4 enzyme → ↑ statin plasma levels → risk of myopathy and rhabdomyolysis. Especially with atorvastatin, lovastatin, simvastatin.' },
+  { cat:'cardio', q:'Which is the most common complaint of patients taking statins?', opts:['Severe headache','Muscle pain and weakness (myalgia/myopathy)','Dark urine','Flushing'], ans:1, exp:'Myalgia (muscle pain/weakness) is the most common statin complaint. Severe form = rhabdomyolysis (rare but serious).' },
+  { cat:'cardio', q:'Statins are contraindicated in pregnancy because they are classified as:', opts:['Category A — safe','Category B — probably safe','Category C — unknown risk','Category X — teratogenic'], ans:3, exp:'Statins are Category X — proven teratogenic risk. Contraception MUST be used. Also contraindicated in breastfeeding and active liver disease.' },
+  { cat:'cardio', q:'Define rhabdomyolysis:', opts:['Inflammation of the liver caused by statins','Rapid breakdown of skeletal muscle releasing myoglobin into the bloodstream','A type of kidney stone caused by cholesterol','Blood clot formation in muscle tissue'], ans:1, exp:'Rhabdomyolysis = skeletal muscle breakdown → myoglobin released into blood → can cause acute kidney injury (AKI). KEY sign: tea-colored urine.' },
+  { cat:'cardio', q:'What is the KEY urine finding in rhabdomyolysis?', opts:['Cloudy white urine','Bright red urine (hematuria)','Dark red-brown / tea-colored urine (myoglobinuria)','Foamy urine (proteinuria)'], ans:2, exp:'Tea-colored or cola-colored urine = myoglobinuria — hallmark sign of rhabdomyolysis. Requires: STOP statin, aggressive IV hydration, monitor renal function.' },
+  { cat:'cardio', q:'How do PCSK9 inhibitors lower LDL cholesterol?', opts:['They block cholesterol absorption in the intestines','They bind bile acids in the gut','They block PCSK9, preventing destruction of LDL receptors so more LDL is removed from the blood','They inhibit HMG-CoA reductase in the liver'], ans:2, exp:'PCSK9 normally destroys LDL receptors. Inhibiting PCSK9 → more receptors survive → dramatic ↓ LDL (up to 60%). Given by SubQ injection.' },
+  { cat:'cardio', q:'What is the generic and trade name of a PCSK9 inhibitor?', opts:['Ezetimibe / Zetia','Evolocumab / Repatha','Colestipol / Colestid','Gemfibrozil / Lopid'], ans:1, exp:'Evolocumab (Repatha) and Alirocumab (Praluent) are PCSK9 inhibitors given by SubQ injection every 2–4 weeks. Very expensive; may require prior auth.' },
+  { cat:'cardio', q:'Most common adverse effect of bile acid sequestrants (resins)?', opts:['Rhabdomyolysis','Flushing','Constipation','Hyperglycemia'], ans:2, exp:'Constipation is the #1 complaint with bile acid sequestrants. Increase fluids and fiber. Mix powder with water or juice — never take dry.' },
+  { cat:'cardio', q:'Niacin is most effective for which lipid effect?', opts:['Lowering LDL the most','Raising HDL','Lowering triglycerides the most','Lowering total cholesterol alone'], ans:1, exp:'Niacin is the most effective drug for RAISING HDL. Its major side effect is flushing — take aspirin 30 min before and take with food to reduce it.' },
+  { cat:'cardio', q:'How does ezetimibe (Zetia) lower cholesterol?', opts:['Inhibits HMG-CoA reductase in the liver','Blocks PCSK9 protein','Binds bile acids in the intestine','Inhibits cholesterol absorption in the small intestine at the brush border'], ans:3, exp:'Ezetimibe blocks cholesterol absorption at the brush border of the small intestine. Often combined with statins for additive LDL lowering.' },
+  { cat:'cardio', q:'What is the most important herbal safety concern with garlic supplementation?', opts:['It blocks statin absorption','It has anticoagulant/antiplatelet effects — increasing bleeding risk with warfarin and NSAIDs','It causes rhabdomyolysis when combined with statins','It raises blood pressure significantly'], ans:1, exp:'Garlic has anticoagulant effects → do NOT combine with warfarin, aspirin, or NSAIDs. Discontinue 2 weeks before surgery. Evidence for cholesterol reduction is inconsistent.' },
+  { cat:'onco', q:'Define metastasis:', opts:['Initial formation of a tumor at its site of origin','Spread of cancer cells from the primary tumor to distant organs via blood or lymph','The process by which cancer cells divide more rapidly than normal','A benign tumor growing inside the lymph nodes'], ans:1, exp:'Metastasis = cancer cells spread from the primary site to distant organs via bloodstream, lymphatic system, or direct invasion. Makes treatment more complex.' },
+  { cat:'onco', q:'Cell cycle-SPECIFIC antineoplastic drugs work:', opts:['At any phase including the resting G₀ phase','Only during a specific phase of cell division','Only on cancer cells and never on normal cells','By destroying DNA regardless of cell cycle phase'], ans:1, exp:'Cell cycle-specific drugs (e.g., methotrexate=S phase; vincristine=M phase) only work during specific phases. Best for rapidly dividing tumors; often given by continuous infusion.' },
+  { cat:'onco', q:'Which class of antineoplastic drugs is cell cycle-NONSPECIFIC?', opts:['Antimetabolites (e.g., methotrexate)','Vinca alkaloids (e.g., vincristine)','Alkylating agents (e.g., cyclophosphamide)','Topoisomerase inhibitors only'], ans:2, exp:'Alkylating agents (cyclophosphamide), nitrosoureas, and anthracyclines (doxorubicin) are cell cycle-nonspecific — they can kill cells at ANY phase including G₀ (resting).' },
+  { cat:'onco', q:'Which is the MOST SERIOUS adverse reaction of antineoplastic medications?', opts:['Alopecia','Nausea and vomiting','Bone marrow suppression (myelosuppression)','Peripheral neuropathy'], ans:2, exp:'Myelosuppression is the most dangerous AE: leukopenia (infection risk), thrombocytopenia (bleeding risk), and anemia (fatigue). Neutropenic fever = medical emergency.' },
+  { cat:'onco', q:'Define extravasation in the context of chemotherapy:', opts:['Excessive sweating caused by chemotherapy','Leakage of IV chemotherapy from the vein into surrounding tissue','Rapid infusion causing cardiac arrhythmia','A severe allergic reaction to chemotherapy'], ans:1, exp:'Extravasation = IV chemo leaks into surrounding tissue → severe tissue damage, necrosis, ulceration. STOP infusion immediately, leave catheter in place, aspirate drug, notify provider.' },
+  { cat:'onco', q:'What is a vesicant?', opts:['A chemo drug that causes blistering and tissue necrosis upon extravasation','A drug that causes flushing of the skin','An antiemetic used before chemotherapy','A type of chemo administered subcutaneously'], ans:0, exp:'Vesicants (doxorubicin/Adriamycin, vincristine, vinblastine) cause blistering and tissue death if they extravasate. Distinct from irritants, which cause less severe damage.' },
+  { cat:'onco', q:'Why do antineoplastic drugs affect healthy cells?', opts:['They are designed to target healthy cells to strengthen immunity','They cannot distinguish cancer cells from normal rapidly dividing cells','They only affect cells with mutated DNA','They target all cells with high oxygen consumption'], ans:1, exp:'Chemotherapy targets rapid cell division — it cannot tell cancer cells from normal fast-dividing cells (bone marrow, GI tract, hair follicles, gonads, skin). Hence the side effects.' },
+  { cat:'onco', q:'What should a nurse do FIRST if extravasation is suspected?', opts:['Apply warm compress immediately','Continue infusion at a slower rate','Stop the infusion immediately and leave catheter in place','Flush the IV line with normal saline'], ans:2, exp:'FIRST: Stop infusion immediately. Leave catheter in place to aspirate residual drug. Then apply compress per protocol, administer antidote if applicable, notify provider, document.' },
+  { cat:'onco', q:'What pharmacologic class is given PROPHYLACTICALLY before chemo to reduce nausea?', opts:['Beta-blockers','Antiemetics (e.g., ondansetron/Zofran)','Antihistamines only','Corticosteroids only'], ans:1, exp:'Antiemetics (ondansetron/Zofran, granisetron, prochlorperazine) are given BEFORE chemo, not after nausea starts. Dexamethasone and aprepitant (Emend) are also used.' },
+  { cat:'onco', q:'A neutropenic patient develops a temperature of 100.6°F. What is the nurse\'s priority action?', opts:['Administer acetaminophen and reassess in 2 hours','Offer cool fluids and apply cool compress','Report immediately to the provider — this is a medical emergency (neutropenic fever)','Place patient in contact isolation only'], ans:2, exp:'Neutropenic fever (≥100.4°F/38°C with ANC < 1,000) = medical emergency. Report immediately. Neutropenic patients can deteriorate rapidly without prompt treatment.' },
+  { cat:'onco', q:'Which should be avoided for a patient on a neutropenic diet?', opts:['Cooked vegetables','Fresh fruits that cannot be peeled, fresh flowers, standing water','Pasteurized dairy products','Canned soups'], ans:1, exp:'Avoid: fresh unpeeled fruits/vegetables, fresh flowers (harbor Pseudomonas), standing water, raw foods. Also: restrict visitors who are sick or recently given live vaccines.' },
+  { cat:'onco', q:'Which lab values must be checked BEFORE administering antineoplastic medications?', opts:['Blood glucose and HbA1c only','CBC with differential, LFTs, BUN/creatinine, platelets','Thyroid function tests and calcium','Coagulation studies (PT/INR) only'], ans:1, exp:'Pre-chemo labs: CBC with diff (WBC/ANC, platelets), LFTs (hepatotoxicity risk), BUN/creatinine (nephrotoxicity risk), electrolytes. Hold if ANC < 1,000 or platelets < 100,000.' },
+  { cat:'onco', q:'Which PPE item is most critical to prevent skin absorption when handling chemotherapy?', opts:['Surgical mask','N95 respirator only','Chemo-rated gloves (double-glove recommended)','Standard latex gloves'], ans:2, exp:'Chemo-rated gloves (double-gloved) are essential — cytotoxic drugs can be absorbed through skin. Also wear impermeable gown, face shield/goggles, and mask.' },
+  { cat:'onco', q:'A chemo patient reports metallic taste and loss of appetite. Best dietary intervention?', opts:['Serve large hot meals with strong aromas','Encourage three large meals per day','Use plastic utensils, serve small frequent meals, offer cool foods','Restrict protein until nausea resolves'], ans:2, exp:'For metallic taste: use plastic utensils. For anorexia/nausea: small frequent meals (5–6/day), cool or room-temp foods, high-calorie/high-protein snacks, nutritional supplements.' },
+  { cat:'onco', q:'Which statement best describes body image changes in cancer treatment?', opts:['Body image concerns are rare and usually minimal','Alopecia is the only body image concern','Body image disturbances are common, significant, and include alopecia, cachexia, surgical changes, lymphedema — feelings are VALID','Body image concerns should be minimized so patient focuses on treatment'], ans:2, exp:'Body image disturbances are common and significant. Use therapeutic communication, acknowledge feelings as valid, refer to support groups and "Look Good Feel Better" program.' },
+  { cat:'np', q:'What does the acronym ADPIE stand for?', opts:['Administer, Diagnose, Plan, Intervene, Evaluate','Assessment, Diagnosis, Planning, Implementation, Evaluation','Assess, Document, Prioritize, Intervene, Educate','Analysis, Diagnosis, Prepare, Implement, Examine'], ans:1, exp:'ADPIE = Assessment → Diagnosis → Planning → Implementation → Evaluation. The 5 steps of the nursing process. It is cyclical.' },
+  { cat:'np', q:'During which step of the nursing process does the nurse collect subjective and objective data?', opts:['Diagnosis','Planning','Assessment','Evaluation'], ans:2, exp:'Assessment = collecting data: subjective (what the patient says) and objective (measurable: VS, labs, physical exam). It is the FIRST step and the foundation for all others.' },
+  { cat:'np', q:'A patient says "I forget my meds because I can\'t afford them and don\'t understand the schedule." This represents:', opts:['Denial of diagnosis','Ineffective health management','Noncompliance due to laziness','A normal expected chemo response'], ans:1, exp:'Ineffective health management = difficulty managing illness/medications to meet health goals. Causes include financial barriers, low health literacy, complex regimen, lack of support.' },
+  { cat:'np', q:'What is the most commonly used CLINICAL method to assess health literacy?', opts:['REALM (Rapid Estimate of Adult Literacy in Medicine)','TOFHLA test','Teach-back method','Newest Vital Sign (NVS)'], ans:2, exp:'Teach-back is the most commonly used clinical tool: ask the patient to explain information back in their own words. Example: "Can you show me how you would take this medication?"' },
+  { cat:'np', q:'A patient avoids reading handouts and says "I\'ll just have my daughter read that." What should the nurse do?', opts:['Only provide reading materials — this is a preference','Suspect low health literacy — use teach-back, plain language, and visual aids','Document non-compliance','This is normal; most patients prefer family to handle paperwork'], ans:1, exp:'Avoiding reading materials is a clue to low health literacy. Nursing response: teach-back method, plain language (5th–6th grade level), visual aids/pictures, involve family, non-judgmental tone.' },
+  { cat:'np', q:'During Evaluation, the nurse determines the patient\'s goal was NOT met. What next?', opts:['Document that the goal was unmet and discharge the patient','Repeat the same interventions without modification','Reassess the patient and modify the plan of care','Transfer the patient to another nurse'], ans:2, exp:'If a goal is NOT met during Evaluation, the nurse REASSESSES and MODIFIES the plan of care. The nursing process is cyclical — evaluation loops back to assessment.' },
+  { cat:'np', q:'What reading level should patient education materials target?', opts:['College level for accuracy','10th grade','5th to 6th grade','Medical professional level only'], ans:2, exp:'Patient education materials should target a 5th–6th grade reading level. Also use plain language, visual aids, pictures, and verify understanding with teach-back method.' },
+  { cat:'np', q:'Which tool asks the patient to read a nutrition label to assess health literacy?', opts:['REALM','TOFHLA','NVS (Newest Vital Sign)','Teach-back'], ans:2, exp:'NVS (Newest Vital Sign) presents a nutrition label and asks 6 questions — it assesses both reading comprehension and numeracy. Quick and practical in clinical settings.' },
+];
+
+/* ════════════════════════════════════════════
+   STUDY RENDER
+════════════════════════════════════════════ */
+const CAT_META = {
+  cardio:{ label:'Cardiovascular & Lipid', icon:'🫀', color:'var(--d-blue)', bg:'var(--sky-l)', border:'var(--sky)' },
+  onco:  { label:'Oncology Pharmacology',  icon:'🌿', color:'var(--d-purple)', bg:'var(--lav-l)', border:'var(--lav)' },
+  np:    { label:'Nursing Process',         icon:'📋', color:'var(--d-rose)',   bg:'var(--rose-l)', border:'var(--rose)' },
+};
+
+function renderStudy(filter) {
+  const el = document.getElementById('study-content');
+  const cats = filter === 'all' ? ['cardio','onco','np'] : [filter];
+  let html = '';
+  cats.forEach(cat => {
+    const m = CAT_META[cat];
+    const sections = studySections.filter(s => s.cat === cat);
+    html += `<div style="margin-bottom:40px">
+      <div class="section-head">
+        <div class="section-icon-box" style="background:${m.bg};border:2px solid ${m.border}">${m.icon}</div>
+        <div class="section-title-text" style="color:${m.color}">${m.label}</div>
+      </div>`;
+    sections.forEach(sec => {
+      const headColor = `var(${sec.color})`;
+      html += `<div class="study-card" style="border-color:${m.border}">
+        <div class="study-card-title" style="color:${headColor}">${sec.heading}</div>`;
+      if (sec.points) {
+        html += `<ul class="bullet-list">`;
+        sec.points.forEach(p => html += `<li style="color:var(--text)"><span style="color:${headColor}">◆</span><span>${p}</span></li>`);
+        html += `</ul>`;
+      }
+      if (sec.table) {
+        html += `<div style="overflow-x:auto"><table class="study-table">
+          <tr>${sec.table.header.map(h=>`<th style="color:${headColor};border-bottom-color:${m.border}">${h}</th>`).join('')}</tr>
+          ${sec.table.rows.map((r,ri)=>`<tr>${r.map(c=>`<td style="border-bottom-color:${m.border}">${c}</td>`).join('')}</tr>`).join('')}
+        </table></div>`;
+      }
+      if (sec.drugs) {
+        html += `<div style="margin-top:12px;font-size:11px;font-weight:bold;color:var(--text-l);letter-spacing:1px;margin-bottom:6px">TRADE NAMES</div>
+          <div class="drug-grid">
+            ${sec.drugs.map(([g,t])=>`<div class="drug-pill" style="background:${m.bg};border:1px solid ${m.border}"><strong style="color:${headColor}">${g}</strong><span style="color:var(--text-l)">→ ${t}</span></div>`).join('')}
+          </div>`;
+      }
+      if (sec.sideEffects) {
+        html += `<div style="margin-top:14px"><div style="font-size:11px;font-weight:bold;color:var(--warn);margin-bottom:6px;letter-spacing:1px">⚠️ ADVERSE EFFECTS</div>
+          <div class="tag-row">${sec.sideEffects.map(s=>`<span class="tag" style="background:var(--warn-bg);border:1px solid var(--warn-b);color:var(--warn)">${s}</span>`).join('')}</div></div>`;
+      }
+      if (sec.contraindications) {
+        html += `<div style="margin-top:10px"><div style="font-size:11px;font-weight:bold;color:#8a2040;margin-bottom:6px;letter-spacing:1px">🚫 CONTRAINDICATIONS</div>
+          <div class="tag-row">${sec.contraindications.map(s=>`<span class="tag" style="background:#ffe0ea;border:1px solid #e0a0b0;color:#8a2040">${s}</span>`).join('')}</div></div>`;
+      }
+      if (sec.interactions) {
+        html += `<div style="margin-top:10px"><div style="font-size:11px;font-weight:bold;color:var(--ci);margin-bottom:6px;letter-spacing:1px">⚡ DRUG INTERACTIONS</div>
+          <div class="tag-row">${sec.interactions.map(s=>`<span class="tag" style="background:var(--ci-bg);border:1px solid var(--ci-b);color:var(--ci)">${s}</span>`).join('')}</div></div>`;
+      }
+      html += `</div>`;
+    });
+    html += `</div>`;
+  });
+  el.innerHTML = html;
+}
+
+function filterStudy(cat, btn) {
+  document.querySelectorAll('#study .cat-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderStudy(cat);
+}
+
+/* ════════════════════════════════════════════
+   FLASHCARD ENGINE
+════════════════════════════════════════════ */
+let flashDeck = [];
+let flashIdx = 0;
+let flashKnew = 0;
+let flashDidnt = 0;
+let flashIsFlipped = false;
+let flashCurrentCat = 'all';
+
+function filterFlash(cat, btn) {
+  document.querySelectorAll('#flash .cat-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  flashCurrentCat = cat;
+  initFlash(cat);
+}
+
+function initFlash(cat) {
+  flashDeck = (cat === 'all' ? flashcards : flashcards.filter(f => f.cat === cat))
+    .map(f => ({ ...f }));
+  // shuffle
+  for (let i = flashDeck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [flashDeck[i], flashDeck[j]] = [flashDeck[j], flashDeck[i]];
+  }
+  flashIdx = 0; flashKnew = 0; flashDidnt = 0; flashIsFlipped = false;
+  renderFlash();
+}
+
+function renderFlash() {
+  const el = document.getElementById('flash-panel');
+  if (!el) return;
+
+  if (flashIdx >= flashDeck.length) {
+    const pct = Math.round((flashKnew / flashDeck.length) * 100);
+    el.innerHTML = `<div class="flash-results">
+      <div class="flash-results-emoji">${pct >= 80 ? '🌟' : pct >= 60 ? '✨' : '🐱'}</div>
+      <div class="flash-results-score">${flashKnew}/${flashDeck.length}</div>
+      <div class="flash-results-label">cards you knew</div>
+      <div style="font-size:28px;font-weight:bold;color:${pct>=70?'var(--d-purple)':'var(--warn)'};margin-bottom:12px">${pct}%</div>
+      <div style="font-size:14px;color:var(--text-l);font-style:italic;margin-bottom:24px">${pct>=80?'Kiki would be proud! 🧙‍♀️':pct>=60?'Jiji believes in you! 🐱':'Keep flying — review and retry! ☁️'}</div>
+      <div class="flash-results-btns">
+        <button class="results-btn primary" onclick="initFlash(flashCurrentCat)">🔄 Shuffle & Retry</button>
+        <button class="results-btn secondary" onclick="showScreen('quiz')">✏️ Take the Quiz</button>
+        <button class="results-btn ghost" onclick="showScreen('home')">🏠 Home</button>
+      </div>
+    </div>`;
+    return;
+  }
+
+  const card = flashDeck[flashIdx];
+  const m = CAT_META[card.cat];
+  const prgW = Math.round(((flashIdx) / flashDeck.length) * 100);
+
+  // answer text with line breaks
+  const ansHtml = card.a.replace(/\n/g, '<br>');
+
+  el.innerHTML = `
+    <div class="flash-counter"><strong>${flashIdx + 1}</strong> of ${flashDeck.length} &nbsp;·&nbsp; ✅ ${flashKnew} knew &nbsp;·&nbsp; 🔁 ${flashDidnt} review</div>
+    <div class="progress-wrap" style="margin-bottom:16px"><div class="progress-fill" style="width:${prgW}%"></div></div>
+
+    <div class="flashcard-viewport" onclick="flipCard()" id="fc-viewport">
+      <div class="flashcard-inner" id="fc-inner">
+        <!-- FRONT -->
+        <div class="flashcard-face" style="background:${m.bg};border-color:${m.border}">
+          <div class="flash-cat-badge" style="background:${m.border};color:${m.color}">${m.icon} ${m.label}</div>
+          <div class="flash-face-label">QUESTION</div>
+          <div class="flash-q">${card.q}</div>
+        </div>
+        <!-- BACK -->
+        <div class="flashcard-face flashcard-back" style="background:var(--white);border-color:${m.border}">
+          <div class="flash-cat-badge" style="background:${m.border};color:${m.color}">${m.icon} ${m.label}</div>
+          <div class="flash-face-label">ANSWER</div>
+          <div class="flash-a">${ansHtml}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flash-hint" id="fc-hint">👆 Tap card to reveal answer</div>
+
+    <div id="fc-knew" style="display:none">
+      <div class="flash-knew">
+        <button class="knew-yes" onclick="markKnew(true)">✅ Got it!</button>
+        <button class="knew-no"  onclick="markKnew(false)">🔁 Review again</button>
+      </div>
+    </div>
+
+    <div class="flash-controls" style="margin-top:16px">
+      <button class="flash-btn" onclick="flashIdx=Math.max(0,flashIdx-1);flashIsFlipped=false;renderFlash()">← Prev</button>
+      <button class="flash-btn primary" onclick="flipCard()">Flip Card</button>
+      <button class="flash-btn" onclick="flashIdx=Math.min(flashDeck.length,flashIdx+1);flashIsFlipped=false;renderFlash()">Skip →</button>
+    </div>
+  `;
+  flashIsFlipped = false;
+}
+
+function flipCard() {
+  const inner = document.getElementById('fc-inner');
+  const hint  = document.getElementById('fc-hint');
+  const knew  = document.getElementById('fc-knew');
+  if (!inner) return;
+  flashIsFlipped = !flashIsFlipped;
+  if (flashIsFlipped) {
+    inner.classList.add('flipped');
+    if (hint) hint.style.display = 'none';
+    if (knew) knew.style.display = 'block';
+  } else {
+    inner.classList.remove('flipped');
+    if (hint) hint.style.display = 'block';
+    if (knew) knew.style.display = 'none';
+  }
+}
+
+function markKnew(yes) {
+  if (yes) flashKnew++; else flashDidnt++;
+  flashIdx++;
+  flashIsFlipped = false;
+  renderFlash();
+}
+
+/* ════════════════════════════════════════════
+   QUIZ ENGINE
+════════════════════════════════════════════ */
+let qIdx = 0;
+let qScore = 0;
+let qSelected = null;
+let qRevealed = false;
+
+const CAT_BADGE_STYLES = {
+  cardio: 'background:var(--sky-l);color:var(--d-blue)',
+  onco:   'background:var(--lav-l);color:var(--d-purple)',
+  np:     'background:var(--rose-l);color:var(--d-rose)',
+};
+const CAT_ICONS = { cardio:'🫀', onco:'🌿', np:'📋' };
+const CAT_LABELS = { cardio:'Cardiovascular & Lipid', onco:'Oncology Pharmacology', np:'Nursing Process' };
+
+function initQuiz() {
+  qIdx = 0; qScore = 0; qSelected = null; qRevealed = false;
+  updateQuizNav();
+  renderQuiz();
+}
+
+function updateQuizNav() {
+  const s = document.getElementById('quiz-score-nav');
+  if (s) s.innerHTML = `Score: <strong>${qScore}</strong>`;
+  const p = document.getElementById('quiz-progress');
+  const pct = Math.round(((qIdx + (qRevealed?1:0)) / quizData.length)*100);
+  if (p) p.style.width = pct+'%';
+}
+
+function renderQuiz() {
+  const el = document.getElementById('quiz-content');
+  if (!el) return;
+  updateQuizNav();
+
+  if (qIdx >= quizData.length) {
+    const pct = Math.round((qScore / quizData.length)*100);
+    const grade = pct>=90?'A':pct>=80?'B':pct>=70?'C':pct>=60?'D':'F';
+    const msg = pct>=90?'Kiki would be proud! 🧙‍♀️✨':pct>=80?'Great delivery, nurse! 🧹':pct>=70?'Jiji believes in you! 🐱':'Keep flying — you\'ll get there! ☁️';
+    el.innerHTML = `<div class="results-card">
+      <div style="font-size:56px;margin-bottom:8px">${pct>=90?'🌟':pct>=80?'✨':pct>=70?'🌿':'🐱'}</div>
+      <div class="results-grade">${grade}</div>
+      <div class="results-score">${qScore} / ${quizData.length} correct</div>
+      <div class="results-pct" style="color:${pct>=70?'var(--d-purple)':'var(--warn)'}">${pct}%</div>
+      <div class="results-msg">${msg}</div>
+      <div class="results-btns">
+        <button class="results-btn primary" onclick="initQuiz()">🔄 Retry Quiz</button>
+        <button class="results-btn secondary" onclick="showScreen('flash')">🃏 Practice Flashcards</button>
+        <button class="results-btn ghost"  onclick="showScreen('home')">🏠 Back to Home</button>
+      </div>
+    </div>`;
+    return;
+  }
+
+  const q = quizData[qIdx];
+  const optLetters = ['A','B','C','D'];
+
+  let optsHtml = q.opts.map((opt, i) => {
+    let cls = 'option-btn';
+    let letter = optLetters[i];
+    if (qRevealed) {
+      cls += ' locked';
+      if (i === q.ans) { cls += ' correct'; letter = '✓'; }
+      else if (i === qSelected && i !== q.ans) { cls += ' wrong'; letter = '✗'; }
+    }
+    return `<button class="${cls}" onclick="selectOpt(${i})">
+      <span class="option-letter">${letter}</span>${opt}
+    </button>`;
+  }).join('');
+
+  let explainHtml = '';
+  if (qRevealed) {
+    const correct = qSelected === q.ans;
+    explainHtml = `<div class="explain-box ${correct?'correct-exp':'wrong-exp'}">
+      <div class="explain-label" style="color:${correct?'var(--d-green)':'var(--ci)'}">${correct?'✨ Correct!':'💡 Explanation'}</div>
+      ${q.exp}
+    </div>`;
+  }
+
+  el.innerHTML = `
+    <div class="quiz-meta">
+      <span class="quiz-cat-badge" style="${CAT_BADGE_STYLES[q.cat]}">${CAT_ICONS[q.cat]} ${CAT_LABELS[q.cat]}</span>
+      <span class="quiz-score-badge">Score: <strong>${qScore}</strong></span>
+    </div>
+    <div class="quiz-question-card">
+      <div class="quiz-qnum">QUESTION ${qIdx+1} OF ${quizData.length}</div>
+      <div class="quiz-qtext">${q.q}</div>
+    </div>
+    <div class="options-list">${optsHtml}</div>
+    ${explainHtml}
+    ${qRevealed ? `<button class="next-btn" onclick="nextQ()">${qIdx+1>=quizData.length?'✨ See My Results':'Next Question →'}</button>` : ''}
+  `;
+}
+
+function selectOpt(i) {
+  if (qRevealed) return;
+  qSelected = i;
+  qRevealed = true;
+  if (i === quizData[qIdx].ans) qScore++;
+  updateQuizNav();
+  renderQuiz();
+}
+
+function nextQ() {
+  qIdx++;
+  qSelected = null;
+  qRevealed = false;
+  renderQuiz();
+}
+</script>
+</body>
+</html>
