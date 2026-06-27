@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VN15 Test 4 — Complete Study Guide ✨</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:ital,wght@0,700;1,400&display=swap');
+:root {
+  --sky:#b8d8f0; --skysoft:#e4f2fc; --meadow:#c4dbb4; --meadowsoft:#e8f2e0;
+  --blush:#f5d5d5; --rose:#e8a0a0; --lavender:#d8cff0; --violet:#a090cc;
+  --peach:#f5dfc0; --peachdk:#d4944a; --cream:#faf6ee; --fog:#eef3f8;
+  --sand:#f0e8d8; --text:#3a3050; --textsoft:#6a5f80; --border:#ddd5ee;
+  --white:#fff; --correct:#7aba8a; --wrong:#e07878; --correctbg:#e4f5e8;
+  --wrongbg:#fde8e8; --gold:#c8a850; --brown:#6b4226;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;overflow-x:hidden;}
+
+/* HERO */
+.hero{position:relative;background:linear-gradient(180deg,#b0cce8 0%,#c8e0f8 35%,#d0e8c0 70%,#c0d8a8 100%);padding:3rem 1.5rem 5rem;text-align:center;overflow:hidden;}
+.cloud{position:absolute;background:rgba(255,255,255,0.8);border-radius:50px;filter:blur(2px);}
+.cloud::before,.cloud::after{content:'';position:absolute;background:rgba(255,255,255,0.8);border-radius:50%;}
+.c1{width:100px;height:32px;top:15%;left:4%}.c1::before{width:50px;height:50px;top:-22px;left:12px}.c1::after{width:36px;height:36px;top:-16px;left:46px}
+.c2{width:80px;height:26px;top:25%;right:8%}.c2::before{width:38px;height:38px;top:-16px;left:8px}.c2::after{width:28px;height:28px;top:-12px;left:36px}
+.c3{width:120px;height:36px;top:10%;right:25%}.c3::before{width:55px;height:55px;top:-25px;left:18px}.c3::after{width:40px;height:40px;top:-18px;left:62px}
+.grass-wave{position:absolute;bottom:-2px;left:0;right:0;height:60px;}
+.grass-wave svg{width:100%;height:100%;}
+.hero-badge{display:inline-block;background:rgba(255,255,255,0.55);border:1.5px solid rgba(255,255,255,0.8);border-radius:99px;padding:.3rem 1rem;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--textsoft);margin-bottom:.8rem;backdrop-filter:blur(4px);position:relative;z-index:2;}
+.hero h1{font-family:'Lora',serif;font-size:2rem;color:var(--text);line-height:1.2;text-shadow:0 2px 12px rgba(255,255,255,.6);position:relative;z-index:2;}
+.hero h1 em{font-style:italic;color:#3a5a8a;}
+.hero-sub{font-size:.8rem;color:var(--textsoft);margin-top:.6rem;font-weight:700;position:relative;z-index:2;}
+.totoro{position:absolute;bottom:52px;right:7%;width:48px;height:58px;opacity:.5;}
+.tb{position:absolute;bottom:0;left:0;width:48px;height:48px;background:#5a7a5a;border-radius:50% 50% 40% 40%;}
+.tel{position:absolute;width:9px;height:16px;background:#5a7a5a;border-radius:50% 50% 0 0;top:0;left:7px;transform:rotate(-12deg);}
+.ter{position:absolute;width:9px;height:16px;background:#5a7a5a;border-radius:50% 50% 0 0;top:0;right:7px;transform:rotate(12deg);}
+.tbl{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:26px;height:26px;background:#c8d8b8;border-radius:50%;}
+.tel2{position:absolute;width:7px;height:8px;background:#fff;border-radius:50%;top:18px;left:9px;}
+.ter2{position:absolute;width:7px;height:8px;background:#fff;border-radius:50%;top:18px;right:9px;}
+.birds{position:absolute;top:12%;right:18%;font-size:.9rem;opacity:.4;letter-spacing:6px;}
+.soot{position:absolute;border-radius:50%;background:#3a3a4a;opacity:.2;}
+.s1{width:11px;height:11px;bottom:58px;left:14%}.s2{width:7px;height:7px;bottom:63px;left:17%}.s3{width:9px;height:9px;bottom:55px;left:21%}
+
+/* TABS */
+.tabs{display:flex;background:var(--text);border-bottom:3px solid var(--violet);position:sticky;top:0;z-index:200;overflow-x:auto;}
+.tab-btn{flex:1;min-width:110px;padding:.8rem .8rem;font-size:.77rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.6);border:none;background:none;cursor:pointer;font-family:'Nunito',sans-serif;border-bottom:3px solid transparent;transition:all .2s;text-align:center;white-space:nowrap;}
+.tab-btn:hover{background:rgba(255,255,255,.08);color:#fff;}
+.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold);background:rgba(255,255,255,.06);}
+
+/* PANELS */
+.panel{display:none;padding-bottom:4rem;}
+.panel.active{display:block;}
+
+/* SECTION HEADS */
+.sec-head{display:flex;align-items:center;gap:.75rem;padding:1.6rem 1.2rem .7rem;}
+.sec-pill{font-size:.66rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:.28rem .85rem;border-radius:99px;border:2px solid;white-space:nowrap;}
+.sp-blue{background:var(--skysoft);color:#2a5a8a;border-color:var(--sky);}
+.sp-green{background:var(--meadowsoft);color:#2a5a2a;border-color:var(--meadow);}
+.sp-pink{background:var(--blush);color:#8a3a3a;border-color:var(--rose);}
+.sp-lav{background:var(--lavender);color:#5a38aa;border-color:var(--violet);}
+.sp-peach{background:var(--peach);color:#8a4a10;border-color:var(--peachdk);}
+.sp-gold{background:#fdf5e0;color:#7a5a00;border-color:var(--gold);}
+.sec-rule{flex:1;height:1.5px;background:var(--border);}
+
+/* SG PROGRESS */
+.sg-prog{background:var(--white);border-bottom:1.5px solid var(--border);padding:.85rem 1.2rem;display:flex;align-items:center;gap:.9rem;}
+.sg-prog-lbl{font-size:.72rem;font-weight:800;color:var(--textsoft);white-space:nowrap;text-transform:uppercase;letter-spacing:.08em;}
+.sg-prog-track{flex:1;height:7px;background:var(--border);border-radius:99px;overflow:hidden;}
+.sg-prog-fill{height:100%;background:linear-gradient(90deg,var(--rose),var(--violet),var(--meadow));border-radius:99px;transition:width .4s;width:0%;}
+.sg-prog-count{font-size:.72rem;font-weight:800;color:var(--violet);white-space:nowrap;}
+
+/* SG CARDS */
+.sg-card{background:var(--white);border-radius:16px;margin:.55rem 1rem;border:1.5px solid var(--border);border-left:5px solid var(--violet);overflow:hidden;transition:box-shadow .2s;}
+.sg-card:hover{box-shadow:0 4px 18px rgba(160,144,204,.13);}
+.sg-card.reviewed{border-left-color:var(--correct);}
+.sg-card-top{display:flex;align-items:flex-start;gap:.85rem;padding:.95rem 1.1rem;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;}
+.sg-num{min-width:28px;height:28px;background:var(--violet);color:#fff;font-size:.8rem;font-weight:900;display:flex;align-items:center;justify-content:center;border-radius:7px;flex-shrink:0;margin-top:1px;}
+.sg-card.reviewed .sg-num{background:var(--correct);}
+.sg-q{flex:1;font-size:.88rem;font-weight:700;line-height:1.45;color:var(--text);}
+.sg-chev{font-size:.7rem;color:var(--textsoft);transition:transform .3s;margin-top:5px;flex-shrink:0;}
+.sg-card.open .sg-chev{transform:rotate(180deg);}
+.sg-body{max-height:0;overflow:hidden;transition:max-height .45s ease;}
+.sg-card.open .sg-body{max-height:9999px;}
+.sg-inner{border-top:1.5px solid var(--border);padding:1rem 1.1rem 1.15rem;}
+
+/* ANSWER CONTENT */
+.ans-table{width:100%;border-collapse:collapse;font-size:.82rem;margin:.5rem 0;}
+.ans-table th{background:var(--text);color:#fff;padding:.45rem .7rem;text-align:left;font-size:.73rem;font-weight:800;}
+.ans-table td{padding:.45rem .7rem;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.45;font-size:.83rem;}
+.ans-table tr:last-child td{border-bottom:none;}
+.ans-table tr:nth-child(even) td{background:var(--fog);}
+.ans-ul{padding-left:1.1rem;margin:.4rem 0;}
+.ans-ul li{font-size:.84rem;line-height:1.55;margin-bottom:.28rem;}
+.ans-ol{padding-left:1.2rem;margin:.4rem 0;}
+.ans-ol li{font-size:.84rem;line-height:1.55;margin-bottom:.28rem;}
+.body-p{font-size:.85rem;line-height:1.6;margin:.3rem 0;}
+.sub-lbl{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--violet);margin:.8rem 0 .3rem;}
+.callout{border-radius:10px;padding:.65rem .85rem;margin:.65rem 0;font-size:.82rem;line-height:1.5;}
+.c-blue{background:var(--skysoft);border-left:3px solid var(--sky);color:#1a3a6a;}
+.c-green{background:var(--meadowsoft);border-left:3px solid var(--meadow);color:#1a4a1a;}
+.c-pink{background:var(--blush);border-left:3px solid var(--rose);color:#6a1a1a;}
+.c-lav{background:var(--lavender);border-left:3px solid var(--violet);color:#3a1a8a;}
+.callout strong{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.09em;margin-bottom:.2rem;}
+.rev-btn{margin-top:.9rem;background:none;border:1.5px solid var(--border);border-radius:8px;padding:.38rem .85rem;font-size:.76rem;font-weight:700;color:var(--textsoft);cursor:pointer;font-family:'Nunito',sans-serif;transition:all .2s;}
+.rev-btn:hover{border-color:var(--correct);color:var(--correct);}
+.sg-card.reviewed .rev-btn{background:var(--correctbg);border-color:var(--correct);color:#1a5a30;}
+
+/* FLASHCARDS */
+.fc-controls{display:flex;align-items:center;justify-content:center;gap:.75rem;padding:1rem 1rem 0;flex-wrap:wrap;}
+.fc-ctrl-btn{background:var(--text);color:#fff;border:2px solid var(--border);border-radius:8px;padding:.42rem 1rem;font-family:'Nunito',sans-serif;font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;cursor:pointer;transition:all .2s;}
+.fc-ctrl-btn:hover{background:var(--violet);border-color:var(--violet);}
+.fc-prog-wrap{font-size:.75rem;font-weight:700;color:var(--textsoft);}
+.fc-grid{display:grid;grid-template-columns:1fr;gap:.85rem;padding:1rem 1rem 0;}
+@media(min-width:580px){.fc-grid{grid-template-columns:1fr 1fr;}}
+.fc-wrap{perspective:1000px;min-height:165px;cursor:pointer;}
+.fc-inner{position:relative;width:100%;min-height:165px;transition:transform .55s cubic-bezier(.4,0,.2,1);transform-style:preserve-3d;}
+.fc-wrap.flipped .fc-inner{transform:rotateY(180deg);}
+.fc-front,.fc-back{position:absolute;inset:0;border-radius:14px;border:1.5px solid var(--border);backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:1.1rem 1rem;text-align:center;min-height:165px;}
+.fc-front{background:var(--white);border-left:5px solid var(--violet);}
+.fc-back{background:linear-gradient(135deg,var(--text) 0%,#4a3870 100%);border-left:5px solid var(--violet);transform:rotateY(180deg);}
+.fc-tag{font-size:.6rem;font-weight:800;text-transform:uppercase;letter-spacing:.12em;padding:.15rem .55rem;border-radius:99px;margin-bottom:.55rem;}
+.ft-blue{background:var(--skysoft);color:#2a5a8a;}
+.ft-green{background:var(--meadowsoft);color:#2a5a2a;}
+.ft-pink{background:var(--blush);color:#8a3a3a;}
+.ft-lav{background:var(--lavender);color:#5a38aa;}
+.ft-peach{background:var(--peach);color:#8a4a10;}
+.ft-gold{background:#fdf5e0;color:#7a5a00;}
+.fc-front-q{font-size:.88rem;font-weight:700;line-height:1.45;color:var(--text);}
+.fc-hint{font-size:.6rem;color:var(--textsoft);margin-top:.65rem;font-weight:600;}
+.fc-back-a{font-size:.83rem;font-weight:600;line-height:1.5;color:rgba(255,255,255,.92);}
+.fc-back-a strong{color:var(--gold);}
+
+/* QUIZ */
+.quiz-dash{background:var(--white);border-bottom:1.5px solid var(--border);padding:.85rem 1.2rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.qpill{font-size:.73rem;font-weight:800;padding:.28rem .8rem;border-radius:99px;border:1.5px solid;white-space:nowrap;}
+.qp-lav{background:var(--lavender);color:var(--violet);border-color:var(--violet);}
+.qp-green{background:var(--meadowsoft);color:#2a5a2a;border-color:var(--meadow);}
+.qp-pink{background:var(--blush);color:#8a3a3a;border-color:var(--rose);}
+.qprog-wrap{flex:1;min-width:80px;}
+.qprog-lbl{font-size:.64rem;font-weight:700;color:var(--textsoft);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.25rem;}
+.qprog-track{height:7px;background:var(--border);border-radius:99px;overflow:hidden;}
+.qprog-fill{height:100%;background:linear-gradient(90deg,var(--rose),var(--violet),var(--meadow));border-radius:99px;transition:width .4s;width:0%;}
+.reset-btn{background:none;border:1.5px solid var(--border);border-radius:99px;padding:.28rem .85rem;font-family:'Nunito',sans-serif;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--textsoft);cursor:pointer;transition:all .2s;}
+.reset-btn:hover{background:var(--rose);border-color:var(--rose);color:#fff;}
+.qsec-head{display:flex;align-items:center;gap:.75rem;padding:1.4rem 1.2rem .6rem;}
+.qsec-rule{flex:1;height:1.5px;background:var(--border);}
+
+/* QUESTION CARDS */
+.qcard{background:var(--white);border-radius:16px;margin:.55rem 1rem;border:1.5px solid var(--border);border-left:5px solid var(--violet);overflow:hidden;transition:box-shadow .2s;}
+.qcard:hover{box-shadow:0 4px 18px rgba(160,144,204,.12);}
+.qcard.qc-c{border-left-color:var(--correct);}
+.qcard.qc-w{border-left-color:var(--wrong);}
+.qcard-top{padding:.9rem 1.1rem .7rem;}
+.q-meta{display:flex;align-items:center;gap:.45rem;margin-bottom:.5rem;}
+.qnum{width:26px;height:26px;border-radius:7px;background:var(--violet);color:#fff;font-size:.75rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.qtag{font-size:.6rem;font-weight:800;text-transform:uppercase;letter-spacing:.09em;padding:.12rem .55rem;border-radius:99px;}
+.tag-ss{background:var(--skysoft);color:#2a5a8a;border:1.5px solid var(--sky);}
+.tag-sa{background:var(--peach);color:#8a4a10;border:1.5px solid var(--peachdk);}
+.client-box{background:var(--sand);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:.5rem .75rem;font-size:.79rem;line-height:1.5;color:#5a4a20;margin-bottom:.55rem;}
+.q-stem{font-size:.87rem;font-weight:700;line-height:1.5;color:var(--text);}
+.opts{padding:0 1.1rem .6rem;display:flex;flex-direction:column;gap:.4rem;}
+.opt{display:flex;align-items:flex-start;gap:.65rem;background:var(--fog);border:1.5px solid var(--border);border-radius:11px;padding:.6rem .8rem;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.83rem;font-weight:600;color:var(--text);transition:all .17s;line-height:1.45;width:100%;text-align:left;}
+.opt:hover:not(:disabled){background:var(--lavender);border-color:var(--violet);transform:translateX(2px);}
+.oletter{min-width:20px;height:20px;border-radius:5px;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:.66rem;font-weight:900;flex-shrink:0;margin-top:1px;}
+.opt.opt-c{background:var(--correctbg);border-color:var(--correct);color:#1a5a30;}
+.opt.opt-c .oletter{background:var(--correct);color:#fff;}
+.opt.opt-w{background:var(--wrongbg);border-color:var(--wrong);color:#7a1a1a;}
+.opt.opt-w .oletter{background:var(--wrong);color:#fff;}
+.opt:disabled{cursor:default;}
+.sata-opt{display:flex;align-items:flex-start;gap:.65rem;background:var(--fog);border:1.5px solid var(--border);border-radius:11px;padding:.6rem .8rem;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.83rem;font-weight:600;color:var(--text);transition:all .17s;line-height:1.45;user-select:none;-webkit-tap-highlight-color:transparent;}
+.sata-opt:hover{background:var(--lavender);border-color:var(--violet);}
+.sata-opt.sel{background:var(--lavender);border-color:var(--violet);}
+.sata-opt.opt-c{background:var(--correctbg);border-color:var(--correct);color:#1a5a30;}
+.sata-opt.opt-w{background:var(--wrongbg);border-color:var(--wrong);color:#7a1a1a;}
+.sata-opt.opt-m{background:var(--peach);border-color:var(--peachdk);color:#6a3a10;}
+.sata-box{min-width:20px;height:20px;border-radius:5px;border:2px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;font-size:.66rem;flex-shrink:0;margin-top:1px;}
+.sata-opt.sel .sata-box,.sata-opt.opt-c .sata-box{background:var(--correct);border-color:var(--correct);color:#fff;}
+.sata-opt.opt-w .sata-box{background:var(--wrong);border-color:var(--wrong);color:#fff;}
+.sata-opt.opt-m .sata-box{background:var(--peachdk);border-color:var(--peachdk);color:#fff;}
+.sata-sub{margin:.3rem 1.1rem .6rem;background:linear-gradient(135deg,var(--rose),var(--violet));color:#fff;border:none;border-radius:10px;padding:.52rem 1.1rem;font-family:'Nunito',sans-serif;font-size:.8rem;font-weight:800;cursor:pointer;transition:opacity .2s;}
+.sata-sub:hover:not(:disabled){opacity:.88;}
+.sata-sub:disabled{opacity:.45;cursor:default;}
+.rat{display:none;margin:0 1.1rem 1rem;border-radius:10px;padding:.75rem .95rem;font-size:.81rem;line-height:1.6;}
+.rat.show{display:block;}
+.rat-c{background:var(--correctbg);border-left:3px solid var(--correct);color:#1a5a30;}
+.rat-w{background:var(--wrongbg);border-left:3px solid var(--wrong);color:#7a1a1a;}
+.rat-p{background:var(--peach);border-left:3px solid var(--peachdk);color:#6a3a10;}
+.rat-hd{font-weight:900;font-size:.77rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem;}
+
+/* RESULTS */
+.results{display:none;padding:2.5rem 1.5rem;text-align:center;background:linear-gradient(180deg,var(--skysoft),var(--meadowsoft));min-height:60vh;}
+.results.show{display:block;}
+.results-title{font-family:'Lora',serif;font-size:1.7rem;color:var(--text);margin:.4rem 0 .2rem;}
+.results-score{font-size:3rem;font-weight:900;color:var(--violet);margin:.3rem 0;}
+.results-sub{font-size:.84rem;color:var(--textsoft);font-weight:600;margin-bottom:1.5rem;}
+.res-bars{text-align:left;margin:1rem auto 1.5rem;max-width:420px;}
+.res-row{display:flex;align-items:center;gap:.6rem;margin-bottom:.55rem;}
+.res-lbl{min-width:120px;font-size:.72rem;font-weight:700;color:var(--text);}
+.res-track{flex:1;height:9px;background:var(--border);border-radius:99px;overflow:hidden;}
+.res-fill{height:100%;border-radius:99px;transition:width .6s ease;}
+.res-num{font-size:.72rem;font-weight:800;color:var(--textsoft);}
+.try-again{background:linear-gradient(135deg,var(--rose),var(--violet));color:#fff;border:none;border-radius:99px;padding:.75rem 2rem;font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:800;cursor:pointer;transition:transform .2s,opacity .2s;margin-top:1rem;}
+.try-again:hover{transform:translateY(-2px);opacity:.88;}
+footer{text-align:center;padding:2rem 1rem 3rem;font-size:.72rem;color:var(--textsoft);font-weight:600;}
+@media(min-width:640px){.hero h1{font-size:2.5rem;}.sg-card,.qcard{margin:.6rem 1.5rem;}.sec-head,.qsec-head{padding:1.5rem 1.5rem .7rem;}}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div>
+  <div class="birds">~ ~ ~</div>
+  <div class="totoro"><div class="tel"></div><div class="ter"></div><div class="tb"><div class="tel2"></div><div class="ter2"></div><div class="tbl"></div></div></div>
+  <div class="soot s1"></div><div class="soot s2"></div><div class="soot s3"></div>
+  <div class="grass-wave"><svg viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,40 C100,10 200,55 300,35 C400,15 500,50 600,30 C700,10 800,50 900,30 C1000,10 1100,45 1200,25 L1200,60 L0,60 Z" fill="#c8dbb0"/><path d="M0,50 C150,25 250,55 400,40 C550,25 650,55 800,38 C950,22 1050,52 1200,38 L1200,60 L0,60 Z" fill="#d8e8c0" opacity=".7"/></svg></div>
+  <div style="position:relative;z-index:2;">
+    <div class="hero-badge">🌿 Carrington College · VN15 · Test 4</div>
+    <h1>Fundamentals of<br><em>Nursing Theory</em></h1>
+    <p class="hero-sub">Study Guide · Flashcards · 30-Item Practice Test ✨</p>
+    <p class="hero-sub" style="margin-top:.3rem;font-size:.72rem;">Infection Control · Bowel & Urinary Elimination · Nutrition & Hydration</p>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('study',this)">📖 Study Guide</button>
+  <button class="tab-btn" onclick="switchTab('flash',this)">🃏 Flashcards</button>
+  <button class="tab-btn" onclick="switchTab('quiz',this)">🌸 Practice Test</button>
+</div>
+
+<!-- ═══════ STUDY GUIDE ═══════ -->
+<div class="panel active" id="panel-study">
+<div class="sg-prog">
+  <span class="sg-prog-lbl">🌿 Reviewed</span>
+  <div class="sg-prog-track"><div class="sg-prog-fill" id="sgFill"></div></div>
+  <span class="sg-prog-count" id="sgCount">0 / 18</span>
+</div>
+
+<!-- URINARY -->
+<div class="sec-head"><span class="sec-pill sp-blue">🫧 Urinary Elimination — Ch. 44</span><div class="sec-rule"></div></div>
+
+<div class="sg-card" id="sg1">
+  <div class="sg-card-top" onclick="togSG(1)"><div class="sg-num">1</div><div class="sg-q">List three nursing interventions to protect the skin of a client with urinary incontinence.</div><div class="sg-chev">▼</div></div>
+  <div class="sg-body"><div class="sg-inner">
+    <ul class="ans-ul">
+      <li>Keep the skin <strong>clean and dry</strong> after each episode of incontinence</li>
+      <li>Apply a <strong>protective barrier cream</strong> to the perineal area to reduce skin irritation and breakdown</li>
+      <li>Provide <strong>incontinence garments / perineal pads</strong> to manage leakage and protect the skin</li>
+    </ul>
+    <div class="callout c-blue"><strong>💡 Also Remember</strong>Urinary incontinence is a significant contributing factor to skin breakdown and falls, especially in older adults (Ch. 44).</div>
+    <button class="rev-btn" onclick="markSG(1)">✓ Mark as reviewed</button>
+  </div></div>
+</div>
+
+<div class="sg-card" id="sg2">
+  <div class="sg-card-top" onclick="togSG(2)"><div class="sg-num">2</div><div class="sg-q">Perineal care water temp · Protective barrier · Three bladder irritants · Catheter technique · Lubricant type</div><div class="sg-chev">▼</div></div>
+  <div class="sg-body"><div class="sg-inner">
+    <table class="ans-table">
+      <tr><th>Question</th><th>Answer</th></tr>
+      <tr><td>Water temperature for perineal care</td><td><strong>Warm</strong> (not hot — hot can cause mucosal injury)</td></tr>
+      <tr><td>Protective _____ to reduce skin irritation</td><td><strong>Barrier cream</strong></td></tr>
+      <tr><td>Three bladder irritants to avoid</td><td>Caffeine · Alcohol · Chocolate (colas, coffee, tea)</td></tr>
+      <tr><td>Before inserting indwelling catheter, use ___ technique</td><td><strong>Sterile (surgical asepsis)</strong></td></tr>
+      <tr><td>Lubricant for catheter insertion should be ___ soluble</td><td><strong>Water-</strong>soluble</td></tr>
+    </table>
+    <button class="rev-btn" onclick="markSG(2)">✓ Mark as reviewed</button>
+  </div></div>
+</div>
+
+<div class="sg-card" id="sg3">
+  <div class="sg-card-top" onclick="togSG(3)"><div class="sg-num">3</div><div class="sg-q">Why is preventing CAUTI important?</div><div class="sg-chev">▼</div></div>
+  <div class="sg-body"><div class="sg-inner">
+    <p class="body-p"><strong>CAUTI</strong> (catheter-associated urinary tract infection) occurs while an indwelling catheter is in place or up to <strong>48 hours after discontinuing</strong> it.</p>
+    <div class="sub-lbl">Why It Matters</div>
+    <ul class="ans-ul">
+      <li>One of the most common healthcare-associated infections (HAIs)</li>
+      <li>Can progress to sepsis, prolonged hospitalization, and death</li>
+      <li>Older adults may only show atypical signs: <strong>confusion, falls, fever, tachycardia, hypotension</strong></li>
+      <li>Most CAUTIs are preventable through aseptic technique and minimizing catheter use/dwell time</li>
+    </ul>
+    <div class="sub-lbl">Risk Factors (Ch. 44)</div>
+    <ul class="ans-ul">
+      <li>Use of indwelling urinary catheters</li>
+      <li>Increased dwell time</li>
+      <li>Opening the closed drainage system</li>
+      <li>Routine irrigation of the catheter</li>
+    </ul>
+    <button class="rev-btn" onclick="markSG(3)">✓ Mark as reviewed</button>
+  </div></div>
+</div>
+
+<div class="sg-card" id="sg4">
+  <div class="sg-card-top" onclick="togSG(4)"><div class="sg-num">4</div><div class="sg-q">Types of urinary incontinence — Major types and descriptions.</div><div class="sg-chev">▼</div></div>
+  <div class="sg-body"><div class="sg-inner">
+    <table class="ans-table">
+      <tr><th>Type</th><th>Description</th></tr>
+      <tr><td><strong>Stress</strong></td><td>Loss of small amounts of urine from increased abdominal pressure (laughing, sneezing, lifting) without bladder muscle contraction</td></tr>
+      <tr><td><strong>Urge</strong></td><td>Inability to stop urine flow long enough to reach the bathroom due to overactive detrusor muscle</td></tr>
+      <tr><td><strong>Overflow</strong></td><td>Frequent loss of small amounts due to urinary retention/bladder overdistention</td></tr>
+      <tr><td><strong>Reflex</strong></td><td>Involuntary loss without warning due to hyperreflexia of detrusor muscle (spinal cord dysfunction)</td></tr>
+      <tr><td><strong>Functional</strong></td><td>Loss of urine due to cognitive, mobility, or environmental barriers</td></tr>
+      <tr><td><strong>Transient</strong></td><td>Reversible incontinence due to UTI, temporary cognitive impairment, medications</td></tr>
+    </table>
+    <div class="callout c-lav"><strong>💡 Memory</strong>SUORFT — Stress · Urge · Overflow · Reflex · Functional · Transient</div>
+    <button class="rev-btn" onclick="markSG(4)">✓ Mark as reviewed</button>
+  </div></div>
+</div>
+
+<!-- BOWEL -->
+<div class="sec-head"><span class="sec-pill sp-green">💩 Bowel Elimination — Ch. 43</span><div class="sec-rule"></div></div>
+
+<div class="sg-card" id="sg5">
+  <div class="sg-card-top" onclick="togSG(5)"><div class="sg-num">5</div><div class="sg-q">Enemas — Preferred position and why the solution must be warmed.</div><div class="sg-chev">▼</div></div>
+  <div class="sg-body"><div class="sg-inner">
+    <table class="ans-table">
+      <tr><th>Topic</th><th>Answer</th></tr>
+      <tr><td>Preferred position</td><td><strong>Left side-lying (Sims' position)</strong> with the right leg flexed forward</td></tr>
+      <tr><td>Insert rectal tube</td><td><strong>7.5–10 cm (3–4 in)</strong> for adults; 5–7.5 cm (2–3 in) for children</td></tr>
+      <tr><td>Raise bag above rectum</td><td><strong>30–45 cm (12–18 in)</strong> above the anus</td></tr>
+      <tr><td>Why warm the solution?</td><td>Cold solution → <strong>cramping</strong>. Hot solution → <strong>mucosal injury</strong>. Warm = comfort + effective cleansing</td></tr>
+    </table>
+    <button class="rev-btn" onclick="markSG(5)">✓ Mark as reviewed</button>
+  </div></div>
+</div>
+
+<div class="sg-card" id="sg6">
+  <div class="sg-card-top" onclick="togSG(6)"><div class="sg-num">6</div><div class="sg-q">Four interventions to prevent or manage constipation.</div><div class="sg-chev">▼</div></div>
+  <div class="sg-body"><div class="sg-inner">
+    <ol class="ans-ol">
+      <li>Increase <strong>fiber and water</strong> consumption (unless contraindicated) before more invasive interventions</li>
+      <li>Give <strong>bulk-forming products</strong> before stool softeners, stimulants, or suppositories</li>
+      <li>Encourage <strong>regular exercise</strong> (walking 15–20 min/day; exercises in bed for immobile clients)</li>
+      <li><strong>Enemas</strong> are a last resort for stimulating defecation</li>
+    </ol>
+    <div class="sub-lbl">Causes of Constipation (Ch. 43)</div>
+    <ul class="ans-ul">
+      <li>Frequent use of laxatives · Advanced age · Inadequate fluid/fiber intake</li>
+      <li>Immobilization · Sedentary lifestyle · Pregnancy · Medications</li>
+    </ul>
+    <button class="rev-btn" onclick="markSG(6)">✓ Mark as reviewed</button>
+  </div></div>
+</div>
+
+<div class="sg-card" id="sg7">
+  <div class="sg-card-top" onclick="togSG(7)"><div class="sg-num">7</div><div class="sg-q">Diarrhea — Most common complication, signs of dehydration, and beverages to avoid.</div><div class="sg-chev">▼</div></div>
+  <div class="sg-body"><div class="sg-inner">
+    <div class="callout c-pink"><strong>🚨 Most Common Complication of Prolonged Diarrhea</strong><strong>Dehydration</strong> — leads to fluid and electrolyte disturbances (metabolic acidosis from excessive loss of bicarbonate)</div>
+    <div class="sub-lbl">Three Signs of Dehydration</div>
+    <ul class="ans-ul">
+      <li>Weak, rapid pulse / hypotension</li>
+      <li>Poor skin turgor</li>
+      <li>Elevated body temperature / dry mucous membranes</li>
+    </ul>
+    <div class="sub-lbl">Electrolyte Imbalances from Diarrhea</div>
+    <ul class="ans-ul">
+      <li><strong>Hypokalemia</strong>: leg cramps, muscle weakness, nausea, cardiac dysrhythmias</li>
+      <li><strong>Hypernatremia</strong>: muscle weakness, lethargy, swollen red tongue</li>
+    </ul>
+    <div class="sub-lbl">Beverages That Contribute to Diarrhea</div>
+    <ul class="ans-ul">
+      <li>Caffeinated beverages (coffee, tea, colas, energy drinks)</li>
+      <li>Alcohol</li>
+    </ul>
+    <button class="rev-btn" onclick="markSG(7)">✓ Mark as reviewed</button>
+  </div></div>
+</div>
+
+<div class="sg-card" id="sg8">
+  <div class="sg-card-top" onclick="togSG(8)"><div class="sg-num">8</div><div class="sg-q">Ostomies — Types of stomas and what a healthy stoma looks like.</div><div class="sg-chev">▼</div></div>
+  <div class="sg-body"><div class="sg-inner">
+    <table class="ans-table">
+      <tr><th>Type</th><th>Description</th></tr>
+      <tr><td><strong>Colostomy</strong></td><td>Ends in the colon; drains stool</td></tr>
+      <tr><td><strong>Ileostomy</strong></td><td>Ends in the ileum; more liquid output</td></tr>
+      <tr><td><strong>End stoma</strong></td><td>Result of colorectal cancer or bowel disease</td></tr>
+      <tr><td><strong>Loop colostomy</strong></td><td>Temporary; two stomas (proximal drains stool, distal drains mucus)</td></tr>
+      <tr><td><strong>Double-barrel</strong></td><td>Two stomas — proximal (stool) and distal (inactive)</td></tr>
+    </table>
+    <div class="callout c-green"><strong>✅ Healthy Stoma</strong>Should appear <strong>moist, shiny, and pink</strong>. The peristomal area should be intact and skin should appear healthy.</div>
+    <button class="rev-btn" onclick="markSG(8)">✓ Mark as reviewed</button>
+  </div></div>
+</div>
+
+<!-- INFECTION -->
+<div class="sec-head"><span class="sec-pill sp-pink">🦠 Infection Control — Ch. 11</span><div class="sec-rule"></div></div>
+
+<div class="sg-card" id="sg9">
+  <div class="sg-card-top" onclick="togSG(9)"><div class="sg-num">9</div><div class="sg-q">Four examples of healthcare-associated infections (HAIs).</div><div class="sg-chev">▼</div></div>
+  <div class="sg-body"><div class="sg-inner">
+    <ul class="ans-ul">
+      <li>Urinary tract infections (most common HAI — often from indwelling catheters)</li>
+      <li>Surgical wound infections</li>
+      <li>Respiratory tract infections (pneumonia)</li>
+      <li>Bloodstream infections (from IV lines/devices)</li>
+    </ul>
+    <div class="callout c-pink"><strong>💡 Key Fact</strong>The best way to prevent HAIs is through <strong>frequent and effective hand hygiene</strong>. HAIs are not always preventable and not always iatrogenic. (Ch. 11)</div>
+    <button class="rev-btn" onclick="markSG(9)">✓ Mark as reviewed</button>
+  </div></div>
+</div>
+
+<div class="sg-card" id="sg10">
+  <div class="sg-card-top" onclick="togSG(10)"><div class="sg-num">10</div><div class="sg-q">Hand hygiene — Why it's most important + two principles of proper technique.</div><div class="sg-chev">▼</div></div>
+  <div class="sg-body"><div class="sg-inner">
+    <p class="body-p">Hands are the primary vehicle for transmitting pathogens. Hand hygiene breaks the <strong>chain of infection at the mode of transmission</strong>.</p>
+    <div class="sub-lbl">Two Principles (Ch. 11)</div>
+    <ul class="ans-ul">
+      <li><strong>Alcohol-based waterless antiseptic</strong> is preferred when hands are NOT visibly soiled (more effective at removing micro-organisms)</li>
+      <li><strong>Soap and water</strong> is used when hands ARE visibly soiled, contaminated with blood/body fluids, or when <em>C. difficile</em> is suspected (use soap/water, NOT alcohol for C. diff)</li>
+    </ul>
+    <button class="rev-btn" onclick="markSG(10)">✓ Mark as reviewed</button>
+  </div></div>
+</div>
+
+<div class="sg-card" id="sg11">
+  <div class="sg-card-top" onclick="togSG(11)"><div class="sg-num">11</div><div class="sg-q">PPE chart — Contact, Droplet, and Airborne precautions.</div><div class="sg-chev">▼</div></div>
+  <div class="sg-body"><div class="sg-inner">
+    <table class="ans-table">
+      <tr><th>Precaution</th><th>PPE Required</th><th>Key Diseases</th></tr>
+      <tr><td><strong>Contact</strong></td><td>Gloves + Gown</td><td>MRSA, VRSA, herpes simplex, scabies, C. diff, wound infections</td></tr>
+      <tr><td><strong>Droplet</strong></td><td>Gloves + Gown + Surgical mask + Eye protection; private room or cohort</td><td>Influenza, Strep pneumoniae, pertussis, mumps, rubella, meningococcal pneumonia</td></tr>
+      <tr><td><strong>Airborne</strong></td><td>Gloves + Gown + N95 respirator (HEPA for TB/SARS) + negative pressure room</td><td>Measles, varicella, TB, SARS-CoV-2</td></tr>
+    </table>
+    <div class="callout c-pink"><strong>⚠️ Airborne Key Facts</strong>Droplet particles &gt;5 mcg travel 3–6 ft. Airborne particles &lt;5 mcg stay suspended. N95 required for airborne. 6–12 air exchanges/hr negative pressure room.</div>
+    <button class="rev-btn" onclick="markSG(11)">✓ Mark as reviewed</button>
+  </div></div>
+</div>
+
+<div class="sg-card" id="sg12">
+  <div class="sg-card-top" onclick="togSG(12)"><div class="sg-num">12</div><div class="sg-q">Chain of Infection — Six links and an example of each.</div><div class="sg-chev">▼</div></div>
+  <div class="sg-body"><div class="sg-inner">
+    <table class="ans-table">
+      <tr><th>Link</th><th>Definition</th><th>Example</th></tr>
+      <tr><td><strong>1. Causative Agent</strong></td><td>Micro-organism that causes infection</td><td>Mycobacterium tuberculosis</td></tr>
+      <tr><td><strong>2. Reservoir</strong></td><td>Where pathogen lives and multiplies</td><td>Human respiratory tract</td></tr>
+      <tr><td><strong>3. Portal of Exit</strong></td><td>How pathogen leaves the host</td><td>Respiratory droplets from coughing</td></tr>
+      <tr><td><strong>4. Mode of Transmission</strong></td><td>How pathogen travels</td><td>Airborne → inhaling droplet nuclei</td></tr>
+      <tr><td><strong>5. Portal of Entry</strong></td><td>How pathogen enters new host</td><td>Respiratory tract of susceptible person</td></tr>
+      <tr><td><strong>6. Susceptible Host</strong></td><td>Person vulnerable to infection</td><td>Immunocompromised client</td></tr>
+    </table>
+    <button class="rev-btn" onclick="markSG(12)">✓ Mark as reviewed</button>
+  </div></div>
+</div>
+
+<div class="sg-card" id="sg13">
+  <div class="sg-card-top" onclick="togSG(13)"><div class="sg-num">13</div><div class="sg-q">Stages of infection in order + which stage occurs after exposure + which has significant S&S.</div><div class="sg-chev">▼</div></div>
+  <div class="sg-body"><div class="sg-inner">
+    <table class="ans-table">
+      <tr><th>Stage</th><th>Description</th></tr>
+      <tr><td><strong>1. Incubation</strong></td><td>Interval between pathogen entering the body and the first finding — occurs immediately after exposure</td></tr>
+      <tr><td><strong>2. Prodromal</strong></td><td>Onset of general (non-specific) findings; pathogen multiplies during this stage</td></tr>
+      <tr><td><strong>3. Illness (Acute)</strong></td><td>Significant, specific signs and symptoms of the infection occur here</td></tr>
+      <tr><td><strong>4. Decline</strong></td><td>Manifestations begin to subside as number of pathogens decreases</td></tr>
+      <tr><td><strong>5. Convalescence</strong></td><td>Acute findings disappear; total recovery (days to months)</td></tr>
+    </table>
+    <div class="callout c-blue"><strong>💡 Quick Answers</strong>Stage after exposure = <strong>Incubation</strong> · Stage with significant S&S = <strong>Illness stage</strong></div>
+    <button class="rev-btn" onclick="markSG(13)">✓ Mark as reviewed</button>
+  </div></div>
+</div>
+
+<div class="sg-card" id="sg14">
+  <div class="sg-card-top" onclick="togSG(14)"><div class="sg-num">14</div><div class="sg-q">Inflammation — Order of inflammatory response + four signs of localized inflammation.</div><div class="sg-chev">▼</div></div>
+  <div class="sg-body"><div class="sg-inner">
+    <div class="sub-lbl">Inflammatory Response — Correct Order</div>
+    <ol class="ans-ol">
+      <li>Recognition of harmful stimuli</li>
+      <li>Activation of inflammatory cells</li>
+      <li>Release of inflammatory markers</li>
+      <li>Inflammatory pathways triggered</li>
+    </ol>
+    <div class="sub-lbl">Four Signs of Localized Inflammation</div>
+    <ul class="ans-ul">
+      <li><strong>Redness</strong> (erythema) — from dilation of arterioles bringing blood to the area</li>
+      <li><strong>Warmth</strong> of the area on palpation</li>
+      <li><strong>Edema</strong> (swelling)</li>
+      <li><strong>Pain or tenderness</strong> of the affected part</li>
+    </ul>
+    <div class="sub-lbl">Types of Exudate</div>
+    <ul class="ans-ul">
+      <li><strong>Serous</strong> — clear fluid</li>
+      <li><strong>Sanguineous</strong> — contains red blood cells</li>
+      <li><strong>Purulent</strong> — contains leukocytes and bacteria</li>
+    </ul>
+    <button class="rev-btn" onclick="markSG(14)">✓ Mark as reviewed</button>
+  </div></div>
+</div>
+
+<div class="sg-card" id="sg15">
+  <div class="sg-card-top" onclick="togSG(15)"><div class="sg-num">15</div><div class="sg-q">Safety & Sharps — Three methods for reducing needlestick injuries.</div><div class="sg-chev">▼</div></div>
+  <div class="sg-body"><div class="sg-inner">
+    <ul class="ans-ul">
+      <li>Enable <strong>safety devices</strong> on all equipment and supplies immediately after use</li>
+      <li>Dispose of all <strong>sharps in a puncture-resistant container</strong> immediately after use</li>
+      <li><strong>Never recap needles</strong> or leave sharps unattended</li>
+    </ul>
+    <div class="callout c-pink"><strong>⚠️ Standard Precautions</strong>Bag and handle contaminated laundry to prevent leaking. Remove gloves and perform hand hygiene between each client.</div>
+    <button class="rev-btn" onclick="markSG(15)">✓ Mark as reviewed</button>
+  </div></div>
+</div>
+
+<!-- NUTRITION -->
+<div class="sec-head"><span class="sec-pill sp-gold">🥗 Nutrition & Hydration — Ch. 39</span><div class="sec-rule"></div></div>
+
+<div class="sg-card" id="sg16">
+  <div class="sg-card-top" onclick="togSG(16)"><div class="sg-num">16</div><div class="sg-q">Soft diet — Foods allowed vs. avoided. BMI categories.</div><div class="sg-chev">▼</div></div>
+  <div class="sg-body"><div class="sg-inner">
+    <table class="ans-table">
+      <tr><th>Soft Diet — Allowed</th><th>Soft Diet — Avoided</th></tr>
+      <tr><td>Dairy products (yogurt, cottage cheese)</td><td>Raw fruits and vegetables</td></tr>
+      <tr><td>Eggs, soft cooked meats/fish/poultry</td><td>Whole grains, raw/dried fruits</td></tr>
+      <tr><td>Cooked vegetables, ripe bananas</td><td>Fried or fatty foods</td></tr>
+      <tr><td>Diced or ground foods (mechanical soft)</td><td>Hard, crunchy, or spicy foods</td></tr>
+    </table>
+    <div class="sub-lbl">BMI Categories (Ch. 39)</div>
+    <table class="ans-table">
+      <tr><th>Category</th><th>BMI Range</th></tr>
+      <tr><td>Underweight</td><td>Below 18.5</td></tr>
+      <tr><td>Healthy Weight</td><td>18.5 – 24.9</td></tr>
+      <tr><td>Overweight</td><td>25 – 29.9</td></tr>
+      <tr><td>Obese</td><td>30 and above</td></tr>
+    </table>
+    <button class="rev-btn" onclick="markSG(16)">✓ Mark as reviewed</button>
+  </div></div>
+</div>
+
+<div class="sg-card" id="sg17">
+  <div class="sg-card-top" onclick="togSG(17)"><div class="sg-num">17</div><div class="sg-q">Vitamins & Nutrients — Deficiency findings. Basic nutrients the body requires.</div><div class="sg-chev">▼</div></div>
+  <div class="sg-body"><div class="sg-inner">
+    <table class="ans-table">
+      <tr><th>Nutrient Deficiency</th><th>Possible Finding</th></tr>
+      <tr><td><strong>Vitamin C</strong></td><td>Poor wound healing, inflammation and bleeding of gums, dry scaly skin</td></tr>
+      <tr><td><strong>Fiber</strong></td><td>Constipation, change in bowel pattern, increased colorectal disease risk</td></tr>
+      <tr><td><strong>Protein</strong></td><td>Flaccid muscles, poor wound healing, loss of subcutaneous fat, weakness</td></tr>
+      <tr><td><strong>Omega-3 Fatty Acids</strong></td><td>Increased inflammation, dry/brittle hair and nails, dry scaly skin</td></tr>
+    </table>
+    <div class="sub-lbl">Basic Nutrients (Ch. 39)</div>
+    <ul class="ans-ul">
+      <li><strong>Carbohydrates</strong> — main energy source; 4 kcal/gram; broken down to glucose</li>
+      <li><strong>Fats</strong> — energy + vitamins; 9 kcal/gram; no more than 35% of caloric intake</li>
+      <li><strong>Proteins</strong> — growth, maintenance, repair; 4 kcal/gram</li>
+      <li><strong>Vitamins</strong> — fat-soluble (A, D, E, K) and water-soluble (C and B complex)</li>
+      <li><strong>Minerals</strong> — calcium, potassium, sodium, iron</li>
+    </ul>
+    <button class="rev-btn" onclick="markSG(17)">✓ Mark as reviewed</button>
+  </div></div>
+</div>
+
+<div class="sg-card" id="sg18">
+  <div class="sg-card-top" onclick="togSG(18)"><div class="sg-num">18</div><div class="sg-q">Hydration — Expected findings in dehydration. Dark urine causes.</div><div class="sg-chev">▼</div></div>
+  <div class="sg-body"><div class="sg-inner">
+    <div class="sub-lbl">Expected Findings in Dehydration</div>
+    <ul class="ans-ul">
+      <li>Poor skin turgor</li>
+      <li>Dry mucous membranes</li>
+      <li>Weak, rapid pulse / hypotension</li>
+      <li>Dark-colored, concentrated urine</li>
+    </ul>
+    <div class="sub-lbl">Dark-Colored Urine May Indicate</div>
+    <ul class="ans-ul">
+      <li>Dehydration / inadequate fluid intake</li>
+      <li>Medications: Phenazopyridine → orange/red; Levodopa → dark; Riboflavin → bright yellow; Amitriptyline → green-blue</li>
+      <li>Liver or biliary disease</li>
+      <li>Hematuria (blood in urine)</li>
+    </ul>
+    <div class="callout c-blue"><strong>💡 Fluid Requirement (Ch. 39)</strong>Weigh clients daily at the same time, after voiding, wearing the same clothes. 1 oz = 30 mL when measuring I&O.</div>
+    <button class="rev-btn" onclick="markSG(18)">✓ Mark as reviewed</button>
+  </div></div>
+</div>
+
+</div><!-- end study panel -->
+
+<!-- ═══════ FLASHCARDS ═══════ -->
+<div class="panel" id="panel-flash">
+<div class="fc-controls">
+  <button class="fc-ctrl-btn" onclick="shuffleFC()">🔀 Shuffle</button>
+  <button class="fc-ctrl-btn" onclick="flipAllFC()">↕ Flip All</button>
+  <button class="fc-ctrl-btn" onclick="resetFC()">↺ Reset</button>
+  <div class="fc-prog-wrap">20 cards · tap to flip</div>
+</div>
+<div class="fc-grid" id="fcGrid">
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')"><div class="fc-inner">
+  <div class="fc-front"><span class="fc-tag ft-blue">Urinary</span><div class="fc-front-q">What are the three nursing interventions to protect the skin of a client with urinary incontinence?</div><div class="fc-hint">tap to flip</div></div>
+  <div class="fc-back"><span class="fc-tag ft-gold">Answer</span><div class="fc-back-a"><strong>1.</strong> Keep skin clean and dry<br><strong>2.</strong> Apply protective barrier cream<br><strong>3.</strong> Provide incontinence garments/pads</div></div>
+</div></div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')"><div class="fc-inner">
+  <div class="fc-front"><span class="fc-tag ft-blue">Urinary</span><div class="fc-front-q">What technique is used before inserting an indwelling urinary catheter, and what type of lubricant is required?</div><div class="fc-hint">tap to flip</div></div>
+  <div class="fc-back"><span class="fc-tag ft-gold">Answer</span><div class="fc-back-a">Technique: <strong>Sterile (surgical asepsis)</strong><br>Lubricant: <strong>Water-soluble</strong></div></div>
+</div></div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')"><div class="fc-inner">
+  <div class="fc-front"><span class="fc-tag ft-blue">Urinary</span><div class="fc-front-q">Name the 6 types of urinary incontinence.</div><div class="fc-hint">tap to flip</div></div>
+  <div class="fc-back"><span class="fc-tag ft-gold">Answer</span><div class="fc-back-a"><strong>SUORFT</strong><br>Stress · Urge · Overflow · Reflex · Functional · Transient</div></div>
+</div></div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')"><div class="fc-inner">
+  <div class="fc-front"><span class="fc-tag ft-blue">Urinary</span><div class="fc-front-q">When does CAUTI occur and what are three risk factors?</div><div class="fc-hint">tap to flip</div></div>
+  <div class="fc-back"><span class="fc-tag ft-gold">Answer</span><div class="fc-back-a">Occurs while catheter is in place or <strong>up to 48 hr after removal</strong><br>Risk: indwelling catheter use · increased dwell time · opening closed drainage system</div></div>
+</div></div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')"><div class="fc-inner">
+  <div class="fc-front"><span class="fc-tag ft-green">Bowel</span><div class="fc-front-q">What is the preferred position for administering an enema and how high should the bag be raised?</div><div class="fc-hint">tap to flip</div></div>
+  <div class="fc-back"><span class="fc-tag ft-gold">Answer</span><div class="fc-back-a">Position: <strong>Left side-lying (Sims')</strong> with right leg flexed forward<br>Bag height: <strong>30–45 cm (12–18 in)</strong> above the anus</div></div>
+</div></div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')"><div class="fc-inner">
+  <div class="fc-front"><span class="fc-tag ft-green">Bowel</span><div class="fc-front-q">What is the most common complication of prolonged diarrhea? Name three signs.</div><div class="fc-hint">tap to flip</div></div>
+  <div class="fc-back"><span class="fc-tag ft-gold">Answer</span><div class="fc-back-a">Complication: <strong>Dehydration</strong><br>Signs: Poor skin turgor · Weak rapid pulse · Dry mucous membranes/hypotension</div></div>
+</div></div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')"><div class="fc-inner">
+  <div class="fc-front"><span class="fc-tag ft-green">Bowel</span><div class="fc-front-q">What should a healthy stoma look like?</div><div class="fc-hint">tap to flip</div></div>
+  <div class="fc-back"><span class="fc-tag ft-gold">Answer</span><div class="fc-back-a"><strong>Moist, shiny, and pink</strong><br>Peristomal area should be intact with healthy surrounding skin</div></div>
+</div></div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')"><div class="fc-inner">
+  <div class="fc-front"><span class="fc-tag ft-green">Bowel</span><div class="fc-front-q">What is paralytic ileus?</div><div class="fc-hint">tap to flip</div></div>
+  <div class="fc-back"><span class="fc-tag ft-gold">Answer</span><div class="fc-back-a">An intestinal obstruction caused by <strong>reduced motility</strong> following bowel manipulation during surgery, electrolyte imbalance, wound infection, or medication effects</div></div>
+</div></div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')"><div class="fc-inner">
+  <div class="fc-front"><span class="fc-tag ft-pink">Infection</span><div class="fc-front-q">What are the 6 links in the chain of infection?</div><div class="fc-hint">tap to flip</div></div>
+  <div class="fc-back"><span class="fc-tag ft-gold">Answer</span><div class="fc-back-a">1. Causative agent<br>2. Reservoir<br>3. Portal of exit<br>4. Mode of transmission<br>5. Portal of entry<br>6. Susceptible host</div></div>
+</div></div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')"><div class="fc-inner">
+  <div class="fc-front"><span class="fc-tag ft-pink">Infection</span><div class="fc-front-q">What are the 5 stages of infection in correct order?</div><div class="fc-hint">tap to flip</div></div>
+  <div class="fc-back"><span class="fc-tag ft-gold">Answer</span><div class="fc-back-a">1. <strong>Incubation</strong> (after exposure)<br>2. Prodromal<br>3. <strong>Illness</strong> (significant S&S)<br>4. Decline<br>5. Convalescence</div></div>
+</div></div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')"><div class="fc-inner">
+  <div class="fc-front"><span class="fc-tag ft-pink">Infection</span><div class="fc-front-q">What PPE is required for Airborne precautions? Name two diseases.</div><div class="fc-hint">tap to flip</div></div>
+  <div class="fc-back"><span class="fc-tag ft-gold">Answer</span><div class="fc-back-a">PPE: Gloves + Gown + <strong>N95 respirator</strong> + Negative pressure room<br>Diseases: <strong>TB · Measles · Varicella · SARS-CoV-2</strong></div></div>
+</div></div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')"><div class="fc-inner">
+  <div class="fc-front"><span class="fc-tag ft-pink">Infection</span><div class="fc-front-q">When should a nurse use soap and water vs. alcohol-based hand sanitizer?</div><div class="fc-hint">tap to flip</div></div>
+  <div class="fc-back"><span class="fc-tag ft-gold">Answer</span><div class="fc-back-a"><strong>Soap & water:</strong> visibly soiled, blood/body fluids, C. difficile<br><strong>Alcohol-based:</strong> hands NOT visibly soiled (more effective at removing micro-organisms)</div></div>
+</div></div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')"><div class="fc-inner">
+  <div class="fc-front"><span class="fc-tag ft-pink">Infection</span><div class="fc-front-q">What are the 4 signs of localized inflammation?</div><div class="fc-hint">tap to flip</div></div>
+  <div class="fc-back"><span class="fc-tag ft-gold">Answer</span><div class="fc-back-a"><strong>R-W-E-P</strong><br>Redness · Warmth · Edema · Pain/Tenderness</div></div>
+</div></div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')"><div class="fc-inner">
+  <div class="fc-front"><span class="fc-tag ft-lav">Nutrition</span><div class="fc-front-q">What are the BMI categories and their ranges?</div><div class="fc-hint">tap to flip</div></div>
+  <div class="fc-back"><span class="fc-tag ft-gold">Answer</span><div class="fc-back-a">Underweight: <strong>&lt;18.5</strong><br>Healthy: <strong>18.5–24.9</strong><br>Overweight: <strong>25–29.9</strong><br>Obese: <strong>≥30</strong></div></div>
+</div></div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')"><div class="fc-inner">
+  <div class="fc-front"><span class="fc-tag ft-lav">Nutrition</span><div class="fc-front-q">What are the findings of a Protein deficiency?</div><div class="fc-hint">tap to flip</div></div>
+  <div class="fc-back"><span class="fc-tag ft-gold">Answer</span><div class="fc-back-a">Flaccid muscles · Poor wound healing · Loss of subcutaneous fat · Weakness and fatigue · Prominent bony protrusions</div></div>
+</div></div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')"><div class="fc-inner">
+  <div class="fc-front"><span class="fc-tag ft-lav">Nutrition</span><div class="fc-front-q">How many kcal per gram do carbohydrates, fats, and proteins provide?</div><div class="fc-hint">tap to flip</div></div>
+  <div class="fc-back"><span class="fc-tag ft-gold">Answer</span><div class="fc-back-a">Carbohydrates: <strong>4 kcal/g</strong><br>Proteins: <strong>4 kcal/g</strong><br>Fats: <strong>9 kcal/g</strong></div></div>
+</div></div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')"><div class="fc-inner">
+  <div class="fc-front"><span class="fc-tag ft-lav">Nutrition</span><div class="fc-front-q">What are the fat-soluble vitamins? What are the water-soluble vitamins?</div><div class="fc-hint">tap to flip</div></div>
+  <div class="fc-back"><span class="fc-tag ft-gold">Answer</span><div class="fc-back-a">Fat-soluble: <strong>A, D, E, K</strong><br>Water-soluble: <strong>C and B complex</strong> (eight B vitamins)</div></div>
+</div></div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')"><div class="fc-inner">
+  <div class="fc-front"><span class="fc-tag ft-peach">Hydration</span><div class="fc-front-q">What are 4 expected findings in dehydration?</div><div class="fc-hint">tap to flip</div></div>
+  <div class="fc-back"><span class="fc-tag ft-gold">Answer</span><div class="fc-back-a">Poor skin turgor · Dry mucous membranes · Weak, rapid pulse/hypotension · Dark concentrated urine</div></div>
+</div></div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')"><div class="fc-inner">
+  <div class="fc-front"><span class="fc-tag ft-peach">Hydration</span><div class="fc-front-q">What medication turns urine orange/red and what is it used for?</div><div class="fc-hint">tap to flip</div></div>
+  <div class="fc-back"><span class="fc-tag ft-gold">Answer</span><div class="fc-back-a"><strong>Phenazopyridine</strong> — a bladder analgesic that treats manifestations of UTI (discomfort). It does NOT treat the infection itself.</div></div>
+</div></div>
+
+<div class="fc-wrap" onclick="this.classList.toggle('flipped')"><div class="fc-inner">
+  <div class="fc-front"><span class="fc-tag ft-peach">Hydration</span><div class="fc-front-q">What does 1 oz equal in mL when measuring I&O?</div><div class="fc-hint">tap to flip</div></div>
+  <div class="fc-back"><span class="fc-tag ft-gold">Answer</span><div class="fc-back-a"><strong>1 oz = 30 mL</strong><br>All fluid I&O should be measured and calculated in mL</div></div>
+</div></div>
+
+</div><!-- end fc-grid -->
+</div><!-- end flash panel -->
+
+<!-- ═══════ QUIZ PANEL ═══════ -->
+<div class="panel" id="panel-quiz">
+<div class="quiz-dash">
+  <div class="qpill qp-lav">✨ Score: <b id="scoreD">0</b>/30</div>
+  <div class="qpill qp-green">✅ <b id="corD">0</b> correct</div>
+  <div class="qpill qp-pink">💭 <b id="ansD">0</b> answered</div>
+  <div class="qprog-wrap"><div class="qprog-lbl">Progress</div><div class="qprog-track"><div class="qprog-fill" id="qFill"></div></div></div>
+  <button class="reset-btn" onclick="resetQuiz()">🔄 Reset</button>
+</div>
+<div id="quizBody">
+
+<div class="qsec-head"><span class="sec-pill sp-blue">🫧 Urinary Elimination</span><div class="qsec-rule"></div></div>
+
+<div class="qcard" id="qc1"><div class="qcard-top"><div class="q-meta"><div class="qnum">1</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">Which nursing intervention is the PRIORITY to protect the skin of a client with urinary incontinence?</div></div>
+<div class="opts"><button class="opt" onclick="ans(1,'A','A')"><span class="oletter">A</span>Keep the skin clean and dry after each incontinence episode</button><button class="opt" onclick="ans(1,'B','A')"><span class="oletter">B</span>Restrict fluid intake to reduce incontinence frequency</button><button class="opt" onclick="ans(1,'C','A')"><span class="oletter">C</span>Apply ice packs to the perineal area</button><button class="opt" onclick="ans(1,'D','A')"><span class="oletter">D</span>Insert an indwelling catheter immediately</button></div>
+<div class="rat" id="r1"><div class="rat-hd">Rationale</div><b>A is correct.</b> Keeping the skin clean and dry is the priority intervention to prevent skin breakdown. Restricting fluids can worsen UTI risk and is not appropriate. Ice packs are contraindicated. Indwelling catheters increase CAUTI risk. (Ch. 44)</div></div>
+
+<div class="qcard" id="qc2"><div class="qcard-top"><div class="q-meta"><div class="qnum">2</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">Before inserting an indwelling urinary catheter, the nurse should use which technique?</div></div>
+<div class="opts"><button class="opt" onclick="ans(2,'A','C')"><span class="oletter">A</span>Clean technique</button><button class="opt" onclick="ans(2,'B','C')"><span class="oletter">B</span>Medical asepsis</button><button class="opt" onclick="ans(2,'C','C')"><span class="oletter">C</span>Sterile (surgical asepsis) technique</button><button class="opt" onclick="ans(2,'D','C')"><span class="oletter">D</span>Standard precautions only</button></div>
+<div class="rat" id="r2"><div class="rat-hd">Rationale</div><b>C is correct.</b> Inserting an indwelling urinary catheter requires <b>sterile (surgical asepsis) technique</b> to prevent introducing pathogens into the urinary tract, which could cause a CAUTI. (Ch. 44)</div></div>
+
+<div class="qcard" id="qc3"><div class="qcard-top"><div class="q-meta"><div class="qnum">3</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">A CAUTI is defined as a catheter-associated UTI that occurs while an indwelling catheter is in place or up to how long after its removal?</div></div>
+<div class="opts"><button class="opt" onclick="ans(3,'A','C')"><span class="oletter">A</span>24 hours</button><button class="opt" onclick="ans(3,'B','C')"><span class="oletter">B</span>12 hours</button><button class="opt" onclick="ans(3,'C','C')"><span class="oletter">C</span>48 hours</button><button class="opt" onclick="ans(3,'D','C')"><span class="oletter">D</span>72 hours</button></div>
+<div class="rat" id="r3"><div class="rat-hd">Rationale</div><b>C is correct.</b> Ch. 44 states CAUTI occurs while an indwelling catheter is in place or <b>up to 48 hours after discontinuing</b> it. In older adults, signs may be atypical — confusion, falls, or new incontinence rather than classic UTI symptoms.</div></div>
+
+<div class="qcard" id="qc4"><div class="qcard-top"><div class="q-meta"><div class="qnum">4</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">A client reports losing urine when she laughs or sneezes without feeling the urge to urinate first. This is classified as which type of urinary incontinence?</div></div>
+<div class="opts"><button class="opt" onclick="ans(4,'A','A')"><span class="oletter">A</span>Stress incontinence</button><button class="opt" onclick="ans(4,'B','A')"><span class="oletter">B</span>Urge incontinence</button><button class="opt" onclick="ans(4,'C','A')"><span class="oletter">C</span>Overflow incontinence</button><button class="opt" onclick="ans(4,'D','A')"><span class="oletter">D</span>Reflex incontinence</button></div>
+<div class="rat" id="r4"><div class="rat-hd">Rationale</div><b>A is correct.</b> <b>Stress incontinence</b> is loss of small amounts of urine from increased abdominal pressure (laughing, sneezing, lifting) <b>without bladder muscle contraction</b>. It commonly occurs in females due to weak pelvic floor muscles. (Ch. 44)</div></div>
+
+<div class="qcard" id="qc5"><div class="qcard-top"><div class="q-meta"><div class="qnum">5</div><span class="qtag tag-sa">SATA</span></div><div class="q-stem">Which of the following are risk factors for CAUTI? <em>(Select all that apply)</em></div></div>
+<div class="opts" id="s5">
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Use of indwelling urinary catheters</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Opening the closed urinary drainage system</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Performing routine irrigation of the catheter</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Keeping the drainage bag below bladder level</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Increased dwell time of the indwelling catheter</div>
+</div>
+<button class="sata-sub" id="ss5" onclick="subSata(5,[0,1,2,4])">Submit</button>
+<div class="rat" id="r5"><div class="rat-hd">Rationale</div><b>A, B, C, E are correct.</b> Ch. 44 CAUTI risk factors: use of catheters, opening closed system, routine irrigation, and increased dwell time. Keeping the bag <b>below</b> bladder level is the correct action — it <b>prevents</b> CAUTI by avoiding reflux.</div></div>
+
+<div class="qsec-head"><span class="sec-pill sp-green">💩 Bowel Elimination</span><div class="qsec-rule"></div></div>
+
+<div class="qcard" id="qc6"><div class="qcard-top"><div class="q-meta"><div class="qnum">6</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">A nurse is preparing to administer a cleansing enema. In which position should the client be placed?</div></div>
+<div class="opts"><button class="opt" onclick="ans(6,'A','B')"><span class="oletter">A</span>Right side-lying with left leg extended</button><button class="opt" onclick="ans(6,'B','B')"><span class="oletter">B</span>Left side-lying (Sims') with right leg flexed forward</button><button class="opt" onclick="ans(6,'C','B')"><span class="oletter">C</span>Supine with knees flexed</button><button class="opt" onclick="ans(6,'D','B')"><span class="oletter">D</span>Prone position</button></div>
+<div class="rat" id="r6"><div class="rat-hd">Rationale</div><b>B is correct.</b> The preferred position for a cleansing enema is <b>left side-lying (Sims' position) with the right leg flexed forward</b>. This allows solution to flow by gravity into the sigmoid colon and descending colon. (Ch. 43)</div></div>
+
+<div class="qcard" id="qc7"><div class="qcard-top"><div class="q-meta"><div class="qnum">7</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">Why must the enema solution be warmed before administration?</div></div>
+<div class="opts"><button class="opt" onclick="ans(7,'A','C')"><span class="oletter">A</span>A cold solution promotes peristalsis</button><button class="opt" onclick="ans(7,'B','C')"><span class="oletter">B</span>A hot solution relaxes the rectal sphincter</button><button class="opt" onclick="ans(7,'C','C')"><span class="oletter">C</span>A cold solution can cause cramping and a hot solution can cause mucosal injury</button><button class="opt" onclick="ans(7,'D','C')"><span class="oletter">D</span>Warm solution prevents constipation permanently</button></div>
+<div class="rat" id="r7"><div class="rat-hd">Rationale</div><b>C is correct.</b> Ch. 43 states: <b>cold solution causes cramping</b> and <b>hot solution can cause mucosal injury</b>. The solution must be at a warm temperature for comfort and safety.</div></div>
+
+<div class="qcard" id="qc8"><div class="qcard-top"><div class="q-meta"><div class="qnum">8</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">Which intervention should the nurse implement FIRST for a client with constipation?</div></div>
+<div class="opts"><button class="opt" onclick="ans(8,'A','A')"><span class="oletter">A</span>Increase fiber and water consumption</button><button class="opt" onclick="ans(8,'B','A')"><span class="oletter">B</span>Administer a cleansing enema</button><button class="opt" onclick="ans(8,'C','A')"><span class="oletter">C</span>Insert a suppository</button><button class="opt" onclick="ans(8,'D','A')"><span class="oletter">D</span>Administer a laxative</button></div>
+<div class="rat" id="r8"><div class="rat-hd">Rationale</div><b>A is correct.</b> Ch. 43 states: increase <b>fiber and water consumption before more invasive interventions</b>. Bulk-forming products come next, then stool softeners/stimulants. Enemas are a <b>last resort</b>.</div></div>
+
+<div class="qcard" id="qc9"><div class="qcard-top"><div class="q-meta"><div class="qnum">9</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">What is the most common and serious complication of prolonged diarrhea?</div></div>
+<div class="opts"><button class="opt" onclick="ans(9,'A','B')"><span class="oletter">A</span>Constipation</button><button class="opt" onclick="ans(9,'B','B')"><span class="oletter">B</span>Dehydration with fluid and electrolyte disturbances</button><button class="opt" onclick="ans(9,'C','B')"><span class="oletter">C</span>Fecal impaction</button><button class="opt" onclick="ans(9,'D','B')"><span class="oletter">D</span>Hemorrhoids</button></div>
+<div class="rat" id="r9"><div class="rat-hd">Rationale</div><b>B is correct.</b> <b>Dehydration</b> is the most common complication of prolonged diarrhea, leading to fluid and electrolyte disturbances (metabolic acidosis from loss of bicarbonate, hypokalemia, hypernatremia). (Ch. 43)</div></div>
+
+<div class="qcard" id="qc10"><div class="qcard-top"><div class="q-meta"><div class="qnum">10</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">A nurse inspects a client's stoma. Which finding indicates the stoma is healthy?</div></div>
+<div class="opts"><button class="opt" onclick="ans(10,'A','C')"><span class="oletter">A</span>Dark purple, dry appearance</button><button class="opt" onclick="ans(10,'B','C')"><span class="oletter">B</span>Pale pink with dry edges</button><button class="opt" onclick="ans(10,'C','C')"><span class="oletter">C</span>Moist, shiny, and pink</button><button class="opt" onclick="ans(10,'D','C')"><span class="oletter">D</span>Bright red with bloody drainage</button></div>
+<div class="rat" id="r10"><div class="rat-hd">Rationale</div><b>C is correct.</b> Ch. 43 states a healthy stoma should appear <b>moist, shiny, and pink</b>. The peristomal area should be intact with healthy surrounding skin. A dark purple or dry stoma indicates compromised circulation.</div></div>
+
+<div class="qcard" id="qc11"><div class="qcard-top"><div class="q-meta"><div class="qnum">11</div><span class="qtag tag-sa">SATA</span></div><div class="q-stem">Which are causes of constipation according to the textbook? <em>(Select all that apply)</em></div></div>
+<div class="opts" id="s11">
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Frequent use of laxatives</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Increased fiber intake</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Immobilization due to injury</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Inadequate fluid intake</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Pregnancy</div>
+</div>
+<button class="sata-sub" id="ss11" onclick="subSata(11,[0,2,3,4])">Submit</button>
+<div class="rat" id="r11"><div class="rat-hd">Rationale</div><b>A, C, D, E are correct.</b> Ch. 43 causes of constipation: frequent laxative use, immobilization, inadequate fluid intake, pregnancy (and others: advanced age, sedentary lifestyle, medications). <b>Increased fiber</b> helps prevent constipation — it is NOT a cause.</div></div>
+
+<div class="qsec-head"><span class="sec-pill sp-pink">🦠 Infection Control</span><div class="qsec-rule"></div></div>
+
+<div class="qcard" id="qc12"><div class="qcard-top"><div class="q-meta"><div class="qnum">12</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">What is the most important method of preventing healthcare-associated infections (HAIs)?</div></div>
+<div class="opts"><button class="opt" onclick="ans(12,'A','B')"><span class="oletter">A</span>Wearing gloves at all times</button><button class="opt" onclick="ans(12,'B','B')"><span class="oletter">B</span>Frequent and effective hand hygiene</button><button class="opt" onclick="ans(12,'C','B')"><span class="oletter">C</span>Placing all clients in isolation</button><button class="opt" onclick="ans(12,'D','B')"><span class="oletter">D</span>Administering prophylactic antibiotics</button></div>
+<div class="rat" id="r12"><div class="rat-hd">Rationale</div><b>B is correct.</b> Ch. 11 states: <b>"The best way to prevent HAIs is through frequent and effective hand hygiene."</b> Hands are the primary vehicle for transmitting pathogens. Gloves alone are not enough — hand hygiene must still be performed.</div></div>
+
+<div class="qcard" id="qc13"><div class="qcard-top"><div class="q-meta"><div class="qnum">13</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">A nurse suspects a client has C. difficile. Which hand hygiene method should the nurse use?</div></div>
+<div class="opts"><button class="opt" onclick="ans(13,'A','B')"><span class="oletter">A</span>Alcohol-based waterless antiseptic</button><button class="opt" onclick="ans(13,'B','B')"><span class="oletter">B</span>Soap and water</button><button class="opt" onclick="ans(13,'C','B')"><span class="oletter">C</span>Either method is equally effective</button><button class="opt" onclick="ans(13,'D','B')"><span class="oletter">D</span>Surgical scrub with iodine</button></div>
+<div class="rat" id="r13"><div class="rat-hd">Rationale</div><b>B is correct.</b> Ch. 11 states: <b>"Use soap and water (not alcohol) for C. difficile."</b> Alcohol-based products are NOT effective against C. diff spores. Soap and water mechanically removes the spores.</div></div>
+
+<div class="qcard" id="qc14"><div class="qcard-top"><div class="q-meta"><div class="qnum">14</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">A client is diagnosed with active pulmonary tuberculosis. Which type of isolation precaution is required?</div></div>
+<div class="opts"><button class="opt" onclick="ans(14,'A','C')"><span class="oletter">A</span>Contact precautions</button><button class="opt" onclick="ans(14,'B','C')"><span class="oletter">B</span>Droplet precautions</button><button class="opt" onclick="ans(14,'C','C')"><span class="oletter">C</span>Airborne precautions</button><button class="opt" onclick="ans(14,'D','C')"><span class="oletter">D</span>Standard precautions only</button></div>
+<div class="rat" id="r14"><div class="rat-hd">Rationale</div><b>C is correct.</b> TB requires <b>airborne precautions</b> — N95 respirator, negative pressure room with 6–12 air exchanges/hour, and private room. TB is transmitted via airborne droplet nuclei smaller than 5 mcg that remain suspended in air. (Ch. 11)</div></div>
+
+<div class="qcard" id="qc15"><div class="qcard-top"><div class="q-meta"><div class="qnum">15</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">Which stage of infection occurs immediately after exposure to an infectious agent?</div></div>
+<div class="opts"><button class="opt" onclick="ans(15,'A','A')"><span class="oletter">A</span>Incubation</button><button class="opt" onclick="ans(15,'B','A')"><span class="oletter">B</span>Prodromal</button><button class="opt" onclick="ans(15,'C','A')"><span class="oletter">C</span>Illness</button><button class="opt" onclick="ans(15,'D','A')"><span class="oletter">D</span>Decline</button></div>
+<div class="rat" id="r15"><div class="rat-hd">Rationale</div><b>A is correct.</b> The <b>incubation stage</b> is the interval between the pathogen entering the body and the presentation of the first finding. It occurs immediately after exposure. (Ch. 11)</div></div>
+
+<div class="qcard" id="qc16"><div class="qcard-top"><div class="q-meta"><div class="qnum">16</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">During which stage of infection do significant, specific signs and symptoms occur?</div></div>
+<div class="opts"><button class="opt" onclick="ans(16,'A','C')"><span class="oletter">A</span>Incubation</button><button class="opt" onclick="ans(16,'B','C')"><span class="oletter">B</span>Prodromal</button><button class="opt" onclick="ans(16,'C','C')"><span class="oletter">C</span>Illness (Acute)</button><button class="opt" onclick="ans(16,'D','C')"><span class="oletter">D</span>Convalescence</button></div>
+<div class="rat" id="r16"><div class="rat-hd">Rationale</div><b>C is correct.</b> The <b>illness stage</b> is the interval when findings specific to the infection occur — the most significant signs and symptoms. Prodromal has only general, nonspecific findings. Incubation has none yet. (Ch. 11)</div></div>
+
+<div class="qcard" id="qc17"><div class="qcard-top"><div class="q-meta"><div class="qnum">17</div><span class="qtag tag-sa">SATA</span></div><div class="q-stem">Which are correct regarding the chain of infection? <em>(Select all that apply)</em></div></div>
+<div class="opts" id="s17">
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>The reservoir is where the pathogen lives and multiplies</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>The susceptible host is the first link in the chain</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Breaking any link in the chain stops the infection</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>The portal of entry may be the same as the portal of exit</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>All six links must be present and intact for infection to occur</div>
+</div>
+<button class="sata-sub" id="ss17" onclick="subSata(17,[0,2,3,4])">Submit</button>
+<div class="rat" id="r17"><div class="rat-hd">Rationale</div><b>A, C, D, E are correct.</b> The reservoir is where pathogens live. Breaking ANY link stops infection. The portal of entry may equal the portal of exit (Ch. 11 table 11.1). All six links must be present. The <b>causative agent</b> is the first link — NOT the susceptible host.</div></div>
+
+<div class="qcard" id="qc18"><div class="qcard-top"><div class="q-meta"><div class="qnum">18</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">What is the correct order of the inflammatory response?</div></div>
+<div class="opts"><button class="opt" onclick="ans(18,'A','B')"><span class="oletter">A</span>Activation → Recognition → Release → Pathways triggered</button><button class="opt" onclick="ans(18,'B','B')"><span class="oletter">B</span>Recognition → Activation → Release → Pathways triggered</button><button class="opt" onclick="ans(18,'C','B')"><span class="oletter">C</span>Release → Recognition → Pathways triggered → Activation</button><button class="opt" onclick="ans(18,'D','B')"><span class="oletter">D</span>Pathways triggered → Release → Activation → Recognition</button></div>
+<div class="rat" id="r18"><div class="rat-hd">Rationale</div><b>B is correct.</b> Correct order: <b>Recognition of harmful stimuli → Activation of inflammatory cells → Release of inflammatory markers → Inflammatory pathways triggered</b>. (Test 4 Study Guide)</div></div>
+
+<div class="qcard" id="qc19"><div class="qcard-top"><div class="q-meta"><div class="qnum">19</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">A nurse notices purulent exudate draining from a wound. This type of exudate contains:</div></div>
+<div class="opts"><button class="opt" onclick="ans(19,'A','C')"><span class="oletter">A</span>Red blood cells only</button><button class="opt" onclick="ans(19,'B','C')"><span class="oletter">B</span>Clear serous fluid</button><button class="opt" onclick="ans(19,'C','C')"><span class="oletter">C</span>Leukocytes and bacteria</button><button class="opt" onclick="ans(19,'D','C')"><span class="oletter">D</span>Lymph fluid and protein</button></div>
+<div class="rat" id="r19"><div class="rat-hd">Rationale</div><b>C is correct.</b> Ch. 11: <b>Purulent exudate</b> contains leukocytes and bacteria. Serous exudate is clear. Sanguineous exudate contains red blood cells. Purulent drainage signals infection.</div></div>
+
+<div class="qcard" id="qc20"><div class="qcard-top"><div class="q-meta"><div class="qnum">20</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">Which PPE is required for a client on Contact precautions?</div></div>
+<div class="opts"><button class="opt" onclick="ans(20,'A','B')"><span class="oletter">A</span>N95 respirator and negative pressure room</button><button class="opt" onclick="ans(20,'B','B')"><span class="oletter">B</span>Gloves and gown</button><button class="opt" onclick="ans(20,'C','B')"><span class="oletter">C</span>Surgical mask and eye protection</button><button class="opt" onclick="ans(20,'D','B')"><span class="oletter">D</span>Gloves, gown, and surgical mask</button></div>
+<div class="rat" id="r20"><div class="rat-hd">Rationale</div><b>B is correct.</b> <b>Contact precautions</b> require <b>gloves and gown</b>. These protect against direct/environmental contact infections (MRSA, herpes simplex, wound infections, scabies). N95 is for airborne; surgical mask is for droplet. (Ch. 11)</div></div>
+
+<div class="qsec-head"><span class="sec-pill sp-gold">🥗 Nutrition & Hydration</span><div class="qsec-rule"></div></div>
+
+<div class="qcard" id="qc21"><div class="qcard-top"><div class="q-meta"><div class="qnum">21</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">A client who weighs 80 kg and is 1.6 m tall has a BMI of 31.25. How is this classified?</div></div>
+<div class="opts"><button class="opt" onclick="ans(21,'A','D')"><span class="oletter">A</span>Underweight</button><button class="opt" onclick="ans(21,'B','D')"><span class="oletter">B</span>Healthy weight</button><button class="opt" onclick="ans(21,'C','D')"><span class="oletter">C</span>Overweight</button><button class="opt" onclick="ans(21,'D','D')"><span class="oletter">D</span>Obese</button></div>
+<div class="rat" id="r21"><div class="rat-hd">Rationale</div><b>D is correct.</b> BMI = weight (kg) ÷ height² (m²) = 80 ÷ (1.6 × 1.6) = 80 ÷ 2.56 = <b>31.25</b>. Ch. 39: BMI 30 and above = <b>obese</b>. (Healthy = 18.5–24.9, Overweight = 25–29.9)</div></div>
+
+<div class="qcard" id="qc22"><div class="qcard-top"><div class="q-meta"><div class="qnum">22</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">Which nutrient provides the most kilocalories per gram?</div></div>
+<div class="opts"><button class="opt" onclick="ans(22,'A','C')"><span class="oletter">A</span>Carbohydrates — 4 kcal/g</button><button class="opt" onclick="ans(22,'B','C')"><span class="oletter">B</span>Proteins — 4 kcal/g</button><button class="opt" onclick="ans(22,'C','C')"><span class="oletter">C</span>Fats — 9 kcal/g</button><button class="opt" onclick="ans(22,'D','C')"><span class="oletter">D</span>Vitamins — 2 kcal/g</button></div>
+<div class="rat" id="r22"><div class="rat-hd">Rationale</div><b>C is correct.</b> Ch. 39: <b>Fats provide 9 kcal/gram</b> — more than double that of carbohydrates and proteins (both provide 4 kcal/gram). No more than 35% of caloric intake should be from fat. Vitamins provide no calories.</div></div>
+
+<div class="qcard" id="qc23"><div class="qcard-top"><div class="q-meta"><div class="qnum">23</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">A nurse assesses a client with poor nutrition. Which finding would the nurse MOST likely observe?</div></div>
+<div class="opts"><button class="opt" onclick="ans(23,'A','B')"><span class="oletter">A</span>Increased subcutaneous fat and strong muscles</button><button class="opt" onclick="ans(23,'B','B')"><span class="oletter">B</span>Flaccid muscles, dry brittle hair, and poor dental health</button><button class="opt" onclick="ans(23,'C','B')"><span class="oletter">C</span>Improved energy and bowel regularity</button><button class="opt" onclick="ans(23,'D','B')"><span class="oletter">D</span>Pink, moist mucous membranes</button></div>
+<div class="rat" id="r23"><div class="rat-hd">Rationale</div><b>B is correct.</b> Ch. 39 Expected Findings of Poor Nutrition include: flaccid muscles, dry/brittle hair and nails, poor dental health, loss of subcutaneous fat, dry scaly skin, weakness and fatigue, and mental status changes.</div></div>
+
+<div class="qcard" id="qc24"><div class="qcard-top"><div class="q-meta"><div class="qnum">24</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">Which vitamin deficiency would most likely result in poor wound healing and bleeding gums?</div></div>
+<div class="opts"><button class="opt" onclick="ans(24,'A','B')"><span class="oletter">A</span>Vitamin A</button><button class="opt" onclick="ans(24,'B','B')"><span class="oletter">B</span>Vitamin C</button><button class="opt" onclick="ans(24,'C','B')"><span class="oletter">C</span>Vitamin D</button><button class="opt" onclick="ans(24,'D','B')"><span class="oletter">D</span>Vitamin K</button></div>
+<div class="rat" id="r24"><div class="rat-hd">Rationale</div><b>B is correct.</b> Ch. 39: <b>Vitamin C deficiency</b> causes poor wound healing, inflammation and bleeding of the gums, and dry scaly skin. Vitamin C is essential for collagen synthesis. It is water-soluble. (Ch. 39)</div></div>
+
+<div class="qcard" id="qc25"><div class="qcard-top"><div class="q-meta"><div class="qnum">25</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">A client's urine turns orange-red after taking a new medication. The nurse recognizes this as a side effect of which drug?</div></div>
+<div class="opts"><button class="opt" onclick="ans(25,'A','C')"><span class="oletter">A</span>Amitriptyline</button><button class="opt" onclick="ans(25,'B','C')"><span class="oletter">B</span>Levodopa</button><button class="opt" onclick="ans(25,'C','C')"><span class="oletter">C</span>Phenazopyridine</button><button class="opt" onclick="ans(25,'D','C')"><span class="oletter">D</span>Riboflavin</button></div>
+<div class="rat" id="r25"><div class="rat-hd">Rationale</div><b>C is correct.</b> Ch. 44: <b>Phenazopyridine</b> turns urine <b>orange/red</b>. It is a bladder analgesic that treats UTI discomfort but does NOT treat the infection. Client education: take with food and notify provider if jaundice occurs. (Levodopa = dark; Amitriptyline = green-blue; Riboflavin = bright yellow)</div></div>
+
+<div class="qcard" id="qc26"><div class="qcard-top"><div class="q-meta"><div class="qnum">26</div><span class="qtag tag-sa">SATA</span></div><div class="q-stem">A nurse is assessing a client for dehydration. Which findings should the nurse expect? <em>(Select all that apply)</em></div></div>
+<div class="opts" id="s26">
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Poor skin turgor</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Bounding, slow pulse</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Dry mucous membranes</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Dark concentrated urine</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Hypotension</div>
+</div>
+<button class="sata-sub" id="ss26" onclick="subSata(26,[0,2,3,4])">Submit</button>
+<div class="rat" id="r26"><div class="rat-hd">Rationale</div><b>A, C, D, E are correct.</b> Dehydration causes poor skin turgor, dry mucous membranes, dark concentrated urine, and hypotension. The pulse in dehydration is <b>weak and rapid</b> (not bounding or slow) — bounding pulse indicates fluid overload.</div></div>
+
+<div class="qcard" id="qc27"><div class="qcard-top"><div class="q-meta"><div class="qnum">27</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">Which fat-soluble vitamins does the body store?</div></div>
+<div class="opts"><button class="opt" onclick="ans(27,'A','B')"><span class="oletter">A</span>Vitamin C and B complex</button><button class="opt" onclick="ans(27,'B','B')"><span class="oletter">B</span>Vitamins A, D, E, and K</button><button class="opt" onclick="ans(27,'C','B')"><span class="oletter">C</span>Vitamins B6, B12, C, and folate</button><button class="opt" onclick="ans(27,'D','B')"><span class="oletter">D</span>Vitamins A and C only</button></div>
+<div class="rat" id="r27"><div class="rat-hd">Rationale</div><b>B is correct.</b> Ch. 39: <b>Fat-soluble vitamins are A, D, E, and K</b>. They are stored in the body's fat tissues. Water-soluble vitamins are C and the B complex (eight vitamins) — these are not stored and must be consumed regularly.</div></div>
+
+<div class="qcard" id="qc28"><div class="qcard-top"><div class="q-meta"><div class="qnum">28</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">When measuring fluid I&O, 1 oz equals how many mL?</div></div>
+<div class="opts"><button class="opt" onclick="ans(28,'A','C')"><span class="oletter">A</span>10 mL</button><button class="opt" onclick="ans(28,'B','C')"><span class="oletter">B</span>15 mL</button><button class="opt" onclick="ans(28,'C','C')"><span class="oletter">C</span>30 mL</button><button class="opt" onclick="ans(28,'D','C')"><span class="oletter">D</span>60 mL</button></div>
+<div class="rat" id="r28"><div class="rat-hd">Rationale</div><b>C is correct.</b> Ch. 39: when measuring and calculating all fluid I&O, <b>1 oz = 30 mL</b>. All I&O should be measured in mL. Less than 30 mL/hr of urine output should be reported to the provider. (Ch. 44)</div></div>
+
+<div class="qcard" id="qc29"><div class="qcard-top"><div class="q-meta"><div class="qnum">29</div><span class="qtag tag-ss">Single Select</span></div><div class="q-stem">A client on a soft diet asks what foods are allowed. Which food should the nurse include?</div></div>
+<div class="opts"><button class="opt" onclick="ans(29,'A','C')"><span class="oletter">A</span>Raw carrots and celery</button><button class="opt" onclick="ans(29,'B','C')"><span class="oletter">B</span>Whole grain bread with seeds</button><button class="opt" onclick="ans(29,'C','C')"><span class="oletter">C</span>Yogurt and soft cooked eggs</button><button class="opt" onclick="ans(29,'D','C')"><span class="oletter">D</span>Fried chicken and corn on the cob</button></div>
+<div class="rat" id="r29"><div class="rat-hd">Rationale</div><b>C is correct.</b> Ch. 39: a soft diet (soft/low-residue) includes foods low in fiber and easy to digest — dairy products, eggs, soft cooked meats/fish. Raw vegetables, whole grains with seeds, and fried or hard foods are avoided on a soft diet.</div></div>
+
+<div class="qcard" id="qc30"><div class="qcard-top"><div class="q-meta"><div class="qnum">30</div><span class="qtag tag-sa">SATA</span></div><div class="q-stem">Which statements about nutrition are correct according to Chapter 39? <em>(Select all that apply)</em></div></div>
+<div class="opts" id="s30">
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Carbohydrates are the body's main source of energy</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Each gram of fat provides 4 kcal</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Fiber deficiency can cause constipation</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Older adults require more calories than younger adults</div>
+  <div class="sata-opt" onclick="togS(this)"><div class="sata-box"></div>Omega-3 fatty acid deficiency can cause increased inflammation</div>
+</div>
+<button class="sata-sub" id="ss30" onclick="subSata(30,[0,2,4])">Submit</button>
+<div class="rat" id="r30"><div class="rat-hd">Rationale</div><b>A, C, E are correct.</b> Carbohydrates are the main energy source (Ch. 39). Fiber deficiency causes constipation. Omega-3 deficiency increases inflammation. <b>Fats provide 9 kcal/gram</b> (not 4). Older adults require <b>fewer calories</b> due to slower metabolic rate (Ch. 39).</div></div>
+
+</div><!-- quizBody -->
+
+<!-- RESULTS -->
+<div class="results" id="results">
+  <div style="font-size:2.8rem;margin-bottom:.4rem;" id="resEmoji">🌸</div>
+  <div class="results-title">Test Complete!</div>
+  <div class="results-score" id="resPct">0%</div>
+  <div class="results-sub" id="resSub">Keep going!</div>
+  <div class="res-bars">
+    <div class="res-row"><div class="res-lbl">🫧 Urinary</div><div class="res-track"><div class="res-fill" id="rb1" style="background:var(--sky);"></div></div><span class="res-num" id="rn1">0/5</span></div>
+    <div class="res-row"><div class="res-lbl">💩 Bowel</div><div class="res-track"><div class="res-fill" id="rb2" style="background:var(--meadow);"></div></div><span class="res-num" id="rn2">0/6</span></div>
+    <div class="res-row"><div class="res-lbl">🦠 Infection</div><div class="res-track"><div class="res-fill" id="rb3" style="background:var(--rose);"></div></div><span class="res-num" id="rn3">0/9</span></div>
+    <div class="res-row"><div class="res-lbl">🥗 Nutrition</div><div class="res-track"><div class="res-fill" id="rb4" style="background:var(--gold);"></div></div><span class="res-num" id="rn4">0/10</span></div>
+  </div>
+  <button class="try-again" onclick="resetQuiz()">🔄 Try Again</button>
+</div>
+</div><!-- quiz panel -->
+
+<footer>VN15 Fundamentals of Nursing Theory · Test 4 · Carrington College<br>Chapters 11, 39, 43 & 44 · Fundamentals for Nursing 11th Ed. 🌿</footer>
+
+<script>
+function switchTab(tab,btn){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(t=>t.classList.remove('active'));document.getElementById('panel-'+tab).classList.add('active');btn.classList.add('active');window.scrollTo(0,0);}
+let sgRev=new Set();
+function togSG(n){const c=document.getElementById('sg'+n);const o=c.classList.contains('open');document.querySelectorAll('.sg-card.open').forEach(x=>x.classList.remove('open'));if(!o)c.classList.add('open');}
+function markSG(n){const c=document.getElementById('sg'+n);if(sgRev.has(n)){sgRev.delete(n);c.classList.remove('reviewed');c.querySelector('.rev-btn').textContent='✓ Mark as reviewed';}else{sgRev.add(n);c.classList.add('reviewed');c.querySelector('.rev-btn').textContent='✅ Reviewed!';}document.getElementById('sgFill').style.width=(sgRev.size/18*100)+'%';document.getElementById('sgCount').textContent=sgRev.size+' / 18';}
+function shuffleFC(){const g=document.getElementById('fcGrid');const cs=[...g.children];cs.sort(()=>Math.random()-.5);cs.forEach(c=>g.appendChild(c));}
+function flipAllFC(){document.querySelectorAll('.fc-wrap').forEach(c=>c.classList.toggle('flipped'));}
+function resetFC(){document.querySelectorAll('.fc-wrap').forEach(c=>c.classList.remove('flipped'));}
+const TOTAL=30;let answered={},correct={};
+const secs={1:[1,2,3,4,5],2:[6,7,8,9,10,11],3:[12,13,14,15,16,17,18,19,20],4:[21,22,23,24,25,26,27,28,29,30]};
+function upd(){const a=Object.keys(answered).length,c=Object.keys(correct).length;document.getElementById('ansD').textContent=a;document.getElementById('corD').textContent=c;document.getElementById('scoreD').textContent=c;document.getElementById('qFill').style.width=(a/TOTAL*100)+'%';if(a===TOTAL)showRes();}
+function ans(q,ch,ca){if(answered[q])return;answered[q]=ch;const card=document.getElementById('qc'+q);const btns=card.querySelectorAll('.opt');const L=['A','B','C','D'];const ok=ch===ca;if(ok)correct[q]=true;btns.forEach((b,i)=>{b.disabled=true;if(L[i]===ca)b.classList.add('opt-c');else if(L[i]===ch&&!ok)b.classList.add('opt-w');});const rat=document.getElementById('r'+q);rat.classList.add('show',ok?'rat-c':'rat-w');card.classList.add(ok?'qc-c':'qc-w');upd();}
+function togS(el){if(el.classList.contains('disabled'))return;el.classList.toggle('sel');el.querySelector('.sata-box').textContent=el.classList.contains('sel')?'✓':'';}
+function subSata(q,ci){const btn=document.getElementById('ss'+q);if(btn.disabled)return;btn.disabled=true;const opts=document.getElementById('s'+q).querySelectorAll('.sata-opt');const sel=[];opts.forEach((o,i)=>{if(o.classList.contains('sel'))sel.push(i);});answered[q]=sel;const cS=new Set(ci),sS=new Set(sel);const ok=cS.size===sS.size&&[...cS].every(i=>sS.has(i));if(ok)correct[q]=true;opts.forEach((o,i)=>{o.classList.add('disabled');o.style.cursor='default';if(cS.has(i)&&sS.has(i))o.classList.add('opt-c');else if(!cS.has(i)&&sS.has(i))o.classList.add('opt-w');else if(cS.has(i)&&!sS.has(i))o.classList.add('opt-m');});const rat=document.getElementById('r'+q);rat.classList.add('show',ok?'rat-c':'rat-p');document.getElementById('qc'+q).classList.add(ok?'qc-c':'qc-w');upd();}
+function showRes(){document.getElementById('quizBody').style.display='none';document.getElementById('results').classList.add('show');const c=Object.keys(correct).length;const pct=Math.round(c/TOTAL*100);document.getElementById('resPct').textContent=pct+'%';document.getElementById('resEmoji').textContent=pct>=90?'🌟':pct>=75?'🌸':pct>=60?'💪':'📚';document.getElementById('resSub').textContent=pct>=90?'Outstanding! You are ready for Test 4! 🎉':pct>=75?'Great job! Review the sections you missed 🌿':pct>=60?'Good effort! Keep reviewing the chapters 💕':'Refer back to the Study Guide tab and try again! 🌱';const defs=[{rb:'rb1',rn:'rn1',qs:secs[1],tot:5},{rb:'rb2',rn:'rn2',qs:secs[2],tot:6},{rb:'rb3',rn:'rn3',qs:secs[3],tot:9},{rb:'rb4',rn:'rn4',qs:secs[4],tot:10}];defs.forEach(d=>{const cor=d.qs.filter(q=>correct[q]).length;setTimeout(()=>{document.getElementById(d.rb).style.width=(cor/d.tot*100)+'%';},300);document.getElementById(d.rn).textContent=cor+'/'+d.tot;});}
+function resetQuiz(){answered={};correct={};document.getElementById('quizBody').style.display='block';document.getElementById('results').classList.remove('show');['ansD','corD','scoreD'].forEach(id=>document.getElementById(id).textContent='0');document.getElementById('qFill').style.width='0%';document.querySelectorAll('.opt').forEach(b=>{b.disabled=false;b.classList.remove('opt-c','opt-w');});document.querySelectorAll('.sata-opt').forEach(o=>{o.classList.remove('sel','opt-c','opt-w','opt-m','disabled');o.style.cursor='';o.querySelector('.sata-box').textContent='';});document.querySelectorAll('.sata-sub').forEach(b=>b.disabled=false);document.querySelectorAll('.rat').forEach(r=>r.classList.remove('show','rat-c','rat-w','rat-p'));document.querySelectorAll('.qcard').forEach(c=>c.classList.remove('qc-c','qc-w'));window.scrollTo(0,0);}
+</script>
+</body>
+</html>

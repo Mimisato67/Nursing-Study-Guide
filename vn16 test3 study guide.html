@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VN16 Test 3 — Kiki's Antibiotic Study Guide</title>
+<style>
+/* ─── TOKENS ─────────────────────────────── */
+:root {
+  --sky:#b8d4e8;--sky-l:#dceef8;--sky-ll:#eef7fd;
+  --lav:#c9b8e8;--lav-l:#ede5f8;
+  --rose:#e8b8c9;--rose-l:#f8dce8;
+  --mint:#b8e8d4;--mint-l:#dcf8ee;
+  --peach:#f0d4b0;--peach-l:#faebd7;
+  --sage:#c2d9c0;--sage-l:#e4f0e3;
+  --gold:#e8d4a0;--gold-l:#f8f0d8;
+  --cream:#fdf8f2;
+  --d-blue:#3a5a7a;--d-purple:#5a3a7a;--d-rose:#7a3a5a;
+  --d-green:#2a6a2a;--d-sage:#3a5a3a;--d-gold:#7a6000;
+  --text:#3a3250;--text-l:#8a7a9a;--border:#e2d8f0;--white:#fff;
+  --warn:#b05050;--warn-bg:#ffeaea;--warn-b:#f0c0c0;
+  --ci:#7a5000;--ci-bg:#fff8cc;--ci-b:#e0d080;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Georgia',serif;background:linear-gradient(160deg,var(--sky-l) 0%,var(--lav-l) 45%,var(--rose-l) 100%);min-height:100vh;color:var(--text);}
+.screen{display:none;min-height:100vh;}
+.screen.active{display:block;}
+
+/* ─── NAV ─────────────────────────────────── */
+.topnav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:10px 20px;}
+.topnav-inner{max-width:800px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.nav-back{background:none;border:none;color:var(--d-purple);font-family:Georgia,serif;font-size:13px;cursor:pointer;padding:4px 8px;}
+.nav-title{font-size:14px;font-weight:bold;color:var(--d-purple);}
+.nav-btn{background:var(--lav);border:none;border-radius:12px;padding:6px 14px;font-size:12px;color:var(--d-purple);cursor:pointer;font-family:Georgia,serif;}
+.progress-wrap{height:8px;background:var(--border);border-radius:4px;overflow:hidden;margin-top:8px;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--mint),var(--lav));border-radius:4px;transition:width .4s ease;}
+.cat-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
+.cat-tab{font-size:11px;padding:4px 12px;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,.7);color:var(--text-l);cursor:pointer;font-family:Georgia,serif;transition:all .2s;}
+.cat-tab.active{background:var(--lav);border-color:var(--d-purple);color:var(--d-purple);font-weight:bold;}
+.wrap{max-width:800px;margin:0 auto;padding:24px 16px 80px;}
+
+/* ─── HOME ───────────────────────────────── */
+#home{position:relative;overflow:hidden;}
+.home-hero{text-align:center;padding:36px 20px 24px;max-width:640px;margin:0 auto;position:relative;z-index:1;}
+.home-kiki{display:flex;align-items:flex-end;justify-content:center;gap:10px;margin-bottom:6px;}
+.eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--text-l);margin-bottom:6px;}
+.home-title{font-size:28px;font-weight:bold;color:var(--d-purple);line-height:1.15;margin-bottom:4px;}
+.home-sub{font-size:15px;color:var(--d-blue);font-style:italic;margin-bottom:10px;}
+.home-badge{display:inline-block;background:rgba(255,255,255,.78);border:1px solid var(--lav);border-radius:20px;padding:4px 16px;font-size:11px;color:var(--text-l);}
+.mode-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px auto;max-width:700px;padding:0 16px;}
+.mode-card{background:rgba(255,255,255,.88);border-radius:20px;padding:22px 16px;text-align:center;cursor:pointer;box-shadow:0 4px 20px rgba(180,160,220,.18);transition:transform .2s,box-shadow .2s;border:2px solid transparent;}
+.mode-card:hover{transform:translateY(-5px);box-shadow:0 8px 28px rgba(180,160,220,.28);}
+.mode-card.card-study{border-color:var(--mint);}
+.mode-card.card-flash{border-color:var(--sage);}
+.mode-card.card-quiz{border-color:var(--lav);}
+.mode-icon{font-size:38px;margin-bottom:8px;}
+.mode-label{font-weight:bold;font-size:15px;margin-bottom:4px;}
+.mode-desc{color:var(--text-l);font-size:12px;}
+.topics-card{background:rgba(255,255,255,.78);border-radius:20px;padding:20px 24px;border:1px solid var(--border);max-width:700px;margin:0 auto 20px;box-shadow:0 2px 16px rgba(180,160,220,.12);}
+.topics-head{font-size:12px;font-weight:bold;color:var(--d-purple);margin-bottom:14px;letter-spacing:1px;}
+.topic-row{display:flex;align-items:flex-start;gap:12px;padding:10px 0;}
+.topic-row+.topic-row{border-top:1px dashed var(--border);}
+.topic-icon-box{width:38px;height:38px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.topic-name{font-weight:bold;color:var(--text);font-size:13px;margin-bottom:2px;}
+.topic-badge{font-size:10px;border-radius:8px;padding:1px 7px;font-weight:600;margin-left:6px;}
+.topic-sub{font-size:11px;color:var(--text-l);line-height:1.5;}
+svg.cloud-svg,svg.star-svg{position:absolute;pointer-events:none;}
+
+/* ─── STUDY ──────────────────────────────── */
+.section-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.section-icon-box{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.section-title-text{font-size:20px;font-weight:bold;font-family:Georgia,serif;}
+.study-card{background:rgba(255,255,255,.88);border-radius:18px;padding:20px 22px;margin-bottom:14px;border:1px solid var(--border);box-shadow:0 2px 12px rgba(180,160,220,.10);}
+.study-card-title{font-weight:bold;font-size:15px;margin-bottom:12px;font-family:Georgia,serif;}
+.bullet-list{list-style:none;}
+.bullet-list li{display:flex;gap:8px;align-items:flex-start;margin-bottom:7px;font-size:13px;line-height:1.55;}
+.study-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:4px;}
+.study-table th{padding:8px 10px;text-align:left;font-weight:bold;border-bottom:2px solid;font-size:11px;}
+.study-table td{padding:7px 10px;border-bottom:1px solid;vertical-align:top;line-height:1.4;}
+.study-table tr:nth-child(even) td{background:rgba(255,255,255,.45);}
+.drug-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-top:8px;}
+.drug-pill{border-radius:10px;padding:8px 12px;font-size:12px;}
+.drug-pill strong{display:block;}
+.tag-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.tag{border-radius:10px;padding:4px 10px;font-size:11px;}
+.alert-box{border-radius:14px;padding:12px 16px;margin-top:10px;font-size:13px;line-height:1.6;border-left:4px solid;}
+
+/* ─── FLASHCARDS ─────────────────────────── */
+.flash-counter{text-align:center;font-size:13px;color:var(--text-l);margin-bottom:18px;}
+.flash-counter strong{color:var(--d-purple);}
+.flashcard-viewport{perspective:1200px;margin:0 auto 22px;max-width:600px;height:310px;cursor:pointer;}
+.flashcard-inner{width:100%;height:100%;transition:transform .55s cubic-bezier(.4,0,.2,1);transform-style:preserve-3d;position:relative;}
+.flashcard-inner.flipped{transform:rotateY(180deg);}
+.flashcard-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:24px;padding:28px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;box-shadow:0 8px 36px rgba(180,160,220,.22);border:2px solid;}
+.flashcard-back{transform:rotateY(180deg);}
+.flash-face-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;opacity:.65;}
+.flash-q{font-size:17px;font-weight:bold;line-height:1.45;}
+.flash-a{font-size:13px;line-height:1.65;max-height:230px;overflow-y:auto;}
+.flash-cat-badge{font-size:10px;border-radius:10px;padding:3px 10px;margin-bottom:10px;font-weight:600;}
+.flash-hint{text-align:center;font-size:12px;color:var(--text-l);margin-bottom:18px;font-style:italic;}
+.flash-controls{display:flex;align-items:center;justify-content:center;gap:12px;max-width:600px;margin:0 auto 18px;}
+.flash-btn{background:rgba(255,255,255,.88);border:1px solid var(--border);border-radius:14px;padding:10px 18px;font-size:13px;color:var(--text);cursor:pointer;font-family:Georgia,serif;transition:transform .15s,box-shadow .15s;box-shadow:0 2px 8px rgba(180,160,220,.15);}
+.flash-btn:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(180,160,220,.22);}
+.flash-btn.primary{background:linear-gradient(135deg,var(--lav),var(--mint));border:none;color:var(--d-purple);font-weight:bold;}
+.flash-knew{display:flex;gap:10px;justify-content:center;max-width:600px;margin:0 auto;}
+.knew-yes{flex:1;padding:12px;border-radius:14px;font-size:13px;cursor:pointer;font-family:Georgia,serif;border:none;background:#e8f8e8;color:var(--d-green);font-weight:bold;transition:transform .15s;}
+.knew-yes:hover{transform:translateY(-2px);}
+.knew-no{flex:1;padding:12px;border-radius:14px;font-size:13px;cursor:pointer;font-family:Georgia,serif;border:none;background:var(--warn-bg);color:var(--warn);font-weight:bold;transition:transform .15s;}
+.knew-no:hover{transform:translateY(-2px);}
+.flash-results{background:rgba(255,255,255,.92);border-radius:24px;padding:36px 28px;text-align:center;max-width:480px;margin:0 auto;box-shadow:0 8px 40px rgba(180,160,220,.2);border:1px solid var(--border);}
+
+/* ─── QUIZ ───────────────────────────────── */
+.quiz-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.quiz-cat-badge{border-radius:12px;padding:4px 14px;font-size:11px;font-weight:bold;display:inline-block;}
+.quiz-question-card{background:rgba(255,255,255,.92);border-radius:22px;padding:26px 24px;margin-bottom:16px;box-shadow:0 4px 24px rgba(180,160,220,.15);}
+.quiz-qnum{font-size:11px;color:var(--text-l);letter-spacing:1px;margin-bottom:8px;}
+.quiz-qtext{font-size:16px;font-weight:500;line-height:1.6;}
+.options-list{display:flex;flex-direction:column;gap:10px;margin-bottom:18px;}
+.option-btn{background:rgba(255,255,255,.85);border:1px solid var(--border);border-radius:16px;padding:13px 18px;text-align:left;cursor:pointer;font-size:13.5px;color:var(--text);font-family:Georgia,serif;line-height:1.5;display:flex;align-items:center;gap:10px;transition:transform .15s,box-shadow .15s;box-shadow:0 2px 10px rgba(180,160,220,.09);}
+.option-btn:not(.locked):hover{transform:translateX(4px);}
+.option-btn.locked{cursor:default;}
+.option-btn.correct{background:#e8f8e8;border-color:#a0d0a0;color:var(--d-green);}
+.option-btn.wrong{background:var(--warn-bg);border-color:var(--warn-b);color:var(--warn);}
+.option-letter{flex-shrink:0;width:26px;height:26px;border-radius:8px;background:var(--lav-l);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:bold;color:var(--d-purple);}
+.option-btn.correct .option-letter{background:#a0d0a0;color:var(--d-green);}
+.option-btn.wrong .option-letter{background:var(--warn-b);color:var(--warn);}
+.explain-box{border-radius:16px;padding:14px 18px;margin-bottom:16px;font-size:13px;line-height:1.6;}
+.explain-box.correct-exp{background:#e8f8e8;border:1px solid #a0d0a0;}
+.explain-box.wrong-exp{background:var(--ci-bg);border:1px solid var(--ci-b);}
+.explain-label{font-size:11px;font-weight:bold;letter-spacing:.5px;margin-bottom:5px;}
+.next-btn{width:100%;background:linear-gradient(135deg,var(--lav),var(--mint));border:none;border-radius:16px;padding:14px;font-size:15px;color:var(--d-purple);cursor:pointer;font-family:Georgia,serif;font-weight:bold;box-shadow:0 4px 16px rgba(180,160,220,.28);transition:transform .15s;}
+.next-btn:hover{transform:translateY(-2px);}
+.results-card{background:rgba(255,255,255,.92);border-radius:28px;padding:44px 36px;text-align:center;max-width:420px;margin:40px auto;box-shadow:0 8px 40px rgba(180,160,220,.2);border:1px solid var(--border);}
+.results-grade{font-size:64px;font-weight:bold;color:var(--d-purple);margin-bottom:4px;}
+.results-score{font-size:24px;color:var(--d-blue);margin-bottom:6px;}
+.results-pct{font-size:32px;font-weight:bold;margin-bottom:12px;}
+.results-msg{font-size:15px;color:var(--text-l);font-style:italic;margin-bottom:26px;}
+.results-btns{display:flex;flex-direction:column;gap:10px;}
+.results-btn{border:none;border-radius:14px;padding:12px 24px;font-size:14px;cursor:pointer;font-family:Georgia,serif;font-weight:bold;}
+.results-btn.primary{background:var(--lav);color:var(--d-purple);}
+.results-btn.secondary{background:var(--mint);color:var(--d-green);}
+.results-btn.ghost{background:rgba(255,255,255,.8);border:1px solid var(--border);color:var(--text-l);}
+.quiz-score-badge{font-size:13px;color:var(--text-l);}
+.quiz-score-badge strong{color:var(--d-blue);}
+@media(max-width:520px){.mode-grid{grid-template-columns:1fr;}.drug-grid{grid-template-columns:1fr;}.flashcard-viewport{height:280px;}.flash-q{font-size:15px;}}
+</style>
+</head>
+<body>
+
+<!-- ══ HOME ══════════════════════════════════ -->
+<div id="home" class="screen active">
+  <svg class="cloud-svg" style="top:10px;left:-30px;width:220px;opacity:.5" viewBox="0 0 120 60"><ellipse cx="40" cy="40" rx="30" ry="20" fill="#ddeeff"/><ellipse cx="70" cy="38" rx="35" ry="22" fill="#ddeeff"/><ellipse cx="55" cy="28" rx="25" ry="20" fill="#e8f2ff"/><ellipse cx="30" cy="45" rx="22" ry="14" fill="#ddeeff"/><ellipse cx="92" cy="44" rx="20" ry="13" fill="#ddeeff"/></svg>
+  <svg class="cloud-svg" style="top:55px;right:-20px;width:180px;opacity:.45" viewBox="0 0 120 60"><ellipse cx="40" cy="40" rx="30" ry="20" fill="#eedfff"/><ellipse cx="70" cy="38" rx="35" ry="22" fill="#eedfff"/><ellipse cx="55" cy="28" rx="25" ry="20" fill="#f4eaff"/></svg>
+  <svg class="cloud-svg" style="bottom:160px;left:30px;width:160px;opacity:.38" viewBox="0 0 120 60"><ellipse cx="40" cy="40" rx="30" ry="20" fill="#c2d9c0"/><ellipse cx="70" cy="38" rx="35" ry="22" fill="#c2d9c0"/><ellipse cx="55" cy="28" rx="25" ry="20" fill="#d4e8d2"/></svg>
+  <svg class="star-svg" id="star1" style="top:42px;right:90px;width:22px;opacity:.5" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" fill="#ffd6e0"/></svg>
+  <svg class="star-svg" id="star2" style="top:210px;left:28px;width:16px;opacity:.4" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" fill="#d6eaff"/></svg>
+  <svg class="star-svg" id="star3" style="bottom:210px;right:38px;width:20px;opacity:.42" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" fill="#c2d9c0"/></svg>
+
+  <div class="home-hero">
+    <div class="home-kiki" id="kiki-wrap">
+      <svg width="58" height="74" viewBox="0 0 80 100" fill="none">
+        <ellipse cx="40" cy="65" rx="22" ry="28" fill="#2a2a2a"/><ellipse cx="40" cy="40" rx="18" ry="18" fill="#2a2a2a"/>
+        <ellipse cx="33" cy="42" rx="5" ry="7" fill="#1a1a1a"/><ellipse cx="47" cy="42" rx="5" ry="7" fill="#1a1a1a"/>
+        <ellipse cx="33" cy="42" rx="2" ry="4" fill="#4aaa4a"/><ellipse cx="47" cy="42" rx="2" ry="4" fill="#4aaa4a"/>
+        <ellipse cx="33" cy="43" rx="1" ry="2.5" fill="#111"/><ellipse cx="47" cy="43" rx="1" ry="2.5" fill="#111"/>
+        <ellipse cx="33.5" cy="41.5" rx=".6" ry=".6" fill="white"/><ellipse cx="47.5" cy="41.5" rx=".6" ry=".6" fill="white"/>
+        <path d="M35 50 Q40 53 45 50" stroke="#555" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <path d="M30 36 L22 26" stroke="#2a2a2a" stroke-width="3" stroke-linecap="round"/>
+        <path d="M50 36 L58 26" stroke="#2a2a2a" stroke-width="3" stroke-linecap="round"/>
+        <ellipse cx="22" cy="24" rx="5" ry="4" fill="#2a2a2a"/><ellipse cx="58" cy="24" rx="5" ry="4" fill="#2a2a2a"/>
+        <line x1="20" y1="48" x2="5" y2="44" stroke="#555" stroke-width="1"/><line x1="20" y1="50" x2="3" y2="50" stroke="#555" stroke-width="1"/><line x1="20" y1="52" x2="5" y2="56" stroke="#555" stroke-width="1"/>
+        <line x1="60" y1="48" x2="75" y2="44" stroke="#555" stroke-width="1"/><line x1="60" y1="50" x2="77" y2="50" stroke="#555" stroke-width="1"/><line x1="60" y1="52" x2="75" y2="56" stroke="#555" stroke-width="1"/>
+        <path d="M62 78 Q75 70 78 88 Q65 85 62 78Z" fill="#2a2a2a"/>
+      </svg>
+      <svg width="44" height="88" viewBox="0 0 60 120" fill="none">
+        <rect x="27" y="0" width="6" height="68" rx="3" fill="#8B6914"/>
+        <ellipse cx="30" cy="88" rx="18" ry="28" fill="#5a8a4a" opacity=".82"/><ellipse cx="30" cy="88" rx="13" ry="21" fill="#6aaa5a" opacity=".7"/>
+        <rect x="26" y="64" width="8" height="12" rx="2" fill="#7a5a10"/>
+        <line x1="13" y1="100" x2="30" y2="74" stroke="#5a8a4a" stroke-width="2" opacity=".6"/><line x1="47" y1="100" x2="30" y2="74" stroke="#5a8a4a" stroke-width="2" opacity=".6"/>
+      </svg>
+    </div>
+    <div class="eyebrow">✦ Carrington College VN16 ✦</div>
+    <h1 class="home-title">Pharmacology of Nurses</h1>
+    <p class="home-sub">Test 3 — Antibiotics Study Guide</p>
+    <span class="home-badge">🌿 Ch. 7 & 8 · ATI PN Pharm 9.0 · Ford 12th Ed.</span>
+  </div>
+
+  <div class="mode-grid">
+    <div class="mode-card card-study" onclick="showScreen('study')">
+      <div class="mode-icon">📖</div>
+      <div class="mode-label" style="color:var(--d-sage)">Study Guide</div>
+      <div class="mode-desc">Full answers to all 25+ study guide questions</div>
+    </div>
+    <div class="mode-card card-flash" onclick="showScreen('flash')">
+      <div class="mode-icon">🃏</div>
+      <div class="mode-label" style="color:#2a6a4a">Flashcards</div>
+      <div class="mode-desc">55 flip cards — tap to reveal</div>
+    </div>
+    <div class="mode-card card-quiz" onclick="showScreen('quiz')">
+      <div class="mode-icon">✏️</div>
+      <div class="mode-label" style="color:var(--d-purple)">Practice Quiz</div>
+      <div class="mode-desc">40 NCLEX-style questions</div>
+    </div>
+  </div>
+
+  <div class="topics-card">
+    <div class="topics-head">✨ WHAT'S COVERED — TEST 3</div>
+    <div class="topic-row">
+      <div class="topic-icon-box" style="background:var(--mint-l)">🦠</div>
+      <div><div class="topic-name">Infection & Antibiotic Basics <span class="topic-badge" style="background:var(--mint);color:var(--d-green)">Q1–3</span></div>
+      <div class="topic-sub">Signs of infection · C&S purpose · Wound assessment</div></div>
+    </div>
+    <div class="topic-row">
+      <div class="topic-icon-box" style="background:var(--sky-l)">💊</div>
+      <div><div class="topic-name">Penicillins <span class="topic-badge" style="background:var(--sky);color:var(--d-blue)">Ch. 7</span></div>
+      <div class="topic-sub">5 categories · GI effects · Allergy · Superinfection · OCP interaction</div></div>
+    </div>
+    <div class="topic-row">
+      <div class="topic-icon-box" style="background:var(--lav-l)">🔬</div>
+      <div><div class="topic-name">Cephalosporins <span class="topic-badge" style="background:var(--lav);color:var(--d-purple)">Ch. 7</span></div>
+      <div class="topic-sub">Generations · Nephrotoxicity · Alcohol/disulfiram reaction · Cross-sensitivity</div></div>
+    </div>
+    <div class="topic-row">
+      <div class="topic-icon-box" style="background:var(--gold-l)">☀️</div>
+      <div><div class="topic-name">Tetracyclines <span class="topic-badge" style="background:var(--gold);color:var(--d-gold)">Ch. 8</span></div>
+      <div class="topic-sub">Dairy avoidance · Photosensitivity · Children contraindication · Interactions</div></div>
+    </div>
+    <div class="topic-row">
+      <div class="topic-icon-box" style="background:var(--rose-l)">🔴</div>
+      <div><div class="topic-name">Vancomycin <span class="topic-badge" style="background:var(--rose);color:var(--d-rose)">Ch. 7</span></div>
+      <div class="topic-sub">Red Man Syndrome · Nephrotoxicity · Ototoxicity · Infusion rate</div></div>
+    </div>
+    <div class="topic-row">
+      <div class="topic-icon-box" style="background:var(--sage-l)">👂</div>
+      <div><div class="topic-name">Aminoglycosides <span class="topic-badge" style="background:var(--sage);color:var(--d-sage)">Ch. 8</span></div>
+      <div class="topic-sub">3 major toxicities · Ototoxicity · Nephrotoxicity · Neurotoxicity</div></div>
+    </div>
+    <div class="topic-row">
+      <div class="topic-icon-box" style="background:var(--peach-l)">🌿</div>
+      <div><div class="topic-name">Macrolides <span class="topic-badge" style="background:var(--peach);color:#7a4000">Ch. 8</span></div>
+      <div class="topic-sub">Uses · Adverse effects · Contraindications · Interactions (digoxin, anticoagulants)</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ STUDY SCREEN ═══════════════════════════ -->
+<div id="study" class="screen">
+  <div class="topnav">
+    <div class="topnav-inner">
+      <button class="nav-back" onclick="showScreen('home')">← Home</button>
+      <div class="nav-title">📖 Study Guide — Test 3</div>
+      <button class="nav-btn" onclick="showScreen('quiz')">Quiz →</button>
+    </div>
+    <div style="max-width:800px;margin:8px auto 0">
+      <div class="cat-tabs">
+        <button class="cat-tab active" onclick="filterStudy('all',this)">✨ All</button>
+        <button class="cat-tab" onclick="filterStudy('basics',this)">🦠 Basics</button>
+        <button class="cat-tab" onclick="filterStudy('pcn',this)">💊 Penicillin</button>
+        <button class="cat-tab" onclick="filterStudy('ceph',this)">🔬 Ceph</button>
+        <button class="cat-tab" onclick="filterStudy('tet',this)">☀️ Tetracycline</button>
+        <button class="cat-tab" onclick="filterStudy('vanco',this)">🔴 Vanco</button>
+        <button class="cat-tab" onclick="filterStudy('amino',this)">👂 Amino</button>
+        <button class="cat-tab" onclick="filterStudy('macro',this)">🌿 Macrolides</button>
+        <button class="cat-tab" onclick="filterStudy('safety',this)">🛡️ Safety</button>
+      </div>
+    </div>
+  </div>
+  <div class="wrap" id="study-content"></div>
+</div>
+
+<!-- ══ FLASH SCREEN ═══════════════════════════ -->
+<div id="flash" class="screen">
+  <div class="topnav">
+    <div class="topnav-inner">
+      <button class="nav-back" onclick="showScreen('home')">← Home</button>
+      <div class="nav-title">🃏 Flashcards — Test 3</div>
+      <button class="nav-btn" onclick="showScreen('quiz')">Quiz →</button>
+    </div>
+    <div style="max-width:800px;margin:8px auto 0">
+      <div class="cat-tabs">
+        <button class="cat-tab active" onclick="filterFlash('all',this)">✨ All</button>
+        <button class="cat-tab" onclick="filterFlash('basics',this)">🦠 Basics</button>
+        <button class="cat-tab" onclick="filterFlash('pcn',this)">💊 PCN</button>
+        <button class="cat-tab" onclick="filterFlash('ceph',this)">🔬 Ceph</button>
+        <button class="cat-tab" onclick="filterFlash('tet',this)">☀️ Tet</button>
+        <button class="cat-tab" onclick="filterFlash('vanco',this)">🔴 Vanco</button>
+        <button class="cat-tab" onclick="filterFlash('amino',this)">👂 Amino</button>
+        <button class="cat-tab" onclick="filterFlash('macro',this)">🌿 Macro</button>
+      </div>
+    </div>
+  </div>
+  <div class="wrap"><div id="flash-panel"></div></div>
+</div>
+
+<!-- ══ QUIZ SCREEN ════════════════════════════ -->
+<div id="quiz" class="screen">
+  <div class="topnav">
+    <div class="topnav-inner">
+      <button class="nav-back" onclick="showScreen('home')">← Home</button>
+      <div class="nav-title">✏️ Practice Quiz — Test 3</div>
+      <span id="quiz-score-nav" class="quiz-score-badge">Score: <strong>0</strong></span>
+    </div>
+    <div style="max-width:800px;margin:8px auto 0">
+      <div class="progress-wrap"><div class="progress-fill" id="quiz-progress" style="width:0%"></div></div>
+    </div>
+  </div>
+  <div class="wrap" id="quiz-content"></div>
+</div>
+
+<script>
+/* ─── ROUTER ─── */
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  if(id==='study') renderStudy('all');
+  if(id==='flash') initFlash('all');
+  if(id==='quiz')  initQuiz();
+}
+
+/* ─── FLOAT ANIM ─── */
+let t=0;
+(function loop(){t+=.016;
+  const y=Math.sin(t*.8)*8;
+  const el=document.getElementById('kiki-wrap');
+  if(el)el.style.transform=`translateY(${y}px)`;
+  ['star1','star2','star3'].forEach((id,i)=>{const s=document.getElementById(id);if(s)s.style.transform=`translateY(${Math.sin(t+i)*6}px)`;});
+  requestAnimationFrame(loop);
+})();
+
+/* ════════════ STUDY DATA ════════════ */
+const CAT_META={
+  basics:{label:'Infection & Antibiotic Basics',icon:'🦠',color:'var(--d-green)',bg:'var(--mint-l)',border:'var(--mint)'},
+  pcn:  {label:'Penicillins',icon:'💊',color:'var(--d-blue)',bg:'var(--sky-l)',border:'var(--sky)'},
+  ceph: {label:'Cephalosporins',icon:'🔬',color:'var(--d-purple)',bg:'var(--lav-l)',border:'var(--lav)'},
+  tet:  {label:'Tetracyclines',icon:'☀️',color:'var(--d-gold)',bg:'var(--gold-l)',border:'var(--gold)'},
+  vanco:{label:'Vancomycin',icon:'🔴',color:'var(--d-rose)',bg:'var(--rose-l)',border:'var(--rose)'},
+  amino:{label:'Aminoglycosides',icon:'👂',color:'var(--d-sage)',bg:'var(--sage-l)',border:'var(--sage)'},
+  macro:{label:'Macrolides',icon:'🌿',color:'#5a4a00',bg:'var(--peach-l)',border:'var(--peach)'},
+  safety:{label:'Medication Safety',icon:'🛡️',color:'var(--d-purple)',bg:'var(--lav-l)',border:'var(--lav)'},
+};
+
+const studySections=[
+  /* BASICS */
+  {cat:'basics',heading:'🦠 Four Common Signs & Symptoms of Infection',points:[
+    'Fever (elevated body temperature — systemic response)',
+    'Redness/erythema at the site of infection (localized inflammation)',
+    'Swelling/edema at the infected area',
+    'Pain or tenderness at the site',
+    'Additional: purulent drainage, warmth, leukocytosis (↑ WBC), malaise, fatigue',
+  ]},
+  {cat:'basics',heading:'🧫 Purpose of Culture & Sensitivity (C&S)',points:[
+    'Identifies WHICH specific microorganism is causing the infection (culture)',
+    'Identifies WHICH antibiotics the organism is sensitive or resistant to (sensitivity)',
+    'A broad-spectrum antibiotic is chosen FIRST, then C&S results return and medication is altered accordingly (de-escalation)',
+    '⚠️ C&S specimen must be collected BEFORE the first dose of antibiotic — the drug will alter results',
+    'Ensures correct targeted antibiotic is used, reducing resistance and superinfection risk',
+  ]},
+  {cat:'basics',heading:'🩹 Wound Assessment Characteristics',points:[
+    'Location of the wound',
+    'Size — length, width, depth',
+    'Color — red (healing/granulation), yellow (slough/infection), black (necrosis)',
+    'Odor — presence and character (foul odor suggests infection)',
+    'Drainage/exudate — type (serous, purulent, serosanguineous), color, amount, consistency',
+    'Wound edges/margins — well-defined vs. irregular or undermined',
+    'Surrounding skin — redness, warmth, swelling, maceration',
+    'Signs of infection — increased redness/warmth, purulent drainage, fever, increased pain',
+    'Pain level at the wound site',
+  ]},
+
+  /* PENICILLINS */
+  {cat:'pcn',heading:'💊 5 Major Categories of Penicillins',table:{
+    header:['#','Category','Key Point'],
+    rows:[
+      ['1','Natural Penicillins','Very narrow spectrum (e.g., penicillin G, penicillin V)'],
+      ['2','Penicillinase-Resistant Penicillins','Combat the penicillinase enzyme some bacteria produce (e.g., nafcillin, oxacillin)'],
+      ['3','Aminopenicillins','Broader spectrum than natural penicillins (e.g., amoxicillin, ampicillin)'],
+      ['4','Penicillin–Beta-lactamase inhibitor combos','Fight against bacterial beta-lactamase production'],
+      ['5','Extended-Spectrum Penicillins','Broadest spectrum; considered broad spectrum (e.g., piperacillin)'],
+    ]
+  }},
+  {cat:'pcn',heading:'⚠️ Penicillin: Common GI Adverse Effects',points:[
+    'Nausea and vomiting',
+    'Diarrhea',
+    'Glossitis — inflammation of the tongue (when given orally)',
+    'Stomatitis — inflammation of the mouth, dry mouth',
+    'Gastritis, abdominal pain',
+  ],sideEffects:['Anemia (↓ RBC)','Thrombocytopenia (↓ platelets)','Leukopenia (↓ WBC)','Bone marrow depression','Anaphylaxis (severe allergy)']},
+  {cat:'pcn',heading:'🔍 Important Assessment BEFORE Giving Penicillin',points:[
+    '⭐ Allergy history — ALWAYS assess for previous hypersensitivity to penicillin AND cephalosporins',
+    'Cross-sensitivity exists between penicillins and cephalosporins (shared beta-lactam ring) — if allergic to one, may react to the other',
+    'Previous reactions to any antibiotics',
+    'Current medications (interactions — especially oral contraceptives, tetracyclines, anticoagulants, beta-blockers)',
+  ]},
+  {cat:'pcn',heading:'💡 What Penicillin May Affect — Patient Teaching',points:[
+    '⚠️ ORAL CONTRACEPTIVES (birth control pills) — penicillins can DECREASE effectiveness of estrogen-containing OCPs',
+    'Advise patient to use an ADDITIONAL form of contraception during and after therapy',
+    'Take oral penicillin on an EMPTY STOMACH — 1 hour before or 2 hours after meals (exceptions: penicillin V and amoxicillin can be taken with food)',
+    'Take each dose with a FULL 8-oz glass of water',
+    'Complete the FULL COURSE of therapy even if feeling better',
+    'Keep oral suspensions refrigerated; shake well before pouring',
+  ]},
+  {cat:'pcn',heading:'🍄 Signs of Superinfection (Penicillin)',points:[
+    'Vaginal yeast infection — itching, discharge (Candida overgrowth)',
+    'Oral thrush — white patches in the mouth',
+    'Diarrhea — especially loose, foul-smelling stools (possible C. difficile)',
+    'Black, furry tongue',
+    'Fever, chills, or new symptoms developing DURING antibiotic therapy',
+    'Superinfection = new infection caused by disruption of normal flora during antibiotic treatment — report any new/worsening symptoms',
+  ]},
+
+  /* CEPHALOSPORINS */
+  {cat:'ceph',heading:'🔬 Cephalosporins — Common Adverse Effects',sideEffects:['Nausea, vomiting, diarrhea (most common GI)','Headache, dizziness','Nephrotoxicity (kidney damage)','Hypersensitivity reactions','Stevens-Johnson Syndrome (rare, severe skin reaction)','Aplastic anemia (deficient RBC production)','Toxic epidermal necrolysis (rare, life-threatening)'],
+  points:['Cephalosporins are classified by generations (1st through 5th) based on effectiveness against bacterial strains','All names start with Cef, Ceph, or Kef','Cross-sensitivity with penicillin — ALWAYS assess penicillin allergy history before giving']},
+  {cat:'ceph',heading:'🫘 Why Monitor Kidney Function with Cephalosporins?',points:[
+    'Cephalosporins carry a risk of NEPHROTOXICITY — kidney damage',
+    'The drug is filtered through the kidneys; impaired renal function causes drug accumulation and toxicity',
+    'Monitor: BUN, creatinine, and intake & output (I&O)',
+    'Risk is GREATER when combined with aminoglycosides or loop diuretics (both also nephrotoxic)',
+    'Per Ford 12th Ed.: assess renal function before and during cephalosporin therapy',
+  ]},
+  {cat:'ceph',heading:'🍺 Alcohol Interaction — Disulfiram-Like Reaction',points:[
+    'Avoid ALCOHOL during cephalosporin therapy and for 3 DAYS AFTER completing the course',
+    'Can cause a disulfiram-like reaction (also called Antabuse reaction)',
+  ],
+  interactions:['Severe nausea and vomiting','Flushing (face/neck redness)','Headache','Tachycardia (rapid heart rate)','Hypotension','Dizziness, diaphoresis (sweating)','Difficulty breathing']},
+  {cat:'ceph',heading:'🤢 GI Upset Teaching & Contraindications',points:[
+    'If GI upset occurs → take cephalosporin WITH FOOD OR MILK (food does not significantly reduce absorption of most cephalosporins)',
+    'Caution in: renal disease, hepatic impairment, bleeding disorder, pregnancy (Category B), known penicillin allergy',
+    'Drug interactions: Aminoglycosides → ↑ nephrotoxicity; Oral anticoagulants → ↑ bleeding risk; Loop diuretics → ↑ cephalosporin blood level; Probenecid (Benemid) → ↑ levels of most cephalosporins',
+  ]},
+
+  /* TETRACYCLINES */
+  {cat:'tet',heading:'☀️ Tetracyclines — Foods/Products to AVOID',points:[
+    '🥛 DAIRY PRODUCTS (milk, cheese, yogurt) — calcium binds tetracycline → forms insoluble complexes → ↓ absorption',
+    '🧪 Antacids containing aluminum, zinc, magnesium, or bismuth salts — bind tetracycline → ↓ effectiveness',
+    '💊 Iron supplements — bind tetracycline → ↓ absorption',
+    'Take tetracyclines 1 HOUR BEFORE or 2 HOURS AFTER meals, dairy, or calcium-containing products',
+    'Tetracycline ABX interactions: oral anticoagulants → ↑ bleeding risk; oral contraceptives → ↓ contraceptive effectiveness',
+  ]},
+  {cat:'tet',heading:'🌞 Photosensitivity Precaution',points:[
+    'Tetracyclines cause PHOTOSENSITIVITY — skin becomes abnormally sensitive to UV radiation',
+    'Can cause severe sunburns, rashes, or skin discoloration even with brief sun exposure',
+    'Patient teaching:',
+    '→ Avoid prolonged exposure to direct sunlight and UV light (tanning beds)',
+    '→ Wear protective clothing (long sleeves, hat, sunglasses)',
+    '→ Apply broad-spectrum sunscreen with high SPF whenever going outdoors',
+    '→ Report any unusual skin reactions immediately',
+  ]},
+  {cat:'tet',heading:'👶 Why Tetracyclines Are Contraindicated in Children < 9 Years',points:[
+    'Tetracyclines bind to calcium in developing TEETH → cause PERMANENT yellow-brown discoloration/staining',
+    'Deposited in BONE tissue → can affect bone growth in developing children',
+    'Per Chapter 8 slides and Ford 12th Ed.: "Not given to children younger than 9 years of age"',
+    'Also CONTRAINDICATED in pregnancy and lactation → affects fetal teeth and bone development',
+    'Prolonged therapy → can lead to bacterial/fungal overgrowth of nonsusceptible organisms (superinfection)',
+    'Caution in: impaired renal and hepatic function; may reduce insulin requirements in diabetics → monitor blood glucose',
+  ]},
+  {cat:'tet',heading:'⚠️ Tetracycline Adverse Effects',sideEffects:['Nausea/vomiting (most common)','Diarrhea','Epigastric distress','Stomatitis (mouth inflammation)','Sore throat','Skin rashes','Photosensitivity reaction (key!)','Permanent tooth discoloration in children < 9 or fetal exposure','Superinfection with prolonged use'],
+  points:['Tetracyclines = anti-infectives composed of natural and semisynthetic compounds','MOA: Inhibit bacterial PROTEIN SYNTHESIS','Used as broad-spectrum antibiotic when penicillin is CONTRAINDICATED','Tetracyclines are primarily BACTERIOSTATIC — TRUE (confirmed in Ch. 8 Q1)']},
+
+  /* VANCOMYCIN */
+  {cat:'vanco',heading:'🔴 Vancomycin — Nephrotoxicity Signs',points:[
+    'Decreased urine output (oliguria or anuria) — MOST IMPORTANT clinical sign',
+    'Elevated BUN and serum creatinine (lab findings)',
+    'Edema, weight gain (fluid retention)',
+    'Flank pain or tenderness',
+    'Dark, cloudy urine',
+    'Monitor I&O; monitor BUN/creatinine before and during therapy',
+  ]},
+  {cat:'vanco',heading:'👂 Vancomycin — Ototoxicity Signs',points:[
+    '⭐ TINNITUS — ringing, buzzing, or roaring in the ears (EARLIEST and most important warning sign)',
+    'Hearing loss — may be unilateral or bilateral; can be PERMANENT',
+    'Vertigo or dizziness (vestibular damage)',
+    'Sense of fullness or pressure in the ears',
+    'Loss of balance',
+    '⚠️ Ototoxicity may be IRREVERSIBLE — report to provider IMMEDIATELY at first sign',
+  ]},
+  {cat:'vanco',heading:'🚨 Red Man Syndrome',points:[
+    'Caused by TOO-RAPID INFUSION of vancomycin — NOT a true allergic reaction (infusion-related reaction)',
+    'Sudden, intense FLUSHING of the face, neck, and upper torso (red appearance)',
+    'Hypotension (can be severe)',
+    'Tachycardia',
+    'Pruritus (intense itching)',
+    'Urticaria (hives)',
+    'Muscle spasms of the back and chest',
+    '🛡️ PREVENTION: Infuse vancomycin slowly over at least 60 MINUTES (some protocols: 90 min for larger doses)',
+    'If it develops: SLOW or STOP the infusion → notify provider',
+  ]},
+  {cat:'vanco',heading:'🩺 Nursing Assessments During Vancomycin Administration',points:[
+    'Vital signs — especially BP (hypotension risk) and temperature',
+    'Renal function — monitor BUN, creatinine, urine output (I&O) before and during therapy',
+    'Hearing — ask about tinnitus and hearing changes before each dose',
+    'IV site — monitor for phlebitis, redness, pain (vancomycin is irritating to veins)',
+    'Peak and trough levels — therapeutic drug monitoring to ensure safe and effective drug levels',
+    'Infusion rate — ensure infusing over AT LEAST 60 minutes to prevent Red Man Syndrome',
+    'Allergy history before first dose; assess for cross-sensitivity with cephalosporins and penicillins',
+  ]},
+
+  /* AMINOGLYCOSIDES */
+  {cat:'amino',heading:'👂 Three Major Aminoglycoside Toxicities',table:{
+    header:['Toxicity','Description','Key Clinical Signs'],
+    rows:[
+      ['1. Ototoxicity','Damage to 8th cranial nerve (vestibulocochlear)','Tinnitus (ringing), hearing loss (may be PERMANENT), vertigo, dizziness'],
+      ['2. Nephrotoxicity','Accumulate in renal tubular cells → kidney damage','↓ Urine output, ↑ BUN/creatinine, edema'],
+      ['3. Neurotoxicity','Neuromuscular blockade — especially dangerous in myasthenia gravis, Parkinson\'s','Muscle weakness, respiratory depression → arrest (MOST DANGEROUS)'],
+    ]
+  }},
+  {cat:'amino',heading:'⚡ Signs of Aminoglycoside Neurotoxicity',points:[
+    'Muscle weakness or flaccid paralysis',
+    '⚠️ RESPIRATORY DEPRESSION — can progress to RESPIRATORY ARREST (most life-threatening)',
+    'Numbness, tingling (paresthesia)',
+    'Visual disturbances',
+    'Headache, lethargy',
+    'Contraindicated in: hypersensitivity, pre-existing hearing loss, myasthenia gravis, Parkinsonism, lactation, pregnancy',
+    'Used cautiously in: elderly patients, patients with renal failure and neuromuscular disorders',
+    'Interactions: Cephalosporins → ↑ nephrotoxicity; Loop diuretics → ↑ ototoxicity',
+  ]},
+  {cat:'amino',heading:'💉 Aminoglycoside Examples (from Ch. 8 drug table)',table:{
+    header:['Generic','Key Uses','Major AEs'],
+    rows:[
+      ['Gentamicin','Serious infections caused by susceptible organisms','Ototoxicity, nephrotoxicity, neurotoxicity, hypersensitivity'],
+      ['Tobramycin','Same as amikacin; also ophthalmic infections','Same as amikacin'],
+      ['Amikacin','Treatment of serious infections by susceptible microorganisms','N/V, diarrhea, rash, ototoxicity, nephrotoxicity, neuromuscular blockade'],
+      ['Streptomycin','Same as amikacin; also tuberculosis treatment','Same as amikacin'],
+      ['Neomycin','Preoperative prophylaxis, hepatic coma support','Same as amikacin'],
+    ]
+  }},
+
+  /* MACROLIDES */
+  {cat:'macro',heading:'🌿 Macrolides — Overview & Uses',points:[
+    'MOA: Cause changes in protein FUNCTION and SYNTHESIS → bacteriostatic (or bactericidal at high concentrations)',
+    'Effective against a wide variety of pathogenic organisms, particularly respiratory and genitourinary tract infections',
+    'Used as PROPHYLAXIS before dental or other procedures in patients ALLERGIC TO PENICILLIN',
+    'Treat: gram-negative and gram-positive infections, acne vulgaris, skin infections, upper respiratory infections (H. influenzae), H. pylori therapy (clarithromycin)',
+  ],sideEffects:['Nausea, vomiting, diarrhea','Abdominal pain or cramping','Pseudomembranous colitis','Visual disturbances','Heart arrhythmias (azithromycin)','Hepatotoxicity (with pre-existing liver disease)']},
+  {cat:'macro',heading:'🚫 Macrolide Contraindications & Interactions',points:[
+    'Contraindicated: hypersensitivity to macrolides; pre-existing liver disease',
+    'Used cautiously: liver dysfunction, myasthenia gravis, pregnancy or lactation',
+  ],table:{
+    header:['Interacting Drug','Effect'],
+    rows:[
+      ['Antacids (kaolin, aluminum salts, magaldrate)','↓ Absorption and effectiveness of macrolide'],
+      ['Digoxin','↑ Serum levels of digoxin → digoxin toxicity risk'],
+      ['Anticoagulants','↑ Risk of bleeding'],
+    ]
+  }},
+  {cat:'macro',heading:'💊 Macrolide Examples (from Ch. 8 drug table)',drugs:[
+    ['Azithromycin','Zithromax / Zmax'],['Clarithromycin','Biaxin'],
+    ['Erythromycin','Ery-Tab / EryPed'],['Fidaxomicin','Dificid (C. diff treatment)'],
+  ],drugColor:'var(--peach-l)',drugTextColor:'#5a4a00'},
+
+  /* MEDICATION SAFETY */
+  {cat:'safety',heading:'🛡️ Medication Safety — Key Antibiotic Rules',points:[
+    '⭐ ALWAYS collect ALLERGY HISTORY before first dose of any antibiotic',
+    '⭐ C&S specimen must be collected BEFORE first dose (drug will alter results)',
+    'Unless otherwise directed: take oral medications with a FULL 8-OZ GLASS OF WATER',
+    'Complete the FULL COURSE — do not stop early even if symptoms resolve',
+    'Take at PRESCRIBED TIMES to maintain adequate drug levels in the body (Q6H, Q8H, Q12H)',
+  ]},
+  {cat:'safety',heading:'🔍 Critical Symptom Interpretation',table:{
+    header:['Finding','Suspect','Action'],
+    rows:[
+      ['↓ Urine output','Nephrotoxicity (kidney damage)','Report to provider immediately; monitor BUN/Cr'],
+      ['Ringing in ears (tinnitus)','Ototoxicity (8th cranial nerve damage)','Report immediately — may be irreversible; stop drug per order'],
+      ['Bloody diarrhea during Abx therapy','Pseudomembranous colitis (C. difficile)','STOP antibiotic; notify provider; obtain stool specimen; treat with metronidazole or oral vancomycin'],
+      ['Fever + new rash during Abx therapy','Allergic reaction or superinfection','Assess for anaphylaxis; stop drug if ordered; notify provider'],
+      ['Flushing/hypotension during vancomycin infusion','Red Man Syndrome','Slow or stop infusion; notify provider'],
+    ]
+  }},
+  {cat:'safety',heading:'📊 Quick Comparison Table — All Drug Classes',table:{
+    header:['Drug Class','Major AEs','Key Nursing Concerns'],
+    rows:[
+      ['Penicillin','GI upset, hypersensitivity/anaphylaxis, bone marrow depression','Check PCN + ceph allergy; warn about OCP interaction; take w/ full glass water; complete full course'],
+      ['Cephalosporins','N/V/diarrhea, nephrotoxicity, Stevens-Johnson syndrome','Monitor BUN/Cr; NO alcohol (disulfiram reaction for 3 days after); cross-sensitivity w/ PCN; take w/ food if GI upset'],
+      ['Tetracyclines','GI distress, photosensitivity, tooth discoloration in children','Avoid dairy/antacids/iron; take 1 hr before meals; sunscreen; contraindicated < 9 yrs & pregnancy'],
+      ['Vancomycin','Nephrotoxicity, ototoxicity, Red Man Syndrome','Infuse over ≥ 60 min; monitor peak/trough; monitor BUN/Cr & hearing; check IV site for phlebitis'],
+      ['Aminoglycosides','Ototoxicity, nephrotoxicity, neurotoxicity (resp. depression)','Monitor hearing (tinnitus); monitor urine output/BUN/Cr; watch for respiratory depression; caution elderly/renal failure'],
+      ['Macrolides','N/V/diarrhea, pseudomembranous colitis, visual disturbances','Caution w/ liver disease; watch digoxin levels; ↑ bleeding w/ anticoagulants; used when PCN allergic'],
+    ]
+  }},
+  {cat:'safety',heading:'🔗 NCLEX Connection Answers',points:[
+    '1. ALLERGIC REACTION signs: skin rash, urticaria, pruritus, flushing, angioedema (face/throat swelling), wheezing, bronchospasm, laryngospasm, hypotension, anaphylaxis',
+    '2. NEPHROTOXICITY signs: ↓ urine output (oliguria), ↑ BUN/creatinine, edema, weight gain, flank pain, dark/cloudy urine',
+    '3. OTOTOXICITY signs: tinnitus (ringing/buzzing in ears — EARLIEST sign), hearing loss (may be permanent), vertigo, dizziness, loss of balance',
+    '4. TETRACYCLINE teaching: avoid dairy/antacids/iron; take 1 hr before meals; use sunscreen/protective clothing; not for children < 9 yrs or pregnancy; complete full course; take with full glass water',
+    '5. BEFORE FIRST DOSE: ALWAYS collect allergy history AND C&S specimen before giving first dose of any anti-infective medication',
+  ]},
+];
+
+/* ════════════ FLASHCARD DATA (55 cards) ════════════ */
+const flashcards=[
+  {cat:'basics',q:'List 4 common signs and symptoms of infection.',a:'1. Fever (elevated temp)\n2. Redness/erythema at site\n3. Swelling/edema\n4. Pain or tenderness\nAlso: purulent drainage, warmth, ↑ WBC (leukocytosis), malaise.'},
+  {cat:'basics',q:'What is the purpose of a C&S before antibiotic therapy?',a:'Culture = identifies the specific microorganism causing the infection.\nSensitivity = identifies which antibiotics it is sensitive or resistant to.\n⭐ Must be collected BEFORE the first antibiotic dose — drug will alter results.'},
+  {cat:'basics',q:'What characteristics are assessed when evaluating a wound?',a:'Location, size (L×W×D), color (red/yellow/black), odor, drainage type/amount, wound edges, surrounding skin (redness/warmth/swelling), pain level, and signs of infection (pus, fever, increased redness).'},
+  {cat:'basics',q:'What does a broad-spectrum antibiotic mean and when is it used?',a:'Broad-spectrum = effective against a wide range of bacteria (gram+ and gram-).\nUsed INITIALLY before C&S results return. Then narrowed ("de-escalated") to the most targeted antibiotic based on C&S results.'},
+  {cat:'basics',q:'Define MRSA and VRE. Why do they matter?',a:'MRSA = Methicillin-Resistant Staphylococcus aureus.\nVRE = Vancomycin-Resistant Enterococcus.\nBoth are "superbugs" — drug-resistant strains that develop from repeated antibiotic use. Require special, often limited treatment options.'},
+  /* PCN */
+  {cat:'pcn',q:'How does penicillin work to kill bacteria?',a:'Inhibits Penicillin Binding Proteins (PBPs) that aid in cell wall synthesis and division. The beta-lactam ring breaks the bacterial cell wall → bacteria cannot maintain structural integrity → die.'},
+  {cat:'pcn',q:'List the 5 groups of penicillins.',a:'1. Natural Penicillins (narrow spectrum)\n2. Penicillinase-Resistant (combat penicillinase enzyme)\n3. Aminopenicillins (broader spectrum)\n4. Penicillin–beta-lactamase inhibitor combos\n5. Extended-Spectrum (broadest/broad spectrum)'},
+  {cat:'pcn',q:'What oral contraceptive interaction must patients know about penicillin?',a:'Penicillins (especially ampicillin, penicillin V) can DECREASE effectiveness of estrogen-containing oral contraceptives. Advise patient to use an ADDITIONAL form of contraception during and shortly after therapy.'},
+  {cat:'pcn',q:'What are signs of a penicillin superinfection?',a:'Vaginal yeast infection (Candida — itching, discharge), oral thrush (white mouth patches), foul-smelling loose stools (C. diff), black furry tongue, new fever or chills during therapy. Report new/worsening symptoms immediately.'},
+  {cat:'pcn',q:'When should oral penicillin be taken?',a:'On an EMPTY STOMACH — 1 hour before or 2 hours after meals.\nExceptions: Penicillin V and amoxicillin can be taken with food.\nAlways with a full 8-oz glass of water.'},
+  {cat:'pcn',q:'What are GI adverse effects of penicillin?',a:'Nausea and vomiting, diarrhea, glossitis (tongue inflammation), stomatitis (mouth inflammation/dry mouth), gastritis, abdominal pain.'},
+  {cat:'pcn',q:'What hematologic AEs can penicillin cause?',a:'Anemia (↓ RBC), Thrombocytopenia (↓ platelets), Leukopenia (↓ WBC), Bone marrow depression. These are serious blood effects — monitor CBC.'},
+  {cat:'pcn',q:'Why must a nurse assess cephalosporin allergy before giving penicillin?',a:'Cross-sensitivity exists — both share a beta-lactam ring structure. A patient allergic to penicillin may also react to cephalosporins and vice versa. ALWAYS assess allergy history to BOTH drug classes before administering either.'},
+  {cat:'pcn',q:'What is Penicillin used to treat? (Infectious diseases)',a:'UTIs, septicemia, meningitis, intra-abdominal infections, sexually transmitted infections (syphilis), pneumonia, and other respiratory infections. Also used prophylactically before surgeries, dental procedures, and upper respiratory procedures.'},
+  /* CEPH */
+  {cat:'ceph',q:'How are cephalosporins classified?',a:'By GENERATIONS (1st through 5th). Each generation is based on effectiveness against specific bacterial strains.\n• 1st: gram-positive focus\n• Each higher generation adds MORE gram-negative coverage\n• 4th & 5th: used for "superbugs" — limited availability in USA.\nAll names start with Cef, Ceph, or Kef.'},
+  {cat:'ceph',q:'Name one example from each cephalosporin generation.',a:'1st: Cephalexin (Keflex), Cefazolin (Ancef)\n2nd: Cefaclor (Raniclor), Cefuroxime (Zinacef)\n3rd: Ceftriaxone (Rocephin), Cefotaxime (Claforan)\n4th: Cefepime (Maxipime)\n5th: Ceftaroline (Teflaro)'},
+  {cat:'ceph',q:'What is the alcohol interaction with cephalosporins?',a:'Avoid alcohol DURING therapy and for 3 DAYS AFTER completing the course.\nCauses a disulfiram-like reaction: severe N/V, flushing, headache, tachycardia, hypotension, diaphoresis, difficulty breathing.'},
+  {cat:'ceph',q:'Why must kidney function be monitored with cephalosporins?',a:'Risk of NEPHROTOXICITY — drug accumulates in kidneys if renal function is impaired. Risk increases when combined with aminoglycosides or loop diuretics. Monitor BUN, creatinine, and I&O.'},
+  {cat:'ceph',q:'What is Stevens-Johnson Syndrome?',a:'A rare but SEVERE and life-threatening hypersensitivity reaction that can occur with cephalosporins. Causes severe skin blistering and mucous membrane involvement. Discontinue drug immediately and seek emergency treatment.'},
+  {cat:'ceph',q:'If cephalosporin causes GI upset, what should the nurse teach?',a:'Take the medication WITH FOOD OR MILK to reduce GI irritation. Food does not significantly reduce absorption of most cephalosporins.'},
+  {cat:'ceph',q:'What are cephalosporin drug interactions?',a:'Aminoglycosides → ↑ nephrotoxicity risk\nOral anticoagulants → ↑ bleeding risk\nLoop diuretics → ↑ cephalosporin blood level\nProbenecid (Benemid) → ↑ levels of most cephalosporins (except cefoperazone, ceftazidime, ceftriaxone)'},
+  /* TETRACYCLINES */
+  {cat:'tet',q:'What foods/products must be avoided with tetracyclines and why?',a:'DAIRY PRODUCTS and antacids (aluminum, zinc, magnesium, bismuth), iron supplements.\nWhy: calcium and minerals BIND to tetracycline → form insoluble complexes that CANNOT be absorbed → drug becomes ineffective.\nTake 1 HOUR BEFORE or 2 HOURS AFTER meals/dairy.'},
+  {cat:'tet',q:'What photosensitivity precaution is needed for tetracycline patients?',a:'Tetracyclines cause photosensitivity — skin is abnormally sensitive to UV radiation → severe sunburns/rashes even with brief exposure.\nTeach: avoid prolonged sun/UV exposure, wear protective clothing, use high-SPF sunscreen, report skin reactions immediately.'},
+  {cat:'tet',q:'Why are tetracyclines contraindicated in children younger than 9 years?',a:'Tetracyclines bind to calcium in developing teeth → cause PERMANENT yellow-brown tooth discoloration/staining.\nAlso deposited in bone → can affect bone growth.\nAlso contraindicated in pregnancy and lactation for the same reasons.'},
+  {cat:'tet',q:'What are tetracyclines primarily used for?',a:'Broad-spectrum antibiotic when penicillin is contraindicated. Used for: Rickettsial diseases, intestinal amebiasis, skin/soft tissue infections, urethral/endocervical/rectal infections, H. pylori (adjunctive), acne vulgaris.'},
+  {cat:'tet',q:'What is the mechanism of action of tetracyclines?',a:'INHIBIT BACTERIAL PROTEIN SYNTHESIS. They are primarily BACTERIOSTATIC (inhibit growth but do not kill outright). Anti-infectives composed of natural and semisynthetic compounds.'},
+  {cat:'tet',q:'Name tetracycline drug interactions.',a:'Antacids (Al, Zn, Mg, bismuth) → ↓ tetracycline effectiveness\nOral anticoagulants → ↑ bleeding risk\nOral contraceptives → ↓ contraceptive effectiveness\nTake 1 hr before or 2 hrs after any of these products.'},
+  {cat:'tet',q:'Name key tetracycline medications from Ch. 8 drug table.',a:'Doxycycline (Atridox, Vibramycin)\nMinocycline (Minocin, Dynacin)\nTetracycline (base drug)\nDemeclocycline\nTigecycline (Tygacil) — glycylcycline class, IV for complicated skin/intra-abdominal infections'},
+  /* VANCOMYCIN */
+  {cat:'vanco',q:'What is Red Man Syndrome and what causes it?',a:'An infusion-RELATED reaction (NOT a true allergy) caused by TOO-RAPID infusion of vancomycin.\nSymptoms: intense flushing of face/neck/upper torso, hypotension, tachycardia, pruritus, urticaria, muscle spasms.\nPrevention: infuse over AT LEAST 60 minutes.'},
+  {cat:'vanco',q:'What are signs of vancomycin nephrotoxicity?',a:'↓ Urine output (oliguria/anuria) — #1 clinical sign\nElevated BUN and creatinine\nEdema, weight gain (fluid retention)\nFlank pain\nDark, cloudy urine\nMonitor I&O, BUN/Cr before and during therapy.'},
+  {cat:'vanco',q:'What are signs of vancomycin ototoxicity?',a:'TINNITUS (ringing/buzzing in ears) = EARLIEST warning sign ⭐\nHearing loss — can be PERMANENT\nVertigo/dizziness\nSense of fullness in ears\nLoss of balance\nReport ANY hearing changes immediately — ototoxicity may be irreversible.'},
+  {cat:'vanco',q:'What nursing assessments are required during vancomycin administration?',a:'• VS (especially BP for hypotension)\n• Renal function: BUN, creatinine, I&O\n• Hearing: ask about tinnitus before each dose\n• IV site: check for phlebitis\n• Peak and trough levels (therapeutic drug monitoring)\n• Confirm infusion over ≥ 60 minutes\n• Allergy history before first dose'},
+  {cat:'vanco',q:'What infections is vancomycin (carbapenems) used for?',a:'Reserved for MULTI-DRUG RESISTANT (MDR) bacterial infections:\nAbdominal infections, Endocarditis, Septicemia, Complicated UTI, Skin complications, MRSA, C. difficile.'},
+  /* AMINOGLYCOSIDES */
+  {cat:'amino',q:'What are the 3 major toxicities of aminoglycosides?',a:'1. OTOTOXICITY — 8th cranial nerve damage → tinnitus, hearing loss (PERMANENT), vertigo\n2. NEPHROTOXICITY — renal tubular accumulation → ↓ urine output, ↑ BUN/Cr\n3. NEUROTOXICITY — neuromuscular blockade → muscle weakness, RESPIRATORY DEPRESSION/ARREST'},
+  {cat:'amino',q:'What are signs of aminoglycoside neurotoxicity?',a:'Muscle weakness/flaccid paralysis\n⚠️ RESPIRATORY DEPRESSION → can progress to RESPIRATORY ARREST\nNumbness/tingling (paresthesia)\nVisual disturbances\nHeadache, lethargy\nEspecially dangerous in myasthenia gravis, Parkinson\'s patients.'},
+  {cat:'amino',q:'Who should aminoglycosides be used cautiously in?',a:'• Elderly patients\n• Patients with renal failure\n• Neuromuscular disorders (myasthenia gravis, Parkinson\'s)\nContraindicated: hypersensitivity, pre-existing hearing loss, lactation, pregnancy.'},
+  {cat:'amino',q:'What drug interactions do aminoglycosides have?',a:'Cephalosporins → ↑ nephrotoxicity risk\nLoop diuretics → ↑ ototoxicity risk\nNeuromuscular blocking agents → ↑ neuromuscular blockade risk'},
+  {cat:'amino',q:'Name key aminoglycoside medications.',a:'Gentamicin, Tobramycin, Amikacin, Kanamycin, Neomycin, Paromomycin, Streptomycin\n(All are given IM or IV — not absorbed orally; neomycin used orally for gut/hepatic coma prep)'},
+  /* MACROLIDES */
+  {cat:'macro',q:'What is the mechanism of action of macrolides?',a:'Cause changes in protein FUNCTION and SYNTHESIS in bacterial cells → bacteriostatic (or bactericidal in high concentrations). Interfere with protein synthesis at the ribosomal level.'},
+  {cat:'macro',q:'When are macrolides used as prophylaxis?',a:'Before DENTAL or other procedures in patients who are ALLERGIC TO PENICILLIN. Azithromycin or clarithromycin are commonly used as PCN alternatives.'},
+  {cat:'macro',q:'What are macrolide adverse effects?',a:'Nausea, vomiting, diarrhea, abdominal pain/cramping, pseudomembranous colitis, visual disturbances, heart arrhythmias (azithromycin → QT prolongation), hepatotoxicity (with liver disease).'},
+  {cat:'macro',q:'What are macrolide contraindications and precautions?',a:'Contraindicated: hypersensitivity to macrolides; pre-existing liver disease.\nUsed cautiously: liver dysfunction, myasthenia gravis, pregnancy or lactation.'},
+  {cat:'macro',q:'What is the digoxin interaction with macrolides?',a:'Macrolides INCREASE serum levels of digoxin → risk of digoxin toxicity.\nSigns of digoxin toxicity: bradycardia, nausea, visual disturbances (yellow-green halos), arrhythmias.\nMonitor digoxin levels when given together.'},
+  {cat:'macro',q:'Name key macrolide medications.',a:'Azithromycin (Zithromax/Zmax)\nClarithromycin (Biaxin) — also used for H. pylori\nErythromycin (Ery-Tab, EryPed)\nFidaxomicin (Dificid) — specifically for C. diff diarrhea treatment\nTelithromycin (Ketek)'},
+];
+
+/* ════════════ QUIZ DATA (40 questions) ════════════ */
+const quizData=[
+  {cat:'basics',q:'What must be collected BEFORE the first dose of any antibiotic?',opts:['Vital signs only','Culture and sensitivity (C&S) specimen','Peak and trough levels','Urinalysis'],ans:1,exp:'A C&S specimen must be collected BEFORE the first antibiotic dose. The drug will alter microorganism growth in the culture and give inaccurate results if collected after administration.'},
+  {cat:'basics',q:'A patient has a wound with yellow exudate, foul odor, and surrounding erythema. Which characteristic indicates INFECTION?',opts:['Yellow exudate and foul odor only','Foul odor only','Yellow exudate, foul odor, AND surrounding redness/erythema together','Red granulation tissue'],ans:2,exp:'Signs indicating wound infection include purulent/yellow exudate, foul odor, erythema (redness), warmth, edema, and pain at the site — all present here.'},
+  {cat:'basics',q:'A nurse starts a patient on a broad-spectrum antibiotic before C&S results. The results come back. What should happen next?',opts:['Continue the same broad-spectrum antibiotic indefinitely','Change to the most targeted antibiotic based on C&S results (de-escalation)','Add a second broad-spectrum antibiotic','Discontinue all antibiotics'],ans:1,exp:'After C&S results return, the antibiotic should be changed to the most targeted drug the organism is sensitive to. This is called de-escalation and reduces resistance risk.'},
+  {cat:'pcn',q:'A patient reports being allergic to penicillin. Which drug class requires special caution because of cross-sensitivity?',opts:['Tetracyclines','Aminoglycosides','Cephalosporins','Macrolides'],ans:2,exp:'Penicillins and cephalosporins share a beta-lactam ring structure. Cross-sensitivity exists — a patient allergic to penicillin may also react to cephalosporins. ALWAYS assess allergy to BOTH classes.'},
+  {cat:'pcn',q:'A patient on amoxicillin (penicillin class) uses oral contraceptives. What should the nurse teach?',opts:['OCPs are completely safe with amoxicillin','Amoxicillin can DECREASE OCP effectiveness; use additional contraception','Amoxicillin INCREASES OCP effectiveness','No teaching needed regarding contraception'],ans:1,exp:'Penicillins (especially aminopenicillins like ampicillin/amoxicillin) can decrease the effectiveness of estrogen-containing oral contraceptives. Advise use of an additional form of contraception.'},
+  {cat:'pcn',q:'A patient on oral penicillin G asks when to take it. The best response is:',opts:['Take with milk to prevent GI upset','Take 1 hour before or 2 hours after meals with a full glass of water','Take with any food to enhance absorption','Take only at bedtime'],ans:1,exp:'Oral penicillin G should be taken on an empty stomach (1 hour before or 2 hours after meals) with a full 8-oz glass of water for best absorption. Exceptions: penicillin V and amoxicillin can be taken with food.'},
+  {cat:'pcn',q:'A patient develops white patches in the mouth 5 days into penicillin therapy. This most likely indicates:',opts:['Penicillin allergy','Oral superinfection (oral thrush — Candida)','Normal side effect requiring no action','Stevens-Johnson Syndrome'],ans:1,exp:'White patches in the mouth during antibiotic therapy = oral thrush (Candida overgrowth) — a superinfection. Antibiotics disrupt normal oral flora, allowing fungal overgrowth. Report to provider; antifungal treatment needed.'},
+  {cat:'pcn',q:'Which penicillin adverse effect involves inflammation of the tongue?',opts:['Stomatitis','Glossitis','Gastritis','Urticaria'],ans:1,exp:'Glossitis = inflammation of the tongue. It is a GI adverse effect of penicillin when given orally. Stomatitis = inflammation of the mouth (different structure).'},
+  {cat:'pcn',q:'Which finding during penicillin therapy indicates a serious hematologic adverse effect?',opts:['Mild nausea and diarrhea','Low RBC, low WBC, and low platelet count','Mild skin rash','Oral thrush'],ans:1,exp:'Penicillin can cause anemia (↓ RBC), thrombocytopenia (↓ platelets), leukopenia (↓ WBC), and bone marrow depression. These are serious effects requiring immediate reporting and possible drug discontinuation.'},
+  {cat:'ceph',q:'A patient takes cephalosporins and has a glass of wine 2 days after finishing the course. What may occur?',opts:['Nothing — alcohol is safe after completing the antibiotic','A disulfiram-like reaction with flushing, N/V, tachycardia, and hypotension','Increased antibiotic effectiveness','A mild headache only'],ans:1,exp:'Patients must avoid alcohol DURING therapy and for 3 DAYS AFTER completing cephalosporins. A disulfiram-like reaction can cause severe N/V, flushing, tachycardia, and hypotension.'},
+  {cat:'ceph',q:'Why should kidney function be monitored in patients receiving cephalosporins?',opts:['Cephalosporins are primarily hepatotoxic','Risk of nephrotoxicity — especially when combined with aminoglycosides or loop diuretics','Cephalosporins cause ototoxicity','They lower potassium levels'],ans:1,exp:'Cephalosporins carry nephrotoxicity risk, especially when combined with aminoglycosides or loop diuretics. Monitor BUN, creatinine, and I&O throughout therapy.'},
+  {cat:'ceph',q:'A patient on cephalosporins complains of nausea. What is the best nursing intervention?',opts:['Hold the dose and notify the provider','Advise taking the medication with food or milk','Switch to an IM dose','Administer an antiemetic 4 hours before the next dose only'],ans:1,exp:'Cephalosporin-induced GI upset is managed by taking the medication WITH FOOD OR MILK. Food does not significantly reduce the absorption of most cephalosporins.'},
+  {cat:'ceph',q:'Which cephalosporin generation is typically used for MRSA infections?',opts:['First generation','Second generation','Third generation','Fifth generation'],ans:3,exp:'Fifth-generation cephalosporins (e.g., ceftaroline/Teflaro) were developed specifically to combat superbugs including MRSA. They provide the broadest spectrum coverage among cephalosporins.'},
+  {cat:'ceph',q:'A patient reports a rash, blistering, and mucous membrane involvement during cephalosporin therapy. The nurse suspects:',opts:['Pseudomembranous colitis','Red Man Syndrome','Stevens-Johnson Syndrome','Superinfection'],ans:2,exp:'Stevens-Johnson Syndrome is a rare but severe hypersensitivity reaction associated with cephalosporins — causes severe skin blistering and mucous membrane involvement. Discontinue drug immediately; requires emergency care.'},
+  {cat:'tet',q:'A patient prescribed doxycycline asks if they can take it with their morning glass of milk. The nurse\'s best response is:',opts:['Yes, milk helps reduce nausea with doxycycline','No — dairy products bind to tetracycline and significantly decrease absorption','Yes, but wait 15 minutes after the milk','Milk has no effect on doxycycline absorption'],ans:1,exp:'Dairy products contain calcium, which binds to tetracycline in the GI tract → forms insoluble complexes that cannot be absorbed → significantly decreases drug effectiveness. Take 1 hour BEFORE or 2 hours AFTER dairy/meals.'},
+  {cat:'tet',q:'The best time to take tetracycline to enhance its absorption is:',opts:['With meals','1 hour after meals','1 hour before meals','2 hours after meals only if with dairy'],ans:2,exp:'Answer A (1 hour before meals) is correct per the Chapter 8 quiz question. Taking on an empty stomach maximizes absorption since food, dairy, and antacids interfere with tetracycline absorption.'},
+  {cat:'tet',q:'Why are tetracyclines generally avoided in children younger than 9 years?',opts:['They cause severe diarrhea in young children','They cause permanent yellow-brown tooth discoloration and can affect bone growth','They cause hearing loss in young children','They lower the seizure threshold in children'],ans:1,exp:'Tetracyclines bind to calcium in developing teeth → permanent tooth discoloration/staining. Also deposited in bone → affects bone growth. Contraindicated in children < 9 years, pregnancy, and lactation.'},
+  {cat:'tet',q:'A patient on tetracycline is going to the beach. What sunlight-related teaching is essential?',opts:['Tetracyclines protect against UV damage','Avoid prolonged sun exposure; wear protective clothing; use high-SPF sunscreen — photosensitivity reaction risk','10-15 minutes of sun exposure daily is recommended while on tetracyclines','No special sun precautions needed'],ans:1,exp:'Tetracyclines cause photosensitivity — abnormal skin sensitivity to UV radiation that can cause severe sunburns even with brief exposure. Teach: avoid sun/tanning beds, wear protective clothing, use high-SPF sunscreen.'},
+  {cat:'tet',q:'A patient on tetracycline also takes warfarin (anticoagulant). What is the expected interaction?',opts:['No interaction','Tetracycline decreases warfarin levels','Tetracycline INCREASES the risk of bleeding with warfarin','Tetracycline reverses warfarin\'s anticoagulant effect'],ans:2,exp:'Tetracyclines interact with oral anticoagulants (like warfarin) → INCREASES risk of bleeding. Monitor INR and watch for bleeding signs (bruising, bleeding gums, blood in urine/stool).'},
+  {cat:'tet',q:'Which antacid components interfere with tetracycline absorption?',opts:['Calcium carbonate only','Sodium bicarbonate','Aluminum, zinc, magnesium, or bismuth salts','Potassium salts'],ans:2,exp:'Antacids containing aluminum, zinc, magnesium, or bismuth salts bind to tetracycline molecules → decrease its effectiveness. Separate tetracycline from these products by at least 1-2 hours.'},
+  {cat:'vanco',q:'A patient receiving vancomycin IV develops sudden flushing of the face and neck, itching, and hypotension 10 minutes into the infusion. The nurse\'s FIRST action is:',opts:['Administer diphenhydramine (Benadryl) IV','Slow or stop the vancomycin infusion immediately and notify the provider','Increase the infusion rate to complete it faster','Document the reaction and continue monitoring'],ans:1,exp:'This is RED MAN SYNDROME — caused by too-rapid vancomycin infusion. FIRST action: SLOW or STOP the infusion and notify the provider. Prevention: infuse over AT LEAST 60 minutes.'},
+  {cat:'vanco',q:'A patient on vancomycin reports ringing in both ears. What does this most likely indicate?',opts:['Expected side effect — continue therapy as ordered','Nephrotoxicity requiring increased hydration','Ototoxicity — report immediately as it may be irreversible','A mild allergic reaction — administer antihistamine'],ans:2,exp:'Tinnitus (ringing in ears) = EARLIEST sign of vancomycin ototoxicity. Damage to the 8th cranial nerve can be IRREVERSIBLE. Report to provider IMMEDIATELY — drug may need to be discontinued.'},
+  {cat:'vanco',q:'Which monitoring parameters are MOST critical when administering vancomycin? (Select the best pair)',opts:['Blood glucose and temperature','BUN/creatinine (nephrotoxicity) and hearing/tinnitus (ototoxicity)','Liver enzymes and platelet count','CBC and ECG'],ans:1,exp:'The two MOST critical monitoring areas for vancomycin are: kidney function (BUN/creatinine, I&O) for nephrotoxicity AND hearing (tinnitus assessment) for ototoxicity. Both can cause permanent damage if not caught early.'},
+  {cat:'vanco',q:'To PREVENT Red Man Syndrome when administering vancomycin, the nurse should:',opts:['Pre-medicate with corticosteroids only','Infuse vancomycin over at least 60 minutes','Dilute the vancomycin in 10 mL of NS','Administer in a rapid IV push'],ans:1,exp:'Red Man Syndrome is prevented by infusing vancomycin SLOWLY — over AT LEAST 60 minutes. Some larger doses require 90 minutes. A rapid infusion is what CAUSES Red Man Syndrome.'},
+  {cat:'vanco',q:'A patient on vancomycin has decreased urine output and rising creatinine. The nurse suspects:',opts:['Ototoxicity','Red Man Syndrome','Nephrotoxicity','Neurotoxicity'],ans:2,exp:'Decreased urine output and rising creatinine are signs of NEPHROTOXICITY — one of the major toxicities of vancomycin. Report to provider immediately; monitor BUN, creatinine, and I&O closely.'},
+  {cat:'amino',q:'Which three toxicities are associated with aminoglycosides?',opts:['Hepatotoxicity, cardiotoxicity, neurotoxicity','Ototoxicity, nephrotoxicity, neurotoxicity','Nephrotoxicity, hepatotoxicity, hematotoxicity','Cardiotoxicity, ototoxicity, bone marrow depression'],ans:1,exp:'The THREE MAJOR aminoglycoside toxicities are: (1) Ototoxicity — tinnitus/hearing loss; (2) Nephrotoxicity — ↓ urine output/↑ BUN/Cr; (3) Neurotoxicity — neuromuscular blockade/respiratory depression.'},
+  {cat:'amino',q:'A patient on gentamicin develops muscle weakness and difficulty breathing. This suggests:',opts:['Nephrotoxicity — decrease dose','Ototoxicity — hold next dose','Neurotoxicity — neuromuscular blockade (RESPIRATORY ARREST risk)','A mild allergic reaction'],ans:2,exp:'Muscle weakness and respiratory difficulty during aminoglycoside therapy = NEUROTOXICITY / neuromuscular blockade. This can progress to RESPIRATORY ARREST — a life-threatening emergency. Notify provider IMMEDIATELY.'},
+  {cat:'amino',q:'Which patients require EXTRA CAUTION when receiving aminoglycosides?',opts:['Young adults and adolescents','Patients with hepatic failure only','Elderly patients, patients with renal failure, myasthenia gravis, or Parkinson\'s','Patients with diabetes and hypertension'],ans:2,exp:'Aminoglycosides are used CAUTIOUSLY in: elderly (↓ renal clearance), patients with renal failure (nephrotoxicity risk ↑), myasthenia gravis (risk of severe neuromuscular blockade), and neuromuscular disorders.'},
+  {cat:'amino',q:'What combination of drugs significantly INCREASES the risk of nephrotoxicity with aminoglycosides?',opts:['Aminoglycosides + macrolides','Aminoglycosides + cephalosporins','Aminoglycosides + tetracyclines','Aminoglycosides + penicillins'],ans:1,exp:'Aminoglycosides combined with cephalosporins or loop diuretics SIGNIFICANTLY increase the risk of nephrotoxicity. These combinations should be used only when necessary, with close renal function monitoring.'},
+  {cat:'amino',q:'What is the EARLIEST clinical sign of aminoglycoside ototoxicity?',opts:['Sudden hearing loss in both ears','Vertigo and dizziness','Tinnitus (ringing/buzzing in ears)','Balance problems'],ans:2,exp:'TINNITUS (ringing, buzzing, or roaring in the ears) is the EARLIEST sign of ototoxicity from aminoglycosides. Report immediately — ototoxicity can progress to permanent, irreversible hearing loss if not addressed promptly.'},
+  {cat:'macro',q:'A patient is allergic to penicillin and needs antibiotic prophylaxis before dental surgery. Which drug class is appropriate?',opts:['Cephalosporins (due to cross-sensitivity)','Aminoglycosides','Macrolides (e.g., azithromycin)','Carbapenems'],ans:2,exp:'Macrolides (e.g., azithromycin, clarithromycin) are used as PROPHYLAXIS before dental procedures in patients who are ALLERGIC TO PENICILLIN. They are the primary penicillin alternative for this indication.'},
+  {cat:'macro',q:'A patient on azithromycin is also prescribed digoxin. What interaction should the nurse monitor for?',opts:['Azithromycin decreases digoxin levels — digoxin becomes ineffective','Azithromycin INCREASES serum digoxin levels → risk of digoxin toxicity','No significant interaction between macrolides and digoxin','Azithromycin reverses digoxin\'s effects'],ans:1,exp:'Macrolides INCREASE serum digoxin levels → risk of DIGOXIN TOXICITY. Signs: bradycardia, nausea, yellow-green visual halos, arrhythmias. Monitor digoxin levels closely when prescribed together.'},
+  {cat:'macro',q:'Which macrolide is specifically used to treat diarrhea caused by C. difficile?',opts:['Azithromycin (Zithromax)','Clarithromycin (Biaxin)','Erythromycin (Ery-Tab)','Fidaxomicin (Dificid)'],ans:3,exp:'Fidaxomicin (Dificid) is specifically used for TREATMENT OF DIARRHEA CAUSED BY C. difficile. Per the Ch. 8 drug table.'},
+  {cat:'macro',q:'Macrolides are contraindicated in patients with:',opts:['Mild renal impairment','Pre-existing liver disease and hypersensitivity to macrolides','History of UTIs','High blood pressure'],ans:1,exp:'Macrolides are contraindicated in patients with PRE-EXISTING LIVER DISEASE and hypersensitivity to macrolides. They should be used cautiously in patients with liver dysfunction, myasthenia gravis, and during pregnancy/lactation.'},
+  {cat:'macro',q:'What does the MOA of macrolides involve?',opts:['Inhibition of cell wall synthesis','Disruption of bacterial DNA replication','Changes in bacterial protein FUNCTION and SYNTHESIS','Inhibition of folic acid synthesis'],ans:2,exp:'Macrolides cause changes in bacterial protein FUNCTION and SYNTHESIS — they interfere with the ribosomal protein synthesis process. They are primarily bacteriostatic (or bactericidal at high concentrations).'},
+  {cat:'safety',q:'What information must ALWAYS be assessed before giving ANY antibiotic for the first time?',opts:['The patient\'s dietary preferences','Allergy history (especially to antibiotics, penicillins, and cephalosporins)','The patient\'s insurance provider','Vital signs only'],ans:1,exp:'ALLERGY HISTORY is ALWAYS the priority assessment before the first antibiotic dose. Specifically assess for penicillin, cephalosporin, and any antibiotic allergies. A missed penicillin allergy can cause fatal anaphylaxis.'},
+  {cat:'safety',q:'During antibiotic therapy, a patient develops bloody diarrhea. What does this most likely suggest?',opts:['Expected side effect of all antibiotics — monitor only','Pseudomembranous colitis (C. difficile) — stop antibiotic and notify provider','Worsening of the original infection only','A sign of improved GI motility'],ans:1,exp:'Bloody diarrhea during antibiotic therapy = PSEUDOMEMBRANOUS COLITIS (C. difficile). Action: STOP the antibiotic, notify provider, obtain stool specimen, treat with metronidazole or oral vancomycin. This is a serious, potentially life-threatening complication.'},
+  {cat:'safety',q:'A patient on gentamicin reports decreased urine output and the BUN and creatinine are elevated. What should the nurse suspect?',opts:['Ototoxicity','Neurotoxicity','Red Man Syndrome','Nephrotoxicity'],ans:3,exp:'Decreased urine output + elevated BUN and creatinine = NEPHROTOXICITY. This is a major toxicity of aminoglycosides (and vancomycin). Report immediately; provider may need to adjust dose, change drug, or temporarily discontinue.'},
+  {cat:'safety',q:'Which statement about taking oral antibiotics is MOST correct?',opts:['Oral antibiotics should always be taken with food','Unless otherwise directed, take with a full 8-oz glass of water at prescribed times','Oral antibiotics can be crushed and taken with dairy products','Stop taking oral antibiotics as soon as symptoms improve'],ans:1,exp:'Unless otherwise directed, oral medications should be taken with a FULL 8-OZ GLASS OF WATER. They should be taken at prescribed times (Q6H, Q8H, Q12H) and the FULL COURSE completed even after symptoms resolve.'},
+  {cat:'safety',q:'Tinnitus (ringing in the ears) during antibiotic therapy most likely indicates toxicity from which drug class?',opts:['Penicillins or cephalosporins','Tetracyclines or macrolides','Aminoglycosides or vancomycin','Carbapenems or monobactams'],ans:2,exp:'Tinnitus = OTOTOXICITY. Most associated with AMINOGLYCOSIDES (gentamicin, tobramycin, amikacin) and VANCOMYCIN. Both cause 8th cranial nerve damage. Tinnitus is the earliest warning sign — report immediately as hearing loss may be irreversible.'},
+  {cat:'safety',q:'What is a "superinfection" in the context of antibiotic therapy?',opts:['The original infection worsening despite treatment','A new infection caused by disruption of normal flora during antibiotic therapy','A severe allergic reaction to an antibiotic','An antibiotic-resistant version of the original infection'],ans:1,exp:'Superinfection = a NEW infection occurring DURING antibiotic treatment, caused by disruption of normal flora that allows overgrowth of other organisms (typically Candida or C. difficile). Signs: oral thrush, vaginal yeast infection, foul-smelling diarrhea.'},
+];
+
+/* ════════════ STUDY RENDER ════════════ */
+function renderStudy(filter){
+  const el=document.getElementById('study-content');
+  const cats=['basics','pcn','ceph','tet','vanco','amino','macro','safety'];
+  const filtered=filter==='all'?cats:[filter];
+  let html='';
+  filtered.forEach(cat=>{
+    const m=CAT_META[cat];
+    const secs=studySections.filter(s=>s.cat===cat);
+    html+=`<div style="margin-bottom:40px">
+      <div class="section-head">
+        <div class="section-icon-box" style="background:${m.bg};border:2px solid ${m.border}">${m.icon}</div>
+        <div class="section-title-text" style="color:${m.color}">${m.label}</div>
+      </div>`;
+    secs.forEach(sec=>{
+      html+=`<div class="study-card" style="border-color:${m.border}">
+        <div class="study-card-title" style="color:${m.color}">${sec.heading}</div>`;
+      if(sec.points){html+=`<ul class="bullet-list">${sec.points.map(p=>`<li><span style="color:${m.color};font-size:10px;flex-shrink:0;margin-top:3px">◆</span><span>${p}</span></li>`).join('')}</ul>`;}
+      if(sec.table){html+=`<div style="overflow-x:auto"><table class="study-table"><tr>${sec.table.header.map(h=>`<th style="color:${m.color};border-bottom-color:${m.border}">${h}</th>`).join('')}</tr>${sec.table.rows.map(r=>`<tr>${r.map(c=>`<td style="border-bottom-color:${m.border}">${c}</td>`).join('')}</tr>`).join('')}</table></div>`;}
+      if(sec.drugs){html+=`<div style="margin-top:10px;font-size:11px;font-weight:bold;color:var(--text-l);letter-spacing:1px;margin-bottom:6px">TRADE NAMES</div><div class="drug-grid">${sec.drugs.map(([g,t])=>`<div class="drug-pill" style="background:${m.bg};border:1px solid ${m.border}"><strong style="color:${m.color}">${g}</strong><span style="color:var(--text-l)">→ ${t}</span></div>`).join('')}</div>`;}
+      if(sec.sideEffects){html+=`<div style="margin-top:14px"><div style="font-size:11px;font-weight:bold;color:var(--warn);margin-bottom:6px;letter-spacing:1px">⚠️ ADVERSE EFFECTS</div><div class="tag-row">${sec.sideEffects.map(s=>`<span class="tag" style="background:var(--warn-bg);border:1px solid var(--warn-b);color:var(--warn)">${s}</span>`).join('')}</div></div>`;}
+      if(sec.interactions){html+=`<div style="margin-top:10px"><div style="font-size:11px;font-weight:bold;color:var(--ci);margin-bottom:6px;letter-spacing:1px">⚡ INTERACTIONS / REACTIONS</div><div class="tag-row">${sec.interactions.map(s=>`<span class="tag" style="background:var(--ci-bg);border:1px solid var(--ci-b);color:var(--ci)">${s}</span>`).join('')}</div></div>`;}
+      html+='</div>';
+    });
+    html+='</div>';
+  });
+  el.innerHTML=html;
+}
+
+function filterStudy(cat,btn){
+  document.querySelectorAll('#study .cat-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderStudy(cat);
+}
+
+/* ════════════ FLASH ENGINE ════════════ */
+let flashDeck=[],flashIdx=0,flashKnew=0,flashDidnt=0,flashIsFlipped=false,flashCurrentCat='all';
+
+function filterFlash(cat,btn){
+  document.querySelectorAll('#flash .cat-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  flashCurrentCat=cat;
+  initFlash(cat);
+}
+
+function initFlash(cat){
+  flashDeck=(cat==='all'?flashcards:flashcards.filter(f=>f.cat===cat)).map(f=>({...f}));
+  for(let i=flashDeck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[flashDeck[i],flashDeck[j]]=[flashDeck[j],flashDeck[i]];}
+  flashIdx=0;flashKnew=0;flashDidnt=0;flashIsFlipped=false;
+  renderFlash();
+}
+
+function renderFlash(){
+  const el=document.getElementById('flash-panel');
+  if(!el)return;
+  if(flashIdx>=flashDeck.length){
+    const pct=Math.round((flashKnew/flashDeck.length)*100);
+    el.innerHTML=`<div class="flash-results">
+      <div style="font-size:56px;margin-bottom:8px">${pct>=80?'🌟':pct>=60?'✨':'🐱'}</div>
+      <div style="font-size:42px;font-weight:bold;color:var(--d-purple);margin-bottom:4px">${flashKnew}/${flashDeck.length}</div>
+      <div style="font-size:14px;color:var(--text-l);margin-bottom:8px">cards you knew</div>
+      <div style="font-size:28px;font-weight:bold;color:${pct>=70?'var(--d-purple)':'var(--warn)'};margin-bottom:16px">${pct}%</div>
+      <div style="font-size:14px;color:var(--text-l);font-style:italic;margin-bottom:24px">${pct>=80?'Kiki would be proud! 🧙‍♀️':pct>=60?'Jiji believes in you! 🐱':'Keep flying — review and retry! ☁️'}</div>
+      <div class="results-btns">
+        <button class="results-btn primary" onclick="initFlash(flashCurrentCat)">🔄 Shuffle & Retry</button>
+        <button class="results-btn secondary" onclick="showScreen('quiz')">✏️ Take the Quiz</button>
+        <button class="results-btn ghost" onclick="showScreen('home')">🏠 Home</button>
+      </div></div>`;
+    return;
+  }
+  const card=flashDeck[flashIdx];
+  const m=CAT_META[card.cat];
+  const prgW=Math.round((flashIdx/flashDeck.length)*100);
+  const ansHtml=card.a.replace(/\n/g,'<br>');
+  el.innerHTML=`
+    <div class="flash-counter"><strong>${flashIdx+1}</strong> of ${flashDeck.length} &nbsp;·&nbsp; ✅ ${flashKnew} knew &nbsp;·&nbsp; 🔁 ${flashDidnt} review</div>
+    <div class="progress-wrap" style="margin-bottom:16px"><div class="progress-fill" style="width:${prgW}%"></div></div>
+    <div class="flashcard-viewport" onclick="flipCard()" id="fc-viewport">
+      <div class="flashcard-inner" id="fc-inner">
+        <div class="flashcard-face" style="background:${m.bg};border-color:${m.border}">
+          <div class="flash-cat-badge" style="background:${m.border};color:${m.color}">${m.icon} ${m.label}</div>
+          <div class="flash-face-label">QUESTION</div>
+          <div class="flash-q">${card.q}</div>
+        </div>
+        <div class="flashcard-face flashcard-back" style="background:var(--white);border-color:${m.border}">
+          <div class="flash-cat-badge" style="background:${m.border};color:${m.color}">${m.icon} ${m.label}</div>
+          <div class="flash-face-label">ANSWER</div>
+          <div class="flash-a">${ansHtml}</div>
+        </div>
+      </div>
+    </div>
+    <div class="flash-hint" id="fc-hint">👆 Tap card to reveal answer</div>
+    <div id="fc-knew" style="display:none"><div class="flash-knew">
+      <button class="knew-yes" onclick="markKnew(true)">✅ Got it!</button>
+      <button class="knew-no" onclick="markKnew(false)">🔁 Review again</button>
+    </div></div>
+    <div class="flash-controls" style="margin-top:16px">
+      <button class="flash-btn" onclick="flashIdx=Math.max(0,flashIdx-1);flashIsFlipped=false;renderFlash()">← Prev</button>
+      <button class="flash-btn primary" onclick="flipCard()">Flip Card</button>
+      <button class="flash-btn" onclick="flashIdx=Math.min(flashDeck.length,flashIdx+1);flashIsFlipped=false;renderFlash()">Skip →</button>
+    </div>`;
+  flashIsFlipped=false;
+}
+
+function flipCard(){
+  const inner=document.getElementById('fc-inner');
+  const hint=document.getElementById('fc-hint');
+  const knew=document.getElementById('fc-knew');
+  if(!inner)return;
+  flashIsFlipped=!flashIsFlipped;
+  if(flashIsFlipped){inner.classList.add('flipped');if(hint)hint.style.display='none';if(knew)knew.style.display='block';}
+  else{inner.classList.remove('flipped');if(hint)hint.style.display='block';if(knew)knew.style.display='none';}
+}
+
+function markKnew(yes){
+  if(yes)flashKnew++;else flashDidnt++;
+  flashIdx++;flashIsFlipped=false;renderFlash();
+}
+
+/* ════════════ QUIZ ENGINE ════════════ */
+let qIdx=0,qScore=0,qSelected=null,qRevealed=false;
+
+function initQuiz(){qIdx=0;qScore=0;qSelected=null;qRevealed=false;updateQuizNav();renderQuiz();}
+
+function updateQuizNav(){
+  const s=document.getElementById('quiz-score-nav');
+  if(s)s.innerHTML=`Score: <strong>${qScore}</strong>`;
+  const p=document.getElementById('quiz-progress');
+  const pct=Math.round(((qIdx+(qRevealed?1:0))/quizData.length)*100);
+  if(p)p.style.width=pct+'%';
+}
+
+function renderQuiz(){
+  const el=document.getElementById('quiz-content');
+  if(!el)return;
+  updateQuizNav();
+  if(qIdx>=quizData.length){
+    const pct=Math.round((qScore/quizData.length)*100);
+    const grade=pct>=90?'A':pct>=80?'B':pct>=70?'C':pct>=60?'D':'F';
+    const msg=pct>=90?'Kiki would be proud! 🧙‍♀️✨':pct>=80?'Great delivery, nurse! 🧹':pct>=70?'Jiji believes in you! 🐱':'Keep flying — review and retry! ☁️';
+    el.innerHTML=`<div class="results-card">
+      <div style="font-size:56px;margin-bottom:8px">${pct>=90?'🌟':pct>=80?'✨':pct>=70?'🌿':'🐱'}</div>
+      <div class="results-grade">${grade}</div>
+      <div class="results-score">${qScore} / ${quizData.length} correct</div>
+      <div class="results-pct" style="color:${pct>=70?'var(--d-purple)':'var(--warn)'}">${pct}%</div>
+      <div class="results-msg">${msg}</div>
+      <div class="results-btns">
+        <button class="results-btn primary" onclick="initQuiz()">🔄 Retry Quiz</button>
+        <button class="results-btn secondary" onclick="showScreen('flash')">🃏 Practice Flashcards</button>
+        <button class="results-btn ghost" onclick="showScreen('home')">🏠 Back to Home</button>
+      </div></div>`;
+    return;
+  }
+  const q=quizData[qIdx];
+  const m=CAT_META[q.cat];
+  const letters=['A','B','C','D'];
+  const optsHtml=q.opts.map((opt,i)=>{
+    let cls='option-btn';let letter=letters[i];
+    if(qRevealed){cls+=' locked';if(i===q.ans){cls+=' correct';letter='✓';}else if(i===qSelected&&i!==q.ans){cls+=' wrong';letter='✗';}}
+    return `<button class="${cls}" onclick="selectOpt(${i})"><span class="option-letter">${letter}</span>${opt}</button>`;
+  }).join('');
+  let explainHtml='';
+  if(qRevealed){const c=qSelected===q.ans;explainHtml=`<div class="explain-box ${c?'correct-exp':'wrong-exp'}"><div class="explain-label" style="color:${c?'var(--d-green)':'var(--ci)'}">${c?'✨ Correct!':'💡 Explanation'}</div>${q.exp}</div>`;}
+  el.innerHTML=`
+    <div class="quiz-meta">
+      <span class="quiz-cat-badge" style="background:${m.bg};color:${m.color}">${m.icon} ${m.label}</span>
+      <span class="quiz-score-badge">Score: <strong>${qScore}</strong></span>
+    </div>
+    <div class="quiz-question-card">
+      <div class="quiz-qnum">QUESTION ${qIdx+1} OF ${quizData.length}</div>
+      <div class="quiz-qtext">${q.q}</div>
+    </div>
+    <div class="options-list">${optsHtml}</div>
+    ${explainHtml}
+    ${qRevealed?`<button class="next-btn" onclick="nextQ()">${qIdx+1>=quizData.length?'✨ See My Results':'Next Question →'}</button>`:''}`;
+}
+
+function selectOpt(i){if(qRevealed)return;qSelected=i;qRevealed=true;if(i===quizData[qIdx].ans)qScore++;updateQuizNav();renderQuiz();}
+function nextQ(){qIdx++;qSelected=null;qRevealed=false;renderQuiz();}
+</script>
+</body>
+</html>
