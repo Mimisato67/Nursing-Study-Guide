@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SKELETAL SG ✿ Retro Study Deck</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bungee&family=VT323&family=Space+Mono:wght@400;700&display=swap');
+
+  :root {
+    --bubblegum: #ff6fb5;
+    --hotpink: #ff2e93;
+    --deeppink: #c1006b;
+    --cream: #fff0f6;
+    --peach: #ffd1dc;
+    --mint: #7fffd4;
+    --grape: #8a4fff;
+    --sun: #ffe14d;
+    --ink: #3a0e2e;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background:
+      radial-gradient(circle at 10% 10%, var(--peach) 0%, transparent 40%),
+      radial-gradient(circle at 90% 20%, var(--mint) 0%, transparent 35%),
+      repeating-linear-gradient(45deg, var(--cream), var(--cream) 40px, #ffe6f0 40px, #ffe6f0 80px);
+    font-family: 'Space Mono', monospace;
+    color: var(--ink);
+    min-height: 100vh;
+    padding-bottom: 80px;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    position: relative;
+    padding: 50px 20px 70px;
+    text-align: center;
+    overflow: hidden;
+    background: linear-gradient(180deg, var(--hotpink) 0%, var(--bubblegum) 100%);
+    border-bottom: 8px solid var(--ink);
+  }
+
+  header::before, header::after {
+    content: "🦴";
+    position: absolute;
+    font-size: 40px;
+    top: 20px;
+    opacity: .5;
+    filter: drop-shadow(2px 2px 0 var(--ink));
+  }
+  header::before { left: 5%; transform: rotate(-15deg); }
+  header::after { right: 5%; transform: rotate(15deg); }
+
+  h1.title {
+    font-family: 'Bungee', cursive;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    color: var(--cream);
+    text-shadow:
+      3px 3px 0 var(--deeppink),
+      6px 6px 0 var(--ink);
+    letter-spacing: 2px;
+    margin: 0;
+  }
+
+  .subtitle {
+    font-family: 'VT323', monospace;
+    font-size: 1.6rem;
+    color: var(--cream);
+    background: var(--ink);
+    display: inline-block;
+    padding: 4px 18px;
+    margin-top: 14px;
+    border-radius: 20px;
+    border: 3px dashed var(--sun);
+  }
+
+  /* ===== NAV TABS ===== */
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: -35px auto 30px;
+    max-width: 900px;
+    padding: 0 16px;
+    position: relative;
+    z-index: 5;
+  }
+  nav button {
+    font-family: 'Bungee', cursive;
+    font-size: .85rem;
+    background: var(--cream);
+    border: 4px solid var(--ink);
+    border-radius: 14px;
+    padding: 14px 18px;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 var(--ink);
+    transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+    color: var(--deeppink);
+  }
+  nav button:hover {
+    transform: translate(-2px,-2px);
+    box-shadow: 6px 6px 0 var(--ink);
+  }
+  nav button.active {
+    background: var(--grape);
+    color: var(--cream);
+    transform: translate(2px,2px);
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+
+  main {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 18px;
+  }
+
+  section.panel { display: none; }
+  section.panel.active { display: block; animation: fadein .35s ease; }
+  @keyframes fadein { from {opacity:0; transform: translateY(8px);} to {opacity:1; transform: translateY(0);} }
+
+  /* ===== CARDS (study guide) ===== */
+  .card {
+    background: var(--cream);
+    border: 4px solid var(--ink);
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-bottom: 18px;
+    box-shadow: 6px 6px 0 var(--bubblegum), 6px 6px 0 4px var(--ink);
+    position: relative;
+  }
+  .card .num {
+    font-family: 'Bungee', cursive;
+    color: var(--cream);
+    background: var(--hotpink);
+    border: 3px solid var(--ink);
+    border-radius: 50%;
+    width: 38px; height: 38px;
+    display: flex; align-items: center; justify-content: center;
+    position: absolute;
+    top: -18px; left: -18px;
+    font-size: .95rem;
+  }
+  .card .q {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--deeppink);
+    margin: 4px 0 10px;
+  }
+  .card .pg {
+    font-family: 'VT323', monospace;
+    font-size: 1.05rem;
+    color: var(--grape);
+    margin-left: 6px;
+  }
+  .card .a {
+    font-size: .98rem;
+    line-height: 1.5;
+  }
+  .card .a b { color: var(--deeppink); }
+  .tag {
+    display: inline-block;
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+    background: var(--sun);
+    border: 2px solid var(--ink);
+    border-radius: 8px;
+    padding: 1px 8px;
+    margin-top: 8px;
+  }
+
+  .section-head {
+    font-family: 'Bungee', cursive;
+    color: var(--deeppink);
+    font-size: 1.6rem;
+    text-align: center;
+    margin: 36px 0 18px;
+    text-shadow: 2px 2px 0 var(--sun);
+  }
+
+  /* ===== QUIZ ===== */
+  .quiz-wrap {
+    background: var(--cream);
+    border: 4px solid var(--ink);
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow: 8px 8px 0 var(--ink);
+  }
+  .quiz-progress {
+    font-family: 'VT323', monospace;
+    font-size: 1.4rem;
+    color: var(--grape);
+    text-align: center;
+    margin-bottom: 6px;
+  }
+  .bar-track {
+    background: var(--peach);
+    border: 3px solid var(--ink);
+    border-radius: 10px;
+    height: 18px;
+    overflow: hidden;
+    margin-bottom: 22px;
+  }
+  .bar-fill {
+    background: repeating-linear-gradient(45deg, var(--hotpink), var(--hotpink) 10px, var(--bubblegum) 10px, var(--bubblegum) 20px);
+    height: 100%;
+    transition: width .3s ease;
+  }
+  .quiz-q {
+    font-family: 'Bungee', cursive;
+    font-size: 1.15rem;
+    color: var(--ink);
+    margin-bottom: 18px;
+    line-height: 1.5;
+  }
+  .opts { display: grid; gap: 12px; }
+  .opt {
+    text-align: left;
+    font-family: 'Space Mono', monospace;
+    font-size: .95rem;
+    background: #fff;
+    border: 3px solid var(--ink);
+    border-radius: 12px;
+    padding: 12px 16px;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 var(--ink);
+    transition: transform .1s ease, box-shadow .1s ease;
+  }
+  .opt:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 var(--ink); }
+  .opt.correct { background: var(--mint); border-color: #0c7a55; }
+  .opt.wrong { background: #ffb3b3; border-color: #a30000; }
+  .opt:disabled { cursor: default; }
+
+  .feedback {
+    margin-top: 16px;
+    font-family: 'VT323', monospace;
+    font-size: 1.2rem;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 3px solid var(--ink);
+    display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback.right { background: var(--mint); }
+  .feedback.wrong { background: #ffb3b3; }
+
+  .quiz-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    gap: 10px;
+  }
+  .quiz-nav button {
+    font-family: 'Bungee', cursive;
+    font-size: .85rem;
+    background: var(--grape);
+    color: var(--cream);
+    border: 3px solid var(--ink);
+    border-radius: 10px;
+    padding: 12px 16px;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .quiz-nav button:disabled { opacity: .4; cursor: not-allowed; }
+  .quiz-nav button.restart { background: var(--hotpink); }
+
+  .score-screen {
+    text-align: center;
+    padding: 30px 10px;
+  }
+  .score-screen .big {
+    font-family: 'Bungee', cursive;
+    font-size: 3rem;
+    color: var(--deeppink);
+    text-shadow: 3px 3px 0 var(--sun);
+  }
+  .score-screen p { font-family: 'VT323', monospace; font-size: 1.4rem; }
+
+  footer {
+    text-align: center;
+    font-family: 'VT323', monospace;
+    font-size: 1.2rem;
+    color: var(--deeppink);
+    margin-top: 50px;
+  }
+
+  ::-webkit-scrollbar { width: 12px; }
+  ::-webkit-scrollbar-track { background: var(--peach); }
+  ::-webkit-scrollbar-thumb { background: var(--hotpink); border: 2px solid var(--ink); border-radius: 6px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1 class="title">SKELETAL S.G.</h1>
+  <div class="subtitle">✿ retro bone zone ✿ VN15 study deck ✿</div>
+</header>
+
+<nav>
+  <button class="tab-btn active" data-target="guide">📋 STUDY GUIDE</button>
+  <button class="tab-btn" data-target="terms">🩺 MED TERMS</button>
+  <button class="tab-btn" data-target="quiz">✏️ 30 Q QUIZ</button>
+</nav>
+
+<main>
+
+  <!-- ============ STUDY GUIDE PANEL ============ -->
+  <section class="panel active" id="guide">
+    <div class="section-head">— Chapter Review —</div>
+
+    <div class="card">
+      <div class="num">1</div>
+      <div class="q">What makes up the skeletal system? <span class="pg">pg.138</span></div>
+      <div class="a">The skeletal system includes <b>all the bones of the body</b> and their associated <b>cartilage, tendons, and ligaments.</b></div>
+    </div>
+
+    <div class="card">
+      <div class="num">2</div>
+      <div class="q">What is the function of osteoclasts? <span class="pg">pg.142</span></div>
+      <div class="a">Osteoclasts are responsible for the <b>reabsorption of bone</b> — large cells that break down bone tissue and release stored calcium into the bloodstream.</div>
+    </div>
+
+    <div class="card">
+      <div class="num">3</div>
+      <div class="q">How many types of ossification are there, and what does ossification mean? <span class="pg">pg.142–143</span></div>
+      <div class="a">
+        <b>Ossification</b> = the formation of bone.<br>
+        <b>Intramembranous:</b> dense connective tissue membranes are replaced by deposits of inorganic calcium salts to form bone.<br>
+        <b>Endochondral:</b> process in which cartilage is the environment in which bone cells develop (endo = inside, chondro = cartilage).
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="num">4</div>
+      <div class="q">What are lacunae and what do they contain? <span class="pg">pg.144</span></div>
+      <div class="a"><b>Lacunae</b> are found between 2 lamellae (rings); they contain an <b>osteocyte</b> suspended in tissue fluid.</div>
+    </div>
+
+    <div class="card">
+      <div class="num">5</div>
+      <div class="q">Define fracture. <span class="pg">pg.146</span></div>
+      <div class="a">A <b>fracture</b> is the breaking of bone or associated cartilage, usually accompanied by injury to soft tissues like muscle or connective tissue.</div>
+    </div>
+
+    <div class="card">
+      <div class="num">6</div>
+      <div class="q">Explain diaphysis. <span class="pg">pg.147</span></div>
+      <div class="a">The <b>diaphysis</b> (shaft) is present in the structure of long bones and consists mainly of <b>compact bone.</b></div>
+    </div>
+
+    <div class="card">
+      <div class="num">7</div>
+      <div class="q">Explain flat bones. <span class="pg">pg.148</span></div>
+      <div class="a"><b>Flat bones</b> are thin bones found wherever there's a need for extensive muscle attachment or protection of soft/vital parts. Usually curved, they consist of 2 flat plates of compact bone enclosing a layer of spongy bone.<br><span class="tag">Ex: sternum, ribs, scapula, parts of pelvic bone & some skull bones</span></div>
+    </div>
+
+    <div class="card">
+      <div class="num">8</div>
+      <div class="q">Where is the frontal bone? <span class="pg">pg.150</span></div>
+      <div class="a">A single bone that forms the <b>forehead</b>, the roof of the nasal cavity, and the orbits (bony sockets containing the eyes) — the anterior side of the cranium.</div>
+    </div>
+
+    <div class="card">
+      <div class="num">9</div>
+      <div class="q">What is the opening in the occipital bone, and what's significant about it? <span class="pg">pg.151</span></div>
+      <div class="a">The <b>foramen magnum</b> — it connects the brain with the spinal cord.</div>
+    </div>
+
+    <div class="card">
+      <div class="num">10</div>
+      <div class="q">Explain the temporal bone. <span class="pg">pg.151</span></div>
+      <div class="a">The <b>temporal bones</b> help form the lower sides and base of the cranium. Each one encloses an ear and bears a fossa for articulation with the mandible. Irregular shape; contains 4 parts: <b>squamous, petrous, mastoid, and tympanic.</b></div>
+    </div>
+
+    <div class="card">
+      <div class="num">11</div>
+      <div class="q">Explain the sphenoid bone. <span class="pg">pg.151</span></div>
+      <div class="a">The <b>sphenoid bone</b> forms the anterior portion of the base of the cranium. Looks like a butterfly; acts as an anchor binding all the cranial bones together. Present inside the eye socket.</div>
+    </div>
+
+    <div class="card">
+      <div class="num">12</div>
+      <div class="q">What bones form the bridge of the nose? <span class="pg">pg.153</span></div>
+      <div class="a"><b>Nasal</b> bones.</div>
+    </div>
+
+    <div class="card">
+      <div class="num">13</div>
+      <div class="q">What is the strongest bone of the jaw? <span class="pg">pg.152</span></div>
+      <div class="a">The <b>mandible.</b></div>
+    </div>
+
+    <div class="card">
+      <div class="num">14</div>
+      <div class="q">What are vertebrae? <span class="pg">pg.156</span></div>
+      <div class="a"><b>26 irregular bones</b> that make up our spinal column.</div>
+    </div>
+
+    <div class="card">
+      <div class="num">15</div>
+      <div class="q">What is another name for the sternum? <span class="pg">pg.160</span></div>
+      <div class="a"><b>Breastbone.</b></div>
+    </div>
+
+    <div class="card">
+      <div class="num">16</div>
+      <div class="q">What are true ribs?</div>
+      <div class="a">The upper <b>7 pairs</b> that articulate directly with the sternum.</div>
+    </div>
+
+    <div class="card">
+      <div class="num">17a</div>
+      <div class="q">Define: Humerus</div>
+      <div class="a">The <b>largest and longest bone of the upper arm.</b> Has a round head and is joined to the rest of the bone by its anatomic neck.</div>
+    </div>
+
+    <div class="card">
+      <div class="num">17b</div>
+      <div class="q">Define: Femur</div>
+      <div class="a">The thigh bone — <b>largest and heaviest bone of the body.</b></div>
+    </div>
+
+    <div class="card">
+      <div class="num">17c</div>
+      <div class="q">Define: Patella</div>
+      <div class="a">The kneecap — <b>largest of the sesamoid bones.</b></div>
+    </div>
+
+    <div class="card">
+      <div class="num">17d</div>
+      <div class="q">Define: Tarsal</div>
+      <div class="a">Bones of the <b>ankles.</b></div>
+    </div>
+  </section>
+
+  <!-- ============ MED TERMS PANEL ============ -->
+  <section class="panel" id="terms">
+    <div class="section-head">— Medical Terminology —</div>
+
+    <div class="card">
+      <div class="num">1</div>
+      <div class="q">Describe kyphosis. <span class="tag">kyph/o = bent/hump</span></div>
+      <div class="a">Abnormal increase in the <b>outward</b> curvature of the thoracic spine, as viewed from the side.</div>
+    </div>
+
+    <div class="card">
+      <div class="num">2</div>
+      <div class="q">Describe lordosis.</div>
+      <div class="a">Abnormal increase in the <b>forward</b> curvature of the lumbar spine. <b>Also known as swayback.</b></div>
+    </div>
+
+    <div class="card">
+      <div class="num">3</div>
+      <div class="q">Describe the sacrum. <span class="tag">sacr/o</span></div>
+      <div class="a">A slightly curved, <b>triangular-shaped bone</b> near the base of the spine that forms the lower portion of the back.</div>
+    </div>
+
+    <div class="card">
+      <div class="num">4</div>
+      <div class="q">Describe the location of the cervical spine.</div>
+      <div class="a">Neck region — 1st set of <b>7 vertebrae, C1 through C7.</b></div>
+    </div>
+
+    <div class="card">
+      <div class="num">5</div>
+      <div class="q">Describe the location of the thoracic spine.</div>
+      <div class="a"><b>T1 through T12</b> — second set of 12 vertebrae, in the thoracic cavity.</div>
+    </div>
+
+    <div class="card">
+      <div class="num">6</div>
+      <div class="q">Describe the location of the lumbar spine.</div>
+      <div class="a">Part of the back and sides between the ribs and pelvis. <b>L1 through L5</b> — 3rd set of 5 vertebrae.</div>
+    </div>
+
+    <div class="card">
+      <div class="num">7</div>
+      <div class="q">What is the other name for the coccyx?</div>
+      <div class="a"><b>Tailbone.</b></div>
+    </div>
+
+    <div class="card">
+      <div class="num">8</div>
+      <div class="q">What does the prefix peri- describe?</div>
+      <div class="a"><b>Surrounding.</b></div>
+    </div>
+
+    <div class="card">
+      <div class="num">9</div>
+      <div class="q">Word part: -malacia</div>
+      <div class="a"><b>Abnormal softening</b> (e.g., osteomalacia).</div>
+    </div>
+
+    <div class="card">
+      <div class="num">10</div>
+      <div class="q">Word part: -ago</div>
+      <div class="a"><b>Diseased condition</b> (e.g., lumbago).</div>
+    </div>
+
+    <div class="card">
+      <div class="num">11</div>
+      <div class="q">Word part: -penia</div>
+      <div class="a"><b>Deficiency</b> (e.g., osteopenia).</div>
+    </div>
+
+    <div class="card">
+      <div class="num">12</div>
+      <div class="q">Word part: -algia</div>
+      <div class="a"><b>Pain</b> (e.g., myalgia).</div>
+    </div>
+
+    <div class="card">
+      <div class="num">13</div>
+      <div class="q">Word part: -sclerosis</div>
+      <div class="a"><b>Abnormal hardening</b> (e.g., arteriosclerosis).</div>
+    </div>
+
+    <div class="card">
+      <div class="num">14</div>
+      <div class="q">Word part: scoli-</div>
+      <div class="a"><b>Curved</b> (e.g., scoliosis).</div>
+    </div>
+
+    <div class="card">
+      <div class="num">15</div>
+      <div class="q">Word part: lord-</div>
+      <div class="a"><b>Bent backward</b> (e.g., lordosis / swayback).</div>
+    </div>
+
+    <div class="card">
+      <div class="num">16</div>
+      <div class="q">Word part: ankyl-</div>
+      <div class="a"><b>Crooked, bent, or stiff</b> (e.g., ankylosing spondylitis).</div>
+    </div>
+
+    <div class="card">
+      <div class="num">17</div>
+      <div class="q">Word part: capsul-</div>
+      <div class="a"><b>Little box</b> (e.g., joint capsule).</div>
+    </div>
+
+    <div class="card">
+      <div class="num">18</div>
+      <div class="q">Word part: kyph-</div>
+      <div class="a"><b>Hump</b> (e.g., kyphosis).</div>
+    </div>
+  </section>
+
+  <!-- ============ QUIZ PANEL ============ -->
+  <section class="panel" id="quiz">
+    <div class="section-head">— 30 Question Quiz —</div>
+    <div class="quiz-wrap" id="quizWrap">
+      <div class="quiz-progress" id="quizProgress">Question 1 / 30</div>
+      <div class="bar-track"><div class="bar-fill" id="barFill" style="width:3.33%"></div></div>
+      <div class="quiz-q" id="quizQ"></div>
+      <div class="opts" id="quizOpts"></div>
+      <div class="feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button id="prevBtn" disabled>◀ PREV</button>
+        <button id="restartBtn" class="restart">↺ RESTART</button>
+        <button id="nextBtn" disabled>NEXT ▶</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>✿ made with bones & bubblegum ✿ good luck on VN15! ✿</footer>
+
+<script>
+  // ---- TAB SWITCHING ----
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.panel');
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabBtns.forEach(b => b.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.target).classList.add('active');
+    });
+  });
+
+  // ---- QUIZ DATA: 30 QUESTIONS ----
+  const quiz = [
+    { q: "What is the function of osteoclasts?", opts: ["Build new bone tissue","Reabsorb bone & release calcium into bloodstream","Store fat cells","Produce red blood cells"], a: 1 },
+    { q: "Ossification means:", opts: ["Breakdown of bone","Hardening of cartilage only","The formation of bone","Bone fracture repair"], a: 2 },
+    { q: "Which type of ossification involves cartilage as the environment for bone cell development?", opts: ["Intramembranous","Endochondral","Periosteal","Cortical"], a: 1 },
+    { q: "Lacunae contain:", opts: ["Osteoclasts","Red bone marrow","An osteocyte suspended in tissue fluid","Yellow marrow"], a: 2 },
+    { q: "The diaphysis of a long bone consists mainly of:", opts: ["Spongy bone","Compact bone","Cartilage","Periosteum"], a: 1 },
+    { q: "Flat bones are usually curved and consist of:", opts: ["One layer of spongy bone","Two flat plates of compact bone enclosing spongy bone","Solid compact bone only","Cartilage covered by periosteum"], a: 1 },
+    { q: "Which bone forms the forehead and roof of the nasal cavity?", opts: ["Parietal bone","Occipital bone","Frontal bone","Sphenoid bone"], a: 2 },
+    { q: "The foramen magnum is significant because it:", opts: ["Houses the inner ear","Connects the brain with the spinal cord","Forms the eye socket","Anchors the jaw"], a: 1 },
+    { q: "Which bone encloses the ear and has a fossa for articulation with the mandible?", opts: ["Frontal bone","Temporal bone","Nasal bone","Zygomatic bone"], a: 1 },
+    { q: "The temporal bone contains which 4 parts?", opts: ["Squamous, petrous, mastoid, tympanic","Coronal, sagittal, lambdoid, squamosal","Anterior, posterior, lateral, medial","Cervical, thoracic, lumbar, sacral"], a: 0 },
+    { q: "The sphenoid bone is described as looking like a:", opts: ["Heart","Butterfly","Triangle","Shield"], a: 1 },
+    { q: "Which bones form the bridge of the nose?", opts: ["Maxilla","Nasal bones","Vomer","Zygomatic bones"], a: 1 },
+    { q: "What is the strongest bone of the jaw?", opts: ["Maxilla","Hyoid","Mandible","Zygomatic"], a: 2 },
+    { q: "How many vertebrae make up the spinal column?", opts: ["24","26","28","33"], a: 1 },
+    { q: "Another name for the sternum is:", opts: ["Breastbone","Collarbone","Shoulder blade","Wishbone"], a: 0 },
+    { q: "True ribs are defined as:", opts: ["All 12 pairs of ribs","The lower 5 pairs not attached to the sternum","The upper 7 pairs that articulate directly with the sternum","Floating ribs only"], a: 2 },
+    { q: "The humerus is described as:", opts: ["The largest bone in the body","The largest and longest bone of the upper arm","A bone of the forearm","Part of the wrist"], a: 1 },
+    { q: "The femur is the:", opts: ["Largest and heaviest bone of the body","Smallest bone in the leg","Kneecap","Bone of the ankle"], a: 0 },
+    { q: "The patella is also known as the:", opts: ["Shin bone","Kneecap","Heel bone","Hip bone"], a: 1 },
+    { q: "The patella is the largest of which bone type?", opts: ["Long bones","Flat bones","Sesamoid bones","Irregular bones"], a: 2 },
+    { q: "Tarsal bones are located in the:", opts: ["Wrist","Ankle","Hand","Skull"], a: 1 },
+    { q: "Kyphosis is best described as:", opts: ["Forward curve of the lumbar spine","Abnormal outward curve of the thoracic spine","Lateral curve of the spine","Fusion of the spine"], a: 1 },
+    { q: "Lordosis is also commonly known as:", opts: ["Hunchback","Swayback","Flatback","Hipback"], a: 1 },
+    { q: "Lordosis affects which region of the spine?", opts: ["Cervical","Thoracic","Lumbar","Sacral"], a: 2 },
+    { q: "The sacrum is best described as:", opts: ["A long bone in the leg","A triangular-shaped bone at the base of the spine","A flat bone of the skull","A bone in the wrist"], a: 1 },
+    { q: "The cervical spine consists of vertebrae:", opts: ["C1–C7","T1–T12","L1–L5","S1–S5"], a: 0 },
+    { q: "The thoracic spine consists of vertebrae:", opts: ["C1–C7","T1–T12","L1–L5","S1–S5"], a: 1 },
+    { q: "The lumbar spine consists of vertebrae:", opts: ["C1–C7","T1–T12","L1–L5","S1–S5"], a: 2 },
+    { q: "Another name for the coccyx is the:", opts: ["Sacrum","Tailbone","Sternum","Vertebra"], a: 1 },
+    { q: "The prefix peri- means:", opts: ["Inside","Around / surrounding","Below","Above"], a: 1 },
+    { q: "The suffix -malacia means:", opts: ["Abnormal hardening","Abnormal softening","Pain","Deficiency"], a: 1 },
+    { q: "The suffix -sclerosis means:", opts: ["Abnormal softening","Abnormal hardening","Deficiency","Disease"], a: 1 },
+    { q: "The suffix -penia means:", opts: ["Pain","Hardening","Deficiency","Curved"], a: 2 },
+    { q: "The suffix -algia means:", opts: ["Pain","Softening","Little box","Bent"], a: 0 },
+    { q: "The word part scoli- means:", opts: ["Bent backward","Curved","Stiff","Hump"], a: 1 },
+    { q: "The word part lord- means:", opts: ["Bent backward","Curved","Stiff","Hump"], a: 0 },
+  ];
+
+  let qIndex = 0;
+  let answers = new Array(quiz.length).fill(null);
+
+  const quizQ = document.getElementById('quizQ');
+  const quizOpts = document.getElementById('quizOpts');
+  const quizFeedback = document.getElementById('quizFeedback');
+  const quizProgress = document.getElementById('quizProgress');
+  const barFill = document.getElementById('barFill');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const restartBtn = document.getElementById('restartBtn');
+  const quizWrap = document.getElementById('quizWrap');
+
+  function renderQuestion() {
+    const item = quiz[qIndex];
+    quizProgress.textContent = `Question ${qIndex + 1} / ${quiz.length}`;
+    barFill.style.width = `${((qIndex + 1) / quiz.length) * 100}%`;
+    quizQ.textContent = item.q;
+    quizOpts.innerHTML = '';
+    quizFeedback.className = 'feedback';
+    quizFeedback.textContent = '';
+
+    const userAns = answers[qIndex];
+
+    item.opts.forEach((optText, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'opt';
+      btn.textContent = optText;
+      if (userAns !== null) {
+        btn.disabled = true;
+        if (i === item.a) btn.classList.add('correct');
+        else if (i === userAns) btn.classList.add('wrong');
+      }
+      btn.addEventListener('click', () => selectAnswer(i));
+      quizOpts.appendChild(btn);
+    });
+
+    if (userAns !== null) {
+      quizFeedback.classList.add('show');
+      if (userAns === item.a) {
+        quizFeedback.classList.add('right');
+        quizFeedback.textContent = "✿ Correct! Nailed it.";
+      } else {
+        quizFeedback.classList.add('wrong');
+        quizFeedback.textContent = `✗ Not quite — correct answer: "${item.opts[item.a]}"`;
+      }
+    }
+
+    prevBtn.disabled = qIndex === 0;
+    nextBtn.disabled = userAns === null;
+    nextBtn.textContent = qIndex === quiz.length - 1 ? "SEE SCORE ▶" : "NEXT ▶";
+  }
+
+  function selectAnswer(i) {
+    if (answers[qIndex] !== null) return;
+    answers[qIndex] = i;
+    renderQuestion();
+  }
+
+  function showScore() {
+    const correct = answers.reduce((acc, a, i) => acc + (a === quiz[i].a ? 1 : 0), 0);
+    const pct = Math.round((correct / quiz.length) * 100);
+    let msg = "Keep studying — you've got this! 💪";
+    if (pct >= 90) msg = "Outstanding! NCLEX-ready energy. 🌟";
+    else if (pct >= 75) msg = "Great job — almost there! ✨";
+    else if (pct >= 50) msg = "Solid start, review the missed ones! 📚";
+
+    quizWrap.innerHTML = `
+      <div class="score-screen">
+        <div class="big">${correct} / ${quiz.length}</div>
+        <p>${pct}% correct</p>
+        <p>${msg}</p>
+        <button class="restart" id="restartBtn2" style="font-family:'Bungee',cursive;font-size:.9rem;background:var(--hotpink);color:var(--cream);border:3px solid var(--ink);border-radius:10px;padding:14px 20px;cursor:pointer;box-shadow:4px 4px 0 var(--ink);">↺ RESTART QUIZ</button>
+      </div>`;
+    document.getElementById('restartBtn2').addEventListener('click', restartQuiz);
+  }
+
+  function restartQuiz() {
+    qIndex = 0;
+    answers = new Array(quiz.length).fill(null);
+    quizWrap.innerHTML = `
+      <div class="quiz-progress" id="quizProgress">Question 1 / ${quiz.length}</div>
+      <div class="bar-track"><div class="bar-fill" id="barFill" style="width:${(1/quiz.length)*100}%"></div></div>
+      <div class="quiz-q" id="quizQ"></div>
+      <div class="opts" id="quizOpts"></div>
+      <div class="feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button id="prevBtn" disabled>◀ PREV</button>
+        <button id="restartBtn" class="restart">↺ RESTART</button>
+        <button id="nextBtn" disabled>NEXT ▶</button>
+      </div>`;
+    bindQuizRefs();
+    renderQuestion();
+  }
+
+  function bindQuizRefs() {
+    window.quizQ = document.getElementById('quizQ');
+    window.quizOpts = document.getElementById('quizOpts');
+    window.quizFeedback = document.getElementById('quizFeedback');
+    window.quizProgress = document.getElementById('quizProgress');
+    window.barFill = document.getElementById('barFill');
+    window.prevBtn = document.getElementById('prevBtn');
+    window.nextBtn = document.getElementById('nextBtn');
+    window.restartBtn = document.getElementById('restartBtn');
+
+    prevBtn.addEventListener('click', () => { if (qIndex > 0) { qIndex--; renderQuestion(); } });
+    nextBtn.addEventListener('click', () => {
+      if (qIndex < quiz.length - 1) { qIndex++; renderQuestion(); }
+      else { showScore(); }
+    });
+    restartBtn.addEventListener('click', restartQuiz);
+  }
+
+  bindQuizRefs();
+  renderQuestion();
+</script>
+
+</body>
+</html>
