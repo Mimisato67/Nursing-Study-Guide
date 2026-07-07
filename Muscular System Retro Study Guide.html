@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Muscular System • Retro Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --hotpink:#ff4f9a;
+    --hotpink-dark:#e01f78;
+    --bubblegum:#ffc2e2;
+    --cream:#fff6ea;
+    --plum:#5c1c46;
+    --gold:#ffcf56;
+    --mint:#8fe3c3;
+    --ink:#3a1030;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Quicksand',sans-serif;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(255,255,255,0.5) 0 6px, transparent 7px),
+      radial-gradient(circle at 85% 10%, rgba(255,255,255,0.5) 0 6px, transparent 7px),
+      radial-gradient(circle at 70% 80%, rgba(255,255,255,0.4) 0 5px, transparent 6px),
+      linear-gradient(135deg, var(--bubblegum), var(--cream) 60%);
+    background-attachment:fixed;
+    color:var(--ink);
+    min-height:100vh;
+    padding-bottom:60px;
+  }
+
+  /* ---------- HEADER ---------- */
+  header{
+    background:repeating-linear-gradient(45deg, var(--hotpink), var(--hotpink) 18px, var(--hotpink-dark) 18px, var(--hotpink-dark) 36px);
+    padding:36px 20px 46px;
+    text-align:center;
+    position:relative;
+    box-shadow:0 6px 0 var(--plum);
+  }
+  header h1{
+    font-family:'Fredoka',sans-serif;
+    font-size:clamp(28px, 5vw, 46px);
+    color:#fff;
+    margin:0;
+    text-shadow:3px 3px 0 var(--plum);
+    letter-spacing:1px;
+  }
+  header p{
+    font-size:16px;
+    color:var(--cream);
+    margin:10px 0 0;
+    font-weight:600;
+  }
+  .scallop{
+    position:absolute;
+    bottom:-18px; left:0; right:0;
+    height:36px;
+    background:
+      radial-gradient(circle at 10px 0, transparent 12px, var(--hotpink-dark) 13px) 0 -18px/36px 36px repeat-x,
+      var(--cream) 0;
+    background-color:transparent;
+  }
+  .scallop-row{
+    display:flex;
+    height:20px;
+  }
+  .scallop-row div{
+    width:36px; height:36px;
+    border-radius:50%;
+    background:var(--hotpink-dark);
+    margin-top:-18px;
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    display:flex;
+    justify-content:center;
+    gap:16px;
+    margin:34px auto 10px;
+    flex-wrap:wrap;
+  }
+  nav button{
+    font-family:'Fredoka',sans-serif;
+    font-size:17px;
+    padding:12px 28px;
+    border-radius:30px;
+    border:3px solid var(--plum);
+    background:#fff;
+    color:var(--plum);
+    cursor:pointer;
+    box-shadow:4px 4px 0 var(--plum);
+    transition:transform .12s ease;
+  }
+  nav button.active{
+    background:var(--hotpink);
+    color:#fff;
+  }
+  nav button:hover{
+    transform:translate(-2px,-2px);
+  }
+  nav button:active{
+    transform:translate(2px,2px);
+    box-shadow:1px 1px 0 var(--plum);
+  }
+
+  main{
+    max-width:900px;
+    margin:0 auto;
+    padding:10px 20px 40px;
+  }
+  .view{display:none;}
+  .view.active{display:block;}
+
+  /* ---------- STUDY GUIDE ---------- */
+  .sg-section-title{
+    font-family:'Fredoka',sans-serif;
+    color:var(--hotpink-dark);
+    font-size:22px;
+    margin:34px 0 14px;
+    padding-bottom:6px;
+    border-bottom:3px dashed var(--hotpink);
+  }
+  .card{
+    background:#fff;
+    border:3px solid var(--plum);
+    border-radius:18px;
+    padding:16px 20px;
+    margin-bottom:14px;
+    box-shadow:5px 5px 0 rgba(92,28,70,0.25);
+    position:relative;
+  }
+  .card .qnum{
+    display:inline-block;
+    background:var(--gold);
+    border:2px solid var(--plum);
+    color:var(--plum);
+    font-family:'Fredoka',sans-serif;
+    font-weight:600;
+    border-radius:50%;
+    width:30px;height:30px;
+    line-height:26px;
+    text-align:center;
+    margin-right:10px;
+  }
+  .card .q{
+    font-weight:700;
+    font-size:16px;
+    color:var(--plum);
+  }
+  .card .page{
+    float:right;
+    font-size:12px;
+    background:var(--mint);
+    border:2px solid var(--plum);
+    border-radius:10px;
+    padding:2px 10px;
+    color:var(--plum);
+    font-weight:700;
+  }
+  .card .a{
+    margin-top:8px;
+    font-size:15px;
+    line-height:1.5;
+    color:var(--ink);
+  }
+  .badge-note{
+    display:inline-block;
+    margin-top:10px;
+    background:var(--hotpink);
+    color:#fff;
+    font-size:12.5px;
+    font-weight:700;
+    padding:5px 12px;
+    border-radius:20px;
+  }
+  .badge-note::before{content:"✓ Confirmed — ";}
+
+  .term-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:12px;
+  }
+
+  /* ---------- QUIZ ---------- */
+  .quiz-intro{
+    background:#fff;
+    border:3px solid var(--plum);
+    border-radius:18px;
+    padding:18px 22px;
+    margin-bottom:22px;
+    box-shadow:5px 5px 0 rgba(92,28,70,0.25);
+    font-weight:600;
+  }
+  .quiz-card{
+    background:#fff;
+    border:3px solid var(--plum);
+    border-radius:18px;
+    padding:18px 20px;
+    margin-bottom:16px;
+    box-shadow:5px 5px 0 rgba(92,28,70,0.2);
+  }
+  .quiz-card .q{
+    font-weight:700;
+    color:var(--plum);
+    margin-bottom:12px;
+    font-size:15.5px;
+  }
+  .options{
+    display:grid;
+    gap:8px;
+  }
+  .opt{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 14px;
+    border:2px solid #e8bcd6;
+    border-radius:12px;
+    cursor:pointer;
+    background:var(--cream);
+    font-size:14.5px;
+    transition:background .15s;
+  }
+  .opt:hover{background:var(--bubblegum);}
+  .opt input{accent-color:var(--hotpink-dark); width:16px; height:16px;}
+  .opt.correct{background:#c9f4dd; border-color:#3fb87a; font-weight:700;}
+  .opt.incorrect{background:#ffd3d3; border-color:#e0554f; font-weight:700;}
+
+  .submit-bar{
+    text-align:center;
+    margin:30px 0 10px;
+  }
+  .submit-bar button{
+    font-family:'Fredoka',sans-serif;
+    font-size:19px;
+    padding:14px 40px;
+    border-radius:30px;
+    border:3px solid var(--plum);
+    background:var(--gold);
+    color:var(--plum);
+    cursor:pointer;
+    box-shadow:5px 5px 0 var(--plum);
+  }
+  .submit-bar button:active{
+    transform:translate(3px,3px);
+    box-shadow:2px 2px 0 var(--plum);
+  }
+  #scoreBox{
+    display:none;
+    text-align:center;
+    font-family:'Fredoka',sans-serif;
+    font-size:24px;
+    color:#fff;
+    background:var(--hotpink);
+    border:3px solid var(--plum);
+    border-radius:20px;
+    padding:18px;
+    margin-bottom:24px;
+    box-shadow:5px 5px 0 var(--plum);
+  }
+  #scoreBox span{font-size:32px;}
+
+  .qnum-badge{
+    display:inline-block;
+    background:var(--plum);
+    color:#fff;
+    font-family:'Fredoka',sans-serif;
+    border-radius:8px;
+    padding:2px 9px;
+    font-size:13px;
+    margin-right:8px;
+  }
+
+  footer{
+    text-align:center;
+    font-size:12.5px;
+    color:var(--plum);
+    opacity:.7;
+    padding:20px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>♥ MUSCULAR SYSTEM ♥</h1>
+  <p>Retro Study Guide &amp; Practice Test — Carrington College VN Program</p>
+</header>
+
+<nav>
+  <button id="btn-guide" class="active" onclick="showView('guide')">📖 Study Guide</button>
+  <button id="btn-quiz" onclick="showView('quiz')">📝 Practice Test (40 Q)</button>
+</nav>
+
+<main>
+
+  <!-- ============ STUDY GUIDE VIEW ============ -->
+  <div id="guide" class="view active">
+
+    <div class="sg-section-title">Muscle Basics</div>
+
+    <div class="card"><span class="page">p.199</span><div class="q"><span class="qnum">1</span>Why are skeletal (striated) muscles called fibers?</div>
+      <div class="a">Because their length is much greater than their width.</div></div>
+
+    <div class="card"><span class="page">p.196</span><div class="q"><span class="qnum">2</span>What is a fascicle?</div>
+      <div class="a">An individual bundle of muscle cells.</div></div>
+
+    <div class="card"><span class="page">p.196</span><div class="q"><span class="qnum">3</span>What is the epimysium?</div>
+      <div class="a">Coarse, irregular connective tissue that surrounds the whole muscle.</div></div>
+
+    <div class="card"><span class="page">p.196</span><div class="q"><span class="qnum">4</span>What is actin?</div>
+      <div class="a">Thin filaments of protein in a muscle cell.</div></div>
+
+    <div class="sg-section-title">Nerve Impulse &amp; Contraction</div>
+
+    <div class="card"><span class="page">p.203</span><div class="q"><span class="qnum">5</span>Where do muscle cells have a greater concentration of sodium ions?</div>
+      <div class="a">Outside the cell membrane, compared to inside the cell.</div></div>
+
+    <div class="card"><span class="page">p.203</span><div class="q"><span class="qnum">6</span>What is acetylcholine, and where will you find it?</div>
+      <div class="a">A neurotransmitter substance found in the axon. Acetylcholine binds to receptors on the muscle, opening sodium ion channels.
+      <div class="badge-note">As the nerve impulse of an axon reaches the neuromuscular junction, it triggers the release of acetylcholine.</div></div></div>
+
+    <div class="card"><span class="page">p.203</span><div class="q"><span class="qnum">7</span>Describe the neuroelectrical pathway in skeletal muscle that leads to the release of calcium during an action potential.</div>
+      <div class="a">A nerve impulse travels down a motor neuron to the neuromuscular junction, triggering release of acetylcholine into the synaptic cleft. Acetylcholine binds to receptors on the muscle cell, generating an action potential that travels along the muscle fiber into the T-tubules. This stimulates the sarcoplasmic reticulum to release calcium ions (Ca²⁺) into the sarcoplasm.</div></div>
+
+    <div class="card"><span class="page">p.204</span><div class="q"><span class="qnum">8</span>What is the relationship between myosin, actin, and calcium?</div>
+      <div class="a">When calcium is released, it binds to troponin on the actin filament, causing tropomyosin to shift and expose active sites on actin. Myosin heads attach to those sites, forming cross bridges and pulling the actin filaments inward — this is the sliding filament mechanism that produces muscle contraction.</div></div>
+
+    <div class="sg-section-title">Muscle Energy &amp; Fatigue</div>
+
+    <div class="card"><span class="page">p.64-65</span><div class="q"><span class="qnum">9</span>Describe the relationship between pyruvic acid and lactic acid.</div>
+      <div class="a">During intense exercise, when oxygen is insufficient, pyruvic acid (the end product of glycolysis) is converted to lactic acid. This allows ATP production to continue temporarily without oxygen (anaerobic respiration). Lactic acid buildup causes the burning sensation in muscles and contributes to muscle fatigue.</div></div>
+
+    <div class="card"><span class="page">p.19</span><div class="q"><span class="qnum">10</span>What is phosphocreatine, and where will you find it?</div>
+      <div class="a">A high-energy compound stored in skeletal muscle cells. It provides a rapid reserve of energy by donating its phosphate group to ADP to quickly regenerate ATP during the first few seconds of intense muscle activity.</div></div>
+
+    <div class="sg-section-title">Muscle Tissue Types</div>
+
+    <div class="card"><span class="page">p.198</span><div class="q"><span class="qnum">11</span>Where is smooth muscle found?</div>
+      <div class="a">In the walls of hollow organs — e.g. stomach, intestines, urinary bladder, uterus, and blood vessels.</div></div>
+
+    <div class="card"><span class="page">p.198</span><div class="q"><span class="qnum">12</span>Explain cardiac muscle.</div>
+      <div class="a">Found only in the heart. It is involuntary and striated, and has intercalated discs that allow electrical impulses to spread rapidly between cells, enabling the heart to contract as a coordinated unit. It is self-stimulating (autorhythmic) and does not fatigue.
+      <div class="badge-note">Cardiac muscle is controlled by the autonomic nervous system (ANS).</div></div></div>
+
+    <div class="sg-section-title">Muscle Naming &amp; Actions</div>
+
+    <div class="card"><span class="page">p.208</span><div class="q"><span class="qnum">13</span>What muscles are named according to their action?</div>
+      <div class="a">Examples: flexor (flexes a joint), extensor (extends a joint), adductor (moves toward the body), abductor (moves away from the body), levator (raises a body part).</div></div>
+
+    <div class="card"><span class="page">p.208</span><div class="q"><span class="qnum">14</span>Define aponeurosis.</div>
+      <div class="a">A flat and wide tendon.</div></div>
+
+    <div class="card"><span class="page">p.210</span><div class="q"><span class="qnum">15</span>What does the frontalis muscle do?</div>
+      <div class="a">Raises the eyebrows and wrinkles the forehead.</div></div>
+
+    <div class="card"><span class="page">p.210</span><div class="q"><span class="qnum">16</span>What does the superior rectus muscle do?</div>
+      <div class="a">Rolls the eyeball upward.</div></div>
+
+    <div class="card"><span class="page">p.215</span><div class="q"><span class="qnum">17</span>What muscles flex the forearm at the elbow?</div>
+      <div class="a">Brachialis, biceps brachii, and brachioradialis.</div></div>
+
+    <div class="card"><span class="page">p.215</span><div class="q"><span class="qnum">18</span>What group of muscles extend the wrist in conjunction with what other muscle?</div>
+      <div class="a">Extensor carpi radialis brevis, extensor carpi radialis longus, extensor carpi ulnaris, and extensor digitorum communis.</div></div>
+
+    <div class="card"><span class="page">p.217</span><div class="q"><span class="qnum">19</span>Sit-ups develop what muscle?</div>
+      <div class="a">The rectus abdominis — the paired vertical muscle running along the front of the abdomen.</div></div>
+
+    <div class="card"><span class="page">p.217</span><div class="q"><span class="qnum">20</span>What is special about the diaphragm?</div>
+      <div class="a">It is the primary muscle of breathing. Its contracting causes air to enter the lungs.</div></div>
+
+    <div class="sg-section-title">Disorders &amp; Key Terms</div>
+
+    <div class="card"><span class="page">slides</span><div class="q"><span class="qnum">21</span>Define atrophy.</div>
+      <div class="a">A decrease in the size of muscle tissue due to disuse, disease, or lack of nerve stimulation.</div></div>
+
+    <div class="card"><span class="page">slides</span><div class="q"><span class="qnum">22</span>Define tendonitis.</div>
+      <div class="a">The inflammation of a tendon.</div></div>
+
+    <div class="sg-section-title">Muscle Action Definitions (p.185)</div>
+    <div class="term-grid">
+      <div class="card"><div class="q">Adductor</div><div class="a">Moving a structure toward the body.</div></div>
+      <div class="card"><div class="q">Abductor</div><div class="a">Moving a structure away from the body.</div></div>
+      <div class="card"><div class="q">Levator</div><div class="a">Raises or elevates the body part.</div></div>
+      <div class="card"><div class="q">Flexor</div><div class="a">The act of bending or decreasing the angle between bones.</div></div>
+    </div>
+
+    <div class="sg-section-title">Muscular System Medical Terminology</div>
+    <div class="card"><div class="q">What does the suffix <em>-plegia</em> mean?</div>
+      <div class="a">Paralysis (e.g. paraplegia = lower body; hemiplegia = one side of the body).</div></div>
+
+  </div>
+
+  <!-- ============ QUIZ VIEW ============ -->
+  <div id="quiz" class="view">
+    <div class="quiz-intro">40-question practice test covering fibers, fascicles, the NMJ, calcium/actin/myosin, energy metabolism, smooth/cardiac muscle, muscle naming, and key terminology. Select an answer for each, then hit "Check My Answers" at the bottom.</div>
+
+    <div id="scoreBox">You scored <span id="scoreText">0/40</span> 💪</div>
+
+    <div id="quizContainer"></div>
+
+    <div class="submit-bar">
+      <button onclick="gradeQuiz()">Check My Answers ✅</button>
+    </div>
+  </div>
+
+</main>
+
+<footer>Made with 💖 for muscular system study sessions — good luck!</footer>
+
+<script>
+function showView(name){
+  document.getElementById('guide').classList.toggle('active', name==='guide');
+  document.getElementById('quiz').classList.toggle('active', name==='quiz');
+  document.getElementById('btn-guide').classList.toggle('active', name==='guide');
+  document.getElementById('btn-quiz').classList.toggle('active', name==='quiz');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+const QUESTIONS = [
+["Why are skeletal muscles called fibers?", ["Because they contract quickly","Because their length is much greater than their width","Because they contain fascicles","Because they are striated"], 1],
+["What is a fascicle?", ["A single muscle cell","A bundle of muscle cells","A tendon attachment point","A type of connective tissue"], 1],
+["What is the epimysium?", ["Tissue surrounding a single fiber","Tissue surrounding a fascicle","Coarse connective tissue surrounding the whole muscle","The tendon connecting muscle to bone"], 2],
+["What is actin?", ["Thick protein filaments","Thin filaments of protein in a muscle cell","A neurotransmitter","A calcium storage site"], 1],
+["What are myosin filaments?", ["Thin filaments that appear light","Thick filaments that appear dark, with heads that form cross bridges","Connective tissue fibers","Calcium storage vesicles"], 1],
+["Where do muscle cells have a greater concentration of sodium ions?", ["Inside the cell","Outside the cell membrane","In the mitochondria","In the sarcoplasmic reticulum"], 1],
+["What is acetylcholine?", ["An enzyme that breaks down ATP","A neurotransmitter substance found in the axon","A calcium-binding protein","A muscle protein filament"], 1],
+["Where is acetylcholine released from?", ["The sarcoplasmic reticulum","The axon terminal at the neuromuscular junction","The T-tubules","The mitochondria"], 1],
+["What triggers the release of acetylcholine?", ["Calcium leaving the cell","A nerve impulse of an axon reaching the neuromuscular junction","Myosin binding to actin","ATP breakdown"], 1],
+["What does acetylcholine binding to muscle receptors trigger?", ["Closing of potassium channels","Opening of sodium ion channels","Release of lactic acid","Contraction of the epimysium"], 1],
+["In the neuroelectrical pathway, what is the first step?", ["Calcium is released into the sarcoplasm","A nerve impulse travels down a motor neuron to the neuromuscular junction","Myosin attaches to actin","Tropomyosin shifts"], 1],
+["What structure carries the action potential deep into the muscle fiber?", ["T-tubules", "Sarcoplasmic reticulum","Epimysium","Aponeurosis"], 0],
+["What does the sarcoplasmic reticulum release in response to the action potential?", ["Sodium ions","Acetylcholine","Calcium ions (Ca²⁺)","ATP"], 2],
+["What does released calcium bind to?", ["Myosin heads","Troponin on the actin filament","Tropomyosin only","T-tubules"], 1],
+["What happens when calcium binds troponin?", ["Actin filaments dissolve","Tropomyosin shifts, exposing active sites on actin","Myosin releases ATP","The sarcomere lengthens"], 1],
+["What forms when myosin heads attach to exposed actin sites?", ["Sarcomeres","Cross bridges","T-tubules","Fascicles"], 1],
+["What is the name for the mechanism that produces muscle contraction?", ["The sliding filament mechanism","The resting potential cycle","The refractory mechanism","The tetanus cycle"], 0],
+["During intense exercise with insufficient oxygen, pyruvic acid is converted into what?", ["ATP directly","Lactic acid","Phosphocreatine","Glycogen"], 1],
+["What does lactic acid buildup cause?", ["Increased oxygen delivery","The burning sensation and muscle fatigue","Faster muscle contraction","Increased calcium release"], 1],
+["What is phosphocreatine?", ["A waste product of contraction","A high-energy compound stored in skeletal muscle cells for rapid ATP regeneration","A neurotransmitter","A type of muscle fiber"], 1],
+["What does phosphocreatine donate to ADP?", ["A calcium ion","A phosphate group, to quickly regenerate ATP","An oxygen molecule","A sodium ion"], 1],
+["Where is smooth muscle found?", ["Only in the heart","In the walls of hollow organs like the stomach and intestines","Attached to bones","In the diaphragm only"], 1],
+["Is smooth muscle striated or voluntary?", ["Striated and voluntary","Non-striated and involuntary","Striated and involuntary","Non-striated and voluntary"], 1],
+["Where is cardiac muscle found?", ["Only in the heart","In hollow organs","Attached to bones","In blood vessel walls"], 0],
+["What are intercalated discs?", ["Connective tissue around muscle bundles","Junctions that allow electrical impulses to spread rapidly between cardiac cells","Calcium storage sites","Tendon attachments"], 1],
+["What does 'autorhythmic' mean for cardiac muscle?", ["It needs nerve stimulation to beat","It is self-stimulating and doesn't require outside impulses to contract","It fatigues quickly","It only contracts voluntarily"], 1],
+["What system controls cardiac muscle contraction?", ["The somatic nervous system only","The autonomic nervous system (ANS)","The skeletal system","The integumentary system"], 1],
+["Which muscle-naming term means 'flexes a joint'?", ["Extensor","Flexor","Abductor","Levator"], 1],
+["Which muscle-naming term means 'extends a joint'?", ["Extensor","Adductor","Flexor","Levator"], 0],
+["Which muscle-naming term means 'moves toward the body'?", ["Abductor","Adductor","Extensor","Levator"], 1],
+["Which muscle-naming term means 'moves away from the body'?", ["Adductor","Abductor","Flexor","Levator"], 1],
+["What is an aponeurosis?", ["A round tendon","A flat and wide tendon","A muscle bundle","A nerve ending"], 1],
+["What does the frontalis muscle do?", ["Rolls the eyeball upward","Raises the eyebrows and wrinkles the forehead","Flexes the forearm","Extends the wrist"], 1],
+["What does the superior rectus muscle do?", ["Wrinkles the forehead","Rolls the eyeball upward","Flexes the elbow","Extends the wrist"], 1],
+["Which muscles flex the forearm at the elbow?", ["Deltoid, trapezius, triceps","Brachialis, biceps brachii, and brachioradialis","Rectus abdominis, external oblique","Extensor carpi radialis"], 1],
+["Which muscles extend the wrist?", ["Biceps brachii and brachialis","Extensor carpi radialis brevis/longus, extensor carpi ulnaris, extensor digitorum communis","Frontalis and superior rectus","Rectus abdominis and diaphragm"], 1],
+["Sit-ups primarily develop which muscle?", ["Diaphragm","Rectus abdominis","Frontalis","Brachialis"], 1],
+["What is special about the diaphragm?", ["It's involuntary and unrelated to breathing","It's the primary muscle of breathing; its contraction causes air to enter the lungs","It only assists in eye movement","It's a smooth muscle"], 1],
+["Define atrophy.", ["Inflammation of a tendon","A decrease in muscle tissue size due to disuse, disease, or lack of nerve stimulation","Paralysis of a muscle","Excess muscle growth"], 1],
+["Define tendonitis.", ["Decrease in muscle size","Paralysis","Inflammation of a tendon","A type of muscle fiber"], 2],
+];
+
+function buildQuiz(){
+  const container = document.getElementById('quizContainer');
+  QUESTIONS.forEach((item, idx) => {
+    const [q, options, correctIdx] = item;
+    const card = document.createElement('div');
+    card.className = 'quiz-card';
+    card.dataset.correct = correctIdx;
+
+    const qDiv = document.createElement('div');
+    qDiv.className = 'q';
+    qDiv.innerHTML = `<span class="qnum-badge">${idx+1}</span>${q}`;
+    card.appendChild(qDiv);
+
+    const optDiv = document.createElement('div');
+    optDiv.className = 'options';
+    options.forEach((opt, oIdx) => {
+      const label = document.createElement('label');
+      label.className = 'opt';
+      label.innerHTML = `<input type="radio" name="q${idx}" value="${oIdx}"> <span>${String.fromCharCode(65+oIdx)}. ${opt}</span>`;
+      optDiv.appendChild(label);
+    });
+    card.appendChild(optDiv);
+    container.appendChild(card);
+  });
+}
+buildQuiz();
+
+function gradeQuiz(){
+  let score = 0;
+  const cards = document.querySelectorAll('.quiz-card');
+  cards.forEach((card, idx) => {
+    const correct = parseInt(card.dataset.correct);
+    const selected = card.querySelector(`input[name="q${idx}"]:checked`);
+    const opts = card.querySelectorAll('.opt');
+    opts.forEach((opt, oIdx) => {
+      opt.classList.remove('correct','incorrect');
+      if(oIdx === correct){ opt.classList.add('correct'); }
+    });
+    if(selected){
+      const selIdx = parseInt(selected.value);
+      if(selIdx === correct){ score++; }
+      else { opts[selIdx].classList.add('incorrect'); }
+    }
+  });
+  document.getElementById('scoreText').textContent = score + '/40';
+  document.getElementById('scoreBox').style.display = 'block';
+  document.getElementById('scoreBox').scrollIntoView({behavior:'smooth', block:'center'});
+}
+</script>
+
+</body>
+</html>
