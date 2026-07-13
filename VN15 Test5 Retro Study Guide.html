@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rx Test 5 — Retro Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pink-hot:#FF5D9E;
+    --pink-soft:#FFD1E3;
+    --pink-pale:#FFF3F8;
+    --cream:#FFF8EF;
+    --maroon:#5C1A34;
+    --mint:#8FD9C4;
+    --mint-dark:#3F9E86;
+    --mustard:#F4B942;
+    --wrong:#E85D5D;
+    --shadow: 6px 6px 0px var(--maroon);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--cream);
+    background-image:
+      radial-gradient(circle at 10% 15%, var(--pink-soft) 0, transparent 35%),
+      radial-gradient(circle at 90% 80%, var(--mint) 0, transparent 30%);
+    font-family:'Nunito', sans-serif;
+    color:var(--maroon);
+    min-height:100vh;
+    padding-bottom:60px;
+  }
+  h1,h2,h3, .display{
+    font-family:'Bungee', cursive;
+    letter-spacing:0.5px;
+  }
+  .mono{ font-family:'Space Mono', monospace; }
+
+  /* checkerboard divider — signature element */
+  .checker{
+    height:22px;
+    width:100%;
+    background-image:
+      linear-gradient(45deg, var(--pink-hot) 25%, transparent 25%, transparent 75%, var(--pink-hot) 75%),
+      linear-gradient(45deg, var(--pink-hot) 25%, var(--cream) 25%, var(--cream) 75%, var(--pink-hot) 75%);
+    background-size:22px 22px;
+    background-position:0 0, 11px 11px;
+    border-top:3px solid var(--maroon);
+    border-bottom:3px solid var(--maroon);
+  }
+
+  header{
+    text-align:center;
+    padding:40px 20px 28px;
+    position:relative;
+  }
+  .rx-badge{
+    display:inline-block;
+    background:var(--pink-hot);
+    color:var(--cream);
+    border:4px solid var(--maroon);
+    border-radius:50%;
+    width:86px;height:86px;
+    line-height:78px;
+    font-family:'Bungee', cursive;
+    font-size:2.1rem;
+    box-shadow:var(--shadow);
+    margin-bottom:14px;
+    transform:rotate(-6deg);
+  }
+  header h1{
+    font-size:clamp(1.8rem, 5vw, 3rem);
+    color:var(--maroon);
+    margin:6px 0 4px;
+    text-shadow: 3px 3px 0 var(--pink-soft);
+  }
+  header p.sub{
+    font-family:'Space Mono', monospace;
+    font-size:0.9rem;
+    color:var(--mint-dark);
+    background:var(--cream);
+    display:inline-block;
+    padding:4px 14px;
+    border:2px dashed var(--maroon);
+    border-radius:20px;
+    margin-top:6px;
+  }
+
+  .tabs{
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    margin:28px auto 0;
+    flex-wrap:wrap;
+    padding:0 16px;
+  }
+  .tab-btn{
+    font-family:'Bungee', cursive;
+    font-size:0.95rem;
+    background:var(--pink-soft);
+    color:var(--maroon);
+    border:3px solid var(--maroon);
+    border-radius:14px;
+    padding:12px 22px;
+    cursor:pointer;
+    box-shadow: 4px 4px 0 var(--maroon);
+    transition: transform .12s ease;
+  }
+  .tab-btn:hover{ transform:translate(-2px,-2px); }
+  .tab-btn.active{
+    background:var(--pink-hot);
+    color:var(--cream);
+  }
+
+  main{
+    max-width:720px;
+    margin:32px auto;
+    padding:0 18px;
+  }
+  .panel{ display:none; }
+  .panel.active{ display:block; }
+
+  /* ---------- FLASHCARDS ---------- */
+  .card-wrap{
+    perspective:1400px;
+    margin:26px auto;
+    max-width:560px;
+  }
+  .flip-card{
+    position:relative;
+    width:100%;
+    min-height:260px;
+    cursor:pointer;
+  }
+  .flip-inner{
+    position:relative;
+    width:100%;
+    height:100%;
+    min-height:260px;
+    transition:transform .5s cubic-bezier(.4,.2,.2,1);
+    transform-style:preserve-3d;
+  }
+  .flip-card.flipped .flip-inner{ transform:rotateY(180deg); }
+  .face{
+    position:absolute;
+    inset:0;
+    backface-visibility:hidden;
+    border:4px solid var(--maroon);
+    border-radius:22px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:28px;
+    box-shadow:var(--shadow);
+  }
+  .face.front{ background:var(--pink-hot); color:var(--cream); }
+  .face.back{ background:var(--mint); color:var(--maroon); transform:rotateY(180deg); }
+  .face .eyebrow{
+    font-family:'Space Mono', monospace;
+    font-size:0.75rem;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    opacity:0.85;
+    margin-bottom:10px;
+  }
+  .face .content{
+    font-family:'Bungee', cursive;
+    font-size:1.2rem;
+    line-height:1.4;
+  }
+  .face.back .content{
+    font-family:'Nunito', sans-serif;
+    font-weight:700;
+    font-size:1.05rem;
+  }
+  .flash-controls{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:16px;
+    margin-top:10px;
+    flex-wrap:wrap;
+  }
+  .nav-btn{
+    background:var(--maroon);
+    color:var(--cream);
+    border:none;
+    border-radius:12px;
+    padding:10px 18px;
+    font-family:'Bungee', cursive;
+    font-size:0.85rem;
+    cursor:pointer;
+    box-shadow:3px 3px 0 var(--pink-hot);
+  }
+  .nav-btn:active{ transform:translate(2px,2px); box-shadow:1px 1px 0 var(--pink-hot); }
+  .counter{
+    font-family:'Space Mono', monospace;
+    background:var(--pink-soft);
+    border:2px solid var(--maroon);
+    border-radius:20px;
+    padding:6px 14px;
+    font-size:0.85rem;
+  }
+
+  /* ---------- QUIZ ---------- */
+  .progress-wrap{
+    background:var(--pink-soft);
+    border:3px solid var(--maroon);
+    border-radius:20px;
+    height:22px;
+    overflow:hidden;
+    margin-bottom:20px;
+  }
+  .progress-bar{
+    height:100%;
+    background:repeating-linear-gradient(45deg, var(--pink-hot), var(--pink-hot) 10px, #ff7fb2 10px, #ff7fb2 20px);
+    width:0%;
+    transition:width .3s ease;
+  }
+  .score-chip{
+    font-family:'Space Mono', monospace;
+    text-align:center;
+    margin-bottom:16px;
+    color:var(--mint-dark);
+    font-weight:700;
+  }
+  .q-card{
+    background:var(--pink-pale);
+    border:4px solid var(--maroon);
+    border-radius:20px;
+    padding:24px;
+    box-shadow:var(--shadow);
+  }
+  .q-tag{
+    display:inline-block;
+    font-family:'Space Mono', monospace;
+    font-size:0.72rem;
+    background:var(--mustard);
+    border:2px solid var(--maroon);
+    padding:3px 10px;
+    border-radius:10px;
+    margin-bottom:12px;
+  }
+  .q-text{
+    font-weight:800;
+    font-size:1.08rem;
+    line-height:1.45;
+    margin-bottom:16px;
+  }
+  .opt{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    background:var(--cream);
+    border:2.5px solid var(--maroon);
+    border-radius:14px;
+    padding:12px 14px;
+    margin-bottom:10px;
+    cursor:pointer;
+    font-weight:700;
+    transition:background .15s;
+  }
+  .opt:hover{ background:var(--pink-soft); }
+  .opt input{ margin-top:3px; accent-color:var(--pink-hot); }
+  .opt.correct{ background:var(--mint); border-color:var(--mint-dark); }
+  .opt.incorrect{ background:#FBD3D3; border-color:var(--wrong); }
+  .opt.disabled{ cursor:default; }
+
+  .submit-btn{
+    background:var(--pink-hot);
+    color:var(--cream);
+    border:3px solid var(--maroon);
+    font-family:'Bungee', cursive;
+    font-size:0.9rem;
+    padding:11px 24px;
+    border-radius:14px;
+    cursor:pointer;
+    box-shadow:4px 4px 0 var(--maroon);
+    margin-top:6px;
+  }
+  .submit-btn:disabled{ opacity:0.5; cursor:not-allowed; }
+  .submit-btn:active:not(:disabled){ transform:translate(2px,2px); box-shadow:2px 2px 0 var(--maroon); }
+
+  .rationale{
+    margin-top:16px;
+    background:var(--cream);
+    border-left:6px solid var(--mustard);
+    border-radius:10px;
+    padding:12px 16px;
+    font-size:0.92rem;
+    display:none;
+  }
+  .rationale.show{ display:block; }
+  .rationale b{ color:var(--mint-dark); }
+
+  .quiz-nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:18px;
+  }
+
+  .results-card{
+    text-align:center;
+    background:var(--mint);
+    border:4px solid var(--maroon);
+    border-radius:22px;
+    padding:34px 20px;
+    box-shadow:var(--shadow);
+  }
+  .results-card h2{ font-size:1.6rem; margin-bottom:8px; }
+  .results-card .big-score{
+    font-family:'Bungee', cursive;
+    font-size:3rem;
+    color:var(--maroon);
+    margin:10px 0;
+  }
+
+  footer{
+    text-align:center;
+    font-family:'Space Mono', monospace;
+    font-size:0.75rem;
+    color:var(--mint-dark);
+    margin-top:40px;
+    opacity:0.8;
+  }
+
+  /* ---------- STUDY GUIDE (READ) ---------- */
+  .sg-section{
+    margin-bottom:26px;
+  }
+  .sg-section h3{
+    background:var(--pink-hot);
+    color:var(--cream);
+    display:inline-block;
+    padding:6px 16px;
+    border-radius:10px;
+    border:3px solid var(--maroon);
+    box-shadow:3px 3px 0 var(--maroon);
+    font-size:1rem;
+    margin-bottom:14px;
+  }
+  .sg-item{
+    background:var(--pink-pale);
+    border:2.5px solid var(--maroon);
+    border-radius:14px;
+    padding:14px 18px;
+    margin-bottom:10px;
+  }
+  .sg-item .q{
+    font-weight:800;
+    margin-bottom:6px;
+  }
+  .sg-item .a{
+    font-weight:600;
+    color:var(--mint-dark);
+  }
+  .sg-item .a b{ color:var(--maroon); }
+  .sg-note{
+    font-family:'Space Mono', monospace;
+    font-size:0.78rem;
+    background:var(--mustard);
+    border:2px dashed var(--maroon);
+    border-radius:12px;
+    padding:10px 14px;
+    margin-bottom:24px;
+  }
+
+  @media (max-width:480px){
+    .rx-badge{ width:66px; height:66px; line-height:58px; font-size:1.5rem; }
+    .face .content{ font-size:1.02rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="rx-badge">Rx</div>
+  <h1>Test 5 Study Guide</h1>
+  <p class="sub">VN15 · FUNDAMENTALS OF NURSING · CARRINGTON COLLEGE</p>
+</header>
+
+<div class="checker"></div>
+
+<div class="tabs">
+  <button class="tab-btn active" id="tab-guide" onclick="switchTab('guide')">📋 Study Guide</button>
+  <button class="tab-btn" id="tab-flash" onclick="switchTab('flash')">🩹 Flashcards</button>
+  <button class="tab-btn" id="tab-quiz" onclick="switchTab('quiz')">💊 Quiz (35Q)</button>
+</div>
+
+<main>
+
+  <!-- STUDY GUIDE PANEL -->
+  <section id="panel-guide" class="panel active">
+    <div class="sg-note">📌 Full written answers — supplement your course materials with this, not a substitute for comprehensive studying.</div>
+
+    <div class="sg-section">
+      <h3>Wound Care</h3>
+      <div class="sg-item"><div class="q">Hydrofiber dressings are best used for:</div><div class="a">Wounds with <b>moderate-to-heavy exudate</b> — the fiber absorbs fluid and gels to keep the bed moist.</div></div>
+      <div class="sg-item"><div class="q">Hydrogel dressings are primarily used for:</div><div class="a"><b>Dry wounds or wounds with minimal exudate</b> and necrotic tissue — rehydrates and promotes autolytic debridement.</div></div>
+      <div class="sg-item"><div class="q">Hydrocolloid dressings should NOT be used when:</div><div class="a">The wound has <b>moderate-to-heavy drainage</b>, is <b>infected</b>, is <b>deep/necrotic</b>, or has <b>exposed muscle, tendon, or bone</b>.</div></div>
+      <div class="sg-item"><div class="q">Polymeric membrane dressings are most appropriate when:</div><div class="a">Exudate is <b>mild-to-moderate</b> — great for skin tears, partial-thickness wounds, and donor sites.</div></div>
+    </div>
+
+    <div class="sg-section">
+      <h3>Pressure Injuries</h3>
+      <div class="sg-item"><div class="q">List at least six risk factors for pressure injuries.</div><div class="a"><b>Immobility/inactivity, malnutrition, incontinence, peripheral neuropathy, vascular disease, hypoperfusion</b> (also: diaphoresis, sedation, edema, dehydration, advanced age).</div></div>
+      <div class="sg-item"><div class="q">Describe age-related skin changes that increase pressure injury risk.</div><div class="a">↓ elasticity, ↓ skin hydration, ↓ tissue regeneration, ↓ blood supply, and a <b>thinner subcutaneous layer</b>.</div></div>
+      <div class="sg-item"><div class="q">Stage 1</div><div class="a">Intact skin, <b>nonblanchable redness</b>; may feel warmer or cooler than surrounding tissue.</div></div>
+      <div class="sg-item"><div class="q">Stage 2</div><div class="a"><b>Partial-thickness</b> skin loss with exposed dermis; pink/red wound bed, no slough; intact or ruptured blister.</div></div>
+      <div class="sg-item"><div class="q">Stage 3</div><div class="a"><b>Full-thickness</b> skin loss; visible adipose tissue, granulation tissue, rolled edges may be present; no exposed muscle, tendon, or bone.</div></div>
+      <div class="sg-item"><div class="q">Stage 4</div><div class="a"><b>Full-thickness skin AND tissue loss</b> with exposed muscle, tendon, cartilage, or bone; tunneling/undermining common.</div></div>
+    </div>
+
+    <div class="sg-section">
+      <h3>Skin &amp; Integument</h3>
+      <div class="sg-item"><div class="q">Functions of keratinocytes:</div><div class="a">Produce keratin, which protects skin from <b>water loss, bacteria, and injury</b>.</div></div>
+      <div class="sg-item"><div class="q">Functions of melanocytes:</div><div class="a">Produce melanin — the <b>pigment</b> of our skin, protecting it from <b>UV radiation</b>.</div></div>
+      <div class="sg-item"><div class="q">Functions of Merkel cells:</div><div class="a"><b>Sensory receptors for light touch</b>, connected to nerve endings.</div></div>
+      <div class="sg-item"><div class="q">Functions of Langerhans cells:</div><div class="a"><b>Immune surveillance</b> in the skin.</div></div>
+    </div>
+
+    <div class="sg-section">
+      <h3>Mobility &amp; Body Mechanics</h3>
+      <div class="sg-item"><div class="q">List five principles of proper body mechanics.</div><div class="a"><b>1)</b> Keep a wide base <b>2)</b> Bend knees, not waist <b>3)</b> Keep load close to body <b>4)</b> Face the direction of movement <b>5)</b> Keep back straight.</div></div>
+      <div class="sg-item"><div class="q">Describe the correct order for a mobility assessment.</div><div class="a"><b>1)</b> Assess ROM in bed <b>2)</b> Dangle at edge of bed <b>3)</b> Stand client <b>4)</b> Ambulate short distance.</div></div>
+      <div class="sg-item"><div class="q">Purpose of passive range of motion.</div><div class="a">Maintains <b>joint flexibility</b> and <b>prevents contractures</b> in clients who can't move independently.</div></div>
+      <div class="sg-item"><div class="q">Correct use of a cane during ambulation and stairs.</div><div class="a">Hold cane on the <b>unaffected side</b>; cane &amp; weak leg move together. "Up with the good, down with the bad" — strong leg first going up, cane + weak leg first going down.</div></div>
+    </div>
+
+    <div class="sg-section">
+      <h3>Urinary Elimination</h3>
+      <div class="sg-item"><div class="q">Complications of urinary retention to the skin:</div><div class="a"><b>Dermatitis, skin breakdown</b>, increased risk of pressure injury, and increased infection risk.</div></div>
+      <div class="sg-item"><div class="q">How can skin breakdown be prevented in incontinent clients?</div><div class="a">Scheduled toileting, daily pericare, barrier cream, keep skin <b>clean and dry</b>, avoid harsh soaps/scrubbing.</div></div>
+    </div>
+
+    <div class="sg-section">
+      <h3>Respiratory</h3>
+      <div class="sg-item"><div class="q">What is COPD?</div><div class="a"><b>Chronic Obstructive Pulmonary Disease</b> — progressive, largely irreversible airflow limitation (chronic bronchitis + emphysema).</div></div>
+      <div class="sg-item"><div class="q">Expected findings in COPD.</div><div class="a">Dyspnea, chronic productive cough, wheezing, <b>barrel chest</b>, prolonged expiration, accessory muscle use, <b>clubbing of fingers</b>, hypoxemia &amp; chronic hypercapnia.</div></div>
+      <div class="sg-item"><div class="q">Explain purse-lipped breathing.</div><div class="a">Inhale through nose, exhale slowly through pursed lips — <b>prolongs exhalation</b> and reduces air trapping (key for COPD).</div></div>
+      <div class="sg-item"><div class="q">Important nursing considerations for a nonrebreather mask.</div><div class="a">Assess for secure mask seal &amp; skin breakdown; use the right mask size; eating/drinking/talking impaired; use cautiously with high aspiration risk.</div></div>
+    </div>
+
+    <div class="sg-section">
+      <h3>Infection &amp; Wounds</h3>
+      <div class="sg-item"><div class="q">List signs of wound infection.</div><div class="a">Purulent drainage, pain, redness &amp; edema, fever &amp; chills, odor, increased pulse &amp; RR, <b>↑ WBC count</b>.</div></div>
+      <div class="sg-item"><div class="q">Assessment findings that require provider notification.</div><div class="a">↑ size/depth of wound, ↑ drainage, dehiscence or evisceration, signs of systemic sepsis.</div></div>
+      <div class="sg-item"><div class="q">Interventions that reduce wound infection risk.</div><div class="a">Hand hygiene &amp; aseptic technique during dressing changes, adequate hydration &amp; nutrition, appropriate wound cleansing/irrigation, change dressing when soiled, antibiotics guided by C&amp;S.</div></div>
+    </div>
+  </section>
+
+  <!-- FLASHCARDS PANEL -->
+  <section id="panel-flash" class="panel">
+    <div class="card-wrap">
+      <div class="flip-card" id="flipCard" onclick="flipCard()">
+        <div class="flip-inner" id="flipInner">
+          <div class="face front">
+            <div class="eyebrow">Term</div>
+            <div class="content" id="cardFront"></div>
+          </div>
+          <div class="face back">
+            <div class="eyebrow">Answer</div>
+            <div class="content" id="cardBack"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flash-controls">
+      <button class="nav-btn" onclick="prevCard()">◀ Prev</button>
+      <div class="counter" id="cardCounter">1 / 24</div>
+      <button class="nav-btn" onclick="nextCard()">Next ▶</button>
+      <button class="nav-btn" onclick="shuffleCards()">🔀 Shuffle</button>
+    </div>
+  </section>
+
+  <!-- QUIZ PANEL -->
+  <section id="panel-quiz" class="panel">
+    <div class="progress-wrap"><div class="progress-bar" id="progBar"></div></div>
+    <div class="score-chip" id="scoreChip">Score: 0 / 0</div>
+    <div id="quizArea"></div>
+  </section>
+
+</main>
+
+<footer>made with pink ink &amp; pathophys • good luck on Test 5 💗</footer>
+
+<script>
+/* ================= FLASHCARD DATA ================= */
+const flashcards = [
+  {t:"Hydrofiber dressing", d:"Best for wounds with moderate–heavy exudate; absorbs fluid and gels to keep the bed moist."},
+  {t:"Hydrogel dressing", d:"Best for dry wounds / minimal exudate & necrotic tissue; rehydrates and promotes autolytic debridement."},
+  {t:"Hydrocolloid dressing — avoid when...", d:"Wound has moderate–heavy drainage, is infected, is deep/necrotic, or has exposed muscle/tendon/bone."},
+  {t:"Polymeric membrane dressing", d:"Best for mild–moderate exudate; non-adherent — great for skin tears, partial-thickness wounds, donor sites."},
+  {t:"Pressure injury risk factors", d:"Immobility, malnutrition, incontinence/moisture, vascular disease, hypoperfusion, peripheral neuropathy."},
+  {t:"Aging skin changes → ↑ pressure injury risk", d:"↓ elasticity, ↓ hydration, ↓ tissue regeneration, ↓ blood supply, thinner subcutaneous layer."},
+  {t:"Stage 1 pressure injury", d:"Intact skin, nonblanchable redness; may feel warmer or cooler than surrounding tissue."},
+  {t:"Stage 2 pressure injury", d:"Partial-thickness loss with exposed dermis; pink/red wound bed, no slough; may be an intact or ruptured blister."},
+  {t:"Stage 3 pressure injury", d:"Full-thickness loss; visible adipose tissue, granulation tissue, rolled edges; no exposed muscle/tendon/bone."},
+  {t:"Stage 4 pressure injury", d:"Full-thickness skin AND tissue loss with exposed muscle, tendon, cartilage, or bone; tunneling/undermining common."},
+  {t:"Unstageable pressure injury", d:"Wound base obscured by slough or eschar — depth cannot be determined until debrided."},
+  {t:"Keratinocytes", d:"Produce keratin — protect skin from water loss, bacteria, and injury."},
+  {t:"Melanocytes", d:"Produce melanin — pigment that protects skin from UV radiation."},
+  {t:"Merkel cells", d:"Sensory receptors for light touch, connected to nerve endings."},
+  {t:"Langerhans cells", d:"Provide immune surveillance in the skin (antigen-processing/dendritic cells)."},
+  {t:"5 principles of body mechanics", d:"Wide base of support, bend knees not waist, keep load close, face direction of movement, keep back straight."},
+  {t:"Mobility assessment order", d:"1) Assess ROM in bed → 2) Dangle at edge of bed → 3) Stand → 4) Ambulate short distance."},
+  {t:"Purpose of passive ROM", d:"Maintains joint flexibility and prevents contractures in clients who can't move independently."},
+  {t:"Cane use — general rule", d:"Hold cane on the unaffected/stronger side; cane + weak leg move together."},
+  {t:"Cane on stairs", d:"\"Up with the good, down with the bad\" — strong leg leads going up; cane + weak leg lead going down."},
+  {t:"Urinary retention → skin complication", d:"Dermatitis, skin breakdown, increased risk of pressure injury, increased infection risk."},
+  {t:"Preventing skin breakdown (incontinence)", d:"Scheduled toileting, daily pericare, barrier cream, keep skin clean & dry, avoid harsh soap/scrubbing."},
+  {t:"COPD", d:"Chronic Obstructive Pulmonary Disease — progressive, largely irreversible airflow limitation (bronchitis + emphysema)."},
+  {t:"Purse-lipped breathing", d:"Inhale through nose, exhale slowly through pursed lips — prolongs exhalation & reduces air trapping."},
+  {t:"Nonrebreather mask — key points", d:"Highest FiO2 without intubation; keep reservoir bag ~2/3 full; secure seal; caution with aspiration risk."},
+  {t:"Signs of wound infection", d:"Purulent drainage, pain, redness/edema, fever/chills, odor, ↑pulse & RR, ↑WBC count."},
+  {t:"Dehiscence vs. evisceration", d:"Dehiscence = wound edges separate. Evisceration = organs protrude through the opening — cover with sterile saline dressing, notify provider STAT."},
+  {t:"Wound irrigation direction", d:"Clean from LEAST contaminated to MOST contaminated area."}
+];
+
+let cardOrder = flashcards.map((_,i)=>i);
+let cardIndex = 0;
+
+function renderCard(){
+  const idx = cardOrder[cardIndex];
+  document.getElementById('cardFront').textContent = flashcards[idx].t;
+  document.getElementById('cardBack').textContent = flashcards[idx].d;
+  document.getElementById('cardCounter').textContent = (cardIndex+1)+" / "+flashcards.length;
+  document.getElementById('flipCard').classList.remove('flipped');
+}
+function flipCard(){ document.getElementById('flipCard').classList.toggle('flipped'); }
+function nextCard(){ cardIndex = (cardIndex+1) % flashcards.length; renderCard(); }
+function prevCard(){ cardIndex = (cardIndex-1+flashcards.length) % flashcards.length; renderCard(); }
+function shuffleCards(){
+  for(let i=cardOrder.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [cardOrder[i],cardOrder[j]] = [cardOrder[j],cardOrder[i]];
+  }
+  cardIndex = 0;
+  renderCard();
+}
+renderCard();
+
+/* ================= QUIZ DATA ================= */
+const quiz = [
+{tag:"Wound Care", type:"single", q:"A nurse is caring for a client whose wound is producing large amounts of exudate. Which dressing should the nurse anticipate using?", opts:["Hydrogel","Hydrofiber","Transparent film","Hydrocolloid with light adhesive"], correct:[1], rationale:"Hydrofiber dressings are highly absorbent and ideal for moderate-to-heavy exudate; they convert to a gel that maintains a moist wound bed."},
+{tag:"Wound Care", type:"single", q:"Which wound is the best candidate for a hydrogel dressing?", opts:["A heavily draining venous ulcer","A dry wound with necrotic tissue","A fresh surgical incision closed with staples","An infected wound with copious purulent drainage"], correct:[1], rationale:"Hydrogel dressings rehydrate dry or necrotic wounds and promote autolytic debridement. They are not appropriate for heavily draining wounds."},
+{tag:"Wound Care", type:"sata", q:"A nurse should question an order for a hydrocolloid dressing for which of the following wounds? (Select all that apply.)", opts:["Wound with exposed tendon","Clean superficial abrasion","Heavily draining pressure injury","Infected wound","Stage 2 pressure injury with minimal drainage"], correct:[0,2,3], rationale:"Hydrocolloid dressings should be avoided with exposed muscle/tendon/bone, heavy drainage, or infection. They work well for clean, minimally draining wounds."},
+{tag:"Wound Care", type:"single", q:"Which client is the best candidate for a polymeric membrane dressing?", opts:["A client with a skin tear and mild serous drainage","A client with a deep tunneling wound","A client with a dry, necrotic wound","A client with heavy purulent drainage"], correct:[0], rationale:"Polymeric membrane dressings are non-adherent and best for mild-to-moderate exudate — ideal for skin tears, partial-thickness wounds, and donor sites."},
+{tag:"Wound Care", type:"single", q:"A nurse is selecting a dressing for a partial-thickness skin tear with minimal-to-moderate drainage. Which is most appropriate?", opts:["Dry gauze packing","Polymeric membrane dressing","Calcium alginate","Heavy-adhesive hydrocolloid"], correct:[1], rationale:"Polymeric membrane dressings minimize trauma on removal and manage mild-to-moderate exudate — a good fit for fragile skin tears."},
+
+{tag:"Pressure Injury", type:"sata", q:"Which of the following are risk factors for pressure injury development? (Select all that apply.)", opts:["Immobility","Malnutrition","Incontinence","Increased subcutaneous fat","Vascular disease"], correct:[0,1,2,4], rationale:"Immobility, malnutrition, incontinence/moisture, and vascular disease/hypoperfusion all increase pressure injury risk. Increased (not decreased) subcutaneous fat is actually protective."},
+{tag:"Pressure Injury", type:"single", q:"Which age-related skin change places an older adult at greater risk for pressure injury?", opts:["Increased collagen production","Thicker subcutaneous fat layer","Decreased skin elasticity and turgor","Increased peripheral circulation"], correct:[2], rationale:"Aging skin loses elasticity, turgor, hydration, and subcutaneous cushioning — all of which raise pressure injury risk."},
+{tag:"Pressure Injury", type:"single", q:"A nurse assesses a wound with full-thickness skin loss, visible adipose tissue, and granulation tissue, with no exposed bone. This is which stage?", opts:["Stage 1","Stage 2","Stage 3","Stage 4"], correct:[2], rationale:"Stage 3 involves full-thickness loss with visible fat/granulation tissue but no exposed muscle, tendon, or bone."},
+{tag:"Pressure Injury", type:"single", q:"Which finding indicates a Stage 1 pressure injury?", opts:["Open wound bed with slough","Nonblanchable erythema of intact skin","Exposed bone and tendon","Full-thickness tissue loss with visible fat"], correct:[1], rationale:"Stage 1 = intact skin with persistent, nonblanchable redness; the area may feel warmer or cooler than surrounding tissue."},
+{tag:"Pressure Injury", type:"single", q:"A wound is covered in thick black eschar and the depth cannot be determined. How should the nurse document this injury?", opts:["Stage 2","Stage 4","Unstageable","Deep tissue injury only"], correct:[2], rationale:"When slough or eschar obscures the wound bed and true depth can't be assessed, it is documented as unstageable."},
+{tag:"Pressure Injury", type:"single", q:"Which nursing action is appropriate for pressure injury prevention?", opts:["Vigorously massage reddened bony prominences","Reposition the client at least every 2 hours in bed","Use a donut-shaped cushion under the sacrum","Apply cornstarch to reduce friction"], correct:[1], rationale:"Frequent repositioning relieves pressure. Massaging bony prominences, donut cushions, and cornstarch/powder are all contraindicated."},
+
+{tag:"Skin & Integument", type:"single", q:"Which skin cell is primarily responsible for the waterproof protective barrier of the epidermis?", opts:["Melanocyte","Keratinocyte","Merkel cell","Langerhans cell"], correct:[1], rationale:"Keratinocytes produce keratin, which protects skin from water loss, bacteria, and injury."},
+{tag:"Skin & Integument", type:"single", q:"A client asks why their skin darkens after sun exposure. Which cell is responsible?", opts:["Merkel cell","Langerhans cell","Melanocyte","Keratinocyte"], correct:[2], rationale:"Melanocytes produce melanin, the pigment that darkens skin and protects it from UV radiation."},
+{tag:"Skin & Integument", type:"single", q:"Which skin cell functions as a sensory receptor for light touch?", opts:["Langerhans cell","Merkel cell","Melanocyte","Fibroblast"], correct:[1], rationale:"Merkel cells are sensory receptors for light touch, connected to nerve endings."},
+{tag:"Skin & Integument", type:"single", q:"Which skin cell plays a key role in immune surveillance within the epidermis?", opts:["Keratinocyte","Melanocyte","Merkel cell","Langerhans cell"], correct:[3], rationale:"Langerhans cells act as immune sentinels in the skin, detecting and processing antigens."},
+
+{tag:"Mobility", type:"single", q:"Which action demonstrates correct body mechanics when lifting a heavy object?", opts:["Bending at the waist with knees straight","Keeping the load away from the body","Bending the knees and keeping the back straight","Twisting the trunk while lifting"], correct:[2], rationale:"Bending the knees (not the waist) and keeping the back straight uses the legs to lift, protecting the spine."},
+{tag:"Mobility", type:"single", q:"A nurse is preparing to mobilize a postoperative client for the first time. Which action should come first?", opts:["Ambulate the client in the hallway","Assist the client to stand at the bedside","Assess range of motion while the client is in bed","Have the client dangle at the edge of the bed"], correct:[2], rationale:"Mobility progresses from least to most challenging: assess ROM in bed → dangle → stand → ambulate."},
+{tag:"Mobility", type:"single", q:"What is the primary purpose of passive range-of-motion exercises?", opts:["Increase muscle strength","Prevent joint contractures","Improve cardiovascular endurance","Reduce blood pressure"], correct:[1], rationale:"Passive ROM maintains joint flexibility and prevents contractures in clients who cannot move independently — it does not build strength."},
+{tag:"Mobility", type:"single", q:"A nurse is teaching a client how to use a cane. Which statement indicates correct understanding?", opts:["\"I will hold the cane on my weaker side.\"","\"I will move the cane and my strong leg together.\"","\"I will lead with my strong leg going up the stairs.\"","\"I will lead with my strong leg going down the stairs.\""], correct:[2], rationale:"\"Up with the good, down with the bad\": the strong leg leads going up stairs; the cane and weak leg lead going down."},
+{tag:"Mobility", type:"single", q:"When descending stairs using a cane, which sequence is correct?", opts:["Strong leg, then cane and weak leg","Cane and weak leg, then strong leg","Cane, then both legs together","Weak leg alone, then cane and strong leg"], correct:[1], rationale:"Going down, the cane and weak leg move first, followed by the strong leg — the reverse of going up."},
+
+{tag:"Urinary Elimination", type:"single", q:"A nurse is caring for a client with chronic urinary retention. Which skin complication is the client at risk for?", opts:["Incontinence-associated dermatitis","Alopecia","Xerosis","Hyperpigmentation"], correct:[0], rationale:"Prolonged skin contact with urine can cause dermatitis, skin breakdown, and increased infection/pressure injury risk."},
+{tag:"Urinary Elimination", type:"single", q:"Which intervention best prevents skin breakdown in an incontinent client?", opts:["Applying powder liberally after each episode","Scheduled toileting and prompt cleansing","Vigorous scrubbing with antibacterial soap","Restricting the client's fluid intake"], correct:[1], rationale:"Scheduled toileting and prompt, gentle cleansing prevent prolonged skin contact with urine, reducing breakdown risk."},
+{tag:"Urinary Elimination", type:"single", q:"A nurse is providing perineal care for an incontinent client. Which product should the nurse apply to protect the skin?", opts:["Alcohol-based antiseptic","Moisture barrier cream","Powder with cornstarch","Hydrogen peroxide"], correct:[1], rationale:"Moisture barrier creams protect the skin from prolonged urine/stool contact; powders and alcohol-based products can worsen irritation."},
+
+{tag:"Respiratory", type:"single", q:"A nurse is explaining COPD to a client. Which statement is accurate?", opts:["\"COPD is a fully reversible airway disease.\"","\"COPD involves progressive, largely irreversible airflow limitation.\"","\"COPD only affects the upper airway.\"","\"COPD resolves completely with bronchodilator therapy.\""], correct:[1], rationale:"COPD (chronic bronchitis + emphysema) causes progressive, largely irreversible airflow limitation."},
+{tag:"Respiratory", type:"sata", q:"Which findings are expected in a client with COPD? (Select all that apply.)", opts:["Barrel chest","Clubbing of fingers","Shortened expiratory phase","Use of accessory muscles","Bradypnea"], correct:[0,1,3], rationale:"COPD typically presents with barrel chest, clubbing, and accessory muscle use — plus a PROLONGED (not shortened) expiratory phase and often tachypnea, not bradypnea."},
+{tag:"Respiratory", type:"single", q:"A nurse is teaching a client with COPD pursed-lip breathing. Which instruction is correct?", opts:["\"Inhale through pursed lips, exhale through your nose.\"","\"Inhale through your nose, exhale slowly through pursed lips.\"","\"Hold your breath for 10 seconds between breaths.\"","\"Breathe rapidly through your mouth.\""], correct:[1], rationale:"Pursed-lip breathing: inhale through the nose, exhale slowly through pursed lips to prolong exhalation and reduce air trapping."},
+{tag:"Respiratory", type:"single", q:"A nurse is caring for a client using a nonrebreather mask. Which finding requires immediate intervention?", opts:["Reservoir bag stays about two-thirds full during inspiration","Reservoir bag completely deflates with each breath","SpO2 of 96%","Client removes the mask briefly to drink water"], correct:[1], rationale:"The reservoir bag should stay about 2/3 full during inspiration. Complete deflation suggests inadequate oxygen flow and needs correction."},
+{tag:"Respiratory", type:"single", q:"Which oxygen delivery device provides the highest FiO2 without intubation?", opts:["Nasal cannula","Simple face mask","Venturi mask","Nonrebreather mask"], correct:[3], rationale:"The nonrebreather mask delivers the highest FiO2 (up to ~95–100%) of the non-invasive delivery devices."},
+{tag:"Respiratory", type:"single", q:"A client's pulse oximetry reading is 88%. What is the nurse's priority action?", opts:["Document the finding and reassess in an hour","Place the client in semi-Fowler's/Fowler's position and confirm oxygen delivery","Remove the oxygen delivery device","Encourage the client to hold their breath"], correct:[1], rationale:"An SpO2 below 90% indicates hypoxemia. Position the client to maximize chest expansion and confirm the oxygen system is functioning."},
+
+{tag:"Infection & Wounds", type:"sata", q:"Which findings indicate a wound infection? (Select all that apply.)", opts:["Purulent drainage","Serous drainage","Fever","Foul odor","Decreased WBC count"], correct:[0,2,3], rationale:"Infection signs include purulent drainage, fever/chills, odor, redness/edema, and an INCREASED (not decreased) WBC count. Serous drainage is a normal healing finding."},
+{tag:"Infection & Wounds", type:"single", q:"A nurse notes a sudden increase in serosanguineous drainage and the client reports a \"popping\" sensation in the wound. What should the nurse suspect?", opts:["Normal wound healing","Dehiscence or evisceration","A hydrocolloid dressing reaction","A superficial hematoma"], correct:[1], rationale:"A sudden increase in drainage plus a report of the wound \"giving way\" are classic signs of dehiscence/evisceration."},
+{tag:"Infection & Wounds", type:"single", q:"A nurse discovers evisceration of a surgical wound. What is the priority nursing action?", opts:["Reinsert the protruding organs","Cover the wound with sterile saline-soaked dressings and notify the provider immediately","Apply a dry dressing and ambulate the client","Irrigate the wound with hydrogen peroxide"], correct:[1], rationale:"Never reinsert protruding organs. Cover with sterile saline-soaked dressings, keep the client NPO and calm, and notify the provider STAT."},
+{tag:"Infection & Wounds", type:"single", q:"Which nursing action reduces the risk of wound infection?", opts:["Reusing gauze between dressing changes","Using aseptic technique during dressing changes","Delaying dressing changes to avoid disturbing the wound","Cleansing the wound from most to least contaminated area"], correct:[1], rationale:"Aseptic technique, hand hygiene, and timely dressing changes when soiled all reduce infection risk."},
+{tag:"Infection & Wounds", type:"single", q:"When irrigating a wound, the nurse should direct the flow of solution:", opts:["From the least contaminated to the most contaminated area","From the most contaminated to the least contaminated area","In a circular motion starting at the outer edges","Directly onto exposed bone"], correct:[0], rationale:"Irrigation (and cleansing) always moves from the least contaminated area toward the most contaminated to avoid spreading pathogens."},
+{tag:"Infection & Wounds", type:"single", q:"A nurse assesses a postoperative client with tachycardia, hypotension, and new confusion. Which condition should the nurse suspect?", opts:["Normal postoperative recovery","Wound dehiscence alone","Systemic sepsis","Anxiety"], correct:[2], rationale:"Tachycardia, hypotension, and altered LOC are hallmark signs of systemic sepsis and require immediate provider notification."}
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = new Array(quiz.length).fill(false);
+let userAnswers = new Array(quiz.length).fill(null);
+
+function switchTab(tab){
+  document.getElementById('panel-guide').classList.toggle('active', tab==='guide');
+  document.getElementById('panel-flash').classList.toggle('active', tab==='flash');
+  document.getElementById('panel-quiz').classList.toggle('active', tab==='quiz');
+  document.getElementById('tab-guide').classList.toggle('active', tab==='guide');
+  document.getElementById('tab-flash').classList.toggle('active', tab==='flash');
+  document.getElementById('tab-quiz').classList.toggle('active', tab==='quiz');
+  if(tab==='quiz') renderQuiz();
+}
+
+function renderQuiz(){
+  const area = document.getElementById('quizArea');
+  document.getElementById('progBar').style.width = ((currentQ)/quiz.length*100)+"%";
+  document.getElementById('scoreChip').textContent = "Score: "+score+" / "+answered.filter(a=>a).length+"   ·   Question "+(currentQ+1)+" of "+quiz.length;
+
+  if(currentQ >= quiz.length){
+    area.innerHTML = `
+      <div class="results-card">
+        <h2>🎀 Quiz Complete!</h2>
+        <div class="big-score">${score} / ${quiz.length}</div>
+        <p>${score/quiz.length >= 0.8 ? "Pharmacy-grade performance — nice work!" : "Solid effort — review the rationales and run it back!"}</p>
+        <button class="nav-btn" onclick="restartQuiz()">🔁 Restart Quiz</button>
+      </div>`;
+    document.getElementById('progBar').style.width = "100%";
+    return;
+  }
+
+  const item = quiz[currentQ];
+  const isSata = item.type === 'sata';
+  const inputType = isSata ? 'checkbox' : 'radio';
+
+  let optsHtml = item.opts.map((opt,i)=>`
+    <label class="opt" id="opt-${i}">
+      <input type="${inputType}" name="q${currentQ}" value="${i}">
+      <span>${opt}</span>
+    </label>
+  `).join('');
+
+  area.innerHTML = `
+    <div class="q-card">
+      <div class="q-tag">${item.tag}${isSata ? " · SELECT ALL THAT APPLY" : ""}</div>
+      <div class="q-text">${item.q}</div>
+      <div id="optsContainer">${optsHtml}</div>
+      <button class="submit-btn" id="submitBtn" onclick="submitAnswer()">Submit Answer</button>
+      <div class="rationale" id="rationaleBox"><b>Rationale:</b> ${item.rationale}</div>
+      <div class="quiz-nav">
+        <button class="nav-btn" onclick="prevQ()" ${currentQ===0?'disabled':''}>◀ Back</button>
+        <button class="nav-btn" id="nextBtn" onclick="nextQ()" style="display:none;">Next ▶</button>
+      </div>
+    </div>
+  `;
+
+  if(answered[currentQ]){
+    lockAndReveal(userAnswers[currentQ]);
+  }
+}
+
+function submitAnswer(){
+  const item = quiz[currentQ];
+  const inputs = document.querySelectorAll(`input[name="q${currentQ}"]:checked`);
+  if(inputs.length === 0) return;
+  const selected = Array.from(inputs).map(i=>parseInt(i.value)).sort();
+  const correctSorted = [...item.correct].sort();
+  const isCorrect = JSON.stringify(selected) === JSON.stringify(correctSorted);
+
+  answered[currentQ] = true;
+  userAnswers[currentQ] = selected;
+  if(isCorrect) score++;
+
+  lockAndReveal(selected);
+}
+
+function lockAndReveal(selected){
+  const item = quiz[currentQ];
+  item.opts.forEach((opt,i)=>{
+    const el = document.getElementById('opt-'+i);
+    el.classList.add('disabled');
+    el.querySelector('input').disabled = true;
+    if(item.correct.includes(i)) el.classList.add('correct');
+    else if(selected.includes(i)) el.classList.add('incorrect');
+  });
+  document.getElementById('rationaleBox').classList.add('show');
+  document.getElementById('submitBtn').style.display='none';
+  document.getElementById('nextBtn').style.display='inline-block';
+  document.getElementById('scoreChip').textContent = "Score: "+score+" / "+answered.filter(a=>a).length+"   ·   Question "+(currentQ+1)+" of "+quiz.length;
+}
+
+function nextQ(){ currentQ++; renderQuiz(); }
+function prevQ(){ if(currentQ>0){ currentQ--; renderQuiz(); } }
+function restartQuiz(){
+  currentQ = 0; score = 0;
+  answered = new Array(quiz.length).fill(false);
+  userAnswers = new Array(quiz.length).fill(null);
+  renderQuiz();
+}
+</script>
+</body>
+</html>
