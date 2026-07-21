@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>VN 17 Cardio Study Buddy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FBF1E0;
+    --cream-dark:#F2E2C4;
+    --paper:#FFFCF5;
+    --pink:#EE95B0;
+    --pink-deep:#C85A80;
+    --sage:#8FBF97;
+    --sage-deep:#5C9A66;
+    --butter:#F4C948;
+    --sky:#9FCBE0;
+    --sky-deep:#5FA0C2;
+    --ink:#4A3427;
+    --ink-light:#8A7562;
+    --line:#E4CFA8;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(circle at 1px 1px, rgba(74,52,39,0.06) 1px, transparent 0) 0 0/22px 22px,
+      var(--cream);
+    font-family:'Quicksand', sans-serif;
+    color:var(--ink);
+    min-height:100vh;
+  }
+  .binder{
+    max-width:900px;
+    margin:28px auto 60px;
+    background:var(--paper);
+    border-radius:18px;
+    position:relative;
+    box-shadow:0 18px 40px rgba(74,52,39,0.15), 0 2px 0 var(--line);
+    padding:34px 34px 46px 66px;
+    border:2px solid var(--line);
+  }
+  .spiral{
+    position:absolute; left:14px; top:26px; bottom:26px; width:26px;
+    display:flex; flex-direction:column; justify-content:space-between;
+  }
+  .spiral span{
+    display:block; width:22px; height:22px; border-radius:50%;
+    background:radial-gradient(circle at 35% 35%, #fff, var(--cream-dark) 60%, #d8c193 100%);
+    border:2px solid var(--line);
+    box-shadow:inset 0 0 0 4px var(--paper);
+  }
+  header.title-block{ text-align:center; margin-bottom:22px; position:relative; }
+  .bow{ font-size:2rem; display:block; margin-bottom:-6px;}
+  h1{
+    font-family:'Fredoka', sans-serif;
+    font-size:2.2rem;
+    margin:0;
+    color:var(--pink-deep);
+    letter-spacing:0.5px;
+    text-shadow:2px 2px 0 var(--butter);
+  }
+  .subtitle{
+    font-family:'Space Mono', monospace;
+    font-size:0.8rem;
+    color:var(--ink-light);
+    letter-spacing:2px;
+    text-transform:uppercase;
+    margin-top:6px;
+  }
+  nav.tabs{ display:flex; gap:8px; justify-content:center; margin:26px 0 30px; flex-wrap:wrap; }
+  nav.tabs button{
+    font-family:'Fredoka', sans-serif;
+    font-size:1rem;
+    padding:10px 20px;
+    border-radius:14px 14px 4px 4px;
+    border:2px solid var(--line);
+    background:var(--cream-dark);
+    color:var(--ink);
+    cursor:pointer;
+    transition:transform .15s ease, background .15s ease;
+  }
+  nav.tabs button:hover{ transform:translateY(-2px); }
+  nav.tabs button.active{
+    background:var(--pink); color:#fff; border-color:var(--pink-deep);
+    box-shadow:0 4px 0 var(--pink-deep);
+  }
+  section.panel{ display:none; }
+  section.panel.active{ display:block; animation:fadeIn .25s ease; }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+
+  .qa-section{
+    background:var(--paper); border:2px solid var(--line); border-radius:16px;
+    margin-bottom:14px; overflow:hidden;
+  }
+  .qa-header{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 18px; cursor:pointer; background:var(--pink); color:#fff;
+    font-family:'Fredoka', sans-serif; font-size:1.05rem;
+  }
+  .qa-header .arrow{ transition:transform .25s ease; font-size:0.9rem; }
+  .qa-section.open .qa-header .arrow{ transform:rotate(180deg); }
+  .qa-body{ max-height:0; overflow:hidden; transition:max-height .3s ease; padding:0 18px; }
+  .qa-section.open .qa-body{ padding:14px 18px 18px; }
+  .qa-item{ margin-bottom:14px; }
+  .qa-item:last-child{ margin-bottom:0; }
+  .qa-item .qq{ font-weight:700; color:var(--pink-deep); margin:0 0 4px; font-size:0.95rem; }
+  .qa-item .aa{ margin:0; line-height:1.55; font-size:0.93rem; }
+  .qa-item.bonus{ background:var(--cream); border:2px dashed var(--sage-deep); border-radius:12px; padding:10px 12px; }
+  .qa-item.bonus .qq{ color:var(--sage-deep); }
+
+  .fc-controls{ display:flex; gap:10px; align-items:center; justify-content:center; margin-bottom:20px; flex-wrap:wrap; }
+  select{
+    font-family:'Quicksand'; font-weight:600; padding:8px 12px; border-radius:10px;
+    border:2px solid var(--line); background:var(--paper); color:var(--ink);
+  }
+  .fc-progress{ font-family:'Space Mono', monospace; font-size:0.8rem; color:var(--ink-light); }
+  .card-stage{ perspective:1200px; max-width:520px; margin:0 auto 22px; height:260px; }
+  .flashcard{
+    width:100%; height:100%; position:relative; transform-style:preserve-3d;
+    transition:transform .5s cubic-bezier(.4,.2,.2,1); cursor:pointer;
+  }
+  .flashcard.flipped{ transform:rotateY(180deg); }
+  .face{
+    position:absolute; inset:0; backface-visibility:hidden; border-radius:20px;
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    padding:26px; font-size:1.1rem; line-height:1.5; border:3px solid var(--pink-deep);
+    box-shadow:0 8px 0 var(--pink-deep);
+  }
+  .face.front{ background:var(--pink); color:#fff; font-family:'Fredoka',sans-serif; font-weight:600;}
+  .face.back{
+    background:var(--paper); color:var(--ink); transform:rotateY(180deg);
+    border-color:var(--sky-deep); box-shadow:0 8px 0 var(--sky-deep);
+  }
+  .face .cat-chip{ position:absolute; top:10px; left:14px; font-family:'Space Mono', monospace; font-size:0.65rem;
+    background:rgba(255,255,255,.35); padding:2px 8px; border-radius:20px; }
+  .face.back .cat-chip{ background:var(--cream-dark); color:var(--ink-light);}
+  .hint{ text-align:center; font-size:0.8rem; color:var(--ink-light); margin-bottom:20px; font-family:'Space Mono', monospace;}
+  .fc-buttons{ display:flex; justify-content:center; gap:14px; }
+  .btn{
+    font-family:'Fredoka', sans-serif; padding:10px 22px; border-radius:14px; border:2px solid var(--line);
+    background:var(--sage); color:#fff; cursor:pointer; box-shadow:0 4px 0 var(--sage-deep);
+    transition:transform .12s ease;
+  }
+  .btn:active{ transform:translateY(3px); box-shadow:0 1px 0 var(--sage-deep); }
+  .btn.secondary{ background:var(--sky); box-shadow:0 4px 0 var(--sky-deep);}
+  .btn.wide{ min-width:120px; }
+
+  #testIntro{ text-align:center; }
+  #testIntro p{ max-width:480px; margin:10px auto 20px; line-height:1.6;}
+  .q-block{ background:var(--cream); border:2px solid var(--line); border-radius:14px; padding:16px 18px; margin-bottom:14px; }
+  .q-block h4{ font-family:'Fredoka', sans-serif; margin:0 0 10px; font-size:1rem; }
+  .q-block .opt{
+    display:block; background:var(--paper); border:2px solid var(--line); border-radius:10px;
+    padding:8px 12px; margin-bottom:6px; cursor:pointer; font-size:0.93rem;
+  }
+  .q-block .opt:hover{ border-color:var(--sky-deep); }
+  .q-block .opt.selected{ background:var(--sky); border-color:var(--sky-deep); font-weight:600;}
+  .q-block.correct .opt.selected{ background:var(--sage); border-color:var(--sage-deep); }
+  .q-block.incorrect .opt.selected{ background:#F3A0A0; border-color:#C25555; }
+  .q-block.incorrect .opt.correct-answer{ background:var(--sage); border-color:var(--sage-deep); }
+  .score-stamp{
+    text-align:center; background:var(--butter); border:3px dashed var(--pink-deep); border-radius:20px;
+    padding:24px; margin:20px 0; transform:rotate(-1.5deg);
+  }
+  .score-stamp h2{ font-family:'Fredoka'; margin:0 0 6px; font-size:2rem; color:var(--pink-deep);}
+  .score-stamp p{ margin:0; font-family:'Space Mono', monospace;}
+  #submitTest, #retakeTest{ display:block; margin:20px auto; }
+  footer{ text-align:center; font-family:'Space Mono', monospace; font-size:0.75rem; color:var(--ink-light); margin-top:30px; }
+</style>
+</head>
+<body>
+<div class="binder">
+  <div class="spiral">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span>
+  </div>
+
+  <header class="title-block">
+    <span class="bow">💗</span>
+    <h1>VN 17 Cardio Study Buddy</h1>
+    <div class="subtitle">Cardiovascular System · Carrington College</div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="guide">📖 Study Guide</button>
+    <button class="tab-btn" data-tab="cards">🗂️ Flashcards</button>
+    <button class="tab-btn" data-tab="test">📝 Practice Test</button>
+  </nav>
+
+  <section id="guide" class="panel active">
+    <h2 style="font-family:'Fredoka'; color:var(--pink-deep); text-align:center;">📚 Study Guide Q&amp;A</h2>
+    <div id="qaAccordion"></div>
+  </section>
+
+  <section id="cards" class="panel">
+    <div class="fc-controls">
+      <label for="catFilter" style="font-weight:600; font-size:0.9rem;">Category:</label>
+      <select id="catFilter"></select>
+      <span class="fc-progress" id="fcProgress"></span>
+    </div>
+    <div class="card-stage">
+      <div class="flashcard" id="flashcard">
+        <div class="face front"><span class="cat-chip" id="frontChip"></span><span id="frontText"></span></div>
+        <div class="face back"><span class="cat-chip" id="backChip"></span><span id="backText"></span></div>
+      </div>
+    </div>
+    <div class="hint">tap the card to flip 💗</div>
+    <div class="fc-buttons">
+      <button class="btn secondary wide" id="prevCard">⟵ Prev</button>
+      <button class="btn wide" id="shuffleCards">🔀 Shuffle</button>
+      <button class="btn secondary wide" id="nextCard">Next ⟶</button>
+    </div>
+  </section>
+
+  <section id="test" class="panel">
+    <div id="testIntro">
+      <h2 style="font-family:'Fredoka'; color:var(--pink-deep);">📝 35-Question Practice Test</h2>
+      <p>Covers the whole Cardiovascular System study guide — heart anatomy, valves, vessels, circulation routes, and medical terminology. Pick your answers, then hit grade!</p>
+      <button class="btn" id="startTest">Start Test</button>
+    </div>
+    <div id="testBody" style="display:none;"></div>
+    <button class="btn" id="submitTest" style="display:none;">Grade My Test 🎓</button>
+    <div id="scoreArea"></div>
+    <button class="btn secondary" id="retakeTest" style="display:none;">Retake Test 🔁</button>
+  </section>
+
+  <footer>made with 💗 for VN 17 · Carrington College</footer>
+</div>
+
+<script>
+const studyGuideQA = [
+  { topic:"Cardiovascular System Study Guide", items:[
+    {q:"1. Describe the heart including location and surrounding membrane.", a:"The heart is positioned obliquely between the lungs in the mediastinum, with 2/3 of its bulk lying to the left of the body's midline. It's shaped like a blunt cone and is enclosed in a loose-fitting serous membrane called the pericardial sac (parietal pericardium)."},
+    {q:"2. Describe the layers of the heart.", a:"Epicardium: outermost layer (visceral pericardium), a thin, transparent layer composed of serous tissue and mesothelium. Myocardium: underneath the epicardium, the second layer, makes up the bulk of the heart and is responsible for heart contraction — its cells/fibers are involuntary. Endocardium: third, innermost layer, a thin layer of endothelium that covers the valves and the chordae tendineae."},
+    {q:"3. Describe the coronary sulcus.", a:"It separates the atria from the ventricles."},
+    {q:"4. Describe the chordae tendineae.", a:"They connect the pointed ends of the valve flaps (cusps) to small conical projections called the papillary muscles, located on the inner surface of the ventricle."},
+    {q:"5. Describe heart AV valves and their function.", a:"The AV valves separate the heart's upper chambers (atria) from the lower chambers (ventricles). Bicuspid valve: located between the left atrium and left ventricle; the only AV valve with 2 cusps, whose pointed ends project down into the ventricle. Tricuspid valve: located between the right atrium and right ventricle; consists of 3 cusps made of fibrous connective tissue that grows out of the heart walls and is covered with endocardium, with flap ends projecting down into the ventricle."},
+    {q:"6. Describe veins.", a:"Veins carry deoxygenated blood back to the heart. They have less elastic tissue and smooth muscle but more fibrous connective tissue in their outer layer than arteries."},
+    {q:"7. Describe the inferior vena cava.", a:"Brings blood from the lower parts of the body — the legs and the abdomen."},
+    {q:"8. Describe the superior vena cava.", a:"Brings blood from the upper parts of the body — the head, neck, and arms."},
+    {q:"9. Describe the pulmonary veins (blood flow through the heart).", a:"They carry oxygen-rich blood from the lungs into the left atrium, the upper left chamber of the heart."},
+    {q:"10. Describe an artery.", a:"Arteries carry blood away from the heart. Their walls are made of three coats (tunics) surrounding a hollow core called the lumen. They're thicker and stronger than veins, with two key properties: elasticity and contractility."},
+    {q:"11. Describe capillaries.", a:"Microscopic vessels made of simple squamous epithelial cells, one cell layer thick, called endothelium. They facilitate the exchange of nutrients, oxygen, carbon dioxide, and waste between the blood and the body's tissues."},
+    {q:"12. Describe lumen.", a:"The hollow core through which blood flows."},
+    {q:"13. Describe the coronary circulation and name the artery.", a:"A vital network of blood vessels that supplies oxygenated blood to the heart muscle and removes deoxygenated blood. Two arteries: the Left and Right Coronary Arteries."},
+    {q:"14. Describe the cerebral circulation.", a:"The blood circulatory route that supplies the brain with oxygen and nutrients and disposes of waste."},
+    {q:"15. Describe the pulmonary circulation.", a:"The route from the pulmonary trunk, which branches into the right and left pulmonary arteries going to the lungs. Deoxygenated blood drops off CO2 and picks up O2, then returns to the left atrium via the 4 pulmonary veins."},
+    {q:"16. Describe the hepatic portal circulation.", a:"Travels back and forth between the intestines of the digestive tract and the liver. It's used to store excess sugars from digestion in the liver after a meal, and to release stored sugars (as glycogen) between meals to maintain blood glucose levels."},
+    {q:"17. Describe blood supply to the kidneys.", a:"Blood enters through the renal artery, branches into tiny vessels in the nephrons, and is filtered by the glomerulus. It leaves the kidney through the renal vein."},
+    {q:"18. Describe arrhythmia.", a:"A deviation from a normal heart rhythm."},
+    {q:"19. Describe murmur.", a:"An abnormal heart sound caused by turbulent movement of blood through the heart. It's sometimes described as a whooshing or blowing sound."},
+    {q:"20. Describe stenosis.", a:"A narrowed opening through the heart valves; produces a rushing sound just before the valve closes."},
+    {q:"21. Describe angioplasty.", a:"Reconstruction of a diseased coronary artery by inserting a small balloon through the aorta and into the coronary artery."},
+    {q:"22. Describe infarct and myocardial infarct.", a:"Infarct: an area of damaged cardiac tissue caused by inadequate blood flow. Myocardial infarction: a heart attack."},
+    {q:"23. Describe the bundle of His and its pathway.", a:"From the AV node, it runs through the cardiac mass to the top of the interventricular septum. It then branches and continues down both sides of the septum as the right and left bundle branches."},
+    {q:"What other important feature do veins have?", a:"Veins contain valves, which prevent the backward flow of blood — this is especially important in the limbs, where blood has to move against gravity to get back to the heart."}
+  ]},
+  { topic:"Cardiovascular Medical Terminology", items:[
+    {q:"1. What suffix describes a surgical repair of?", a:"-plasty"},
+    {q:"2. What does the prefix erythro- mean?", a:"Red."},
+    {q:"3. What does the term cyanosis mean?", a:"A blue discoloration of the skin caused by a lack of adequate oxygen in the blood."},
+    {q:"4. What does the prefix tachy- mean?", a:"Fast/rapid."},
+    {q:"5. The term venous refers to what?", a:"Relating to, or contained in, the veins."},
+    {q:"6. What is the suffix that refers to blood?", a:"-emia"},
+    {q:"7. Thrombo- is a combining term used as a prefix. What does it mean?", a:"Clot."},
+    {q:"8. What does the prefix brady- mean?", a:"Slow."},
+    {q:"9. What is the medical term for narrowing of a vessel?", a:"-stenosis (as in arteriostenosis)."},
+    {q:"10. Arterio- is a combining form used as a prefix. What does it refer to?", a:"Artery."}
+  ]}
+];
+
+const qaContainer = document.getElementById('qaAccordion');
+studyGuideQA.forEach((sec, si)=>{
+  const wrap = document.createElement('div');
+  wrap.className = 'qa-section' + (si===0 ? ' open' : '');
+  wrap.innerHTML = `
+    <div class="qa-header">
+      <span>💗 ${sec.topic}</span>
+      <span class="arrow">▾</span>
+    </div>
+    <div class="qa-body">
+      ${sec.items.map(it=>{
+        const bonus = it.q.startsWith("What other important feature");
+        return `<div class="qa-item${bonus ? ' bonus' : ''}"><p class="qq">${bonus ? '✨ ' : ''}${it.q}</p><p class="aa">${it.a}</p></div>`;
+      }).join('')}
+    </div>`;
+  wrap.querySelector('.qa-header').addEventListener('click', ()=>{
+    const body = wrap.querySelector('.qa-body');
+    const isOpen = wrap.classList.contains('open');
+    wrap.classList.toggle('open');
+    body.style.maxHeight = isOpen ? null : body.scrollHeight + 'px';
+  });
+  qaContainer.appendChild(wrap);
+});
+requestAnimationFrame(()=>{
+  const firstBody = qaContainer.querySelector('.qa-section.open .qa-body');
+  if(firstBody) firstBody.style.maxHeight = firstBody.scrollHeight + 'px';
+});
+
+const flashcards = [
+  {cat:"Heart Anatomy", q:"Where is the heart located?", a:"Positioned obliquely in the mediastinum, between the lungs, with 2/3 of its bulk to the left of the body's midline; shaped like a blunt cone."},
+  {cat:"Heart Anatomy", q:"Pericardial sac", a:"The loose-fitting serous membrane (parietal pericardium) that encloses the heart."},
+  {cat:"Heart Anatomy", q:"Epicardium", a:"Outermost layer of the heart (visceral pericardium); thin, transparent, made of serous tissue and mesothelium."},
+  {cat:"Heart Anatomy", q:"Myocardium", a:"Middle/bulk layer of the heart wall; responsible for contraction; involuntary cells/fibers."},
+  {cat:"Heart Anatomy", q:"Endocardium", a:"Innermost layer; thin endothelium that covers the valves and chordae tendineae."},
+  {cat:"Heart Anatomy", q:"Coronary sulcus", a:"Separates the atria from the ventricles."},
+  {cat:"Heart Anatomy", q:"Chordae tendineae", a:"Connect the pointed ends of valve cusps to the papillary muscles on the inner ventricle wall."},
+  {cat:"Heart Anatomy", q:"AV valves — function", a:"Separate the heart's upper chambers (atria) from the lower chambers (ventricles)."},
+  {cat:"Heart Anatomy", q:"Bicuspid valve", a:"AV valve between the left atrium and left ventricle; the only AV valve with 2 cusps."},
+  {cat:"Heart Anatomy", q:"Tricuspid valve", a:"Valve between the right atrium and right ventricle; has 3 fibrous cusps covered in endocardium."},
+  {cat:"Heart Anatomy", q:"Bundle of His", a:"Runs from the AV node through the cardiac mass to the top of the interventricular septum, then branches into right and left bundle branches down both sides of the septum."},
+
+  {cat:"Vessels", q:"Veins", a:"Carry deoxygenated blood back to the heart; less elastic/smooth muscle, more fibrous connective tissue than arteries."},
+  {cat:"Vessels", q:"What important feature do veins have?", a:"Valves — they prevent the backward flow of blood, especially important in the limbs against gravity."},
+  {cat:"Vessels", q:"Inferior vena cava", a:"Brings blood from the lower body — legs and abdomen — to the heart."},
+  {cat:"Vessels", q:"Superior vena cava", a:"Brings blood from the upper body — head, neck, and arms — to the heart."},
+  {cat:"Vessels", q:"Pulmonary veins", a:"Carry oxygen-rich blood from the lungs into the left atrium."},
+  {cat:"Vessels", q:"Artery", a:"Carries blood away from the heart; 3-tunic walls around a lumen; thicker/stronger than veins; elastic and contractile."},
+  {cat:"Vessels", q:"Capillaries", a:"Microscopic, one-cell-thick (endothelium) vessels; exchange nutrients, gases, and waste between blood and tissue."},
+  {cat:"Vessels", q:"Lumen", a:"The hollow core of a vessel through which blood flows."},
+
+  {cat:"Circulation Routes", q:"Coronary circulation", a:"Supplies oxygenated blood to the heart muscle and removes deoxygenated blood via the left and right coronary arteries."},
+  {cat:"Circulation Routes", q:"Cerebral circulation", a:"Supplies the brain with oxygen and nutrients and removes waste."},
+  {cat:"Circulation Routes", q:"Pulmonary circulation", a:"Pulmonary trunk → right/left pulmonary arteries → lungs (drop CO2, pick up O2) → back to left atrium via 4 pulmonary veins."},
+  {cat:"Circulation Routes", q:"Hepatic portal circulation", a:"Route between the intestines and the liver; stores excess sugar as glycogen after meals, releases it between meals to maintain blood glucose."},
+  {cat:"Circulation Routes", q:"Blood supply to the kidneys", a:"Enters via renal artery → nephrons → filtered by glomerulus → exits via renal vein."},
+
+  {cat:"Disorders & Terms", q:"Arrhythmia", a:"A deviation from a normal heart rhythm."},
+  {cat:"Disorders & Terms", q:"Murmur", a:"Abnormal heart sound from turbulent blood flow; sometimes described as a whooshing or blowing sound."},
+  {cat:"Disorders & Terms", q:"Stenosis", a:"A narrowed opening through a heart valve; produces a rushing sound just before the valve closes."},
+  {cat:"Disorders & Terms", q:"Angioplasty", a:"Reconstructing a diseased coronary artery by inserting a small balloon through the aorta into the artery."},
+  {cat:"Disorders & Terms", q:"Infarct", a:"An area of damaged cardiac tissue caused by inadequate blood flow."},
+  {cat:"Disorders & Terms", q:"Myocardial infarction", a:"A heart attack."},
+
+  {cat:"Medical Terminology", q:"Suffix: surgical repair of", a:"-plasty"},
+  {cat:"Medical Terminology", q:"Prefix: erythro-", a:"Red."},
+  {cat:"Medical Terminology", q:"Cyanosis", a:"Blue discoloration of the skin from lack of adequate oxygen in the blood."},
+  {cat:"Medical Terminology", q:"Prefix: tachy-", a:"Fast/rapid."},
+  {cat:"Medical Terminology", q:"Venous", a:"Relating to, or contained in, the veins."},
+  {cat:"Medical Terminology", q:"Suffix: blood", a:"-emia"},
+  {cat:"Medical Terminology", q:"Prefix: thrombo-", a:"Clot."},
+  {cat:"Medical Terminology", q:"Prefix: brady-", a:"Slow."},
+  {cat:"Medical Terminology", q:"Term for narrowing of a vessel", a:"-stenosis"},
+  {cat:"Medical Terminology", q:"Prefix: arterio-", a:"Refers to an artery."}
+];
+
+const catFilter = document.getElementById('catFilter');
+const cats = ["All", ...new Set(flashcards.map(c=>c.cat))];
+cats.forEach(c=>{
+  const o = document.createElement('option');
+  o.value = c; o.textContent = c;
+  catFilter.appendChild(o);
+});
+
+let deck = [...flashcards];
+let idx = 0;
+
+function applyFilter(){
+  const val = catFilter.value;
+  deck = val === "All" ? [...flashcards] : flashcards.filter(c=>c.cat===val);
+  idx = 0;
+  renderCard();
+}
+catFilter.addEventListener('change', applyFilter);
+
+const flashcardEl = document.getElementById('flashcard');
+function renderCard(){
+  if(deck.length===0) return;
+  const c = deck[idx];
+  document.getElementById('frontText').textContent = c.q;
+  document.getElementById('backText').textContent = c.a;
+  document.getElementById('frontChip').textContent = c.cat;
+  document.getElementById('backChip').textContent = c.cat;
+  document.getElementById('fcProgress').textContent = `Card ${idx+1} / ${deck.length}`;
+  flashcardEl.classList.remove('flipped');
+}
+flashcardEl.addEventListener('click', ()=> flashcardEl.classList.toggle('flipped'));
+document.getElementById('nextCard').addEventListener('click', ()=>{ idx = (idx+1) % deck.length; renderCard(); });
+document.getElementById('prevCard').addEventListener('click', ()=>{ idx = (idx-1+deck.length) % deck.length; renderCard(); });
+document.getElementById('shuffleCards').addEventListener('click', ()=>{
+  for(let i=deck.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [deck[i],deck[j]]=[deck[j],deck[i]];
+  }
+  idx = 0; renderCard();
+});
+renderCard();
+
+const testQuestions = [
+  {q:"Where is the heart primarily located?", opts:["Entirely on the right side of the chest","Obliquely in the mediastinum, 2/3 to the left of midline","In the abdominal cavity","Directly behind the sternum only"], a:1},
+  {q:"The loose-fitting serous membrane enclosing the heart is the:", opts:["Myocardium","Endocardium","Pericardial sac (parietal pericardium)","Epicardium only"], a:2},
+  {q:"Which heart layer is responsible for contraction?", opts:["Epicardium","Myocardium","Endocardium","Pericardium"], a:1},
+  {q:"The endocardium covers the valves and the:", opts:["Coronary sulcus","Chordae tendineae","Bundle of His","Vena cava"], a:1},
+  {q:"The coronary sulcus separates the:", opts:["Left and right atria","Atria from the ventricles","Left and right ventricles","Aorta from the pulmonary trunk"], a:1},
+  {q:"Chordae tendineae connect valve cusps to the:", opts:["Papillary muscles","Bundle of His","Coronary sulcus","Myocardium"], a:0},
+  {q:"The AV valves separate the:", opts:["Aorta and pulmonary artery","Left and right atria","Atria from the ventricles","Vena cava from the atria"], a:2},
+  {q:"Which valve is located between the left atrium and left ventricle, and has only 2 cusps?", opts:["Tricuspid valve","Bicuspid (mitral) valve","Pulmonary valve","Aortic valve"], a:1},
+  {q:"The tricuspid valve is located between the:", opts:["Left atrium & left ventricle","Right atrium & right ventricle","Left & right ventricles","Aorta & left ventricle"], a:1},
+  {q:"Veins carry blood that is:", opts:["Always oxygenated","Deoxygenated, back to the heart","Deoxygenated, away from the heart","Always under high pressure"], a:1},
+  {q:"What important feature do veins have to prevent backflow of blood?", opts:["Thick smooth muscle layers","Valves","Extra elastic fibers","A thicker lumen"], a:1},
+  {q:"The inferior vena cava brings blood from the:", opts:["Head, neck, and arms","Legs and abdomen","Lungs","Heart directly"], a:1},
+  {q:"The superior vena cava brings blood from the:", opts:["Legs and abdomen","Head, neck, and arms","Kidneys","Liver"], a:1},
+  {q:"Pulmonary veins carry blood into the:", opts:["Right atrium","Left atrium","Right ventricle","Aorta"], a:1},
+  {q:"Arteries have walls made of how many coats (tunics)?", opts:["1","2","3","4"], a:2},
+  {q:"Compared to veins, arteries are:", opts:["Thinner and weaker","Thicker and stronger","Identical in structure","Only found in the lungs"], a:1},
+  {q:"Two key properties of arteries are:", opts:["Rigidity and thickness","Elasticity and contractility","Permeability and thinness","Flexibility and porosity"], a:1},
+  {q:"Capillaries are made of which type of cell, one layer thick?", opts:["Cardiac muscle","Simple squamous epithelial cells (endothelium)","Smooth muscle","Connective tissue"], a:1},
+  {q:"Capillaries facilitate the exchange of:", opts:["Only oxygen","Nutrients, oxygen, carbon dioxide, and waste","Only hormones","Only red blood cells"], a:1},
+  {q:"The lumen of a vessel refers to:", opts:["The outer wall","The hollow core where blood flows","The valve cusps","The muscle layer"], a:1},
+  {q:"Coronary circulation supplies oxygenated blood to the:", opts:["Brain","Heart muscle","Kidneys","Liver"], a:1},
+  {q:"The two arteries of coronary circulation are the:", opts:["Renal arteries","Pulmonary arteries","Left and right coronary arteries","Carotid arteries"], a:2},
+  {q:"Cerebral circulation supplies which organ with oxygen and nutrients?", opts:["Liver","Kidneys","Brain","Lungs"], a:2},
+  {q:"In pulmonary circulation, deoxygenated blood travels from the pulmonary trunk to the:", opts:["Kidneys","Lungs","Liver","Brain"], a:1},
+  {q:"After picking up oxygen in the lungs, blood returns to the heart via how many pulmonary veins?", opts:["2","3","4","6"], a:2},
+  {q:"Hepatic portal circulation travels between the intestines and the:", opts:["Kidneys","Liver","Spleen","Lungs"], a:1},
+  {q:"Hepatic portal circulation helps maintain blood glucose by storing/releasing sugar as:", opts:["Glucagon","Glycogen","Insulin","Bile"], a:1},
+  {q:"Blood entering the kidney first passes through the:", opts:["Renal vein","Renal artery","Glomerulus","Nephron only"], a:1},
+  {q:"Blood is filtered in the kidney by the:", opts:["Renal artery","Renal vein","Glomerulus","Ureter"], a:2},
+  {q:"Arrhythmia is defined as:", opts:["A heart attack","A deviation from normal heart rhythm","A narrowed valve opening","A type of blood clot"], a:1},
+  {q:"A heart murmur is caused by:", opts:["A blocked coronary artery","Turbulent blood flow through the heart","Kidney filtration issues","Excess red blood cells"], a:1},
+  {q:"A murmur is sometimes described as sounding like:", opts:["A sharp click","A whooshing or blowing sound","A high-pitched ring","Silence"], a:1},
+  {q:"Stenosis refers to:", opts:["A torn valve","A narrowed valve opening","An enlarged heart chamber","A blood clot"], a:1},
+  {q:"Angioplasty involves inserting a small balloon through the aorta into the:", opts:["Renal artery","Coronary artery","Pulmonary vein","Vena cava"], a:1},
+  {q:"An infarct is:", opts:["A healthy area of tissue","An area of damaged tissue from inadequate blood flow","A type of heart valve","A vessel wall layer"], a:1},
+  {q:"A myocardial infarction is more commonly known as a:", opts:["Stroke","Heart attack","Aneurysm","Murmur"], a:1},
+  {q:"The bundle of His originates from the:", opts:["SA node","AV node","Myocardium directly","Vena cava"], a:1},
+  {q:"After the bundle of His, the pathway continues down both sides of the septum as the:", opts:["Chordae tendineae","Right and left bundle branches","Coronary sulcus","Papillary muscles"], a:1},
+  {q:"The suffix meaning 'surgical repair of' is:", opts:["-itis","-ectomy","-plasty","-emia"], a:2},
+  {q:"The prefix erythro- means:", opts:["White","Red","Blue","Yellow"], a:1},
+  {q:"Cyanosis is best described as:", opts:["Red flushing from fever","Blue discoloration from lack of oxygen in the blood","Yellowing from liver disease","Swelling from fluid retention"], a:1},
+  {q:"The prefix tachy- means:", opts:["Slow","Fast/rapid","Narrow","Wide"], a:1},
+  {q:"The term 'venous' relates to:", opts:["Arteries","Veins","The heart valves only","Capillaries only"], a:1},
+  {q:"The suffix referring to blood is:", opts:["-itis","-osis","-emia","-algia"], a:2}
+];
+
+const testBody = document.getElementById('testBody');
+const answers = new Array(testQuestions.length).fill(null);
+
+document.getElementById('startTest').addEventListener('click', ()=>{
+  document.getElementById('testIntro').style.display='none';
+  testBody.style.display='block';
+  document.getElementById('submitTest').style.display='block';
+  buildTest();
+});
+
+function buildTest(){
+  testBody.innerHTML = '';
+  testQuestions.forEach((tq, qi)=>{
+    const block = document.createElement('div');
+    block.className = 'q-block';
+    block.id = 'q'+qi;
+    block.innerHTML = `<h4>${qi+1}. ${tq.q}</h4>` +
+      tq.opts.map((opt, oi)=>`<span class="opt" data-q="${qi}" data-o="${oi}">${opt}</span>`).join('');
+    testBody.appendChild(block);
+  });
+  testBody.querySelectorAll('.opt').forEach(opt=>{
+    opt.addEventListener('click', ()=>{
+      const qi = opt.dataset.q;
+      document.querySelectorAll(`.opt[data-q="${qi}"]`).forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+      answers[qi] = parseInt(opt.dataset.o);
+    });
+  });
+}
+
+document.getElementById('submitTest').addEventListener('click', ()=>{
+  let score = 0;
+  testQuestions.forEach((tq, qi)=>{
+    const block = document.getElementById('q'+qi);
+    const opts = block.querySelectorAll('.opt');
+    const correct = answers[qi] === tq.a;
+    if(correct) score++;
+    block.classList.add(correct ? 'correct' : 'incorrect');
+    opts.forEach((o,oi)=>{ if(oi===tq.a) o.classList.add('correct-answer'); });
+  });
+  const pct = Math.round((score/testQuestions.length)*100);
+  let grade = "🌱 keep studying!";
+  if(pct>=90) grade = "🌟 outstanding!";
+  else if(pct>=80) grade = "💗 great job!";
+  else if(pct>=70) grade = "🍬 solid work!";
+  else if(pct>=60) grade = "☀️ getting there!";
+  document.getElementById('scoreArea').innerHTML =
+    `<div class="score-stamp"><h2>${score} / ${testQuestions.length}</h2><p>${pct}% &nbsp;·&nbsp; ${grade}</p></div>`;
+  document.getElementById('submitTest').style.display='none';
+  document.getElementById('retakeTest').style.display='block';
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+
+document.getElementById('retakeTest').addEventListener('click', ()=>{
+  answers.fill(null);
+  document.getElementById('scoreArea').innerHTML='';
+  document.getElementById('retakeTest').style.display='none';
+  document.getElementById('submitTest').style.display='block';
+  buildTest();
+});
+</script>
+</body>
+</html>
