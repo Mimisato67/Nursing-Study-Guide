@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VN15 · Study Party 🩺</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FFF6FB;
+    --bg2:#FDEFFF;
+    --ink:#3A2E4D;
+    --ink-soft:#7A6C93;
+    --pink:#FF5FA2;
+    --pink-dim:#FFE1EE;
+    --purple:#8C5CF6;
+    --purple-dim:#EBE1FF;
+    --mint:#1FC8A9;
+    --mint-dim:#D8F9F0;
+    --yellow:#FFC531;
+    --yellow-dim:#FFF2CC;
+    --blue:#3FA9F5;
+    --blue-dim:#DFF1FF;
+    --coral:#FF7A59;
+    --coral-dim:#FFE4DA;
+    --card:#FFFFFF;
+    --line:#F0DFF0;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-tap-highlight-color:transparent;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(circle at 8% 12%, var(--bg2) 0%, transparent 40%),
+      radial-gradient(circle at 92% 85%, var(--mint-dim) 0%, transparent 38%),
+      var(--bg);
+    color:var(--ink);
+    font-family:'Poppins',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--yellow-dim);}
+
+  .wrap{max-width:920px;margin:0 auto;padding:26px 18px 90px;}
+
+  /* Header */
+  header.top{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:16px;
+    background:linear-gradient(120deg, var(--purple) 0%, var(--pink) 100%);
+    border-radius:24px;
+    padding:26px 26px 22px;
+    margin-bottom:22px;
+    box-shadow:0 10px 0 rgba(140,92,246,.18), 0 18px 30px -12px rgba(140,92,246,.45);
+    position:relative;
+    overflow:hidden;
+  }
+  header.top::after{
+    content:"✚";
+    position:absolute;
+    right:-10px;
+    bottom:-30px;
+    font-size:150px;
+    color:rgba(255,255,255,.10);
+    font-family:'Baloo 2',sans-serif;
+    pointer-events:none;
+  }
+  .brand-eyebrow{
+    font-family:'Space Mono',monospace;
+    font-size:11.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:#FFE9F6;
+    margin:0 0 6px;
+    font-weight:700;
+  }
+  h1.brand{
+    font-family:'Baloo 2',sans-serif;
+    font-weight:800;
+    font-size:clamp(28px,5.5vw,42px);
+    margin:0;
+    line-height:1.05;
+    color:#fff;
+    text-shadow:0 3px 0 rgba(0,0,0,.08);
+  }
+  .patient-tag{
+    font-family:'Space Mono',monospace;
+    font-size:11.5px;
+    color:#FFE9F6;
+    text-align:right;
+    line-height:1.6;
+    z-index:1;
+  }
+  .patient-tag b{color:#fff;}
+
+  /* Tabs */
+  nav.tabs{
+    display:flex;
+    gap:10px;
+    margin-bottom:24px;
+    flex-wrap:wrap;
+  }
+  nav.tabs button{
+    font-family:'Baloo 2',sans-serif;
+    font-weight:700;
+    font-size:15px;
+    background:#fff;
+    border:none;
+    color:var(--ink-soft);
+    padding:11px 20px;
+    border-radius:999px;
+    cursor:pointer;
+    box-shadow:0 4px 0 var(--line);
+    transition:transform .12s ease, box-shadow .12s ease, color .12s ease, background .12s ease;
+  }
+  nav.tabs button.active{
+    background:var(--pink);
+    color:#fff;
+    box-shadow:0 4px 0 #C93E7E;
+    transform:translateY(-1px);
+  }
+  nav.tabs button:hover:not(.active){transform:translateY(-2px);box-shadow:0 6px 0 var(--line);}
+
+  section.view{display:none;}
+  section.view.active{display:block;}
+
+  /* ---------- STUDY GUIDE ---------- */
+  .sg-search{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+  }
+  .sg-search input{
+    flex:1;
+    min-width:200px;
+    font-family:'Poppins',sans-serif;
+    font-size:14px;
+    padding:12px 16px;
+    border-radius:14px;
+    border:2px solid var(--line);
+    background:#fff;
+    color:var(--ink);
+    outline:none;
+  }
+  .sg-search input:focus{border-color:var(--purple);}
+  .sg-count{
+    font-family:'Space Mono',monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+    align-self:center;
+    white-space:nowrap;
+  }
+
+  .sg-group{margin-bottom:26px;}
+  .sg-group-title{
+    font-family:'Baloo 2',sans-serif;
+    font-weight:700;
+    font-size:18px;
+    margin:0 0 12px;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:6px 16px;
+    border-radius:999px;
+    color:#fff;
+  }
+  .sg-item{
+    background:var(--card);
+    border-radius:16px;
+    padding:16px 18px;
+    margin-bottom:10px;
+    border:2px solid var(--line);
+    box-shadow:0 3px 0 var(--line);
+  }
+  .sg-item .sg-q{
+    font-family:'Baloo 2',sans-serif;
+    font-weight:600;
+    font-size:15.5px;
+    color:var(--ink);
+    margin-bottom:6px;
+  }
+  .sg-item .sg-a{
+    font-size:13.5px;
+    line-height:1.6;
+    color:var(--ink-soft);
+    white-space:pre-line;
+  }
+  .sg-item.hide{display:none;}
+
+  /* palette rotation classes for group headers */
+  .pal-0{background:var(--pink);}
+  .pal-1{background:var(--purple);}
+  .pal-2{background:var(--mint);}
+  .pal-3{background:var(--blue);}
+  .pal-4{background:var(--coral);}
+  .pal-5{background:#B98CF3;}
+
+  /* ---------- FLASHCARDS ---------- */
+  .fc-bar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-bottom:18px;
+  }
+  .fc-progress{
+    font-family:'Space Mono',monospace;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    background:#fff;
+    padding:8px 14px;
+    border-radius:999px;
+    border:2px solid var(--line);
+  }
+  .fc-progress b{color:var(--ink);}
+  .fc-controls{display:flex;gap:8px;flex-wrap:wrap;}
+
+  .btn{
+    font-family:'Baloo 2',sans-serif;
+    font-weight:700;
+    font-size:14px;
+    border:none;
+    background:#fff;
+    color:var(--ink);
+    padding:10px 18px;
+    border-radius:999px;
+    cursor:pointer;
+    box-shadow:0 4px 0 var(--line);
+    transition:transform .1s ease, box-shadow .1s ease;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn:active{transform:translateY(1px);box-shadow:0 2px 0 var(--line);}
+  .btn.pink{background:var(--pink);color:#fff;box-shadow:0 4px 0 #C93E7E;}
+  .btn.purple{background:var(--purple);color:#fff;box-shadow:0 4px 0 #6636D6;}
+  .btn.ghost{background:#fff;color:var(--ink-soft);box-shadow:0 4px 0 var(--line);}
+
+  .deck-label{
+    font-family:'Baloo 2',sans-serif;
+    font-weight:700;
+    font-size:13px;
+    color:#fff;
+    background:var(--purple);
+    display:inline-block;
+    padding:6px 16px;
+    border-radius:999px;
+    margin-bottom:14px;
+  }
+
+  .card-stage{
+    perspective:1400px;
+    margin-bottom:18px;
+  }
+  .flashcard{
+    position:relative;
+    width:100%;
+    min-height:280px;
+    cursor:pointer;
+    transform-style:preserve-3d;
+    transition:transform .5s cubic-bezier(.2,.8,.2,1);
+  }
+  .flashcard.flipped{transform:rotateY(180deg);}
+  .face{
+    position:absolute;
+    inset:0;
+    backface-visibility:hidden;
+    border:none;
+    border-radius:22px;
+    background:var(--card);
+    padding:32px 32px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    box-shadow:0 8px 0 var(--pink-dim), 0 20px 35px -18px rgba(255,95,162,.5);
+  }
+  .face.back{
+    transform:rotateY(180deg);
+    background:linear-gradient(160deg, var(--mint-dim), #fff 60%);
+    box-shadow:0 8px 0 var(--mint-dim), 0 20px 35px -18px rgba(31,200,169,.45);
+  }
+  .face .tag{
+    font-family:'Space Mono',monospace;
+    font-size:10.5px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:#fff;
+    background:var(--pink);
+    display:inline-block;
+    padding:4px 12px;
+    border-radius:20px;
+    margin-bottom:18px;
+    width:fit-content;
+    font-weight:700;
+  }
+  .face.back .tag{background:var(--mint);}
+  .face .q{
+    font-family:'Baloo 2',sans-serif;
+    font-weight:600;
+    font-size:clamp(19px,3vw,24px);
+    line-height:1.32;
+    color:var(--ink);
+  }
+  .face .a{
+    font-family:'Poppins',sans-serif;
+    font-size:15.5px;
+    line-height:1.6;
+    color:var(--ink);
+    white-space:pre-line;
+  }
+  .flip-hint{
+    position:absolute;
+    bottom:16px;
+    right:20px;
+    font-family:'Space Mono',monospace;
+    font-size:10.5px;
+    color:var(--ink-soft);
+  }
+
+  .fc-nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .fc-nav .side{display:flex;gap:8px;}
+  .know-buttons{display:flex;gap:8px;}
+  .btn.got{background:#fff;color:var(--mint);box-shadow:0 4px 0 var(--mint-dim);}
+  .btn.got.on{background:var(--mint);color:#fff;box-shadow:0 4px 0 #14967D;}
+  .btn.miss{background:#fff;color:var(--coral);box-shadow:0 4px 0 var(--coral-dim);}
+  .btn.miss.on{background:var(--coral);color:#fff;box-shadow:0 4px 0 #D9552F;}
+
+  .fc-grid-toggle{margin-top:26px;padding-top:18px;}
+  .card-list{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+    gap:10px;
+    margin-top:14px;
+  }
+  .card-list .mini{
+    border:2px solid var(--line);
+    border-radius:14px;
+    padding:12px 14px;
+    background:var(--card);
+    font-size:12.5px;
+    cursor:pointer;
+  }
+  .card-list .mini:hover{border-color:var(--purple);}
+  .card-list .mini .n{font-family:'Space Mono',monospace;color:var(--purple);font-size:10px;font-weight:700;}
+  .card-list .mini.status-got{background:var(--mint-dim);border-color:var(--mint);}
+  .card-list .mini.status-miss{background:var(--coral-dim);border-color:var(--coral);}
+
+  /* ---------- QUIZ ---------- */
+  .quiz-intro{
+    border-radius:24px;
+    padding:30px 30px;
+    background:linear-gradient(160deg,#fff, var(--yellow-dim) 140%);
+    box-shadow:0 8px 0 var(--yellow-dim), 0 20px 35px -18px rgba(255,197,49,.4);
+  }
+  .quiz-intro h2{
+    font-family:'Baloo 2',sans-serif;
+    font-weight:700;
+    font-size:26px;
+    margin:0 0 8px;
+    color:var(--ink);
+  }
+  .quiz-intro p{color:var(--ink-soft);line-height:1.6;margin:0 0 20px;}
+  .quiz-meta{
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
+    margin-bottom:22px;
+  }
+  .quiz-meta div{
+    background:#fff;
+    border-radius:14px;
+    padding:10px 16px;
+    font-family:'Space Mono',monospace;
+    font-size:11.5px;
+    color:var(--ink-soft);
+  }
+  .quiz-meta b{color:var(--ink);display:block;font-size:20px;font-family:'Baloo 2',sans-serif;}
+
+  .qhead{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .qcount{
+    font-family:'Space Mono',monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+    background:#fff;
+    padding:6px 14px;
+    border-radius:999px;
+  }
+  .progress-track{
+    height:10px;
+    width:100%;
+    background:#fff;
+    border-radius:20px;
+    overflow:hidden;
+    margin-bottom:22px;
+  }
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--pink),var(--purple));width:0%;transition:width .3s ease;border-radius:20px;}
+
+  .qcard{
+    border-radius:24px;
+    background:var(--card);
+    padding:28px 26px 24px;
+    box-shadow:0 8px 0 var(--purple-dim), 0 20px 35px -18px rgba(140,92,246,.4);
+  }
+  .qcard .cat{
+    font-family:'Space Mono',monospace;
+    font-size:10.5px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:#fff;
+    background:var(--purple);
+    display:inline-block;
+    padding:4px 12px;
+    border-radius:999px;
+    margin-bottom:14px;
+    font-weight:700;
+  }
+  .qcard .stem{
+    font-family:'Baloo 2',sans-serif;
+    font-size:19px;
+    font-weight:600;
+    line-height:1.4;
+    margin-bottom:20px;
+    color:var(--ink);
+  }
+  .options{display:flex;flex-direction:column;gap:10px;}
+  .opt{
+    border:2px solid var(--line);
+    border-radius:14px;
+    padding:13px 16px;
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    cursor:pointer;
+    background:#fff;
+    transition:border-color .12s ease, background .12s ease, transform .1s ease;
+  }
+  .opt:hover{border-color:var(--purple);transform:translateX(2px);}
+  .opt .letter{
+    font-family:'Baloo 2',sans-serif;
+    font-weight:700;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    border:2px solid var(--line);
+    border-radius:50%;
+    width:24px;height:24px;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .opt.selected{border-color:var(--purple);background:var(--purple-dim);}
+  .opt.selected .letter{border-color:var(--purple);color:var(--purple);}
+  .opt.correct{border-color:var(--mint);background:var(--mint-dim);}
+  .opt.correct .letter{background:var(--mint);color:#fff;border-color:var(--mint);}
+  .opt.incorrect{border-color:var(--coral);background:var(--coral-dim);}
+  .opt.incorrect .letter{background:var(--coral);color:#fff;border-color:var(--coral);}
+  .opt.disabled{cursor:default;}
+
+  .rationale{
+    margin-top:18px;
+    padding:16px 18px;
+    background:var(--yellow-dim);
+    border-radius:16px;
+    font-size:14px;
+    line-height:1.55;
+    display:none;
+  }
+  .rationale.show{display:block;}
+  .rationale b{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.05em;text-transform:uppercase;display:block;margin-bottom:6px;color:#A6791B;}
+
+  .qfoot{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:22px;
+  }
+
+  .results{
+    border-radius:26px;
+    background:linear-gradient(160deg,#fff, var(--pink-dim) 150%);
+    padding:36px 30px;
+    text-align:center;
+    box-shadow:0 10px 0 var(--pink-dim), 0 22px 40px -18px rgba(255,95,162,.45);
+  }
+  .results .score{
+    font-family:'Baloo 2',sans-serif;
+    font-weight:800;
+    font-size:68px;
+    line-height:1;
+    background:linear-gradient(120deg,var(--pink),var(--purple));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    margin-bottom:6px;
+  }
+  .results .score-sub{
+    font-family:'Space Mono',monospace;
+    font-size:13px;
+    color:var(--ink-soft);
+    margin-bottom:26px;
+  }
+  .breakdown{
+    text-align:left;
+    display:grid;
+    gap:6px;
+    max-width:440px;
+    margin:0 auto 28px;
+  }
+  .breakdown .row{
+    display:flex;
+    justify-content:space-between;
+    font-size:13px;
+    background:#fff;
+    padding:9px 14px;
+    border-radius:10px;
+  }
+  .breakdown .row b{font-family:'Space Mono',monospace;color:var(--purple);}
+
+  footer.note{
+    margin-top:50px;
+    padding-top:16px;
+    font-family:'Space Mono',monospace;
+    font-size:11px;
+    color:var(--ink-soft);
+    text-align:center;
+  }
+
+  @media (max-width:560px){
+    header.top{flex-direction:column;align-items:flex-start;gap:10px;}
+    .patient-tag{text-align:left;}
+    .flashcard{min-height:320px;}
+    .face{padding:26px 22px;}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .flashcard{transition:none;}
+    .btn:hover{transform:none;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <p class="brand-eyebrow">✨ VN15 · Fundamentals of Nursing ✨</p>
+      <h1 class="brand">Study Party 🩺💖</h1>
+    </div>
+    <div class="patient-tag">
+      SOURCE: <b>Midterm Study Guide</b><br>
+      ITEMS: <b id="itemCount">—</b><br>
+      DATE: <b>2026-07-20</b>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="active" data-view="guide">📓 Study Guide</button>
+    <button data-view="flash">🃏 Flashcards</button>
+    <button data-view="quiz">📝 ATI Test (50Q)</button>
+  </nav>
+
+  <!-- ============ STUDY GUIDE VIEW ============ -->
+  <section class="view active" id="view-guide">
+    <div class="sg-search">
+      <input type="text" id="sgSearch" placeholder="🔍 Search the study guide (try 'sepsis' or 'BON')...">
+      <span class="sg-count" id="sgCount"></span>
+    </div>
+    <div id="sgContent"></div>
+  </section>
+
+  <!-- ============ FLASHCARDS VIEW ============ -->
+  <section class="view" id="view-flash">
+    <div class="fc-bar">
+      <div class="fc-progress"><b id="fcIndex">1</b> / <span id="fcTotal">0</span> &nbsp;·&nbsp; known <b id="fcKnown" style="color:var(--mint)">0</b> &nbsp;·&nbsp; review <b id="fcMiss" style="color:var(--coral)">0</b></div>
+      <div class="fc-controls">
+        <button class="btn ghost" id="shuffleBtn">🔀 Shuffle</button>
+        <button class="btn ghost" id="resetBtn">↺ Reset</button>
+      </div>
+    </div>
+
+    <p class="deck-label" id="deckLabel">Topic</p>
+
+    <div class="card-stage">
+      <div class="flashcard" id="flashcard">
+        <div class="face front">
+          <span class="tag">Question</span>
+          <div class="q" id="cardQ"></div>
+          <span class="flip-hint">tap card to flip ↻</span>
+        </div>
+        <div class="face back">
+          <span class="tag">Answer</span>
+          <div class="a" id="cardA"></div>
+          <span class="flip-hint">tap card to flip ↻</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="fc-nav">
+      <div class="side">
+        <button class="btn" id="prevBtn">← Prev</button>
+        <button class="btn" id="nextBtn">Next →</button>
+      </div>
+      <div class="know-buttons">
+        <button class="btn miss" id="missBtn">😵 Still learning</button>
+        <button class="btn got" id="gotBtn">✅ Know it</button>
+      </div>
+    </div>
+
+    <div class="fc-grid-toggle">
+      <button class="btn ghost" id="toggleGrid">See all cards ▾</button>
+      <div class="card-list" id="cardGrid" style="display:none;"></div>
+    </div>
+  </section>
+
+  <!-- ============ QUIZ VIEW ============ -->
+  <section class="view" id="view-quiz">
+
+    <div id="quizIntro" class="quiz-intro">
+      <h2>50-Item ATI-Style Practice Test 🎯</h2>
+      <p>Single-best-answer NCLEX-format items built from your midterm study guide — nurse practice acts, QSEN, vital sign parameters, safety &amp; infection control, wound care, and prioritization. Each item includes a rationale after you answer.</p>
+      <div class="quiz-meta">
+        <div><b id="quizQCount">50</b>questions</div>
+        <div><b>~35–45</b>min suggested</div>
+        <div><b>1</b>best answer per item</div>
+      </div>
+      <button class="btn pink" id="startQuizBtn">Let's go! →</button>
+    </div>
+
+    <div id="quizRunning" style="display:none;">
+      <div class="qhead">
+        <span class="qcount">Question <span id="qNum">1</span> of <span id="qTotal">50</span></span>
+        <span class="qcount" id="qScoreLive">Score: 0</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+      <div class="qcard">
+        <p class="cat" id="qCat">Category</p>
+        <p class="stem" id="qStem">Question text</p>
+        <div class="options" id="qOptions"></div>
+        <div class="rationale" id="qRationale"><b>Rationale</b><span id="qRationaleText"></span></div>
+      </div>
+
+      <div class="qfoot">
+        <button class="btn ghost" id="quitQuizBtn">Exit test</button>
+        <button class="btn pink" id="nextQBtn" disabled>Next question →</button>
+      </div>
+    </div>
+
+    <div id="quizResults" style="display:none;"></div>
+  </section>
+
+  <footer class="note">made with 💗 from your uploaded VN15 study guide · self-testing only, not official ATI content</footer>
+</div>
+
+<script>
+/* ============================================================
+   DATA — STUDY GUIDE / FLASHCARDS (shared source)
+   ============================================================ */
+const FLASHCARDS = [
+{t:"Scope & Regulation", q:"What is the NPA (Nurse Practice Act)?", a:"State law that protects the public by ensuring safe nursing practice.\n\n• Defines the nurse's scope of practice\n• Establishes regulation for licensure\n• Gives legal authority to the Board of Nursing\n• Every state has its own NPA"},
+{t:"Scope & Regulation", q:"How does the Board of Nursing (BON) relate to the NPA?", a:"The BON enforces NPA laws — it licenses nurses, investigates complaints, and disciplines unsafe practice.\n\nThe BON does NOT: create federal laws, replace hospital policy, or develop nursing curricula."},
+{t:"QSEN", q:"QSEN — Patient Centered Care", a:"Respect the client's preferences and values."},
+{t:"QSEN", q:"QSEN — Teamwork & Collaboration", a:"Communicate with the interdisciplinary team."},
+{t:"QSEN", q:"QSEN — Evidence Based Practice", a:"Use current research while planning care."},
+{t:"QSEN", q:"QSEN — Quality Improvement", a:"Improve processes to reduce errors."},
+{t:"QSEN", q:"QSEN — Safety", a:"Lock beds; keep the call light within reach."},
+{t:"QSEN", q:"QSEN — Informatics", a:"Barcode medication administration; electronic charting."},
+{t:"Clinical Judgment", q:"What is cognitive rehearsal? Give an example.", a:"Mentally practicing / visualizing how to respond to a difficult situation.\n\nExample: mentally rehearsing how to respond to confronting disrespectful behavior."},
+{t:"Vital Signs", q:"How do 2 nurses verify a narcotic count?", a:"Two nurses check and count for one full minute simultaneously."},
+{t:"Vital Signs", q:"What is a pulse deficit?", a:"The difference between the apical and radial pulse.\n\nCaused by: cardiac dysrhythmia or atrial fibrillation (AFib)."},
+{t:"Vital Signs", q:"Tachypnea vs. Bradypnea", a:"Tachypnea: abnormally fast respiratory rate (>20/min)\nBradypnea: abnormally slow respiratory rate (<12/min)"},
+{t:"Vital Signs", q:"Hypotension (definition)", a:"Low blood pressure — below 90/60 mmHg."},
+{t:"Vital Signs", q:"Tachycardia vs. Bradycardia", a:"Tachycardia: heart rate >100 beats/min\nBradycardia: heart rate <60 beats/min"},
+{t:"Mobility", q:"How should a patient's mobility be quickly assessed?", a:"1. Dangle at bedside\n2. Feet flat on the floor\n3. Stand up\n4. March in place\n5. Walk\n\nPurpose: prevent falls, assess strength, and check for orthostatic hypotension."},
+{t:"Foundational Theory", q:"List Maslow's Hierarchy of Needs (bottom to top).", a:"1. Physiological — oxygen, shelter, food & water, elimination\n2. Safety — security, stable environment, fall precautions\n3. Love & belonging — friends, family, relationships\n4. Esteem — confidence, accomplishments, independence\n5. Self-actualization — achieving goals, personal growth"},
+{t:"Prioritization", q:"Describe the 4 patient acuity levels.", a:"Level 1 (Critical) — immediate / life-threatening\nLevel 2 (Urgent) — serious, needs prompt attention but not life-threatening\nLevel 3 (Stable/Routine) — stable, predictable care needs\nLevel 4 (Minimal care) — least intensive, mostly independent / self-care capable"},
+{t:"Risk Factors", q:"Modifiable vs. Nonmodifiable risk factors — give examples.", a:"Modifiable: obesity, poor diet, high cholesterol, sedentary lifestyle, sun exposure.\n\nNonmodifiable: age, genetics, sex, family history, ethnicity."},
+{t:"Health Promotion", q:"Differentiate Health Promotion, Disease Prevention, Health Education, and Holistic Care.", a:"Health Promotion: improves overall wellness before disease occurs.\nDisease Prevention: prevents illness or detects disease early.\nHealth Education: teaching to improve health knowledge.\nHolistic Care: addresses physical, emotional, spiritual, social, and cultural needs."},
+{t:"Safety", q:"How can needlesticks be prevented?", a:"• Activate safety devices\n• Never recap needles\n• Never bend or break needles\n• Dispose in a sharps container (but not if the container is 3/4 full)"},
+{t:"GI/GU", q:"What foods/drinks worsen diarrhea, and what are the risks of diarrhea?", a:"Worsen diarrhea: fatty foods, spicy food, caffeinated beverages, alcohol.\nBRAT diet helps: Banana, Rice, Applesauce, Toast.\n\nRisks of diarrhea: dehydration, skin breakdown, electrolyte imbalance."},
+{t:"GI/GU", q:"What drinks/foods irritate the bladder?", a:"Alcohol, caffeinated beverages, artificial sweeteners, carbonated drinks, citrus."},
+{t:"Safety", q:"What are appropriate patient identifiers?", a:"Medical record number, full name, date of birth, unique patient number."},
+{t:"Safety", q:"What is a sentinel event? Give examples.", a:"An unexpected event that causes death or a permanent serious injury.\n\nExamples: wrong-site surgery, infant abduction.\n\nNear miss = an error caught and corrected before it reached the patient.\nClient Safety Event = an event causing or with potential to cause harm to the patient."},
+{t:"Assessment", q:"What information is needed to calculate BMI, and what are the categories?", a:"BMI = weight (kg) ÷ height (m)²\n\nUnderweight: <18.5\nHealthy: 18.5–24.9\nOverweight: 25–29.9\nObese: ≥30"},
+{t:"Skills", q:"Steps & precautions for administering an enema.", a:"• Left side-lying (Sims' position) with the right leg flexed forward\n• Solution warmed to room/body temperature (hot = tissue injury, cold = cramping)\n• Use clean technique\n• Use water-based lubricant"},
+{t:"Skills", q:"Steps & mechanics of repositioning a patient (body mechanics).", a:"1. Keep a wide base\n2. Bend knees, not the waist\n3. Keep the load close to the body\n4. Face the direction of movement\n5. Keep back straight"},
+{t:"Skills", q:"How do you transfer a patient with one-sided weakness?", a:"Consider left vs. right weakness separately:\nLeft weakness → support and pivot toward the left (weak) side; the strong side leads the movement.\nRight weakness → support and pivot toward the right (weak) side; the strong side leads the movement.\n\nAlso: lock bed, lower bed, 45° angle, and always transfer toward the strong side."},
+{t:"Wound Care", q:"Match the wound dressing to its use.", a:"Polymeric: mild-to-moderate exudate; skin tears, donor sites, partial-thickness wounds.\nHydrocolloid: should NOT be used on gaping, infected, deep necrotic wounds, or exposed muscle/tendon/bone.\nHydrofiber: moderate-to-heavy exudate wounds.\nHydrogel: dry wounds or wounds with minimal exudate."},
+{t:"Integument", q:"Name the cells of the epidermis and their functions.", a:"Keratinocytes — produce keratin; protect skin from water loss, bacteria, and injury.\nMelanocytes — produce melanin (pigment); protect from UV radiation.\nMerkel cells — sensory receptors for light touch.\nLangerhans cells — immune surveillance in the skin."},
+{t:"Assessment", q:"Subjective vs. Objective data — give examples.", a:"Subjective: what the patient reports (e.g., pain, nausea, itching, dizziness, fatigue).\nObjective: observed and measured (e.g., BP, temperature, rash, HR, O2 sat)."},
+{t:"Ergonomics", q:"Name examples of ergonomic equipment.", a:"Shower chairs, high adjustable beds, adjustable IV stand, adjustable keyboard."},
+{t:"Infection Control", q:"What are HAIs? List the 4 types.", a:"Healthcare-Associated Infections:\nCAUTI — Catheter-Associated Urinary Tract Infection\nCLABSI — Central Line-Associated Bloodstream Infection\nSSI — Surgical Site Infection\nVAP — Ventilator-Associated Pneumonia"},
+{t:"Infection Control", q:"Key elements of hand hygiene.", a:"• The most effective way to prevent infection\n• Alcohol-based sanitizers are acceptable UNLESS hands are visibly soiled or the patient has C. diff\n• For C. diff: wash hands with soap & water and use bleach on surfaces"},
+{t:"Foundational Theory", q:"Acute vs. Chronic framework.", a:"Acute: unstable, worsening rapidly, \"sudden,\" <6 months.\nChronic: long-term, stable, ≥6 months (can have acute exacerbations).\n\nRule: acute always beats chronic in priority — recognize conditions that worsen rapidly and need action STAT."},
+{t:"Sepsis", q:"Early vs. late signs of sepsis.", a:"Sepsis can lead to death and needs action STAT.\n\nEarly signs: fever (hyperthermia) or hypothermia, tachycardia, tachypnea, altered mental status, ↑WBC.\nLate findings: hypotension, organ dysfunction, poor perfusion."},
+{t:"Integument", q:"Changes that occur to the skin as we age.", a:"↓ elasticity, thinner subcutaneous layer, thin skin, ↓ blood flow, ↓ skin hydration, ↓ wound healing."},
+{t:"Cardiac", q:"Behaviors/habits that contribute to heart disease.", a:"Sedentary lifestyle, poor diet, tobacco use, excessive alcohol use, uncontrolled stress, poor management of pre-existing conditions (hypertension, diabetes, high cholesterol)."},
+{t:"Assessment", q:"When is it appropriate vs. inappropriate to take an oral temperature?", a:"Appropriate: alert & conscious patient; no hot/cold beverage in the last 15–30 min; coagulation OK.\nInappropriate: recent oral surgery, confused/unconscious client, seizure risk, infants/young children, mouth breathers."},
+{t:"Wound Care", q:"Signs of wound infection that require follow-up.", a:"Purulent drainage, redness, warmth on palpation, increasing pain, fever, odor, ↑WBC.\n\nAction: notify the provider, obtain wound culture if ordered, provide wound care, give antibiotics if prescribed."},
+{t:"Infection Control", q:"Local vs. Systemic signs of infection.", a:"Local: redness, inflammation/swelling, warmth on palpation, pain, loss of function.\nSystemic: fever/chills, nausea/vomiting, ↑WBC, altered mental status, tachycardia, tachypnea."},
+{t:"Immunity", q:"Medications that increase blood sugar and lower immune response.", a:"Steroids (some), chemo agents, glucocorticoids, prednisone."},
+{t:"Immunity", q:"Diseases/factors that make people prone to infection.", a:"Diabetes, HIV, cancer, malnutrition — plus obesity, advanced age, open wounds, immobility."},
+{t:"Immunity", q:"Can a malnourished person fight infection as well as a normal/overweight person?", a:"No — being malnourished impairs the body's ability to fight infection because there aren't enough protein reserves for immune function and wound healing."},
+{t:"Cardiac", q:"Symptoms of angina (chest pain).", a:"Anxiety (from lack of oxygenation/pain), chest tightness or discomfort, irregular heart rate, increased BP, changes to respiratory rate."},
+{t:"Circulatory", q:"Deep Vein Thrombosis (DVT) — signs, complication, risk factors.", a:"Signs: unilateral swelling, pain, redness, and heat.\nPotential complication: pulmonary embolism.\nRisk factors: prolonged immobility, long travel, surgery, smoking."},
+{t:"Fluid Balance", q:"What indicates an effective fluid bolus?", a:"A rapid IV fluid infusion is effective when: HR returns toward normal, BP improves, temperature normalizes, urinary output increases, and mental status improves."},
+{t:"Wound Care", q:"Pressure injury risk factors.", a:"Immobility, poor nutrition, poor perfusion, moisture, friction, shear, diabetes, peripheral neuropathy, advanced age."},
+{t:"Infection Control", q:"Isolation precautions by disease.", a:"TB — Airborne, N95 respirator mask\nVaricella — Airborne + Contact, N95 mask, gloves + gown\nRubeola (measles) — Airborne, N95 mask\nC. diff — Contact, gowns + gloves, soap & water\nMRSA — Contact, gowns + gloves"},
+{t:"Prioritization", q:"ABCs — apply them to: pneumonia, facial swelling, choking, MI, shock, bleeding, resp. distress, asthma.", a:"ABCs = Airway, Breathing, Circulation\n\nPneumonia — B\nFacial swelling — A\nChoking — A\nMyocardial Infarction — C\nShock — C\nBleeding — C\nRespiratory Distress — B\nAsthma — B (can be A if airway is narrowing)"},
+{t:"Prioritization", q:"Urgent vs. Non-Urgent — sort these: stroke s/sx, chest pain, severe sudden resp distress, sprained ankle, chronic arthritis pain, minor illness.", a:"High priority (ABCs): stroke s/sx, chest pain, severe sudden respiratory distress (\"restlessness\").\n\nLower priority: sprained ankle, chronic pain/arthritis, minor illness."},
+{t:"Community Health", q:"What is an example of a social determinant of health?", a:"Subsidized housing — a socioeconomic determinant of health."}
+];
+
+/* ============================================================
+   DATA — QUIZ (50 items)
+   ============================================================ */
+const QUIZ = [
+{cat:"Nurse Practice Act",stem:"A new graduate nurse asks why the Nurse Practice Act (NPA) matters in daily practice. Which response by the charge nurse is most accurate?",options:["\"It protects the public by defining and regulating safe nursing practice.\"","\"It creates federal laws that all hospitals must follow.\"","\"It replaces our hospital's internal policies.\"","\"It develops the nursing school curriculum.\""],correct:0,rationale:"The NPA is state law that protects the public by ensuring safe practice and defining the nurse's scope. It does not create federal law, replace hospital policy, or develop curricula — those are outside its function."},
+{cat:"Board of Nursing",stem:"Which action falls within the responsibility of the Board of Nursing (BON)?",options:["Writing federal healthcare legislation","Investigating a complaint against a licensed nurse","Creating a hospital's internal wound-care policy","Designing a nursing school's course curriculum"],correct:1,rationale:"The BON licenses nurses, enforces NPA laws, investigates complaints, and disciplines unsafe practice. It does not make federal law, set hospital policy, or build school curricula."},
+{cat:"QSEN",stem:"A nurse reviews the most current evidence-based guidelines before updating a patient's plan of care. This reflects which QSEN competency?",options:["Patient-Centered Care","Evidence-Based Practice","Quality Improvement","Informatics"],correct:1,rationale:"Evidence-Based Practice means using current research to guide care planning, distinct from QSEN's Quality Improvement (reducing errors/improving processes) and Informatics (technology use)."},
+{cat:"QSEN",stem:"A nurse locks a patient's bed and ensures the call light is within reach after repositioning. This best demonstrates which QSEN competency?",options:["Teamwork and Collaboration","Safety","Patient-Centered Care","Informatics"],correct:1,rationale:"Locking the bed and keeping the call light in reach are core Safety interventions aimed at preventing falls and injury."},
+{cat:"Clinical Judgment",stem:"A nursing student mentally rehearses how she will calmly respond if a coworker speaks to her disrespectfully during rounds. This is an example of:",options:["Cognitive rehearsal","Evidence-based practice","Root cause analysis","Delegation"],correct:0,rationale:"Cognitive rehearsal is mentally practicing/visualizing a response to a difficult situation before it occurs, such as confronting disrespectful behavior."},
+{cat:"Vital Signs",stem:"A nurse obtains an apical pulse of 96 and a radial pulse of 78 on the same patient. How should the nurse document this finding?",options:["Pulse deficit of 18","Pulse deficit of 96","Tachycardia","Pulsus paradoxus"],correct:0,rationale:"Pulse deficit is the difference between apical and radial pulse (96-78=18), often caused by cardiac dysrhythmia or atrial fibrillation."},
+{cat:"Vital Signs",stem:"Two nurses are counting a controlled substance (narcotic) count together at shift change. What is the correct procedure?",options:["One nurse counts while the other verifies afterward","Both nurses count and verify simultaneously for one full minute","The oncoming nurse counts alone and reports to the charge nurse","Counting can be done independently by either nurse at any time"],correct:1,rationale:"Narcotic counts require 2 nurses to check and count simultaneously for one full minute to ensure accuracy and accountability."},
+{cat:"Vital Signs",stem:"A patient's respiratory rate is 24 breaths/min. The nurse recognizes this as:",options:["Bradypnea","Eupnea","Tachypnea","Apnea"],correct:2,rationale:"Tachypnea is an abnormally fast respiratory rate, greater than 20/min. Bradypnea is <12/min."},
+{cat:"Vital Signs",stem:"Which blood pressure reading is consistent with hypotension?",options:["150/95 mmHg","120/80 mmHg","85/55 mmHg","110/70 mmHg"],correct:2,rationale:"Hypotension is defined as a blood pressure below 90/60 mmHg. 85/55 falls below that threshold."},
+{cat:"Vital Signs",stem:"A patient's heart rate is 48 beats/min. The nurse identifies this as:",options:["Tachycardia","Bradycardia","A normal finding requiring no follow-up","Pulse deficit"],correct:1,rationale:"Bradycardia is defined as a heart rate less than 60 beats/min; tachycardia is greater than 100 beats/min."},
+{cat:"Mobility Assessment",stem:"When quickly assessing a post-operative patient's mobility for the first time, which step should the nurse perform first?",options:["Have the patient walk down the hallway","Have the patient march in place","Have the patient dangle at the bedside","Have the patient stand up unassisted"],correct:2,rationale:"The mobility assessment sequence progresses from dangling at the bedside → feet flat on floor → stand → march in place → walk, to prevent falls and check for orthostatic hypotension before advancing."},
+{cat:"Mobility Assessment",stem:"The stepwise mobility assessment (dangle, feet flat, stand, march, walk) is primarily designed to accomplish which goals?",options:["Increase patient satisfaction scores only","Prevent falls, assess strength, and check for orthostatic hypotension","Reduce hospital length of stay","Evaluate a patient's nutritional status"],correct:1,rationale:"This progressive assessment prevents falls, assesses muscular strength, and screens for orthostatic hypotension before full ambulation."},
+{cat:"Maslow's Hierarchy",stem:"According to Maslow's Hierarchy of Needs, which need must generally be met before a patient can focus on esteem needs such as independence?",options:["Self-actualization","Love and belonging","Physiological needs","Achieving personal growth goals"],correct:1,rationale:"Maslow's hierarchy is sequential: physiological → safety → love/belonging → esteem → self-actualization. Love and belonging must generally be addressed before esteem needs."},
+{cat:"Maslow's Hierarchy",stem:"A nurse ensures a hospitalized patient has stable fall precautions and a secure environment. This addresses which level of Maslow's Hierarchy?",options:["Physiological","Safety","Love and belonging","Esteem"],correct:1,rationale:"Safety needs include security, a stable environment, and fall precautions — the second tier of Maslow's hierarchy."},
+{cat:"Acuity Levels",stem:"A patient is unstable and requires immediate, life-threatening intervention. What acuity level should the nurse assign?",options:["Level 1 (Critical)","Level 2 (Urgent)","Level 3 (Stable/Routine)","Level 4 (Minimal care)"],correct:0,rationale:"Level 1 (Critical) indicates immediate, life-threatening needs. Level 2 is urgent but not life-threatening; Levels 3-4 are progressively more stable and self-sufficient."},
+{cat:"Acuity Levels",stem:"A patient with predictable, stable care needs who requires routine monitoring would be classified as which acuity level?",options:["Level 1","Level 2","Level 3","Level 4"],correct:2,rationale:"Level 3 (Stable/Routine) reflects stable, predictable care needs, distinct from Level 1 (critical) or Level 4 (minimal, mostly independent)."},
+{cat:"Risk Factors",stem:"Which of the following is a modifiable risk factor for chronic disease?",options:["Age","Genetics","Sedentary lifestyle","Family history"],correct:2,rationale:"Sedentary lifestyle is modifiable, along with obesity, poor diet, high cholesterol, and sun exposure. Age, genetics, sex, family history, and ethnicity are nonmodifiable."},
+{cat:"Risk Factors",stem:"Which risk factor is classified as nonmodifiable?",options:["Poor diet","Ethnicity","High cholesterol","Sun exposure"],correct:1,rationale:"Ethnicity, along with age, genetics, sex, and family history, cannot be changed and is therefore nonmodifiable."},
+{cat:"Health Promotion",stem:"A community program teaches healthy cooking classes to residents before any disease is present. This is an example of:",options:["Disease prevention","Health promotion","Holistic care","Health education only"],correct:1,rationale:"Health promotion improves overall wellness before disease occurs, distinguishing it from disease prevention (which prevents illness or detects it early)."},
+{cat:"Health Promotion",stem:"A nurse addresses a patient's physical, emotional, spiritual, social, and cultural needs during care planning. This approach is known as:",options:["Evidence-based practice","Holistic care","Disease prevention","Quality improvement"],correct:1,rationale:"Holistic care specifically addresses physical, emotional, spiritual, social, and cultural needs — a broader scope than disease prevention or health education alone."},
+{cat:"Sharps Safety",stem:"Which action by a nurse demonstrates correct needlestick prevention?",options:["Recapping the needle before disposal","Activating the safety device immediately after use","Placing the needle in a sharps container that is 4/5 full","Bending the needle before discarding it"],correct:1,rationale:"Needlestick prevention includes activating safety devices, never recapping or bending/breaking needles, and disposing in a sharps container that is not more than 3/4 full."},
+{cat:"GI Care",stem:"A patient with diarrhea asks which food is safe to eat. Which food should the nurse recommend?",options:["Spicy chili","Bananas (as part of the BRAT diet)","Caffeinated coffee","Alcohol-containing dessert"],correct:1,rationale:"The BRAT diet (Banana, Rice, Applesauce, Toast) is recommended for diarrhea; fatty, spicy, caffeinated, and alcoholic items worsen it."},
+{cat:"GI Care",stem:"What is a priority risk the nurse should monitor for in a patient with ongoing diarrhea?",options:["Hypertension","Electrolyte imbalance","Weight gain","Constipation"],correct:1,rationale:"Risks of diarrhea include dehydration, skin breakdown, and electrolyte imbalance — all requiring close monitoring."},
+{cat:"GU Care",stem:"A patient with an overactive bladder should be counseled to limit which of the following?",options:["Water","Carbonated drinks","Whole grains","Lean protein"],correct:1,rationale:"Bladder irritants include alcohol, caffeinated beverages, artificial sweeteners, carbonated drinks, and citrus."},
+{cat:"Patient Safety",stem:"Prior to administering medication, which identifiers should the nurse use to verify the correct patient?",options:["Room number and bed assignment","Full name and date of birth","Physician's name and diagnosis","Insurance ID and admission date"],correct:1,rationale:"Appropriate patient identifiers include medical record number, full name, date of birth, and a unique patient number — never room or bed number."},
+{cat:"Sentinel Events",stem:"A surgical team operates on the wrong site of a patient. How should this event be classified?",options:["Near miss","Client safety event with no harm","Sentinel event","Routine incident report only"],correct:2,rationale:"A sentinel event is an unexpected occurrence causing death or permanent serious harm, such as wrong-site surgery or infant abduction."},
+{cat:"Sentinel Events",stem:"A nurse catches a medication error before it reaches the patient and corrects it. This is best classified as a:",options:["Sentinel event","Near miss","Client safety event causing harm","Adverse drug reaction"],correct:1,rationale:"A near miss is an error caught and corrected before it reached the patient, distinct from a sentinel event (which causes actual harm)."},
+{cat:"BMI",stem:"A patient's BMI is calculated as 31. How should the nurse classify this finding?",options:["Underweight","Healthy","Overweight","Obese"],correct:3,rationale:"BMI categories: Underweight <18.5, Healthy 18.5–24.9, Overweight 25–29.9, Obese ≥30. A BMI of 31 falls in the obese range."},
+{cat:"BMI",stem:"Which two measurements are required to calculate a patient's BMI?",options:["Height and age","Weight and height","Waist circumference and weight","Age and weight"],correct:1,rationale:"BMI = weight (kg) ÷ height (m)². Only weight and height are needed."},
+{cat:"Enema Administration",stem:"When administering an enema, the nurse should position the patient in which position?",options:["Supine with legs extended","High-Fowler's","Left side-lying (Sims') with the right leg flexed forward","Prone with arms at sides"],correct:2,rationale:"Enemas are administered with the patient in the left side-lying (Sims') position with the right leg flexed forward to facilitate solution flow."},
+{cat:"Enema Administration",stem:"A nurse warms enema solution to room/body temperature before administration. What is the rationale?",options:["Cold solution causes tissue injury; hot solution prevents cramping","Hot solution causes tissue injury; cold solution causes cramping","Temperature does not affect patient comfort or safety","Warm solution increases risk of perforation"],correct:1,rationale:"Solution that is too hot can cause tissue injury, while solution that is too cold can cause cramping — hence warming to room/body temperature."},
+{cat:"Body Mechanics",stem:"When repositioning a patient in bed, which technique reflects correct body mechanics?",options:["Bend at the waist to reach the patient","Keep the load away from the body for leverage","Bend the knees and keep the load close to the body","Twist the torso while lifting"],correct:2,rationale:"Correct body mechanics include a wide base, bending the knees (not the waist), keeping the load close to the body, facing the direction of movement, and keeping the back straight."},
+{cat:"Transfers",stem:"A patient has left-sided weakness following a stroke. When transferring the patient from bed to chair, the nurse should:",options:["Support and pivot toward the right (strong) side, letting the weak side lead","Support and pivot toward the left (weak) side, letting the strong side lead","Have the patient stand independently without support","Transfer toward whichever side is closer to the chair"],correct:1,rationale:"For one-sided weakness, the nurse supports and pivots toward the weak side while the strong side leads the movement; the bed should be locked, lowered, and at a 45° angle."},
+{cat:"Wound Care",stem:"A wound with moderate-to-heavy exudate would most appropriately be treated with which dressing type?",options:["Hydrogel","Hydrocolloid","Hydrofiber","Polymeric only"],correct:2,rationale:"Hydrofiber dressings are used for wounds with moderate-to-heavy exudate. Hydrogel is for dry wounds with minimal exudate."},
+{cat:"Wound Care",stem:"Which wound characteristic would make a hydrocolloid dressing inappropriate?",options:["Mild exudate skin tear","Partial-thickness donor site","Deep necrotic wound with exposed tendon","Minimal exudate wound"],correct:2,rationale:"Hydrocolloid dressings should NOT be used on gaping, infected, or deep necrotic wounds, or those with exposed muscle, tendon, or bone."},
+{cat:"Integumentary",stem:"Which epidermal cell is primarily responsible for protecting the skin from UV radiation?",options:["Keratinocytes","Melanocytes","Merkel cells","Langerhans cells"],correct:1,rationale:"Melanocytes produce melanin, the pigment that protects skin from UV radiation. Keratinocytes protect from water loss/bacteria; Merkel cells sense light touch; Langerhans cells provide immune surveillance."},
+{cat:"Integumentary",stem:"Which epidermal cell provides immune surveillance within the skin?",options:["Keratinocytes","Melanocytes","Merkel cells","Langerhans cells"],correct:3,rationale:"Langerhans cells are responsible for immune surveillance in the skin."},
+{cat:"Assessment",stem:"A patient reports nausea and dizziness. How should the nurse classify this data?",options:["Objective data","Subjective data","Diagnostic data","Historical data"],correct:1,rationale:"Subjective data is what the patient reports, such as pain, nausea, itching, dizziness, and fatigue. Objective data is observed/measured (BP, temperature, rash, HR)."},
+{cat:"Assessment",stem:"Which of the following is an example of objective data?",options:["Patient states, \"I feel dizzy.\"","Patient reports itching","A measured oxygen saturation of 94%","Patient describes fatigue"],correct:2,rationale:"Objective data is observed and measured — such as BP, temperature, rash, heart rate, and O2 saturation — unlike subjective reports from the patient."},
+{cat:"Ergonomics",stem:"Which item is an example of ergonomic equipment used to reduce caregiver strain?",options:["Bed rails","Adjustable IV stand","Pulse oximeter","Nasal cannula"],correct:1,rationale:"Ergonomic equipment includes shower chairs, high adjustable beds, adjustable IV stands, and adjustable keyboards — designed to reduce physical strain."},
+{cat:"HAIs",stem:"A patient develops a urinary tract infection after having an indwelling catheter for several days. This is classified as a:",options:["CLABSI","SSI","CAUTI","VAP"],correct:2,rationale:"CAUTI = Catheter-Associated Urinary Tract Infection. CLABSI relates to central lines, SSI to surgical sites, and VAP to ventilators."},
+{cat:"HAIs",stem:"Which healthcare-associated infection (HAI) is associated with mechanical ventilation?",options:["CAUTI","VAP","CLABSI","SSI"],correct:1,rationale:"VAP = Ventilator-Associated Pneumonia, one of the four major HAIs along with CAUTI, CLABSI, and SSI."},
+{cat:"Hand Hygiene",stem:"A nurse is caring for a patient with C. diff. Which hand hygiene method is correct?",options:["Alcohol-based hand sanitizer only","Soap and water, plus bleach on surfaces","Waterless antiseptic gel only","No special hand hygiene is required beyond standard precautions"],correct:1,rationale:"Alcohol-based sanitizers are NOT effective against C. diff spores; the nurse must wash hands with soap and water and use bleach to disinfect surfaces."},
+{cat:"Hand Hygiene",stem:"What is the single most effective method for preventing the spread of infection?",options:["Wearing gloves at all times","Hand hygiene","Wearing a mask","Isolating all patients"],correct:1,rationale:"Hand hygiene is identified as the most effective way to prevent infection; alcohol-based sanitizers are acceptable unless hands are visibly soiled or the patient has C. diff."},
+{cat:"Acute vs. Chronic",stem:"A patient with well-controlled, long-standing hypertension of 8 years' duration presents with a sudden, rapidly worsening headache and blood pressure of 220/130. How should the nurse prioritize this situation?",options:["Treat as routine chronic disease management","Recognize the acute change as higher priority and act immediately","Wait for the next scheduled vital sign check","Document only, since hypertension is a chronic condition"],correct:1,rationale:"Acute always takes priority over chronic — a rapidly worsening, unstable presentation requires immediate action even in a patient with an underlying chronic condition."},
+{cat:"Sepsis",stem:"Which finding represents an EARLY sign of sepsis?",options:["Hypotension","Organ dysfunction","Tachycardia and altered mental status","Poor hygiene"],correct:2,rationale:"Early sepsis signs include fever or hypothermia, tachycardia, tachypnea, altered mental status, and elevated WBC. Hypotension and organ dysfunction are late findings."},
+{cat:"Aging",stem:"Which skin change is an expected finding in an older adult?",options:["Increased elasticity","Thickened subcutaneous layer","Decreased wound healing","Increased skin hydration"],correct:2,rationale:"Aging skin changes include decreased elasticity, thinner subcutaneous layer, thin skin, decreased blood flow, decreased hydration, and decreased wound healing."},
+{cat:"Cardiac Risk",stem:"Which lifestyle behavior most directly increases a patient's risk for heart disease?",options:["Regular aerobic exercise","Tobacco use","Balanced low-sodium diet","Adequate stress management"],correct:1,rationale:"Tobacco use, along with a sedentary lifestyle, poor diet, excessive alcohol use, and uncontrolled stress, contributes to heart disease risk."},
+{cat:"Temperature Assessment",stem:"For which patient would an oral temperature be inappropriate?",options:["An alert, cooperative adult with no recent oral intake","A patient who had oral surgery earlier that day","A patient who has been NPO for 1 hour","An alert adult who drank water 45 minutes ago"],correct:1,rationale:"Oral temperatures are inappropriate for patients with recent oral surgery, confusion/unconsciousness, seizure risk, infants/young children, and mouth breathers."},
+{cat:"Wound Complications",stem:"A nurse assesses a surgical wound and finds purulent drainage, increasing pain, and warmth on palpation. What is the priority nursing action?",options:["Document and reassess in 24 hours","Notify the provider and anticipate a wound culture","Apply a hydrocolloid dressing without further action","Increase the patient's oral fluid intake only"],correct:1,rationale:"Purulent drainage, redness, warmth, increasing pain, fever, and odor are signs of wound infection requiring the provider to be notified, a wound culture if ordered, and possible antibiotics."},
+{cat:"Infection: Local vs. Systemic",stem:"A patient has a localized area of redness, warmth, and swelling at an IV site, without fever or altered mental status. This best reflects which type of infection?",options:["Systemic infection","Local infection","Sepsis","Septic shock"],correct:1,rationale:"Local infection signs include redness, swelling, warmth on palpation, pain, and loss of function — confined to the site, unlike systemic infection which includes fever, chills, and altered mental status."},
+{cat:"Immunosuppression",stem:"A patient on long-term prednisone therapy is at increased risk for infection and hyperglycemia. Which class of medication is responsible?",options:["Antibiotics","Glucocorticoids/steroids","Antihypertensives","Diuretics"],correct:1,rationale:"Steroids/glucocorticoids such as prednisone, along with some chemotherapy agents, can increase blood sugar and lower immune response."},
+{cat:"Infection Risk",stem:"Which patient is at greatest risk for developing an infection?",options:["A well-nourished 30-year-old with no comorbidities","A patient with diabetes and an open wound","A healthy adult who exercises regularly","A patient with normal BMI and no chronic conditions"],correct:1,rationale:"Diabetes, HIV, cancer, malnutrition, obesity, advanced age, open wounds, and immobility all increase susceptibility to infection."},
+{cat:"Nutrition & Immunity",stem:"A malnourished patient is more susceptible to infection primarily because:",options:["They have excess protein reserves","They lack sufficient protein reserves needed for immune function and wound healing","Malnutrition increases white blood cell production","Malnutrition has no effect on immune function"],correct:1,rationale:"Malnutrition impairs the body's ability to fight infection due to insufficient protein reserves needed for immune function and wound healing."},
+{cat:"Cardiac",stem:"A patient reports chest tightness, anxiety, and an irregular heart rate. The nurse recognizes these as symptoms most consistent with:",options:["Angina","A common cold","Simple anxiety unrelated to cardiac status","Normal exertional fatigue"],correct:0,rationale:"Angina symptoms include anxiety (from lack of oxygenation and pain), chest tightness/discomfort, irregular heart rate, increased BP, and respiratory rate changes."},
+{cat:"Circulatory",stem:"A patient reports unilateral leg swelling, redness, warmth, and pain after a long flight. The nurse should suspect which condition and its major complication?",options:["Cellulitis; risk of sepsis","Deep vein thrombosis (DVT); risk of pulmonary embolism","Peripheral arterial disease; risk of limb ischemia","Lymphedema; risk of infection"],correct:1,rationale:"Unilateral swelling, pain, redness, and heat are classic DVT signs, with prolonged immobility/travel as a risk factor and pulmonary embolism as the major complication."},
+{cat:"Fluid Resuscitation",stem:"A nurse administers a rapid IV fluid bolus to a hypotensive patient. Which finding indicates the bolus was effective?",options:["Decreased urinary output and rising heart rate","Improved blood pressure, normalized temperature, and increased urinary output","No change in mental status or vital signs","Increased heart rate and decreased mental status"],correct:1,rationale:"An effective fluid bolus results in HR returning toward normal, improved BP, normalized temperature, increased urinary output, and improved mental status."},
+{cat:"Pressure Injury",stem:"Which factor increases a patient's risk for developing a pressure injury?",options:["Frequent repositioning","Adequate nutrition","Immobility and moisture","Regular ambulation"],correct:2,rationale:"Pressure injury risk factors include immobility, poor nutrition, poor perfusion, moisture, friction, shear, diabetes, peripheral neuropathy, and advanced age."},
+{cat:"Isolation Precautions",stem:"A patient is diagnosed with active tuberculosis (TB). Which isolation precaution should the nurse implement?",options:["Contact precautions with gown and gloves","Airborne precautions with an N95 respirator mask","Droplet precautions with a surgical mask","Standard precautions only"],correct:1,rationale:"TB requires airborne precautions with an N95 respirator mask, as do varicella and rubeola (measles)."},
+{cat:"Isolation Precautions",stem:"A patient with MRSA requires which type of isolation precaution?",options:["Airborne, N95 mask","Droplet, surgical mask","Contact, gowns and gloves","No precautions required"],correct:2,rationale:"MRSA requires contact precautions with gowns and gloves. C. diff also requires contact precautions plus soap-and-water hand hygiene."},
+{cat:"Prioritization/ABCs",stem:"Using the ABC framework, a patient presenting with facial swelling should be triaged primarily as a concern for which component?",options:["Airway","Breathing","Circulation","None of the above"],correct:0,rationale:"Facial swelling is classified as an Airway (A) concern due to risk of airway obstruction, similar to choking."},
+{cat:"Prioritization/ABCs",stem:"A patient experiencing an acute myocardial infarction (MI) is primarily an issue of which ABC component?",options:["Airway","Breathing","Circulation","All three equally at baseline"],correct:2,rationale:"Myocardial infarction is classified as a Circulation (C) issue, along with shock and bleeding."},
+{cat:"Prioritization",stem:"The nurse is triaging four patients. Which should be seen FIRST?",options:["A patient with a sprained ankle","A patient with chronic arthritis pain","A patient with sudden severe respiratory distress and restlessness","A patient with a minor illness"],correct:2,rationale:"High-priority (ABC-related) findings such as sudden severe respiratory distress and restlessness require immediate attention over lower-priority issues like sprains, chronic pain, or minor illness."},
+{cat:"Social Determinants of Health",stem:"A nurse notes that a patient's access to subsidized housing is affecting their ability to store insulin properly. This is an example of which type of health determinant?",options:["Biological determinant","Socioeconomic (social) determinant of health","Genetic determinant","Environmental toxin exposure"],correct:1,rationale:"Subsidized housing is a socioeconomic social determinant of health, reflecting how social/economic conditions affect a patient's health outcomes."}
+];
+
+/* ============================================================
+   STUDY GUIDE (reference view) — grouped by topic, in guide order
+   ============================================================ */
+const sgOrder = [];
+FLASHCARDS.forEach(c=>{ if(!sgOrder.includes(c.t)) sgOrder.push(c.t); });
+
+const sgContent = document.getElementById('sgContent');
+function renderStudyGuide(filter){
+  sgContent.innerHTML='';
+  let shown = 0;
+  sgOrder.forEach((topic, gi)=>{
+    const items = FLASHCARDS.filter(c=>c.t===topic);
+    const matches = items.filter(c=>{
+      if(!filter) return true;
+      const hay = (c.t+' '+c.q+' '+c.a).toLowerCase();
+      return hay.includes(filter);
+    });
+    if(matches.length===0) return;
+    shown += matches.length;
+    const group = document.createElement('div');
+    group.className='sg-group';
+    const pal = 'pal-'+(gi%6);
+    group.innerHTML = '<p class="sg-group-title '+pal+'">'+topic+'</p>';
+    matches.forEach(c=>{
+      const item = document.createElement('div');
+      item.className='sg-item';
+      item.innerHTML = '<div class="sg-q">'+c.q+'</div><div class="sg-a">'+c.a.replace(/</g,'&lt;')+'</div>';
+      group.appendChild(item);
+    });
+    sgContent.appendChild(group);
+  });
+  document.getElementById('sgCount').textContent = shown + ' / ' + FLASHCARDS.length + ' items shown';
+}
+renderStudyGuide('');
+document.getElementById('sgSearch').addEventListener('input', (e)=>{
+  renderStudyGuide(e.target.value.trim().toLowerCase());
+});
+
+/* ============================================================
+   FLASHCARD LOGIC
+   ============================================================ */
+let order = FLASHCARDS.map((_,i)=>i);
+let idx = 0;
+let status = {}; // index -> 'got' | 'miss'
+let flipped = false;
+
+const cardQ = document.getElementById('cardQ');
+const cardA = document.getElementById('cardA');
+const flashcard = document.getElementById('flashcard');
+const deckLabel = document.getElementById('deckLabel');
+const fcIndex = document.getElementById('fcIndex');
+const fcTotal = document.getElementById('fcTotal');
+const fcKnown = document.getElementById('fcKnown');
+const fcMiss = document.getElementById('fcMiss');
+const itemCount = document.getElementById('itemCount');
+
+fcTotal.textContent = FLASHCARDS.length;
+itemCount.textContent = FLASHCARDS.length + " cards · " + QUIZ.length + " test Qs";
+
+function renderCard(){
+  const realIdx = order[idx];
+  const card = FLASHCARDS[realIdx];
+  deckLabel.textContent = card.t;
+  cardQ.textContent = card.q;
+  cardA.textContent = card.a;
+  fcIndex.textContent = idx+1;
+  flipped = false;
+  flashcard.classList.remove('flipped');
+  updateKnowButtons(realIdx);
+  updateCounts();
+  renderGrid();
+}
+
+function updateKnowButtons(realIdx){
+  const st = status[realIdx];
+  document.getElementById('gotBtn').classList.toggle('on', st==='got');
+  document.getElementById('missBtn').classList.toggle('on', st==='miss');
+}
+
+function updateCounts(){
+  const got = Object.values(status).filter(s=>s==='got').length;
+  const miss = Object.values(status).filter(s=>s==='miss').length;
+  fcKnown.textContent = got;
+  fcMiss.textContent = miss;
+}
+
+flashcard.addEventListener('click', ()=>{
+  flipped = !flipped;
+  flashcard.classList.toggle('flipped', flipped);
+});
+
+document.getElementById('prevBtn').addEventListener('click', ()=>{
+  idx = (idx-1+order.length)%order.length;
+  renderCard();
+});
+document.getElementById('nextBtn').addEventListener('click', ()=>{
+  idx = (idx+1)%order.length;
+  renderCard();
+});
+document.getElementById('gotBtn').addEventListener('click', ()=>{
+  const realIdx = order[idx];
+  status[realIdx] = status[realIdx]==='got' ? undefined : 'got';
+  updateKnowButtons(realIdx);
+  updateCounts();
+  renderGrid();
+});
+document.getElementById('missBtn').addEventListener('click', ()=>{
+  const realIdx = order[idx];
+  status[realIdx] = status[realIdx]==='miss' ? undefined : 'miss';
+  updateKnowButtons(realIdx);
+  updateCounts();
+  renderGrid();
+});
+document.getElementById('shuffleBtn').addEventListener('click', ()=>{
+  for(let i=order.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [order[i],order[j]]=[order[j],order[i]];
+  }
+  idx = 0;
+  renderCard();
+});
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  status = {};
+  updateCounts();
+  renderGrid();
+  updateKnowButtons(order[idx]);
+});
+
+const toggleGrid = document.getElementById('toggleGrid');
+const cardGrid = document.getElementById('cardGrid');
+toggleGrid.addEventListener('click', ()=>{
+  const show = cardGrid.style.display==='none';
+  cardGrid.style.display = show ? 'grid' : 'none';
+  toggleGrid.textContent = show ? 'Hide all cards ▴' : 'See all cards ▾';
+  if(show) renderGrid();
+});
+
+function renderGrid(){
+  if(cardGrid.style.display==='none') return;
+  cardGrid.innerHTML='';
+  FLASHCARDS.forEach((c,i)=>{
+    const div = document.createElement('div');
+    const st = status[i];
+    div.className = 'mini' + (st==='got' ? ' status-got' : st==='miss' ? ' status-miss' : '');
+    div.innerHTML = '<span class="n">'+c.t+'</span><br>'+c.q;
+    div.addEventListener('click', ()=>{
+      const pos = order.indexOf(i);
+      idx = pos>=0 ? pos : 0;
+      renderCard();
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+    cardGrid.appendChild(div);
+  });
+}
+
+renderCard();
+
+/* ============================================================
+   TAB SWITCHING
+   ============================================================ */
+document.querySelectorAll('nav.tabs button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('section.view').forEach(v=>v.classList.remove('active'));
+    document.getElementById('view-'+btn.dataset.view).classList.add('active');
+  });
+});
+
+/* ============================================================
+   QUIZ LOGIC
+   ============================================================ */
+let quizOrder = QUIZ.map((_,i)=>i);
+let qIdx = 0;
+let qScore = 0;
+let qAnswers = []; // {realIdx, chosen, correct}
+let answered = false;
+
+document.getElementById('quizQCount').textContent = QUIZ.length;
+document.getElementById('qTotal').textContent = QUIZ.length;
+
+document.getElementById('startQuizBtn').addEventListener('click', ()=>{
+  for(let i=quizOrder.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [quizOrder[i],quizOrder[j]]=[quizOrder[j],quizOrder[i]];
+  }
+  qIdx = 0; qScore = 0; qAnswers = [];
+  document.getElementById('quizIntro').style.display='none';
+  document.getElementById('quizResults').style.display='none';
+  document.getElementById('quizRunning').style.display='block';
+  renderQuestion();
+});
+
+document.getElementById('quitQuizBtn').addEventListener('click', ()=>{
+  document.getElementById('quizRunning').style.display='none';
+  document.getElementById('quizResults').style.display='none';
+  document.getElementById('quizIntro').style.display='block';
+});
+
+function renderQuestion(){
+  answered = false;
+  const realIdx = quizOrder[qIdx];
+  const q = QUIZ[realIdx];
+  document.getElementById('qNum').textContent = qIdx+1;
+  document.getElementById('qScoreLive').textContent = 'Score: '+qScore;
+  document.getElementById('progressFill').style.width = ((qIdx)/QUIZ.length*100)+'%';
+  document.getElementById('qCat').textContent = q.cat;
+  document.getElementById('qStem').textContent = q.stem;
+  document.getElementById('qRationale').classList.remove('show');
+  document.getElementById('qRationaleText').textContent = ' '+q.rationale;
+  document.getElementById('nextQBtn').disabled = true;
+  document.getElementById('nextQBtn').textContent = (qIdx===QUIZ.length-1) ? 'See results →' : 'Next question →';
+
+  const optWrap = document.getElementById('qOptions');
+  optWrap.innerHTML='';
+  const letters = ['A','B','C','D'];
+  q.options.forEach((opt,i)=>{
+    const div = document.createElement('div');
+    div.className='opt';
+    div.innerHTML = '<span class="letter">'+letters[i]+'</span><span>'+opt+'</span>';
+    div.addEventListener('click', ()=>selectOption(i, realIdx));
+    optWrap.appendChild(div);
+  });
+}
+
+function selectOption(choiceIdx, realIdx){
+  if(answered) return;
+  answered = true;
+  const q = QUIZ[realIdx];
+  const opts = document.querySelectorAll('#qOptions .opt');
+  opts.forEach((el,i)=>{
+    el.classList.add('disabled');
+    if(i===q.correct) el.classList.add('correct');
+    if(i===choiceIdx && choiceIdx!==q.correct) el.classList.add('incorrect');
+    if(i===choiceIdx) el.classList.add('selected');
+  });
+  if(choiceIdx===q.correct) qScore++;
+  qAnswers.push({realIdx, chosen:choiceIdx, correct:choiceIdx===q.correct});
+  document.getElementById('qScoreLive').textContent = 'Score: '+qScore;
+  document.getElementById('qRationale').classList.add('show');
+  document.getElementById('nextQBtn').disabled = false;
+}
+
+document.getElementById('nextQBtn').addEventListener('click', ()=>{
+  if(qIdx < QUIZ.length-1){
+    qIdx++;
+    renderQuestion();
+  } else {
+    showResults();
+  }
+});
+
+function showResults(){
+  document.getElementById('quizRunning').style.display='none';
+  const resWrap = document.getElementById('quizResults');
+  resWrap.style.display='block';
+  const pct = Math.round((qScore/QUIZ.length)*100);
+
+  const byCat = {};
+  qAnswers.forEach(a=>{
+    const q = QUIZ[a.realIdx];
+    if(!byCat[q.cat]) byCat[q.cat] = {right:0,total:0};
+    byCat[q.cat].total++;
+    if(a.correct) byCat[q.cat].right++;
+  });
+
+  let breakdownHtml = '';
+  Object.keys(byCat).sort().forEach(cat=>{
+    const c = byCat[cat];
+    breakdownHtml += '<div class="row"><span>'+cat+'</span><b>'+c.right+' / '+c.total+'</b></div>';
+  });
+
+  const cheer = pct>=90 ? "you're basically the charge nurse 👑" : pct>=80 ? "so close to nailing it! 🌟" : pct>=70 ? "solid work, keep drilling 💪" : "good starting point — review & retake! 🌱";
+
+  resWrap.innerHTML = `
+    <div class="results">
+      <div class="score">${pct}%</div>
+      <div class="score-sub">${qScore} of ${QUIZ.length} correct — ${cheer}</div>
+      <div class="breakdown">${breakdownHtml}</div>
+      <button class="btn pink" id="retakeBtn">🔁 Retake test</button>
+      <button class="btn ghost" id="reviewBtn" style="margin-left:8px;">👀 Review missed items</button>
+    </div>
+  `;
+  document.getElementById('retakeBtn').addEventListener('click', ()=>{
+    document.getElementById('quizIntro').style.display='block';
+    resWrap.style.display='none';
+  });
+  document.getElementById('reviewBtn').addEventListener('click', ()=>{
+    const missed = qAnswers.filter(a=>!a.correct);
+    if(missed.length===0){
+      alert('No missed items — nice work! 🎉');
+      return;
+    }
+    let msg = missed.map(a=>{
+      const q = QUIZ[a.realIdx];
+      return q.cat+': '+q.stem+'\nCorrect answer: '+q.options[q.correct];
+    }).join('\n\n');
+    alert('Missed items:\n\n'+msg);
+  });
+}
+</script>
+</body>
+</html>
